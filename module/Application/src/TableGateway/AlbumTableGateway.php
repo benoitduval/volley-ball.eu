@@ -1,11 +1,11 @@
 <?php
 
-namespace Application\Model;
+namespace Application\TableGateway;
 
 use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
 
-class AlbumTable
+class AlbumTableGateway
 {
     private $tableGateway;
 

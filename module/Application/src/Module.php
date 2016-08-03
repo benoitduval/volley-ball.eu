@@ -11,6 +11,7 @@ use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Application\TableGateway\AlbumTableGateway as AlbumGateWay;
 
 class Module implements ConfigProviderInterface
 {
@@ -27,7 +28,7 @@ class Module implements ConfigProviderInterface
             'factories' => [
                 Model\AlbumTable::class => function($container) {
                     $tableGateway = $container->get(Model\AlbumTableGateway::class);
-                    return new Model\AlbumTable($tableGateway);
+                    return new AlbumGateWay($tableGateway);
                 },
                 Model\AlbumTableGateway::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
@@ -45,7 +46,7 @@ class Module implements ConfigProviderInterface
             'factories' => [
                 Controller\IndexController::class => function($container) {
                     return new Controller\IndexController(
-                        $container->get(Model\AlbumTable::class)
+                        $container
                     );
                 },
             ],

@@ -11,19 +11,13 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Model\AlbumTable;
 
-class IndexController extends AbstractActionController
+class IndexController extends AbstractController
 {
-    private $table;
-
-    public function __construct(AlbumTable $table)
-    {
-        $this->table = $table;
-    }
-
     public function indexAction()
     {
+        $albumMapper = $this->container->get(AlbumTable::class);
         return new ViewModel([
-            'albums' => $this->table->fetchAll(),
+            'albums' => $albumMapper->fetchAll(),
         ]);
     }
 
