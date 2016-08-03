@@ -10,8 +10,6 @@ namespace Application;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
-// use Zend\ServiceManager\Factory\InvokableFactory;
-
 return [
 
     'router' => [
@@ -42,15 +40,17 @@ return [
             ],
         ],
     ],
-    // 'controllers' => [
-    //     'factories' => [
-    //         Controller\IndexController::class => InvokableFactory::class,
-    //     ],
-    // ],
 
     'service_manager' => [
         'factories' => [
             Model\AlbumTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\UserTableGateway::class  => Factory\TableGatewayFactory::class,
+        ],
+    ],
+
+    'controllers' => [
+        'abstract_factories' => [
+            Factory\ControllerFactory::class
         ],
     ],
 

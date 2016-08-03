@@ -9,15 +9,16 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use \Application\TableGateway\Album;
+use \Application\TableGateway;
 
 class IndexController extends AbstractController
 {
     public function indexAction()
     {
-        $album = $this->container->get(Album::class);
+        $userTable  = $this->container->get(TableGateway\User::class);
+        $albumTable = $this->container->get(TableGateway\Album::class);
         return new ViewModel([
-            'albums' => $album->fetchAll(),
+            'albums' => $albumTable->fetchAll(),
         ]);
     }
 

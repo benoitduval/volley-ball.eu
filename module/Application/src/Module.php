@@ -9,9 +9,8 @@ namespace Application;
 
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use \Application\TableGateway\Album;
+use \Application\TableGateway;
 
 class Module implements ConfigProviderInterface
 {
@@ -26,22 +25,13 @@ class Module implements ConfigProviderInterface
     {
         return [
             'factories' => [
-                Album::class => function($container) {
+                TableGateway\Album::class => function($container) {
                     $tableGateway = $container->get(Model\AlbumTableGateway::class);
-                    return new Album($tableGateway);
+                    return new TableGateway\Album($tableGateway);
                 },
-            ],
-        ];
-    }
-
-    public function getControllerConfig()
-    {
-        return [
-            'factories' => [
-                Controller\IndexController::class => function($container) {
-                    return new Controller\IndexController(
-                        $container
-                    );
+                TableGateway\User::class => function($container) {
+                    $tableGateway = $container->get(Model\UserTableGateway::class);
+                    return new TableGateway\User($tableGateway);
                 },
             ],
         ];
