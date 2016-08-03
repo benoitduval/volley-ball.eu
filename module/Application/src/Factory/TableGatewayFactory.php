@@ -17,8 +17,8 @@ class TableGatewayFactory implements FactoryInterface
 
         $dbAdapter          = $container->get(AdapterInterface::class);
         $resultSetPrototype = new ResultSet();
-        $class = '\\Application\\Model\\' . $name;
-        $resultSetPrototype->setArrayObjectPrototype(new $class());
+        $model = '\\Application\\Model\\' . $name;
+        $resultSetPrototype->setArrayObjectPrototype(new $model());
 
         return new TableGateway(lcfirst($name), $dbAdapter, null, $resultSetPrototype);
     }

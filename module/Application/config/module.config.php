@@ -9,7 +9,6 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use \Application\TableGateway\Album;
 
 // use Zend\ServiceManager\Factory\InvokableFactory;
 
