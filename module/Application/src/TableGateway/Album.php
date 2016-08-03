@@ -5,7 +5,7 @@ namespace Application\TableGateway;
 use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
 
-class AlbumTableGateway
+class Album
 {
     private $tableGateway;
 

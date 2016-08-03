@@ -9,6 +9,8 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+use \Application\TableGateway\Album;
+
 // use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -47,11 +49,11 @@ return [
     //     ],
     // ],
 
-    // 'service_manager' => [
-    //     'factories' => [
-    //         Model\Factory\AbstractEntityFactory::class,
-    //     ],
-    // ],
+    'service_manager' => [
+        'factories' => [
+            Model\AlbumTableGateway::class => Factory\TableGatewayFactory::class,
+        ],
+    ],
 
     'view_manager' => [
         'display_not_found_reason' => true,
