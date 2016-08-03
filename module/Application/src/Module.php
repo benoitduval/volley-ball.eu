@@ -10,7 +10,9 @@ namespace Application;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use \Application\TableGateway;
+use Zend\Mvc\MvcEvent;
+use Application\TableGateway;
+use Application\Service\AuthenticationService;
 
 class Module implements ConfigProviderInterface
 {

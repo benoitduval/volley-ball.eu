@@ -42,6 +42,17 @@ class AbstractTableGateway
         return $row;
     }
 
+    public function fetchOne($where = [])
+    {
+        $rowset = $this->fetchAll($where);
+        $row = $rowset->current();
+        if (!$row) {
+            throw new RuntimeException('Could not find row with identifier');
+        }
+
+        return $row;
+    }
+
     public function save($model)
     {
         $data = $model->toArray();

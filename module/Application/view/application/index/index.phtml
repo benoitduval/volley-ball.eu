@@ -2,8 +2,14 @@
     $title = 'My albums';
     $this->headTitle($title);
 ?>
-
 <h1><?= $this->escapeHtml($title) ?></h1>
+
+<?php if ($user): ?>
+    <h2>Your are : <?php echo $user->getFullname() ?> </h2>
+<?php else: ?>
+    <h2>Your are not logged </h2>
+<?php endif; ?>
+
 <p>
     <a href="<?= $this->url('album', ['action' => 'add']) ?>">Add new album</a>
 </p>
