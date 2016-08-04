@@ -1,33 +1,359 @@
-<?php
-    $title = 'My albums';
-    $this->headTitle($title);
-?>
-<h1><?= $this->escapeHtml($title) ?></h1>
 
-<?php if ($user): ?>
-    <h2>Your are : <?php echo $user->getFullname() ?> </h2>
-<?php else: ?>
-    <h2>Your are not logged </h2>
-<?php endif; ?>
+<div class="header header-filter" style="background-image: url('/img/bg-recep-ori.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="brand">
+                    <h1>Volley-ball.eu</h1>
+                    <h3>Gestion de groupes, entrainements, matchs.</h3>
+                </div>
+            </div>
+        </div>
 
-<p>
-    <a href="<?= $this->url('album', ['action' => 'add']) ?>">Add new album</a>
-</p>
+    </div>
+</div>
 
-<table class="table">
-<tr>
-    <th>Title</th>
-    <th>Artist</th>
-    <th>&nbsp;</th>
-</tr>
-<?php foreach ($albums as $album) : ?>
-    <tr>
-        <td><?= $this->escapeHtml($album->title) ?></td>
-        <td><?= $this->escapeHtml($album->artist) ?></td>
-        <td>
-            <a href="<?= $this->url('album', ['action' => 'edit', 'id' => $album->id]) ?>">Edit</a>
-            <a href="<?= $this->url('album', ['action' => 'delete', 'id' => $album->id]) ?>">Delete</a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</table>
+<div class="main main-raised">
+    <div class="section section-basic">
+        <div class="container">
+            <div class="title">
+                <h2>Basic Elements</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="section section-tabs">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="title">
+                        <h2>Vos Évènements</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <!-- Tabs with icons on Card -->
+                    <div class="card card-nav-tabs">
+                        <div class="header header-primary">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="active">
+                                            <a href="#profile-<?php echo $i.$j ?>" data-toggle="tab">
+                                                <i class="material-icons">date_range</i>
+                                                <span class="hidden-xs">Informations</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#address-<?php echo $i.$j ?>" data-toggle="tab">
+                                                <i class="material-icons">thumbs_up_down</i>
+                                                <span class="hidden-xs">Disponibilités</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#dispo-<?php echo $i.$j ?>" data-toggle="tab">
+                                                <i class="material-icons">thumbs_up_down</i>
+                                                <span class="hidden-xs">Disponibilités</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="tab-content text-center">
+                                <div class="tab-pane active" id="profile-<?php echo $i.$j ?>">
+                                    <div class="col-md-3 agenda">
+                                        <div class="card">
+                                            <div class="agenda-header">
+                                                <b>Novembre</b>
+                                            </div>
+                                            <div class="agenda-content">
+                                                <p>Jeudi</p>
+                                                <p class="day">25<p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-md-offset-1 text-left text-information">
+                                        <div class="col-xs-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">account_balance</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                Dunois REM
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">location_on</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                Entrainement Mardi
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">access_time</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                Rdv : 20h00
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-round lime">Détails</button>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="address-<?php echo $i.$j ?>">
+                                    <div class="col-xs-12">
+                                        <div class="col-md-1">
+                                            <i class="material-icons">account_balance</i>
+                                        </div>
+                                        <div class="col-md-10">
+                                            Gymnase Maurice Bacquet
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-md-1">
+                                            <i class="material-icons">location_on</i>
+                                        </div>
+                                        <div class="col-md-10">
+                                            129 ter rue du chemin vert<br/>
+                                            75011 Paris
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="dispo-<?php echo $i.$j ?>">
+                                    <div class="col-xs-12">
+                                        <div class="col-md-1">
+                                            <i class="material-icons">account_balance</i>
+                                        </div>
+                                        <div class="col-md-10">
+                                            Gymnase Maurice Bacquet
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-md-1">
+                                            <i class="material-icons">location_on</i>
+                                        </div>
+                                        <div class="col-md-10">
+                                            129 ter rue du chemin vert<br/>
+                                            75011 Paris
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php for ($i = 0; $i < 2; $i++) { ?>
+                <div class="col-md-6">
+                    <?php for ($j = 0; $j < 3; $j++) { ?>
+                        <!-- Tabs with icons on Card -->
+                        <div class="card card-nav-tabs">
+                            <div class="header header-primary">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="active">
+                                                <a href="#profile-<?php echo $i.$j ?>" data-toggle="tab">
+                                                    <i class="material-icons">date_range</i>
+                                                    <span class="hidden-xs">Informations</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#address-<?php echo $i.$j ?>" data-toggle="tab">
+                                                    <i class="material-icons">thumbs_up_down</i>
+                                                    <span class="hidden-xs">Disponibilités</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#dispo-<?php echo $i.$j ?>" data-toggle="tab">
+                                                    <i class="material-icons">thumbs_up_down</i>
+                                                    <span class="hidden-xs">Disponibilités</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane active" id="profile-<?php echo $i.$j ?>">
+                                        <div class="col-md-3 agenda">
+                                            <div class="card">
+                                                <div class="agenda-header">
+                                                    <b>Novembre</b>
+                                                </div>
+                                                <div class="agenda-content">
+                                                    <p>Jeudi</p>
+                                                    <p class="day">25<p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 col-md-offset-1 text-left text-information">
+                                            <div class="col-xs-12">
+                                                <div class="col-md-1">
+                                                    <i class="material-icons">account_balance</i>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    Dunois REM
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <div class="col-md-1">
+                                                    <i class="material-icons">location_on</i>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    Entrainement Mardi
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-1">
+                                                    <i class="material-icons">access_time</i>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    Rdv : 20h00
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-round lime">Détails</button>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="address-<?php echo $i.$j ?>">
+                                        <div class="col-xs-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">account_balance</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                Gymnase Maurice Bacquet
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">location_on</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                129 ter rue du chemin vert<br/>
+                                                75011 Paris
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="dispo-<?php echo $i.$j ?>">
+                                        <div class="col-xs-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">account_balance</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                Gymnase Maurice Bacquet
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="col-md-1">
+                                                <i class="material-icons">location_on</i>
+                                            </div>
+                                            <div class="col-md-10">
+                                                129 ter rue du chemin vert<br/>
+                                                75011 Paris
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <?php } ?>
+                    <!-- End Tabs with icons on Card -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sart Signin Modal -->
+<div class="modal fade" id="modale-signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="card card-signup">
+                    <form class="form" method="" action="">
+                        <div class="header header-primary text-center">
+                            <h4>Créer un compte</h4>
+                        </div>
+                        <div class="content">
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">fingerprint</i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Nom...">
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">face</i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Prénom...">
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">email</i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Email...">
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                </span>
+                                <input type="password" placeholder="Mot de passe..." class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                </span>
+                                <input type="password" placeholder="Confirmation de Mdp..." class="form-control" />
+                            </div>
+                        </div>
+                        <div class="footer text-center">
+                            <a href="#pablo" class="btn btn-simple btn-primary btn-lg">Créer son compte</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sart login Modal -->
+<div class="modal fade" id="modale-signin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="card card-signup">
+                <?php  //$signInForm->setAttribute('action', $this->url('authenticate', ['action' => 'singin'])); ?>
+                    <?php echo $this->form()->openTag($signInForm); ?>
+                        <div class="header header-primary text-center">
+                            <h4>Se connecter</h4>
+                        </div>
+                        <div class="content">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">email</i>
+                                </span>
+                                <?php echo $this->formElement($signInForm->get('email')); ?>
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                </span>
+                                <?php echo $this->formElement($signInForm->get('password')); ?>
+                            </div>
+                        </div>
+                        <div class="footer text-center">
+                            <?php echo $this->formElement($signInForm->get('submit')); ?>
+                        </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

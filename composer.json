@@ -6,7 +6,7 @@
     "keywords": [
         "framework",
         "mvc",
-        "zf2"
+        "zf3"
     ],
     "homepage": "http://framework.zend.com/",
     "minimum-stability": "dev",
@@ -31,7 +31,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "module/Application/src/"
+            "Application\\": "module/Application/src/",
+            "Api\\": "module/Api/src/"
         }
     },
     "autoload-dev": {

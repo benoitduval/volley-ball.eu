@@ -89,6 +89,7 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         array (
             'Application\\' => 12,
             'ApplicationTest\\' => 16,
+            'Api\\' => 4,
         ),
     );
 
@@ -310,6 +311,10 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         'ApplicationTest\\' => 
         array (
             0 => __DIR__ . '/../..' . '/module/Application/test',
+        ),
+        'Api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/module/Api/src',
         ),
     );
 
