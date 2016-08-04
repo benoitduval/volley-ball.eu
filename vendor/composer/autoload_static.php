@@ -7,6 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInit98835a211e127b185e749ade290e70aa
 {
     public static $files = array (
+        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '34901568a1e26d13dd475cb2c85e0284' => __DIR__ . '/..' . '/zendframework/zend-form/autoload/formElementManagerPolyfill.php',
     );
 
@@ -36,6 +37,7 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
             'Zend\\Mvc\\Console\\' => 17,
             'Zend\\Mvc\\' => 9,
             'Zend\\ModuleManager\\' => 19,
+            'Zend\\Math\\' => 10,
             'Zend\\Log\\' => 9,
             'Zend\\Loader\\' => 12,
             'Zend\\Json\\' => 10,
@@ -52,6 +54,7 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
             'Zend\\Di\\' => 8,
             'Zend\\Debug\\' => 11,
             'Zend\\Db\\' => 8,
+            'Zend\\Crypt\\' => 11,
             'Zend\\Console\\' => 13,
             'Zend\\Config\\' => 12,
             'Zend\\ComponentInstaller\\' => 24,
@@ -172,6 +175,10 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-modulemanager/src',
         ),
+        'Zend\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-math/src',
+        ),
         'Zend\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-log/src',
@@ -235,6 +242,10 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         'Zend\\Db\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-db/src',
+        ),
+        'Zend\\Crypt\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-crypt/src',
         ),
         'Zend\\Console\\' => 
         array (

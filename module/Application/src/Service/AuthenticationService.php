@@ -5,7 +5,8 @@ namespace Application\Service;
 use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Db\Adapter\Adapter;
-use Zend\Authentication\Storage\Session as SessionStorage;
+// use Zend\Authentication\Storage\Session as SessionStorage;
+use Application\Service\Storage\Cookie as CookieStorage;
 use Interop\Container\ContainerInterface;
 use \Application\TableGateway;
 
@@ -19,9 +20,10 @@ class AuthenticationService extends \Zend\Authentication\AuthenticationService
         $storage = new CallbackCheckAdapter($dbAdapter, 'user', 'email', 'password');
         // $storage = new CallbackCheckAdapter($dbAdapter, 'user', 'email', 'password', array($this, 'callBack'));
 
-        $select = $storage->getDbSelect();
+        // modify select object
+        // $select = $storage->getDbSelect();
         // $select->where('status = ?', User::ACTIVE);
-        parent::__construct(new SessionStorage(), $storage);
+        parent::__construct(new CookieStorage($container), $storage);
     }
 
     public function getIdentity()

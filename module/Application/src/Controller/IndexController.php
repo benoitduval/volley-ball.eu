@@ -11,6 +11,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\TableGateway;
 use Application\Service\AuthenticationService;
+use Application\Service\StorageCookieService;
 
 class IndexController extends AbstractController
 {
