@@ -23,23 +23,23 @@ class IndexController extends AbstractController
         $user = $this->getUser();
 
         $signInForm = new SignInForm();
-        $request = $this->getRequest();
+        // $request = $this->getRequest();
 
-        if ($request->isPost()) {
-            $signInForm->setData($request->getPost());
-            if ($signInForm->isValid()) {
-                $data = $signInForm->getData();
+        // if ($request->isPost()) {
+        //     $signInForm->setData($request->getPost());
+        //     if ($signInForm->isValid()) {
+        //         $data = $signInForm->getData();
 
-               $authService = $this->getContainer()->get(AuthenticationService::class);
-               if (!$authService->hasIdentity()) {
-                   $adapter  = $authService->getAdapter();
-                   $adapter->setIdentity($data['email']);
-                   $adapter->setCredential($data['password']);
-                   $authService->authenticate();
-                   $this->setActiveUser($authService->getIdentity());
-               }
-            }
-        }
+        //        $authService = $this->getContainer()->get(AuthenticationService::class);
+        //        if (!$authService->hasIdentity()) {
+        //            $adapter  = $authService->getAdapter();
+        //            $adapter->setIdentity($data['email']);
+        //            $adapter->setCredential($data['password']);
+        //            $authService->authenticate();
+        //            $this->setActiveUser($authService->getIdentity());
+        //        }
+        //     }
+        // }
 
         $this->layout()->user = $this->getUser();
         return new ViewModel([

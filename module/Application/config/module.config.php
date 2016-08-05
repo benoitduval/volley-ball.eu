@@ -25,17 +25,16 @@ return [
                     ],
                 ],
             ],
-            'album' => [
+            'auth' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/album[/:action[/:id]]',
+                    'route'    => '/auth[/:action]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller'    => Controller\IndexController::class,
-                        'action'        => 'index',
+                        'controller'    => Controller\AuthController::class,
+                        'action'        => 'signin',
                     ],
                 ],
             ],

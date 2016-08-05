@@ -1,1 +1,0 @@
-AuthenticateController.php

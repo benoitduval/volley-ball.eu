@@ -328,7 +328,7 @@
         <div class="modal-content">
             <div class="row">
                 <div class="card card-signup">
-                <?php  //$signInForm->setAttribute('action', $this->url('authenticate', ['action' => 'singin'])); ?>
+                <?php  $signInForm->setAttribute('action', $this->url('auth', ['action' => 'signin'])); ?>
                     <?php echo $this->form()->openTag($signInForm); ?>
                         <div class="header header-primary text-center">
                             <h4>Se connecter</h4>
