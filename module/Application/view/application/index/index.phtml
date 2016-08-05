@@ -272,7 +272,8 @@
         <div class="modal-content">
             <div class="row">
                 <div class="card card-signup">
-                    <form class="form" method="" action="">
+                    <?php  $signUpForm->setAttribute('action', $this->url('auth', ['action' => 'signup'])); ?>
+                    <?php echo $this->form()->openTag($signUpForm); ?>
                         <div class="header header-primary text-center">
                             <h4>Créer un compte</h4>
                         </div>
@@ -282,39 +283,40 @@
                                 <span class="input-group-addon">
                                     <i class="material-icons">fingerprint</i>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Nom...">
+                                <?php echo $this->formElement($signUpForm->get('firstname')); ?>
                             </div>
 
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">face</i>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Prénom...">
+                                <?php echo $this->formElement($signUpForm->get('lastname')); ?>
                             </div>
 
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">email</i>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Email...">
+                                <?php echo $this->formElement($signUpForm->get('email')); ?>
                             </div>
 
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">lock_outline</i>
                                 </span>
-                                <input type="password" placeholder="Mot de passe..." class="form-control" />
+                                <?php echo $this->formElement($signUpForm->get('password')); ?>
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">lock_outline</i>
                                 </span>
-                                <input type="password" placeholder="Confirmation de Mdp..." class="form-control" />
+                                <?php echo $this->formElement($signUpForm->get('repassword')); ?>
                             </div>
                         </div>
                         <div class="footer text-center">
-                            <a href="#pablo" class="btn btn-simple btn-primary btn-lg">Créer son compte</a>
+                            <?php echo $this->formElement($signUpForm->get('submit')); ?>
                         </div>
+                    <?php echo $this->form()->closeTag(); ?>
                     </form>
                 </div>
             </div>
@@ -328,7 +330,7 @@
         <div class="modal-content">
             <div class="row">
                 <div class="card card-signup">
-                <?php  $signInForm->setAttribute('action', $this->url('auth', ['action' => 'signin'])); ?>
+                    <?php  $signInForm->setAttribute('action', $this->url('auth', ['action' => 'signin'])); ?>
                     <?php echo $this->form()->openTag($signInForm); ?>
                         <div class="header header-primary text-center">
                             <h4>Se connecter</h4>

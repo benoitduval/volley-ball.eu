@@ -31,4 +31,5 @@ class AbstractController extends AbstractActionController
     {
         $this->_user = $user;
     }
+
 }

@@ -1,55 +1,41 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: semihs
- * Date: 21.07.2016
- * Time: 20:57
- */
 
-namespace Authentication\Form;
+namespace Application\Form;
 
-use Zend\Captcha\AdapterInterface as CaptchaAdapter;
 use Zend\Form\Element;
 use Zend\Form\Form;
-use Zend\Mvc\I18n\Translator;
 
 /**
- * Class SignUpForm
+ * Class SignInForm
  */
 class SignUpForm extends Form
 {
-    /**
-     * @var CaptchaAdapter
-     */
-    protected $captcha;
-    /**
-     * @var Translator
-     */
-    protected $translator;
 
-    public function init()
+    public function __construct($name = null)
     {
+        parent::__construct('signup');
+
         $this->add([
             'type' => Element\Text::class,
-            'name' => 'name',
+            'name' => 'firstname',
             'options' => [
-                'label' => $this->getTranslator()->translate('Name'),
+                'label' => 'Prénom',
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => $this->getTranslator()->translate('Name'),
+                'placeholder' => 'Prénom',
             ],
         ]);
 
         $this->add([
             'type' => Element\Text::class,
-            'name' => 'username',
+            'name' => 'lastname',
             'options' => [
-                'label' => $this->getTranslator()->translate('Username'),
+                'label' => 'Username',
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => $this->getTranslator()->translate('Username'),
+                'placeholder' => 'Nom',
             ],
         ]);
 
@@ -57,11 +43,11 @@ class SignUpForm extends Form
             'type' => Element\Email::class,
             'name' => 'email',
             'options' => [
-                'label' => $this->getTranslator()->translate('E-mail'),
+                'label' => 'E-mail',
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => $this->getTranslator()->translate('E-mail'),
+                'placeholder' => 'E-mail',
             ],
         ]);
 
@@ -69,78 +55,33 @@ class SignUpForm extends Form
             'type' => Element\Password::class,
             'name' => 'password',
             'options' => [
-                'label' => $this->getTranslator()->translate('Password'),
+                'label' => 'Password',
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => $this->getTranslator()->translate('Password'),
+                'placeholder' => 'Mot de passe',
             ],
         ]);
 
         $this->add([
             'type' => Element\Password::class,
-            'name' => 're_password',
+            'name' => 'repassword',
             'options' => [
-                'label' => $this->getTranslator()->translate('Password (Re-type)'),
+                'label' => 'Password (Re-type)',
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => $this->getTranslator()->translate('Password (Re-type)'),
+                'placeholder' => 'Mot de passe (confirmation)',
             ],
         ]);
 
-        $this->add([
-            'type' => Element\Captcha::class,
-            'name' => 'captcha',
-            'options' => [
-                'label' => $this->getTranslator()->translate('Robot Değilim'),
-                'captcha' => $this->captcha,
-            ],
-            'attributes' => [
-                'class' => 'form-control',
-                'placeholder' => $this->getTranslator()->translate('Robot Değilim'),
-            ],
-        ]);
-        $this->add(new Element\Csrf('security'));
         $this->add([
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [
-                'value' => $this->getTranslator()->translate('Sign Up'),
-                'class' => 'btn btn-primary btn-block',
+                'value' => 'Enregistrer',
+                'class' => 'btn btn-primary',
             ],
         ]);
-    }
-
-    /**
-     * @return CaptchaAdapter
-     */
-    public function getCaptcha()
-    {
-        return $this->captcha;
-    }
-
-    /**
-     * @param CaptchaAdapter $captcha
-     */
-    public function setCaptcha(CaptchaAdapter $captcha)
-    {
-        $this->captcha = $captcha;
-    }
-
-    /**
-     * @return Translator
-     */
-    public function getTranslator()
-    {
-        return $this->translator;
-    }
-
-    /**
-     * @param Translator $translator
-     */
-    public function setTranslator($translator)
-    {
-        $this->translator = $translator;
     }
 }

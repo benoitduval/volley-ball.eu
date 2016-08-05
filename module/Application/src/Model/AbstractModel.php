@@ -47,7 +47,8 @@ class AbstractModel
     public function exchangeArray($data)
     {
         foreach ($data as $key => $value) {
-            $this->{'_' . $key} = $value;
+            $property = '_' . $key;
+            if (property_exists($this, $property)) $this->$property = $value;
         }
     }
 
