@@ -24,6 +24,7 @@ class SignUpForm extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'Prénom',
+                'required' => 'required',
             ],
         ]);
 
@@ -34,6 +35,7 @@ class SignUpForm extends Form
                 'label' => 'Username',
             ],
             'attributes' => [
+                'required' => 'required',
                 'class' => 'form-control',
                 'placeholder' => 'Nom',
             ],
@@ -48,6 +50,7 @@ class SignUpForm extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'E-mail',
+                'required' => 'required',
             ],
         ]);
 
@@ -60,6 +63,7 @@ class SignUpForm extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'Mot de passe',
+                'required' => 'required',
             ],
         ]);
 
@@ -72,6 +76,7 @@ class SignUpForm extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'Mot de passe (confirmation)',
+                'required' => 'required',
             ],
         ]);
 

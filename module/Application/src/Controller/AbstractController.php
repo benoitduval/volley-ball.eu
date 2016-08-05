@@ -4,7 +4,6 @@ namespace Application\Controller;
 
 use Interop\Container\ContainerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
-use Application\Service\AuthenticationService;
 
 class AbstractController extends AbstractActionController
 {

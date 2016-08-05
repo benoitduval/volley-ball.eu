@@ -35,6 +35,8 @@ $(document).ready(function() {
     }
   });
 
+  $('#notify').modal('toggle');
+
 
   var openFABMenu = function (btn) {
     $this = btn;

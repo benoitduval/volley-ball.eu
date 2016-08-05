@@ -31,26 +31,13 @@ class AbstractTableGateway
     {
         $id = (int) $id;
         $rowset = $this->getTableGateway()->select(['id' => $id]);
-        $row = $rowset->current();
-        if (!$row) {
-            throw new RuntimeException(sprintf(
-                'Could not find row with identifier %d',
-                $id
-            ));
-        }
-
-        return $row;
+        return $rowset->current();
     }
 
     public function fetchOne($where = [])
     {
         $rowset = $this->fetchAll($where);
-        $row = $rowset->current();
-        if (!$row) {
-            throw new RuntimeException('Could not find row with identifier');
-        }
-
-        return $row;
+        return $rowset->current();
     }
 
     public function save($model)

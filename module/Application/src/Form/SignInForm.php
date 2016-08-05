@@ -24,6 +24,7 @@ class SignInForm extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'E-mail',
+                'required' => 'required',
             ],
         ]);
 
@@ -36,6 +37,7 @@ class SignInForm extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'Password',
+                'required' => 'required',
             ],
         ]);
 

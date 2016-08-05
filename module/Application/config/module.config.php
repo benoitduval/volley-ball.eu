@@ -9,7 +9,6 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
-use Service\AuthenticationService;
 
 return [
 
@@ -46,6 +45,8 @@ return [
             Model\AlbumTableGateway::class => Factory\TableGatewayFactory::class,
             Model\UserTableGateway::class => Factory\TableGatewayFactory::class,
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
+            // Service\TestService::class => Service\Factory\TestServiceFactory::class,
+            Service\MailService::class => Service\Factory\MailServiceFactory::class,
         ],
     ],
 
