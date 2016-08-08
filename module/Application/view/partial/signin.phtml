@@ -1,0 +1,35 @@
+<!-- Sart login Modal -->
+<div class="modal fade" id="modale-signin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="card card-signup">
+                    <?php  $signInForm->setAttribute('action', $this->url('auth', ['action' => 'signin'])); ?>
+                    <?php echo $this->form()->openTag($signInForm); ?>
+                        <div class="header header-primary text-center">
+                            <h4>Se connecter</h4>
+                        </div>
+                        <div class="content">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">email</i>
+                                </span>
+                                <?php echo $this->formElement($signInForm->get('email')); ?>
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                </span>
+                                <?php echo $this->formElement($signInForm->get('password')); ?>
+                            </div>
+                        </div>
+                        <div class="footer text-center">
+                            <?php echo $this->formElement($signInForm->get('submit')); ?>
+                        </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

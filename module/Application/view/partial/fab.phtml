@@ -1,0 +1,25 @@
+<?php if ($this->menu): ?>
+	<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+	    <a class="btn-floating btn-large lime">
+	        <i class="fa fa-pencil"></i>
+	    </a>
+
+	    <ul>
+	    <?php foreach ($this->menu as $row): ?>
+	        <li><a 
+	        	class="btn-floating <?php echo $row['color'] ?> btn-tooltip" 
+	        	data-toggle="tooltip" 
+	        	data-placement="left" 
+	        	title="<?php echo $row['tooltip'] ?>"
+	        	href="<?php echo $row['link'] ?>"
+	        	>
+	        		<i class="fa <?php echo $row['icon'] ?>" ></i>
+	        	</a>
+	        </li>
+	    <?php endforeach ?>
+	        <!-- <li><a class="btn-floating yellow darken-1 btn-tooltip" data-toggle="tooltip" data-placement="left" title="Tooltip on left"><i class="fa fa-user"></i></a></li>
+	        <li><a class="btn-floating green btn-tooltip" data-toggle="tooltip" data-placement="left" title="Tooltip on left"><i class="fa fa-envelope"></i></a></li>
+	        <li><a class="btn-floating blue btn-tooltip" data-toggle="tooltip" data-placement="left" title="Tooltip on left"><i class="fa fa-shopping-cart"></i></a></li> -->
+	    </ul>
+	</div>
+<?php endif ?>

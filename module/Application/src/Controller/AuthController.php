@@ -6,8 +6,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\TableGateway;
 use Application\Model;
-use Application\Form\SignInForm;
-use Application\Form\SignUpForm;
+use Application\Form\SignIn;
+use Application\Form\SignUp;
 use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
 use Application\Service\MailService;
@@ -19,7 +19,7 @@ class AuthController extends AbstractController
     public function signinAction()
     {
         if (!($user = $this->getUser())) {
-            $signInForm = new SignInForm();
+            $signInForm = new SignIn();
             $request    = $this->getRequest();
 
             if ($request->isPost()) {
@@ -28,13 +28,19 @@ class AuthController extends AbstractController
                     $data = $signInForm->getData();
 
                    $authService = $this->getContainer()->get(AuthenticationService::class);
-                   if (!$authService->hasIdentity()) {
-                       $adapter  = $authService->getAdapter();
-                       $adapter->setIdentity($data['email']);
-                       $adapter->setCredential($data['password']);
-                       $authService->authenticate();
-                       $this->setActiveUser($authService->getIdentity());
-                   }
+                    if (!$authService->hasIdentity()) {
+                        $adapter  = $authService->getAdapter();
+                        $adapter->setIdentity($data['email']);
+                        $adapter->setCredential($data['password']);
+                        $result = $authService->authenticate();
+                        if ($result->isValid()) {
+                            $this->setActiveUser($authService->getIdentity());
+                        } else {
+                            foreach ($result->getMessages() as $message) {
+                                $this->flashMessenger()->addErrorMessage($message);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -53,7 +59,7 @@ class AuthController extends AbstractController
 
     public function signupAction()
     {
-        $signUpForm = new SignUpForm();
+        $signUpForm = new SignUp();
         $request    = $this->getRequest();
 
         if ($request->isPost()) {
@@ -86,7 +92,7 @@ class AuthController extends AbstractController
 
                     $mail->setTemplate(MailService::TEMPLATE_ACCOUNT_VERIFY, array(
                         'email' => $user->email,
-                        'url'   => 'http://mvc.dev/auth/verify?email=' . urlencode($user->email) . '&token=' . $token,
+                        'url'   => $config['baseUrl'] . '/auth/verify?email=' . urlencode($user->email) . '&token=' . $token,
                     ));
                     $mail->send();
                     $this->flashMessenger()->addMessage('Un email a été envoyé à l\'adresse <b>' . $user->email . '</b> afin de confirmer la création de compte');
@@ -110,7 +116,7 @@ class AuthController extends AbstractController
 
                 $authService = $this->getContainer()->get(AuthenticationService::class);
                 if (!$authService->hasIdentity()) {
-                    $authService->getStorage()->write($user->email);
+                    $authService->getStorage()->write($user);
                     $this->setActiveUser($user);
                     $this->flashMessenger()->addMessage('Votre compte est maintenant actif. Merci d\'utiliser http://volley-ball.eu.');
                 }

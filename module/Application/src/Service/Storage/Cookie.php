@@ -39,7 +39,6 @@ class Cookie implements StorageInterface
 
     public function read()
     {
-
         if (empty($_COOKIE['userId']) || empty($_COOKIE['cs'])) return null;
         $userTable = $this->_container->get(TableGateway\User::class);
 
@@ -63,10 +62,10 @@ class Cookie implements StorageInterface
      *     $contents to storage is impossible
      */
 
-    public function write($email)
+    public function write($obj)
     {
         $userTable   = $this->_container->get(TableGateway\User::class);
-        $user = $userTable->fetchOne(['email' => $email]);
+        $user = $userTable->fetchOne(['email' => $obj->email]);
 
         $bcrypt = new Bcrypt;
         $salt = $bcrypt->create($user->email . $user->password);

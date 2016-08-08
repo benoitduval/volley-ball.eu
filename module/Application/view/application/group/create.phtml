@@ -1,0 +1,87 @@
+<div class="header header-filter" style="background-image: url('/img/bg-recep-ori.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="brand">
+                    <h1>Volley-ball.eu</h1>
+                    <h3>Gestion de groupes, entrainements, matchs.</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="main main-raised">
+    <div class="section section-basic">
+        <div class="container">
+            <div class="title">
+                <h2>Création d'un groupe</h2>
+            </div>
+
+            <div class="row">
+                <?php echo $this->form()->openTag($form); ?>
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">email</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('name')); ?>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock_outline</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('description')); ?>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock_outline</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('info')); ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock_outline</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('ffvbUrl')); ?>
+                    </div>
+
+                    <div class="togglebutton">
+                        <label>
+                            <?php echo $this->formElement($form->get('weather')); ?>
+                            <i class="fa fa-sun-o" ></i>
+                            Afficher la météo dans la page de détail des évènements.
+                        </label>
+                    </div>
+
+                    <div class="togglebutton">
+                        <label>
+                            <?php echo $this->formElement($form->get('enable')); ?>
+                            <i class="fa fa-search-plus" ></i>
+                            Permettre aux utilisateurs de trouver et rejoindre ce groupe.
+                        </label>
+                    </div>
+
+                    <div class="togglebutton">
+                        <label>
+                            <?php echo $this->formElement($form->get('enable')); ?>
+                            <i class="fa fa-thumbs-o-up" ></i>
+                            Rendre les disponibilités des joueurs visible pour tous les membres.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 footer text-center">
+                    <?php echo $this->formElement($form->get('submit')); ?>
+                </div>
+                <?php echo $this->form()->closeTag(); ?>
+            </div>
+        </div>
+    </div>
+</div>

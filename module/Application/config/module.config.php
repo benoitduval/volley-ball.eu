@@ -24,6 +24,32 @@ return [
                     ],
                 ],
             ],
+            'event' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/event[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\EventController::class,
+                        'action'        => 'detail',
+                    ],
+                ],
+            ],
+            'group' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/group[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\GroupController::class,
+                        'action'        => 'create',
+                    ],
+                ],
+            ],
             'auth' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -44,8 +70,8 @@ return [
         'factories' => [
             Model\AlbumTableGateway::class => Factory\TableGatewayFactory::class,
             Model\UserTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\GroupTableGateway::class => Factory\TableGatewayFactory::class,
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
-            // Service\TestService::class => Service\Factory\TestServiceFactory::class,
             Service\MailService::class => Service\Factory\MailServiceFactory::class,
         ],
     ],

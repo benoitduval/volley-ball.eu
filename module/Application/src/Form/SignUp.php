@@ -8,7 +8,7 @@ use Zend\Form\Form;
 /**
  * Class SignInForm
  */
-class SignUpForm extends Form
+class SignUp extends Form
 {
 
     public function __construct($name = null)

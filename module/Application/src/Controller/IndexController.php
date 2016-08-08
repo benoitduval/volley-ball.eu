@@ -12,17 +12,33 @@ use Zend\View\Model\ViewModel;
 use Application\TableGateway;
 use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
-use Application\Form\SignInForm;
-use Application\Form\SignUpForm;
+use Application\Form\SignIn;
+use Application\Form\SignUp;
 
 class IndexController extends AbstractController
 {
     public function indexAction()
     {
-        $signInForm = new SignInForm();
-        $signUpForm = new SignUpForm();
+        $signInForm = new SignIn();
+        $signUpForm = new SignUp();
         $this->layout()->user = $this->getUser();
 
+        $menu = [
+            [
+                'icon'    => 'fa-star',
+                'tooltip' => 'Créer un groupe',
+                'link'    => 'http://album.dev/event',
+                'color'   => 'red',
+            ],
+            // [
+            //     'icon'    => 'fa-star',
+            //     'tooltip' => '/example',
+            //     'link'    => 'http://album.dev/example',
+            //     'color'   => 'yellow darken-1',
+            // ],
+        ];
+
+        $this->layout()->menu = $menu;
         return new ViewModel([
             'signInForm' => $signInForm,
             'signUpForm' => $signUpForm,
@@ -30,19 +46,12 @@ class IndexController extends AbstractController
         ]);
     }
 
-    public function addAction()
+    public function detailAction()
     {
-        return new ViewModel();
-    }
+        
+        return new ViewModel([
 
-    public function editAction()
-    {
-        return new ViewModel();
-    }
-
-    public function deleteAction()
-    {
-        return new ViewModel();
+        ]);
     }
 
 }

@@ -1009,6 +1009,7 @@ fieldset[disabled] .checkbox, fieldset[disabled] .checkbox input[type=checkbox],
   vertical-align: middle;
 }
 .togglebutton, .togglebutton label, .togglebutton input, .togglebutton .toggle {
+  margin-top: 10px;
   user-select: none;
 }
 .togglebutton label {
