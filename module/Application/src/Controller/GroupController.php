@@ -46,7 +46,18 @@ class GroupController extends AbstractController
 
                 $groupTable->save($group);
 
-                $this->flashMessenger()->addMessage('Votre groupe est maintenant actif. Vous pouvez désormais le partager avec d\'autres personnes et commencer à créer vos évènements.');
+                $this->flashMessenger()->addMessage('
+                    Votre groupe est maintenant actif.<br/>
+                    Depuis cette page, le bouton d\'action en bas à droite vous permet de:
+                    <ul>
+                        <li>Créer un évènement ponctuel (match)</li>
+                        <li>Créer un évènement récurrent (entrainement)</li>
+                        <li>Partager le lien public du groupe</li>
+                        <li>Gérer les informations du groupe</li>
+                        <li>Gérer les demandes pour rejoindre le groupe</li>
+                        <li>Gérer les membres ainsi que leurs permissions</li>
+                    </ul>
+                ');
                 return $this->redirect()->toRoute('home');
             }
         }
@@ -54,10 +65,63 @@ class GroupController extends AbstractController
         $baseUrl = $config['baseUrl'];
 
         return new ViewModel(array(
-            'form'        => $groupForm,
-            'user'        => $this->getUser(),
-            'group'       => isset($group) ? $group : '',
-            'baseUrl'     => $baseUrl,
+            'form'    => $groupForm,
+            'user'    => $this->getUser(),
+            'group'   => isset($group) ? $group : '',
+            'baseUrl' => $baseUrl,
+        ));
+    }
+
+    public function detailAction()
+    {
+        $id = (int) $this->params()->fromRoute('id');
+        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $group = $groupTable->find($id);
+        $config = $this->getContainer()->get('config');
+        $baseUrl = $config['baseUrl'];
+        $menu = [
+            [
+                'tooltip' => 'Partager',
+                'icon'    => 'share',
+                'link'    => $baseUrl . '/group/share',
+                'color'   => 'indigo',
+            ],
+            [
+                'tooltip' => 'Éditer',
+                'icon'    => 'edit',
+                'link'    => $baseUrl . '/group/edit',
+                'color'   => 'dark-green',
+            ],
+            [
+                'tooltip' => 'Membres',
+                'icon'    => 'group_add',
+                'link'    => $baseUrl . '/group/member',
+                'color'   => 'amber',
+            ],
+            [
+                'tooltip' => 'Adresses',
+                'icon'    => 'add_location',
+                'link'    => $baseUrl . '/group/address',
+                'color'   => 'light-blue',
+            ],
+            [
+                'tooltip' => 'Évèn. récurrent',
+                'icon'    => 'repeat',
+                'link'    => $baseUrl . '/group/recurrent-event',
+                'color'   => 'orange',
+            ],
+            [
+                'tooltip' => 'Évèn. ponctuel',
+                'icon'    => 'event',
+                'link'    => $baseUrl . '/group/event',
+                'color'   => 'pink',
+            ],
+        ];
+
+        $this->layout()->menu = $menu;
+        return new ViewModel(array(
+            'group' => $group,
+            'user'  => $this->getUser(),
         ));
     }
 

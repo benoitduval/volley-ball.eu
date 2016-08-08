@@ -21,21 +21,17 @@ class IndexController extends AbstractController
     {
         $signInForm = new SignIn();
         $signUpForm = new SignUp();
+        $config     = $this->getContainer()->get('config');
+        $baseUrl    = $config['baseUrl'];
         $this->layout()->user = $this->getUser();
 
         $menu = [
             [
-                'icon'    => 'fa-star',
+                'icon'    => 'group',
                 'tooltip' => 'Créer un groupe',
-                'link'    => 'http://album.dev/event',
+                'link'    => $baseUrl . '/group/create',
                 'color'   => 'red',
             ],
-            // [
-            //     'icon'    => 'fa-star',
-            //     'tooltip' => '/example',
-            //     'link'    => 'http://album.dev/example',
-            //     'color'   => 'yellow darken-1',
-            // ],
         ];
 
         $this->layout()->menu = $menu;
@@ -46,12 +42,9 @@ class IndexController extends AbstractController
         ]);
     }
 
-    public function detailAction()
+    public function exampleAction()
     {
-        
-        return new ViewModel([
-
-        ]);
+        return new ViewModel([]);
     }
 
 }

@@ -324,7 +324,7 @@ function map() {
         styles: styles
         });
 
-        var image = 'img/marker.png';
+        var image = '/img/marker.png';
 
         map.addMarker({
         lat: lat,

@@ -40,9 +40,10 @@ return [
             'group' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/group[/:action]',
+                    'route'    => '/group[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller'    => Controller\GroupController::class,
@@ -60,6 +61,16 @@ return [
                     'defaults' => [
                         'controller'    => Controller\AuthController::class,
                         'action'        => 'signin',
+                    ],
+                ],
+            ],
+            'example' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/example',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'example',
                     ],
                 ],
             ],

@@ -6,6 +6,15 @@
 .primary-text-color    { color: #212121; }
 .secondary-text-color  { color: #727272; }
 .divider-color         { border-color: #B6B6B6; }
+.purple                { background-color: #7B1FA2; !important}
+.pink                  { background-color: #C2185B; !important}
+.indigo                { background-color: #303F9F; !important}
+.amber                 { background-color: #FFA000; !important}
+.orange                { background-color: #E64A19; !important}
+.blue-green            { background-color: #607D8B; !important}
+.dark-red              { background-color: #D32F2F; !important}
+.dark-green            { background-color: #8BC34A; !important}
+.light-blue            { background-color: #03A9F4; !important}
 
 .tim-row{
     margin-bottom: 20px;
@@ -406,9 +415,12 @@
 
 .agenda-header {
     background-color:#D32F2F;
-    border-radius:3px 3px 0 0;
     color:#FFF;
-    padding:3px 0 3px;
+    padding:20px 0 0;
+}
+
+.agenda-content {
+    margin-top: 10px;
 }
 
 .agenda-content .day {
@@ -422,4 +434,8 @@
 
 .text-information span {
     padding-left:15px;
+}
+
+#notify .content {
+    margin: 50px 20px;
 }
