@@ -37,6 +37,19 @@ return [
                     ],
                 ],
             ],
+            'event' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/place[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\PlaceController::class,
+                        'action'        => 'detail',
+                    ],
+                ],
+            ],
             'group' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -78,12 +91,23 @@ return [
     ],
 
     'service_manager' => [
+        'invokable' => [
+            Service\Map::class,
+        ],
         'factories' => [
-            Model\AlbumTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\UserTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\UserTableGateway::class  => Factory\TableGatewayFactory::class,
             Model\GroupTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\BadgeTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\EventTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\GuestTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\JoinTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\PlaceTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\RecurentTableGateway::class => Factory\TableGatewayFactory::class,
+
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\MailService::class => Service\Factory\MailServiceFactory::class,
+            Service\Map::class => Service\Factory\MapServiceFactory::class,
         ],
     ],
 

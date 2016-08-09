@@ -52,7 +52,7 @@ class GroupController extends AbstractController
                     <ul>
                         <li>Créer un évènement ponctuel (match)</li>
                         <li>Créer un évènement récurrent (entrainement)</li>
-                        <li>Partager le lien public du groupe</li>
+                        <li>Partager votre groupe</li>
                         <li>Gérer les informations du groupe</li>
                         <li>Gérer les demandes pour rejoindre le groupe</li>
                         <li>Gérer les membres ainsi que leurs permissions</li>

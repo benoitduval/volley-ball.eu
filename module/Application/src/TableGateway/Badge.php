@@ -5,7 +5,7 @@ namespace Application\TableGateway;
 use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
 
-class Album extends AbstractTableGateway
+class Badge extends AbstractTableGateway
 {
 
 }

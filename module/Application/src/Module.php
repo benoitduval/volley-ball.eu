@@ -26,10 +26,6 @@ class Module implements ConfigProviderInterface
     {
         return [
             'factories' => [
-                TableGateway\Album::class => function($container) {
-                    $tableGateway = $container->get(Model\AlbumTableGateway::class);
-                    return new TableGateway\Album($tableGateway);
-                },
                 TableGateway\User::class => function($container) {
                     $tableGateway = $container->get(Model\UserTableGateway::class);
                     return new TableGateway\User($tableGateway);
@@ -37,6 +33,34 @@ class Module implements ConfigProviderInterface
                 TableGateway\Group::class => function($container) {
                     $tableGateway = $container->get(Model\GroupTableGateway::class);
                     return new TableGateway\Group($tableGateway);
+                },
+                TableGateway\Badge::class => function($container) {
+                    $tableGateway = $container->get(Model\BadgeTableGateway::class);
+                    return new TableGateway\Badge($tableGateway);
+                },
+                TableGateway\Event::class => function($container) {
+                    $tableGateway = $container->get(Model\EventTableGateway::class);
+                    return new TableGateway\Event($tableGateway);
+                },
+                TableGateway\Guest::class => function($container) {
+                    $tableGateway = $container->get(Model\GuestTableGateway::class);
+                    return new TableGateway\Guest($tableGateway);
+                },
+                TableGateway\Join::class => function($container) {
+                    $tableGateway = $container->get(Model\JoinTableGateway::class);
+                    return new TableGateway\Join($tableGateway);
+                },
+                TableGateway\Notification::class => function($container) {
+                    $tableGateway = $container->get(Model\NotificationTableGateway::class);
+                    return new TableGateway\Notification($tableGateway);
+                },
+                TableGateway\Place::class => function($container) {
+                    $tableGateway = $container->get(Model\PlaceTableGateway::class);
+                    return new TableGateway\Place($tableGateway);
+                },
+                TableGateway\Recurent::class => function($container) {
+                    $tableGateway = $container->get(Model\RecurentTableGateway::class);
+                    return new TableGateway\Recurent($tableGateway);
                 },
             ],
         ];
