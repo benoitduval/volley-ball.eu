@@ -10,8 +10,8 @@ use Zend\Form\Form;
  */
 class Place extends Form
 {
-	public function __construct($name = null)
-	{
+    public function __construct($name = null)
+    {
         parent::__construct('place');
 
         $this->setAttributes(array(
@@ -58,7 +58,7 @@ class Place extends Form
         ]);
 
         $this->add([
-            'name' => 'zipcode',
+            'name' => 'zipCode',
             'type' => Element\Text::class,
             'options' => [
                 'label' => 'Code Postal',

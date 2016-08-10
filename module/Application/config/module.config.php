@@ -37,16 +37,17 @@ return [
                     ],
                 ],
             ],
-            'event' => [
+            'place' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/place[/:action]',
+                    'route'    => '/place[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller'    => Controller\PlaceController::class,
-                        'action'        => 'detail',
+                        'action'        => 'create',
                     ],
                 ],
             ],
@@ -95,15 +96,15 @@ return [
             Service\Map::class,
         ],
         'factories' => [
-            Model\UserTableGateway::class  => Factory\TableGatewayFactory::class,
-            Model\GroupTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\BadgeTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\EventTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\GuestTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\JoinTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\UserTableGateway::class         => Factory\TableGatewayFactory::class,
+            Model\GroupTableGateway::class        => Factory\TableGatewayFactory::class,
+            Model\BadgeTableGateway::class        => Factory\TableGatewayFactory::class,
+            Model\EventTableGateway::class        => Factory\TableGatewayFactory::class,
+            Model\GuestTableGateway::class        => Factory\TableGatewayFactory::class,
+            Model\JoinTableGateway::class         => Factory\TableGatewayFactory::class,
             Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\PlaceTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\RecurentTableGateway::class => Factory\TableGatewayFactory::class,
+            Model\PlaceTableGateway::class        => Factory\TableGatewayFactory::class,
+            Model\RecurentTableGateway::class     => Factory\TableGatewayFactory::class,
 
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\MailService::class => Service\Factory\MailServiceFactory::class,

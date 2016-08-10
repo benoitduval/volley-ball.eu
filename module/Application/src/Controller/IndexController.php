@@ -25,14 +25,17 @@ class IndexController extends AbstractController
         $baseUrl    = $config['baseUrl'];
         $this->layout()->user = $this->getUser();
 
-        $menu = [
-            [
-                'icon'    => 'group',
-                'tooltip' => 'Créer un groupe',
-                'link'    => $baseUrl . '/group/create',
-                'color'   => 'red',
-            ],
-        ];
+        $menu = false;
+        if ($this->getUser()) {
+            $menu = [
+                [
+                    'icon'    => 'group',
+                    'tooltip' => 'Créer un groupe',
+                    'link'    => $baseUrl . '/group/create',
+                    'color'   => 'red',
+                ],
+            ];
+        }
 
         $this->layout()->menu = $menu;
         return new ViewModel([

@@ -12,6 +12,7 @@ use Zend\Db\ResultSet\ResultSet;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\MvcEvent;
 use Application\TableGateway;
+use Application\Service\AuthenticationService;
 
 class Module implements ConfigProviderInterface
 {

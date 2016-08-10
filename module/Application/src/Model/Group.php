@@ -20,29 +20,14 @@ class Group extends AbstractModel
     protected $_info        = null;
     protected $_description = null;
 
-    public function toArray()
+    public function isAdmin($user)
     {
-        return array(
-            'id'          => (int) $this->_id,
-            'userId'      => (int) $this->_userId,
-            'userIds'     => $this->_userIds,
-            'adminIds'    => $this->_adminIds,
-            'name'        => $this->_name,
-            'weather'     => $this->_weather,
-            'ffvbUrl'     => $this->_ffvbUrl,
-            'showUsers'   => $this->_showUsers,
-            'brand'       => $this->_brand,
-            'enable'      => $this->_enable,
-            'info'        => $this->_info,
-            'description' => $this->_description,
-        );
-    }
-
-    public function isAdmin($userId)
-    {
+        if (is_object($user)) {
+            $user = $user->id;
+        }
         $adminIds = json_decode($this->_adminIds, true);
         if (is_null($adminIds)) $adminIds = [];
-        return ($this->_userId == $userId || in_array($userId, $adminIds));
+        return ($this->_userId == $user || in_array($user, $adminIds));
     }
 
     public function isMember($userId)

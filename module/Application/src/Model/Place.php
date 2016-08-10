@@ -13,17 +13,8 @@ class Place extends AbstractModel
     protected $_long    = null;
     protected $_groupId = null;
 
-    public function toArray()
+    public function getFullAddress()
     {
-        return array(
-            'id'      => (int) $this->_id,
-            'name'    => $this->_name,
-            'address' => $this->_address,
-            'city'    => $this->_city,
-            'zipCode' => (int) $this->_zipCode,
-            'lat'     => $this->_lat,
-            'long'    => $this->_long,
-            'groupId' => $this->_groupId,
-        );
+        return $this->address . ', ' . $this->zipCode . ' ' . $this->city;
     }
 }
