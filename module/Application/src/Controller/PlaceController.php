@@ -19,7 +19,6 @@ class PlaceController extends AbstractController
             return;
         }
 
-        // TODO Check permissions
         $groupId    = $this->params()->fromRoute('id');
         $url        = $this->params()->fromQuery('url', '');
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
