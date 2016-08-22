@@ -26,7 +26,6 @@ class Place extends Form
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => 'Nom du Gymnase\Lieu',
                 'required' => 'required',
             ],
         ]);
@@ -38,7 +37,6 @@ class Place extends Form
                 'label' => 'Adresse',
             ],
             'attributes' => [
-                'placeholder' => 'Adresse',
                 'required' => 'required',
                 'class' => 'form-control',
             ],
@@ -51,7 +49,6 @@ class Place extends Form
                 'label' => 'Ville',
             ],
             'attributes' => [
-                'placeholder' => 'Ville',
                 'required' => 'required',
                 'class' => 'form-control',
             ],
@@ -64,8 +61,29 @@ class Place extends Form
                 'label' => 'Code Postal',
             ],
             'attributes' => [
-                'placeholder' => 'Code Postal',
                 'required' => 'required',
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'long',
+            'type' => Element\Text::class,
+            'options' => [
+                'label' => 'Longitude',
+            ],
+            'attributes' => [
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'lat',
+            'type' => Element\Text::class,
+            'options' => [
+                'label' => 'Latittude',
+            ],
+            'attributes' => [
                 'class' => 'form-control',
             ],
         ]);

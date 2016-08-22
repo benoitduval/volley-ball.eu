@@ -9,6 +9,29 @@ use Application\TableGateway;
 
 class PlaceController extends AbstractController
 {
+
+    public function allAction()
+    {
+        if (!$this->getUser()) {
+            $this->flashMessenger()->addErrorMessage('<p>Désolé, vous devez être authentifié pour accéder à cette page.</p>
+                <p>Vous avez été redirigé sur la page d\'acceuil.</p>');
+            $this->redirect()->toRoute('home');
+            return;
+        }
+
+        $groupId = $this->params()->fromRoute('id');
+        $placeTable = $this->getContainer()->get(TableGateway\Place::class);
+        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $group = $groupTable->find($groupId);
+        $places = $placeTable->fetchAll(['groupId' => $groupId]);
+
+        return new ViewModel([
+            'group'  => $group,
+            'places' => $places,
+            'user'   => $this->getUser(),
+        ]);
+    }
+
     public function createAction()
     {
 
@@ -75,8 +98,24 @@ class PlaceController extends AbstractController
         ]);
     }
 
-    public function allAction()
+    public function editAction()
     {
+        $placeId = $this->params()->fromRoute('id');
+        $placeTable = $this->getContainer()->get(TableGateway\Place::class);
+        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $place = $placeTable->find($placeId);
+        $group = $groupTable->find($place->groupId);
+        $form       = new Form\Place();
+
+        // Check group permission
+
+        if (!$place) {
+            $this->flashMessenger()->addErrorMessage('<p>Désolé, cette page n\'existe pas.</p>
+                <p>Vous avez été redirigé sur la page d\'acceuil.</p>');
+            $this->redirect()->toRoute('home');
+            return;
+        }
+
         if (!$this->getUser()) {
             $this->flashMessenger()->addErrorMessage('<p>Désolé, vous devez être authentifié pour accéder à cette page.</p>
                 <p>Vous avez été redirigé sur la page d\'acceuil.</p>');
@@ -84,16 +123,52 @@ class PlaceController extends AbstractController
             return;
         }
 
-        $groupId = $this->params()->fromRoute('id');
-        $placeTable = $this->getContainer()->get(TableGateway\Place::class);
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-        $group = $groupTable->find($groupId);
-        $places = $placeTable->fetchAll(['groupId' => $groupId]);
+        if ($group && $group->isAdmin($this->getUser())) {
+            $form->setData($place->toArray());
+
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $form->setData($request->getPost());
+
+                if ($form->isValid()) {
+                    $data = $form->getData();
+                    $data['groupId'] = $group->id;
+
+                    $mapService = $this->getContainer()->get(Service\Map::class);
+                    $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
+
+                    if ($coords = $mapService->getCoordinates($address)) {
+                        $data = array_merge($data, $coords);
+                    }
+
+                    $data['id'] = $place->id;
+                    $place = new Model\Place();
+                    $place->exchangeArray($data);
+                    $placeTable->save($place);
+
+                    $this->flashMessenger()->addMessage('les modifications de ont bien été prises en compte.');
+                    $this->redirect()->toRoute('place', ['action' => 'all', 'id' => $group->id]);
+                } else {
+                    $this->flashMessenger()->addErrorMessage('Une erreur est survenue lors de l\'ajout de l\'adresse');
+                }
+            }
+        } else {
+            $this->flashMessenger()->addErrorMessage('Une erreur est survenue, elle peut être causée par :
+                <ul>
+                    <li>Vous n\'avez pas les droits pour accéder à cette page</li>
+                    <li>Le groupe n\'existe plus</li>
+                </ul>
+                Nous vous redirigeons vers la page d\'accueil
+            ');
+            $this->redirect()->toRoute('home');
+            return;
+        }
 
         return new ViewModel([
-            'group'  => $group,
-            'places' => $places,
-            'user'   => $this->getUser(),
+            'group' => $group,
+            'place' => $place,
+            'form'  => $form,
+            'user'  => $this->getUser(),
         ]);
     }
 }

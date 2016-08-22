@@ -27,9 +27,10 @@ return [
             'event' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/event[/:action]',
+                    'route'    => '/event[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller'    => Controller\EventController::class,

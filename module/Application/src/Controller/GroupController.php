@@ -101,7 +101,7 @@ class GroupController extends AbstractController
             [
                 'tooltip' => 'Adresses',
                 'icon'    => 'add_location',
-                'link'    => $baseUrl . '/group/address',
+                'link'    => $baseUrl . '/place/all/' . $id,
                 'color'   => 'light-blue',
             ],
             [

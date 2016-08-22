@@ -24,7 +24,7 @@
                     <?php echo $this->form()->openTag($form); ?>
 
                     <div class="col-md-12">
-                        <div class="form-group label-floating is-empty">
+                        <div class="form-group label-floating is-filled">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">account_balance</i>
@@ -36,7 +36,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group label-floating is-empty">
+                        <div class="form-group label-floating is-filled">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">local_post_office</i>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group label-floating is-empty">
+                        <div class="form-group label-floating is-filled">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">language</i>
@@ -60,7 +60,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group label-floating is-empty">
+                        <div class="form-group label-floating is-filled">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">location_city</i>
@@ -71,12 +71,36 @@
                                 <?php echo $this->formInput($form->get('city')); ?>
                             </div>
                         </div>
+
+                        <div class="form-group label-floating is-filled">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">edit_location</i>
+                                </span>
+                                <label class="control-label" for="long">
+                                    Coordonnée GPS - Longitude
+                                </label>
+                                <?php echo $this->formInput($form->get('long')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group label-floating is-filled">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">edit_location</i>
+                                </span>
+                                <label class="control-label" for="lat">
+                                    Coordonnée GPS - Lattitude
+                                </label>
+                                <?php echo $this->formInput($form->get('lat')); ?>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="col-md-12 footer text-center">
                         <?php echo $this->formElement($form->get('submit')); ?>
                     </div>
-
                     <?php echo $this->form()->closeTag(); ?>
                 </div>
             </div>
