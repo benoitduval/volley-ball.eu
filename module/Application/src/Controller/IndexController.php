@@ -14,6 +14,7 @@ use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
 use Application\Form\SignIn;
 use Application\Form\SignUp;
+use Application\Model;
 
 class IndexController extends AbstractController
 {
@@ -23,10 +24,15 @@ class IndexController extends AbstractController
         $signUpForm = new SignUp();
         $config     = $this->getContainer()->get('config');
         $baseUrl    = $config['baseUrl'];
-        $this->layout()->user = $this->getUser();
+
 
         $menu = false;
         if ($this->getUser()) {
+            $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+            $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+            $placeTable = $this->getContainer()->get(TableGateway\Place::class);
+            $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+
             $menu = [
                 [
                     'icon'    => 'group',
@@ -35,10 +41,37 @@ class IndexController extends AbstractController
                     'color'   => 'red',
                 ],
             ];
+
+            $guests = $guestTable->fetchAll([
+                'userId' => $this->getUser()->id,
+            ]);
+
+            $result = [];
+            $groups = [];
+            $places = [];
+            $counters = [];
+            foreach ($guests as $guest) {
+                $event    = $eventTable->find($guest->eventId);
+                $counters = $guestTable->getCounters($guest->eventId);
+                if (!isset($groups[$guest->groupId])) $groups[$guest->groupId] = $groupTable->find($guest->groupId);
+                if (!isset($places[$event->placeId])) $places[$event->placeId] = $placeTable->find($event->placeId);
+                $result[$guest->id] = [
+                    'place'   => $places[$event->placeId],
+                    'group'   => $groups[$guest->groupId],
+                    'event'   => $event,
+                    'guest'   => $guest,
+                    'ok'      => $counters[Model\Guest::RESP_OK],
+                    'no'      => $counters[Model\Guest::RESP_NO],
+                    'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
+                    'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $guest->date),
+                ];
+            }
         }
 
+        $this->layout()->user = $this->getUser();
         $this->layout()->menu = $menu;
         return new ViewModel([
+            'events'     => $result,
             'signInForm' => $signInForm,
             'signUpForm' => $signUpForm,
             'user'       => $this->getUser(),

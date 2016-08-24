@@ -46,9 +46,9 @@
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <?php for ($i = 0; $i < 7; $i++) { ?>
-                        <?php echo $this->partial('partial/dashboard-events.phtml') ?>
-                    <?php } ?>
+                    <?php foreach ($events as $event): ?>
+                        <?php echo $this->partial('partial/dashboard-events.phtml', $event) ?>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>

@@ -1,3 +1,20 @@
+<?php 
+    switch ($guest->response) {
+        case Application\Model\Guest::RESP_OK:
+            $class = 'header-success';
+            break;
+        case Application\Model\Guest::RESP_NO:
+            $class = 'header-danger';
+            break;
+        case Application\Model\Guest::RESP_INCERTAIN:
+            $class = 'header-warning';
+            break;
+        
+        default:
+            $class = 'header-info';
+            break;
+    }
+?>
 <div class="col-md-4 col-sm-6">
     <div class="card-container">
         <div class="card">
@@ -8,55 +25,55 @@
                 <div class="user card text-center">
                     <div class="agenda">
                             <div class="agenda-header">
-                                <b>Novembre</b>
+                                <b><?= $date->format("F") ?></b>
                             </div>
                             <div class="agenda-content">
-                                <p>Jeudi</p>
-                                <p class="day">25<p>
+                                <p><?= $date->format("l") ?></p>
+                                <p class="day"><?= $date->format("d") ?><p>
                             </div>
                     </div>
                 </div>
                 <div class="content">
                     <div class="main">
-                        <h3 class="name">Entrainement Mardi</h3>
-                        <p class="profession">Dunois REM</p>
-                        <p class="text-center">Le RDV est à <b>20h00</b></p>
+                        <h3 class="name"><?= $event->name ?></h3>
+                        <p class="profession"><?= $group->name ?></p>
+                        <p class="text-center">Le RDV est à <b><?= $date->format("H\hs") ?></b></p>
                         <p class="text-center">
-                            Au gymnase Maurice Bacquet<br/>
-                            70 rue de Dunois <br/>
-                            75013 Paris
+                            <?= $place->name ?><br/>
+                            <?= $place->address ?><br/>
+                            <?= $place->zipCode ?>, <?= $place->city ?>
                         </p>
                     </div>
                     <div class="footer">
-                        <i class="fa fa-mail-forward"></i> Auto Rotation
+                        <i class="fa fa-mail-forward"></i> Rotation
                     </div>
                 </div>
             </div> <!-- end front panel -->
             <div class="back">
-                <div class="header header-success">
-                    <h5 class="motto">Vous êtes noté <b>présent</b> à cet évènement</h5>
+                <div class="header <?= $class ?>">
+                    <h5 class="motto">Vous êtes noté <b><?= Application\Model\Guest::$literalDisponbility[$guest->response] ?></b> à cet évènement</h5>
                 </div>
                 <div class="content">
                     <div class="main">
-                        <h3 class="name">Entrainement Mardi</h3>
-                        <p class="profession">Dunois REM</p>
+                        <h3 class="name"><?= $event->name ?></h3>
+                        <p class="profession"><?= $group->name ?></p>
                         <p class="text-center"><a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
 
                         <div class="stats-container">
                             <div class="stats">
-                                <h4>15</h4>
+                                <h4><?= $ok ?></h4>
                                 <a href="#" class="btn-tooltip btn btn-success btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>présent</b> à l'évènement">
                                     Présent
                                 </a>
                             </div>
                             <div class="stats">
-                                <h4>5</h4>
+                                <h4><?= $no ?></h4>
                                 <a href="#" class="btn-tooltip btn btn-danger btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>Absent</b> à l'évènement">
                                     Absent
                                 </a>
                             </div>
                             <div class="stats">
-                                <h4>2</h4>
+                                <h4><?= $perhaps ?></h4>
                                 <a href="#" class="btn-tooltip btn btn-warning btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>à confirmer</b> à l'évènement">
                                     Attente
                                 </a>
@@ -67,7 +84,7 @@
                 </div>
                 <div>
                     <div class="text-center">
-                        <a href="event/detail/1">Voir les Détails</a>
+                        <a href="event/detail/<?= $event->id ?>">Voir les Détails</a>
                     </div>
                 </div>
             </div> <!-- end back panel -->
