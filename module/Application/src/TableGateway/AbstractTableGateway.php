@@ -4,6 +4,7 @@ namespace Application\TableGateway;
 
 use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
+use Zend\Db\TableGateway\AbstractTableGateway as AbstractTable;
 
 class AbstractTableGateway
 {
@@ -47,7 +48,8 @@ class AbstractTableGateway
 
         if ($id === 0) {
             $this->getTableGateway()->insert($data);
-            return;
+            $id = $this->getTableGateway()->getLastInsertValue();
+            return $id;
         }
 
         if (!$this->find($id)) {

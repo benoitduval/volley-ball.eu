@@ -6,6 +6,7 @@ use Application\Form;
 use Application\Model;
 use Application\Service;
 use Application\TableGateway;
+use Application\Service\MailService;
 
 class EventController extends AbstractController
 {
@@ -15,6 +16,9 @@ class EventController extends AbstractController
 
         $placeTable = $this->getContainer()->get(TableGateway\Place::class);
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+        $userTable  = $this->getContainer()->get(TableGateway\User::class);
 
         $group = $groupTable->find($groupId);
         $addresses = $placeTable->fetchAll(['groupId' => $groupId]);
@@ -27,15 +31,74 @@ class EventController extends AbstractController
         $form = new Form\Event();
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $post = $request->getPost()->toArray();
+            $post    = $request->getPost()->toArray();
             $placeId = $post['address'];
+            $place   = $placeTable->find($placeId);
+
             $form->setData($request->getPost());
             if ($form->isValid()) {
+
                 $data = $form->getData();
+                $date = \DateTime::createFromFormat('d/m/Y H:i', $data['date']);
+
+                $data['date']    = $date->format('Y-m-d H:i:s');
+                $data['userId']  = $this->getUser()->id;
                 $data['placeId'] = $placeId;
                 $data['groupId'] = $groupId;
 
-                \Zend\Debug\Debug::dump($data);die;
+                $event = new Model\Event();
+                $event->exchangeArray($data);
+                $event->id = $eventTable->save($event);
+
+                // Create guest for this new event
+                $emails = [];
+                foreach (json_decode($group->userIds) as $id) {
+
+                    $user = $userTable->find($id);
+                    $emails[] = $user->email;
+
+                    $guest = new Model\Guest();
+                    $guest->exchangeArray([
+                        'eventId'  => $event->id,
+                        'userId'   => $id,
+                        'response' => Model\Guest::RESP_NO_ANSWER,
+                        'groupId'  => $groupId,
+                        'date'     => $event->date
+                    ]);
+
+                    $guestTable->save($guest);
+                    unset($guest);
+                }
+
+                // send emails
+                $mail   = $this->getContainer()->get(MailService::class);
+                $config = $this->getContainer()->get('config');
+                $mail->addBcc($emails);
+                $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
+
+                $mail->setTemplate(MailService::TEMPLATE_EVENT, array(
+                    'pitch'     => '$pitch',
+                    'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
+                    'subtitle'  => $group->name,
+                    'name'      => $place->name,
+                    'address'   => $place->address,
+                    'zip'       => $place->zipCode,
+                    'city'      => $place->city,
+                    'eventId'   => $event->id,
+                    'date'      => $date->format('l d F \à H\hi'),
+                    'day'       => $date->format('d'),
+                    'month'     => $date->format('F'),
+                    'ok'        => Model\Guest::RESP_OK,
+                    'no'        => Model\Guest::RESP_NO,
+                    'perhaps'   => Model\Guest::RESP_INCERTAIN,
+                    'comment'   => $data['comment'],
+                    'baseUrl'   => $config['baseUrl']
+                ));
+                $mail->send();
+
+                $this->flashMessenger()->addMessage('Votre évènement a bien été créé.
+                    Les notifications ont été envoyés aux membres du groupe.');
+                $this->redirect()->toRoute('home');
             }
         }
 
@@ -46,6 +109,19 @@ class EventController extends AbstractController
             'places' => $places
         ]);
 
+    }
+
+    public function detailAction()
+    {
+        $eventId = $this->params()->fromRoute('id');
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $event = $eventTable->find($eventId);
+
+        return new ViewModel([
+            // 'event'  => $event,
+            // 'group'  => $group,
+            'user'   => $this->getUser(),
+        ]);
     }
 
     // public function createAction()

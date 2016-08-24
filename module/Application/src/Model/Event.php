@@ -2,8 +2,6 @@
 
 namespace Application\Model;
 
-use Application\Service\Date as Date;
-
 class Event extends AbstractModel
 {
     protected $_id       = null;
@@ -25,10 +23,5 @@ class Event extends AbstractModel
             'comment'  => $this->_comment,
             'date'     => $this->_date,
         );
-    }
-
-    public function getDate()
-    {
-        return new Date($this->_date);
     }
 }
