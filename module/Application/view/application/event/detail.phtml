@@ -1,5 +1,5 @@
-<div id="map" class="header-filter header" data-lat="48.870364" data-long="2.4234589">
-    <div class="container">
+<div id="map" class="header-filter header" data-lat="<?= $place->lat ?>" data-long="<?= $place->long ?>">
+<!--     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="brand">
@@ -9,18 +9,102 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 </div>
 
 <div class="main main-raised">
     <div class="section section-basic">
         <div class="container">
             <div class="title">
-                <h2>Basic Elements</h2>
+                <h2><?= $event->name ?></h2>
             </div>
+
+            <div class="row">
+                <p>Here goes all the informations</p>
+                +
+                <ul>
+                    <li>Place</li>
+                    <li>Date</li>
+                    <li>FAB : leave comment</li>
+                    <li>FAB : Edit</li>
+                    <li>FAB : ALL dispo</li>
+                </ul>
+            </div>
+
         </div>
     </div>
-    <div class="container">
-        
+
+    <div class="section">
+        <div class="container">
+            <div class="title">
+                <h2>Commentaires</h2>
+            </div>
+            <blockquote>
+                <p>
+                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
+                </p>
+                <small>
+                    Benoit Duval - <i>15 aout 2016 15h16</i>
+                </small>
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="material-icons md-48">add</i>
+    </a>
+
+    <ul>
+        <li>
+            <a class="btn-floating indigo btn-tooltip" title="Commenter" href="#" data-toggle="modal" data-target="#modale-comment">
+                <i class="material-icons submenu">comment</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Incertain" href="#">
+                <i class="material-icons submenu">date_range</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating red btn-tooltip" data-toggle="tooltip" data-placement="left" title="Absent" href="#">
+                <i class="material-icons submenu">event_busy</i>
+            </a>
+        </li>
+        <li>
+            <a class="btn-floating green btn-tooltip" data-toggle="tooltip" data-placement="left" title="Présent" href="#">
+                <i class="material-icons submenu">event_available</i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- Sart login Modal -->
+<div class="modal fade" id="modale-comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="card card-signup">
+                    <?php  $form->setAttribute('action', $this->url('auth', ['action' => 'signin'])); ?>
+                    <?php echo $this->form()->openTag($form); ?>
+                        <div class="header header-primary text-center">
+                            <h4>Commenter</h4>
+                        </div>
+                        <div class="content">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">comment</i>
+                                </span>
+                                <?php echo $this->formElement($form->get('comment')); ?>
+                            </div>
+                        </div>
+                        <div class="footer text-center">
+                            <?php echo $this->formElement($form->get('submit')); ?>
+                        </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

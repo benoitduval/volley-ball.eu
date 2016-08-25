@@ -26,6 +26,7 @@ class IndexController extends AbstractController
         $baseUrl    = $config['baseUrl'];
 
 
+        $result = [];
         $menu = false;
         if ($this->getUser()) {
             $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
@@ -46,7 +47,6 @@ class IndexController extends AbstractController
                 'userId' => $this->getUser()->id,
             ]);
 
-            $result = [];
             $groups = [];
             $places = [];
             $counters = [];

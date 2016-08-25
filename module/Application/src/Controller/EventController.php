@@ -76,7 +76,7 @@ class EventController extends AbstractController
                 $mail->addBcc($emails);
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
 
-                $mail->setTemplate(MailService::TEMPLATE_EVENT, array(
+                $mail->setTemplate(MailService::TEMPLATE_EVENT, [
                     'pitch'     => '$pitch',
                     'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
                     'subtitle'  => $group->name,
@@ -93,7 +93,7 @@ class EventController extends AbstractController
                     'perhaps'   => Model\Guest::RESP_INCERTAIN,
                     'comment'   => $data['comment'],
                     'baseUrl'   => $config['baseUrl']
-                ));
+                ]);
                 $mail->send();
 
                 $this->flashMessenger()->addMessage('Votre évènement a bien été créé.
@@ -113,12 +113,21 @@ class EventController extends AbstractController
 
     public function detailAction()
     {
-        $eventId = $this->params()->fromRoute('id');
+        $eventId    = $this->params()->fromRoute('id');
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $event = $eventTable->find($eventId);
+        $placeTable = $this->getContainer()->get(TableGateway\Place::class);
+
+        $form = new Form\Comment();
+
+        $event      = $eventTable->find($eventId);
+        $place      = $placeTable->find($event->placeId);
+        $config     = $this->getContainer()->get('config');
+        $baseUrl    = $config['baseUrl'];
 
         return new ViewModel([
-            // 'event'  => $event,
+            'event'  => $event,
+            'place'  => $place,
+            'form'   => $form,
             // 'group'  => $group,
             'user'   => $this->getUser(),
         ]);
