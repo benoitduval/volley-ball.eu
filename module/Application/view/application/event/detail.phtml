@@ -1,54 +1,165 @@
-<div id="map" class="header-filter header" data-lat="<?= $place->lat ?>" data-long="<?= $place->long ?>">
-<!--     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="brand">
-                    <h1>Volley-ball.eu</h1>
-                    <h3>Gestion de groupes, entrainements, matchs.</h3>
-                </div>
-            </div>
-        </div>
-
-    </div> -->
+<div id="map" class="header-map" data-lat="<?= $place->lat ?>" data-long="<?= $place->long ?>">
 </div>
 
 <div class="main main-raised">
+
     <div class="section section-basic">
-        <div class="container">
-            <div class="title">
-                <h2><?= $event->name ?></h2>
-            </div>
-
+        <div class="container text-center">
             <div class="row">
-                <p>Here goes all the informations</p>
-                +
-                <ul>
-                    <li>Place</li>
-                    <li>Date</li>
-                    <li>FAB : leave comment</li>
-                    <li>FAB : Edit</li>
-                    <li>FAB : ALL dispo</li>
-                </ul>
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2><?= $event->name ?></h2>
+                    <?php if ($event->comment): ?>
+                        <?= $event->comment ?>
+                    <?php else: ?>
+                        <h4>Aucune description n'est associée à cet évènement.</h4>
+                    <?php endif ?>
+                </div>
             </div>
-
         </div>
     </div>
 
-    <div class="section">
+    <div class="section section-basic">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-3" style="margin-bottom:20px;">
+                    <p class="number" style="font-size:4em;">
+                        <?= $counters[Application\Model\Guest::RESP_OK]?>
+                    </p>
+                    Présents
+                </div>
+                <div class="col-md-3" style="margin-bottom:20px;">
+                    <p class="number" style="font-size:4em" >
+                        <?= $counters[Application\Model\Guest::RESP_NO]?>
+                    </p>
+                    Absents
+                </div>
+                <div class="col-md-3" style="margin-bottom:20px;">
+                    <p class="number" style="font-size:4em">
+                        <?= $counters[Application\Model\Guest::RESP_INCERTAIN]?>
+                    </p>
+                    Incertains
+                </div>
+                <div class="col-md-3" style="margin-bottom:20px;">
+                    <p class="number" style="font-size:4em">
+                        <?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?>
+                    </p>
+                    Sans réponse
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section section-full-screen section-signup" style="background-image: url('/img/bg-recep.jpg'); background-size: cover; background-position: top center; min-height: 300px;">
         <div class="container">
-            <div class="title">
-                <h2>Commentaires</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-signup">
+                        <div class="header header-primary text-center">
+                            <h4>Description</h4>
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <h3 class="name"><?= $event->name ?></h3>
+                                <p class="profession"><?= $group->name ?></p>
+                                <h2 class="name"><?= $date->format('d l F Y') ?></h2>
+                                <p class="profession">Le RDV est à <b><?= $date->format("H\hs") ?></b></p>
+                                <p class="text-center">
+                                    <?= $place->name ?><br/>
+                                    <?= $place->address ?><br/>
+                                    <?= $place->zipCode ?>, <?= $place->city ?>
+                                </p>
+                                <p class="text-center"><a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-            <blockquote>
-                <p>
-                    I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
-                </p>
-                <small>
-                    Benoit Duval - <i>15 aout 2016 15h16</i>
-                </small>
-            </blockquote>
         </div>
     </div>
+
+    <?php //if ($group->showUsers || $admin): ?>
+        <div class="section section-basic">
+            <div class="container">
+                <div class="title text-center">
+                    <h2>Disponibilités</h2>
+                </div>
+
+                <div class="owl-carousel owl-theme">
+                    <div class="text-center item">
+                        <i class="fa fa-check fa-4x green"></i>
+                        <p><u><b id="count-ok"><?= $counters[Application\Model\Guest::RESP_OK]?></b>  personne(s)</u></p>
+                        <div id="list-ok">
+                            <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                                <p class="classic"><?= $user->getFullname() ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="text-center item">
+                        <i class="fa fa-times fa-4x red"></i>
+                        <p><u><b id="count-no"><?= $counters[Application\Model\Guest::RESP_NO]?></b>  personne(s)</u></p>
+                        <div id="list-no">
+                            <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                                <p class="classic"><?= $user->getFullname() ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="text-center item">
+                        <i class="fa fa-question-circle fa-4x blue"></i>
+                        <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_INCERTAIN]?></b>  personne(s)</u></p>
+                        <div id="list-ph">
+                            <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                                <p class="classic"><?= $user->getFullname() ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="text-center item">
+                        <i class="fa fa-users fa-4x yellow-text"></i>
+                        <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?></b>  personne(s)</u></p>
+                        <div id="list-wo">
+                            <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                                <p class="classic"><?= $user->getFullname() ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container -->
+        </div>
+    <?php //endif ?>
+
+    <div class="section section-tabs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title">
+                        <h3>Commentaires</h3>
+                    </div>
+
+                    <?php foreach ($comments as $comment): ?>
+                    <div class="card card-nav-tabs">
+                        <div class="content">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="profile">
+                                    <blockquote>
+                                        <p>
+                                            <?= nl2br($comment['comment']); ?>
+                                        </p>
+                                        <small>
+                                            <?= $comment['author']->getFullName(); ?> - <i><?= $comment['date']; ?></i>
+                                        </small>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach ?>
+                    <!-- End Tabs with icons on Card -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Section Tabs -->
 </div>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
@@ -86,7 +197,6 @@
         <div class="modal-content">
             <div class="row">
                 <div class="card card-signup">
-                    <?php  $form->setAttribute('action', $this->url('auth', ['action' => 'signin'])); ?>
                     <?php echo $this->form()->openTag($form); ?>
                         <div class="header header-primary text-center">
                             <h4>Commenter</h4>

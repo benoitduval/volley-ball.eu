@@ -77,35 +77,21 @@ materialKit = {
                 if(transparent) {
                     transparent = false;
                     $('.navbar-color-on-scroll').removeClass('navbar-transparent');
+                    if ($('.navbar-color-on-scroll').hasClass('opacity')) {
+                        $('.navbar-color-on-scroll').removeClass('opacity');
+                        $opacity = true;
+                    }
                 }
             } else {
                 if( !transparent ) {
                     transparent = true;
                     $('.navbar-color-on-scroll').addClass('navbar-transparent');
+                    if ($opacity) {
+                        $('.navbar-color-on-scroll').addClass('opacity');
+                    }
                 }
             }
     }, 17),
-
-    initSliders: function(){
-        // // Sliders for demo purpose
-        // $('#sliderRegular').noUiSlider({
-        //     start: 40,
-        //     connect: "lower",
-        //     range: {
-        //         min: 0,
-        //         max: 100
-        //     }
-        // });
-
-        // $('#sliderDouble').noUiSlider({
-        //     start: [20, 60] ,
-        //     connect: true,
-        //     range: {
-        //         min: 0,
-        //         max: 100
-        //     }
-        // });
-    }
 }
 
 

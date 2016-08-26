@@ -106,6 +106,7 @@ return [
             Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
             Model\PlaceTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\RecurentTableGateway::class     => Factory\TableGatewayFactory::class,
+            Model\CommentTableGateway::class      => Factory\TableGatewayFactory::class,
 
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\MailService::class => Service\Factory\MailServiceFactory::class,

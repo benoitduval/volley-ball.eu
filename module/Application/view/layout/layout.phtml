@@ -22,6 +22,8 @@
     <link href="/css/materialize-test.css" rel="stylesheet"/>
     <link href="/css/material-kit.css" rel="stylesheet"/>
     <link href="/css/rotating-card.css" rel="stylesheet"/>
+    <link href="/css/owl.carousel.css" rel="stylesheet">
+    <link href="/css/owl.theme.css" rel="stylesheet">
     <link href="/css/bootstrap-material-datetimepicker.css" rel="stylesheet"/>
 
     <link href="/css/demo.css" rel="stylesheet" />
@@ -30,7 +32,8 @@
 
 <body class="index-page">
 <!-- Navbar -->
-<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
+<?php $class = isset($opacity) ? 'opacity' : '' ; ?>
+<nav class="navbar navbar-transparent navbar-fixed-top <?= $class ?> navbar-color-on-scroll">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
@@ -141,6 +144,7 @@
 <!--   Core JS Files   -->
 <script src="/js/jquery.min.js" type="text/javascript"></script>
 <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/owl.carousel.js"></script>
 <script src="/js/materialize-test.js"></script>
 <script src="/js/script.js"></script>
 <script src="/js/material.min.js"></script>

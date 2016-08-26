@@ -230,3 +230,11 @@ button.btn-floating {
 {
   line-height: 2em;
 }
+
+.index-page nav.opacity {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.index-page .wrapper > .header-map {
+  height: 60vh;
+}

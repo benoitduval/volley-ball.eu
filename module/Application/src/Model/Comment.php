@@ -22,9 +22,4 @@ class Comment extends AbstractModel
             'date'    => $this->_date,
         );
     }
-
-    public function getDate()
-    {
-        return new Date($this->_date);
-    }
 }

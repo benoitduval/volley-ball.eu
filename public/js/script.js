@@ -2,8 +2,8 @@ $(function () {
 
     map();
     datepicker();
+    carousel();
     // animations();
-    // sliders();
     // fullScreenContainer();
     // utils();
     // sliding();
@@ -92,34 +92,6 @@ $(function () {
 
 //      });
 //  }
-
-// /* =========================================
-//  * sliders 
-//  *  =======================================*/
-
-// function sliders() {
-//     $(".owl-carousel").each(function () {
-//         $(this).owlCarousel({
-         
-//               // navigation : false, // Show next and prev buttons
-//               // slideSpeed : 300,
-//               // paginationSpeed : 400,
-//               // singleItem:true
-         
-//               // "singleItem:true" is a shortcut for:
-//               // items : 1, 
-//               // itemsDesktop : false,
-//               // itemsDesktopSmall : false,
-//               // itemsTablet: false,
-//               // itemsMobile : false
-//               items: 2,
-//               itemsDesktopSmall: [1170, 3],
-//               itemsTablet: [970, 2],
-//               itemsMobile: [750, 1]
-//           });
-//     });
-
-// }
 
 // /* =========================================
 //  * counters 
@@ -322,7 +294,7 @@ function map() {
         overviewMapControl: false,
         scrollwheel: false,
         draggable: true,
-        styles: styles
+        // styles: styles
         });
 
         var image = '/img/marker.png';
@@ -350,6 +322,41 @@ function datepicker() {
         });
     }
 }
+
+/* =========================================
+ * Carousel
+ *  =======================================*/
+
+function carousel() {
+    $(".owl-carousel").each(function () {
+        $(this).owlCarousel({
+            responsiveClass:true,
+            navText: ['<i class="fa fa-backward" aria-hidden="true"></i>',
+                      '<i class="fa fa-forward" aria-hidden="true"></i>'
+            ],
+            responsive:{
+                0:{
+                    autoHeight:true,
+                    items:1,
+                    nav:true,
+                    dots: true
+                },
+                600:{
+                    autoHeight:true,
+                    items:2,
+                    nav:true,
+                    dots: true
+                },
+                1000:{
+                    autoHeight:false,
+                    items:4,
+                    nav:false,
+                    dots: false
+                }
+            }
+        });
+    });
+  }
 
 // /* =========================================
 //  *  UTILS

@@ -113,23 +113,76 @@ class EventController extends AbstractController
 
     public function detailAction()
     {
-        $eventId    = $this->params()->fromRoute('id');
-        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $placeTable = $this->getContainer()->get(TableGateway\Place::class);
+        $eventId      = $this->params()->fromRoute('id');
+        $eventTable   = $this->getContainer()->get(TableGateway\Event::class);
+        $placeTable   = $this->getContainer()->get(TableGateway\Place::class);
+        $groupTable   = $this->getContainer()->get(TableGateway\Group::class);
+        $guestTable   = $this->getContainer()->get(TableGateway\Guest::class);
+        $userTable    = $this->getContainer()->get(TableGateway\User::class);
+        $commentTable = $this->getContainer()->get(TableGateway\Comment::class);
 
         $form = new Form\Comment();
 
-        $event      = $eventTable->find($eventId);
-        $place      = $placeTable->find($event->placeId);
+        $event     = $eventTable->find($eventId);
+        $comments  = $commentTable->fetchAll($eventId);
+        $group     = $groupTable->find($event->groupId);
+        $place     = $placeTable->find($event->placeId);
+        $counters  = $guestTable->getCounters($eventId);
+        $guests    = $guestTable->fetchAll(['eventId' => $eventId]);
+        $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $data            = $form->getData();
+                $data['date']    = date('Y-m-d H:i:s');
+                $data['eventId'] = $eventId;
+                $data['userId']  = $this->getUser()->id;
+
+                $comment = new Model\Comment();
+                $comment->exchangeArray($data);
+                $comment->id = $commentTable->save($comment);
+
+                $this->redirect()->toRoute('event', ['action' => detail, 'id' => $eventId]);
+            }
+        }
+
+        $availability    = [
+            Model\Guest::RESP_NO_ANSWER => [],
+            Model\Guest::RESP_OK        => [],
+            Model\Guest::RESP_NO        => [],
+            Model\Guest::RESP_INCERTAIN => [],
+        ];
+
+        foreach ($guests as $guest) {
+            $users[$guest->userId] = $userTable->find($guest->userId);
+            $availability[$guest->response][] = $users[$guest->userId];
+        }
+
+        foreach ($comments as $comment) {
+            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $comment->date);
+            $result[$comment->id]['date'] = $date->format('d F Y \à H:i');
+            $result[$comment->id]['author'] = $users[$comment->userId];
+            $result[$comment->id]['comment'] = $comment->comment;
+        }
+
+         $test = $guestTable->getCounters($eventId);
+
         $config     = $this->getContainer()->get('config');
         $baseUrl    = $config['baseUrl'];
 
+        $this->layout()->opacity = true;
         return new ViewModel([
-            'event'  => $event,
-            'place'  => $place,
-            'form'   => $form,
-            // 'group'  => $group,
-            'user'   => $this->getUser(),
+            'counters' => $test,
+            'comments' => $result,
+            'event'    => $event,
+            'place'    => $place,
+            'form'     => $form,
+            'group'    => $group,
+            'users'    => $availability,
+            'user'     => $this->getUser(),
+            'date'     => $eventDate,
         ]);
     }
 

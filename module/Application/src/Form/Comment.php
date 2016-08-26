@@ -26,6 +26,7 @@ class Comment extends Form
             ],
             'attributes' => [
                 'placeholder' => 'Votre commentaire',
+                'rows'  => 4,
                 'class' => 'form-control',
                 'required' => 'required',
             ],

@@ -31,6 +31,10 @@ class Module implements ConfigProviderInterface
                     $tableGateway = $container->get(Model\UserTableGateway::class);
                     return new TableGateway\User($tableGateway);
                 },
+                TableGateway\Comment::class => function($container) {
+                    $tableGateway = $container->get(Model\CommentTableGateway::class);
+                    return new TableGateway\Comment($tableGateway);
+                },
                 TableGateway\Group::class => function($container) {
                     $tableGateway = $container->get(Model\GroupTableGateway::class);
                     return new TableGateway\Group($tableGateway);
