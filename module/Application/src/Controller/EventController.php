@@ -144,6 +144,7 @@ class EventController extends AbstractController
                 $comment->exchangeArray($data);
                 $comment->id = $commentTable->save($comment);
 
+                $this->flashMessenger()->addMessage('Votre commentaire a bien été enregistré.');
                 $this->redirect()->toRoute('event', ['action' => detail, 'id' => $eventId]);
             }
         }
@@ -160,6 +161,7 @@ class EventController extends AbstractController
             $availability[$guest->response][] = $users[$guest->userId];
         }
 
+        $result = [];
         foreach ($comments as $comment) {
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $comment->date);
             $result[$comment->id]['date'] = $date->format('d F Y \à H:i');

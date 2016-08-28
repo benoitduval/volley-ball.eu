@@ -52,6 +52,21 @@ return [
                     ],
                 ],
             ],
+            'guest' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/guest[/:action[/:id[/:response]]]',
+                    'constraints' => [
+                        'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'       => '[0-9]+',
+                        'response' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\GuestController::class,
+                        'action'        => 'response',
+                    ],
+                ],
+            ],
             'group' => [
                 'type'    => Segment::class,
                 'options' => [

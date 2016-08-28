@@ -135,6 +135,9 @@
                     <div class="title">
                         <h3>Commentaires</h3>
                     </div>
+                    <?php if (empty($comments)): ?>
+                        <p class="">Il n'y a actuellement aucun commentaire pour cet évènement.</p>
+                    <?php endif ?>
 
                     <?php foreach ($comments as $comment): ?>
                     <div class="card card-nav-tabs">
@@ -174,17 +177,17 @@
             </a>
         </li>
         <li>
-            <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Incertain" href="#">
+            <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Incertain" href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>">
                 <i class="material-icons submenu">date_range</i>
             </a>
         </li>
         <li>
-            <a class="btn-floating red btn-tooltip" data-toggle="tooltip" data-placement="left" title="Absent" href="#">
+            <a class="btn-floating red btn-tooltip" data-toggle="tooltip" data-placement="left" title="Absent" href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>">
                 <i class="material-icons submenu">event_busy</i>
             </a>
         </li>
         <li>
-            <a class="btn-floating green btn-tooltip" data-toggle="tooltip" data-placement="left" title="Présent" href="#">
+            <a class="btn-floating green btn-tooltip" data-toggle="tooltip" data-placement="left" title="Présent" href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>">
                 <i class="material-icons submenu">event_available</i>
             </a>
         </li>

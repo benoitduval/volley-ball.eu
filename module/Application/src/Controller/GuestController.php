@@ -1,46 +1,40 @@
 <?php
-namespace Volley\Controller;
+namespace Application\Controller;
 
 use Zend\View\Model\ViewModel;
-use Volley\Form\CreateGuest;
-use Volley\Form\CreateGuestValidator as Validator;
-use Volley\Entity\Guest;
-use Volley\Entity\Group;
-use Volley\Services\Mail;
+use Application\Form;
+use Application\Model;
+use Application\TableGateway;
 
-class GuestController extends BaseController
+class GuestController extends AbstractController
 {
     public function responseAction()
     {
-        $referer = false;
-        if ($this->getRequest()->getHeader('Referer')) {
-            $referer = $this->getRequest()->getHeader('Referer')->getUri();
-        }
+        $eventId    = $this->params()->fromRoute('id');
+        $responseId = $this->params()->fromRoute('response');
 
-        $eventId     = $this->params('eventId');
-        $event       = $this->_getMapper('event')->getById($eventId);
-        $responseId  = $this->params('responseId', Guest::RESP_NO_ANSWER);
-        $guestMapper = $this->_getMapper('guest');
-        $guest       = $guestMapper->fetchOne(array('eventId' => $eventId, 'userId' => $this->user->id));
-        $group       = $this->_getMapper('group')->getById($event->groupId);
-        if ($event->getDate()->format('Ymd') >= date('Ymd') || $group->isAdmin($this->user->id)) {
+        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $groupTable = $this->getContainer()->get(TableGateway\Event::class);
+
+        $event      = $eventTable->find($eventId);
+        $guest      = $guestTable->fetchOne([
+            'eventId' => $eventId,
+            'userId'  => $this->getUser()->id,
+        ]);
+        $group = $groupTable->find($event->groupId);
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+
+        if ($date->format('Ymd') >= date('Ymd')) {
             if ($guest->response != $responseId) {
                 $guest->response = $responseId;
-                $guestMapper->setEntity($guest)->save();
+                $guestTable->save($guest);
             }
-            $this->flashMessenger()->addMessage('Réponse prise en compte');
-        } else {
+            $this->flashMessenger()->addMessage('Votre réponse a été prise en compte.');
+        } else {    
             $this->flashMessenger()->addErrorMessage('Impossible de modifier un événement passé');
         }
 
-        $counters = $guestMapper->getCounters($eventId);
-
-        if ($referer) {
-            $this->redirect()->toUrl($referer);
-        } else {
-            return $this->redirect()->toRoute('volley/event-detail', array(
-                'eventId' =>  $eventId,
-            ));
-        }
+        $this->redirect()->toRoute('event', ['id' => $eventId]);
     }
 }
