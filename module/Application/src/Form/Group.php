@@ -44,14 +44,6 @@ class Group extends Form
             ],
         ]);
 
-        $this->add([
-            'name' => 'ffvbUrl',
-            'type' => Element\Text::class,
-            'attributes' => [
-                'class' => 'form-control',
-                'placeholder' => 'Lien des résultats FFVB (Optionnel)',
-            ],
-        ]);
 
         $this->add([
             'name' => 'info',
@@ -60,20 +52,6 @@ class Group extends Form
                 'class' => 'form-control',
                 'placeholder' => 'Information concernant les séances (niveau, jour, horaire ...)',
             ],
-        ]);
-
-        $this->add([
-            'type' => Element\Checkbox::class,
-            'name' => 'weather',
-            'options' => [
-                'label' => 'Weather',
-                'use_hidden_element' => false,
-                'unchecked_value' => 'off',
-                'checked_value' => 'on',
-            ],
-            'attributes' => [
-                'value' => 'off'
-            ]
         ]);
 
         $this->add([

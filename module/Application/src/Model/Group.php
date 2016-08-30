@@ -12,8 +12,6 @@ class Group extends AbstractModel
     protected $_userIds     = null;
     protected $_adminIds    = null;
     protected $_name        = null;
-    protected $_weather     = null;
-    protected $_ffvbUrl     = null;
     protected $_showUsers   = null;
     protected $_brand       = null;
     protected $_enable      = null;

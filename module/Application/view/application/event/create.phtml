@@ -51,6 +51,54 @@
                         <div class="form-group label-floating is-empty">
                             <div class="input-group">
                                 <span class="input-group-addon">
+                                    <i class="material-icons">account_balance</i>
+                                </span>
+                                <label class="control-label" for="place">
+                                    Nom du Gymnase / Lieu
+                                </label>
+                                <?php echo $this->formInput($form->get('place')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group label-floating is-empty">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">local_post_office</i>
+                                </span>
+                                <label class="control-label" for="address">
+                                    Adresse
+                                </label>
+                                <?php echo $this->formInput($form->get('address')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group label-floating is-empty">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">language</i>
+                                </span>
+                                <label class="control-label" for="zipCode">
+                                    Code Postal
+                                </label>
+                                <?php echo $this->formInput($form->get('zipCode')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group label-floating is-empty">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">location_city</i>
+                                </span>
+                                <label class="control-label" for="city">
+                                    Ville
+                                </label>
+                                <?php echo $this->formInput($form->get('city')); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group label-floating is-empty">
+                            <div class="input-group">
+                                <span class="input-group-addon">
                                     <i class="material-icons">language</i>
                                 </span>
                                 <label class="control-label" for="comment">
@@ -60,19 +108,6 @@
                             </div>
                         </div>
 
-                        <div class="title">
-                            <h5>Adresse</h5>
-                        </div>
-                        L'adresse n'est pas dans la liste ? <a href="/place/create/<?= $group->id ?>">Créez en une</a>
-
-                        <?php foreach ($places as $id => $address): ?>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" name="address" value="<?= $id ?>">
-                                    <?= $address ?>
-                                </label>
-                            </div>
-                        <?php endforeach ?>
 
                     </div>
 

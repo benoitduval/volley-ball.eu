@@ -38,20 +38,6 @@ return [
                     ],
                 ],
             ],
-            'place' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/place[/:action[/:id]]',
-                    'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
-                    ],
-                    'defaults' => [
-                        'controller'    => Controller\PlaceController::class,
-                        'action'        => 'create',
-                    ],
-                ],
-            ],
             'guest' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -119,7 +105,6 @@ return [
             Model\GuestTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\JoinTableGateway::class         => Factory\TableGatewayFactory::class,
             Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
-            Model\PlaceTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\RecurentTableGateway::class     => Factory\TableGatewayFactory::class,
             Model\CommentTableGateway::class      => Factory\TableGatewayFactory::class,
 

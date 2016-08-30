@@ -6,22 +6,19 @@ class Event extends AbstractModel
 {
     protected $_id       = null;
     protected $_userId   = null;
-    protected $_placeId  = null;
+    protected $_groupId  = null;
     protected $_name     = null;
     protected $_comment  = null;
     protected $_date     = null;
-    protected $_groupId  = null;
+    protected $_place    = null;
+    protected $_address  = null;
+    protected $_city     = null;
+    protected $_zipCode  = null;
+    protected $_lat      = null;
+    protected $_long     = null;
 
-    public function toArray()
+    public function getFullAddress()
     {
-        return array(
-            'id'       => (int) $this->_id,
-            'userId'   => (int) $this->_userId,
-            'placeId'  => (int) $this->_placeId,
-            'groupId'  => (int) $this->_groupId,
-            'name'     => $this->_name,
-            'comment'  => $this->_comment,
-            'date'     => $this->_date,
-        );
+        return $this->address . ', ' . $this->zipCode . ' ' . $this->city;
     }
 }

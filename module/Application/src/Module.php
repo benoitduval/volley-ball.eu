@@ -59,10 +59,6 @@ class Module implements ConfigProviderInterface
                     $tableGateway = $container->get(Model\NotificationTableGateway::class);
                     return new TableGateway\Notification($tableGateway);
                 },
-                TableGateway\Place::class => function($container) {
-                    $tableGateway = $container->get(Model\PlaceTableGateway::class);
-                    return new TableGateway\Place($tableGateway);
-                },
                 TableGateway\Recurent::class => function($container) {
                     $tableGateway = $container->get(Model\RecurentTableGateway::class);
                     return new TableGateway\Recurent($tableGateway);

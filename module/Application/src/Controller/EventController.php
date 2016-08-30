@@ -14,26 +14,17 @@ class EventController extends AbstractController
     {
         $groupId    = $this->params()->fromRoute('id');
 
-        $placeTable = $this->getContainer()->get(TableGateway\Place::class);
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
         $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
         $userTable  = $this->getContainer()->get(TableGateway\User::class);
 
         $group = $groupTable->find($groupId);
-        $addresses = $placeTable->fetchAll(['groupId' => $groupId]);
-
-        $places = [];
-        foreach ($addresses as $address) {
-            $places[$address->id] = $address->getFullAddress();
-        }
 
         $form = new Form\Event();
         $request = $this->getRequest();
         if ($request->isPost()) {
             $post    = $request->getPost()->toArray();
-            $placeId = $post['address'];
-            $place   = $placeTable->find($placeId);
 
             $form->setData($request->getPost());
             if ($form->isValid()) {
@@ -43,8 +34,14 @@ class EventController extends AbstractController
 
                 $data['date']    = $date->format('Y-m-d H:i:s');
                 $data['userId']  = $this->getUser()->id;
-                $data['placeId'] = $placeId;
                 $data['groupId'] = $groupId;
+
+                $mapService = $this->getContainer()->get(Service\Map::class);
+                $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
+
+                if ($coords = $mapService->getCoordinates($address)) {
+                    $data = array_merge($data, $coords);
+                }
 
                 $event = new Model\Event();
                 $event->exchangeArray($data);
@@ -80,10 +77,9 @@ class EventController extends AbstractController
                     'pitch'     => '$pitch',
                     'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
                     'subtitle'  => $group->name,
-                    'name'      => $place->name,
-                    'address'   => $place->address,
-                    'zip'       => $place->zipCode,
-                    'city'      => $place->city,
+                    'name'      => $event->place,
+                    'zip'       => $event->zipCode,
+                    'city'      => $event->city,
                     'eventId'   => $event->id,
                     'date'      => $date->format('l d F \à H\hi'),
                     'day'       => $date->format('d'),
@@ -106,7 +102,6 @@ class EventController extends AbstractController
             'group'  => $group,
             'form'   => $form,
             'user'   => $this->getUser(),
-            'places' => $places
         ]);
 
     }
@@ -115,7 +110,6 @@ class EventController extends AbstractController
     {
         $eventId      = $this->params()->fromRoute('id');
         $eventTable   = $this->getContainer()->get(TableGateway\Event::class);
-        $placeTable   = $this->getContainer()->get(TableGateway\Place::class);
         $groupTable   = $this->getContainer()->get(TableGateway\Group::class);
         $guestTable   = $this->getContainer()->get(TableGateway\Guest::class);
         $userTable    = $this->getContainer()->get(TableGateway\User::class);
@@ -126,7 +120,6 @@ class EventController extends AbstractController
         $event     = $eventTable->find($eventId);
         $comments  = $commentTable->fetchAll($eventId);
         $group     = $groupTable->find($event->groupId);
-        $place     = $placeTable->find($event->placeId);
         $counters  = $guestTable->getCounters($eventId);
         $guests    = $guestTable->fetchAll(['eventId' => $eventId]);
         $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
@@ -179,12 +172,86 @@ class EventController extends AbstractController
             'counters' => $test,
             'comments' => $result,
             'event'    => $event,
-            'place'    => $place,
             'form'     => $form,
             'group'    => $group,
             'users'    => $availability,
             'user'     => $this->getUser(),
             'date'     => $eventDate,
+        ]);
+    }
+
+    public function editAction()
+    {
+        $eventId    = $this->params()->fromRoute('id');
+
+        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+        $userTable  = $this->getContainer()->get(TableGateway\User::class);
+
+        $event = $eventTable->find($eventId);
+        $group = $groupTable->find($event->groupId);
+
+        $form = new Form\Event();
+        $form->setData($event->toArray());
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $post    = $request->getPost()->toArray();
+
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+
+                $data = $form->getData();
+                $date = \DateTime::createFromFormat('d/m/Y H:i', $data['date']);
+
+                $data['date']    = $date->format('Y-m-d H:i:s');
+
+                $mapService = $this->getContainer()->get(Service\Map::class);
+                $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
+
+                if ($coords = $mapService->getCoordinates($address)) {
+                    $data = array_merge($data, $coords);
+                }
+
+                $event = new Model\Event();
+                $event->exchangeArray($data);
+                $event->id = $eventTable->save($event);
+
+                // send emails
+                // $mail   = $this->getContainer()->get(MailService::class);
+                // $config = $this->getContainer()->get('config');
+                // $mail->addBcc($emails);
+                // $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
+
+                // $mail->setTemplate(MailService::TEMPLATE_EVENT, [
+                //     'pitch'     => '$pitch',
+                //     'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
+                //     'subtitle'  => $group->name,
+                //     'name'      => $event->place,
+                //     'zip'       => $event->zipCode,
+                //     'city'      => $event->city,
+                //     'eventId'   => $event->id,
+                //     'date'      => $date->format('l d F \à H\hi'),
+                //     'day'       => $date->format('d'),
+                //     'month'     => $date->format('F'),
+                //     'ok'        => Model\Guest::RESP_OK,
+                //     'no'        => Model\Guest::RESP_NO,
+                //     'perhaps'   => Model\Guest::RESP_INCERTAIN,
+                //     'comment'   => $data['comment'],
+                //     'baseUrl'   => $config['baseUrl']
+                // ]);
+                // $mail->send();
+
+                $this->flashMessenger()->addMessage('Votre évènement a bien été créé.
+                    Les notifications ont été envoyés aux membres du groupe.');
+                $this->redirect()->toRoute('home');
+            }
+        }
+
+        return new ViewModel([
+            'group'  => $group,
+            'form'   => $form,
+            'user'   => $this->getUser(),
         ]);
     }
 

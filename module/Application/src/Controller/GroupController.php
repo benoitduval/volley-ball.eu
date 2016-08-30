@@ -36,10 +36,8 @@ class GroupController extends AbstractController
                 $group->name        = ucfirst($data['name']);
                 $group->userId      = $this->getUser()->id;
                 $group->userIds     = json_encode([$this->getUser()->id]);
-                $group->weather     = ($data['weather'] == 'on');
                 $group->showUsers   = ($data['showUsers'] == 'on');
                 $group->enable      = ($data['enable'] == 'on');
-                $group->ffvbUrl     = $data['ffvbUrl'];
                 $group->description = $data['description'];
                 $group->info        = $data['info'];
                 $brand              = $group->initBrand();

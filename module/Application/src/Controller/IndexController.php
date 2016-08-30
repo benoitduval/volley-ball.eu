@@ -31,7 +31,6 @@ class IndexController extends AbstractController
         if ($this->getUser()) {
             $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
             $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-            $placeTable = $this->getContainer()->get(TableGateway\Place::class);
             $eventTable = $this->getContainer()->get(TableGateway\Event::class);
 
             $menu = [
@@ -47,16 +46,14 @@ class IndexController extends AbstractController
                 'userId' => $this->getUser()->id,
             ]);
 
-            $groups = [];
-            $places = [];
+            $groups   = [];
+            $places   = [];
             $counters = [];
             foreach ($guests as $guest) {
                 $event    = $eventTable->find($guest->eventId);
                 $counters = $guestTable->getCounters($guest->eventId);
                 if (!isset($groups[$guest->groupId])) $groups[$guest->groupId] = $groupTable->find($guest->groupId);
-                if (!isset($places[$event->placeId])) $places[$event->placeId] = $placeTable->find($event->placeId);
                 $result[$guest->id] = [
-                    'place'   => $places[$event->placeId],
                     'group'   => $groups[$guest->groupId],
                     'event'   => $event,
                     'guest'   => $guest,

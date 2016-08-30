@@ -20,11 +20,16 @@ DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL DEFAULT '',
-  `placeId` int(11) NOT NULL,
   `date` timestamp NULL DEFAULT NULL,
   `comment` text,
   `userId` int(11) DEFAULT NULL,
   `groupId` int(5) DEFAULT NULL,
+  `place` varchar(255) NOT NULL DEFAULT '',
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(48) DEFAULT NULL,
+  `zipCode` int(5) DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `long` double DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -37,7 +42,6 @@ CREATE TABLE `group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userIds` varchar(255) NOT NULL DEFAULT '',
   `adminIds` varchar(255) DEFAULT NULL,
-  `weather` tinyint(4) DEFAULT NULL,
   `showUsers` tinyint(4) DEFAULT NULL,
   `enable` tinyint(4) DEFAULT NULL,
   `userId` varchar(255) NOT NULL DEFAULT '',
@@ -45,7 +49,6 @@ CREATE TABLE `group` (
   `brand` varchar(150) NOT NULL,
   `description` text,
   `info` text,
-  `ffvbUrl` varchar(2083) NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -74,23 +77,6 @@ CREATE TABLE `join` (
   `userId` int(11) NOT NULL,
   `groupId` int(11) NOT NULL,
   `response` int(4) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `place`
---
-
-DROP TABLE IF EXISTS `place`;
-CREATE TABLE `place` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `address` varchar(255) DEFAULT NULL,
-  `city` varchar(48) DEFAULT NULL,
-  `zipCode` int(5) DEFAULT NULL,
-  `lat` double DEFAULT NULL,
-  `long` double DEFAULT NULL,
-  `groupId` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

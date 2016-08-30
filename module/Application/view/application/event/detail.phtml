@@ -1,4 +1,4 @@
-<div id="map" class="header-map" data-lat="<?= $place->lat ?>" data-long="<?= $place->long ?>">
+<div id="map" class="header-map" data-lat="<?= $event->lat ?>" data-long="<?= $event->long ?>">
 </div>
 
 <div class="main main-raised">
@@ -64,9 +64,9 @@
                                 <h2 class="name"><?= $date->format('d l F Y') ?></h2>
                                 <p class="profession">Le RDV est à <b><?= $date->format("H\hs") ?></b></p>
                                 <p class="text-center">
-                                    <?= $place->name ?><br/>
-                                    <?= $place->address ?><br/>
-                                    <?= $place->zipCode ?>, <?= $place->city ?>
+                                    <b><?= $event->place ?></b><br/>
+                                    <?= $event->address ?><br/>
+                                    <?= $event->zipCode ?>, <?= $event->city ?>
                                 </p>
                                 <p class="text-center"><a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
                             </div>
