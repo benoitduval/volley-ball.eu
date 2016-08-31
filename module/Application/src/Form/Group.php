@@ -55,34 +55,6 @@ class Group extends Form
         ]);
 
         $this->add([
-            'type' => Element\Checkbox::class,
-            'name' => 'enable',
-            'options' => [
-                'label' => 'Enable',
-                'use_hidden_element' => false,
-                'unchecked_value' => 'off',
-                'checked_value' => 'on',
-            ],
-            'attributes' => [
-                'value' => 'on'
-            ]
-        ]);
-
-        $this->add([
-            'type' => Element\Checkbox::class,
-            'name' => 'showUsers',
-            'options' => [
-                'label' => 'showUsers',
-                'use_hidden_element' => false,
-                'unchecked_value' => 'off',
-                'checked_value' => 'on',
-            ],
-            'attributes' => [
-                'value' => 'on'
-            ]
-        ]);
-
-        $this->add([
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [
@@ -90,32 +62,5 @@ class Group extends Form
                 'class' => 'btn btn-primary',
             ],
         ]);
-    }
-
-    public function isValid()
-    {
-        $data = $this->data;
-        if (!isset($data['weather'])) {
-            $data['weather'] = 'off';
-            $this->data = $data;
-        } else {
-            $data['weather'] = 'on';
-        }
-
-        if (!isset($data['showUsers'])) {
-            $data['showUsers'] = 'off';
-            $this->data = $data;
-        } else {
-            $data['showUsers'] = 'on';
-        }
-
-        if (!isset($data['enable'])) {
-            $data['enable'] = 'off';
-            $this->data = $data;
-        } else {
-            $data['enable'] = 'on';
-        }
-
-        return parent::isValid();
     }
 }

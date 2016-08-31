@@ -12,9 +12,7 @@ class Group extends AbstractModel
     protected $_userIds     = null;
     protected $_adminIds    = null;
     protected $_name        = null;
-    protected $_showUsers   = null;
     protected $_brand       = null;
-    protected $_enable      = null;
     protected $_info        = null;
     protected $_description = null;
 

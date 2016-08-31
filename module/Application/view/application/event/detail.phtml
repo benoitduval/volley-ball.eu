@@ -78,55 +78,53 @@
         </div>
     </div>
 
-    <?php //if ($group->showUsers || $admin): ?>
-        <div class="section section-basic">
-            <div class="container">
-                <div class="title text-center">
-                    <h2>Disponibilités</h2>
-                </div>
+    <div class="section section-basic">
+        <div class="container">
+            <div class="title text-center">
+                <h2>Disponibilités</h2>
+            </div>
 
-                <div class="owl-carousel owl-theme">
-                    <div class="text-center item">
-                        <i class="fa fa-check fa-4x green"></i>
-                        <p><u><b id="count-ok"><?= $counters[Application\Model\Guest::RESP_OK]?></b>  personne(s)</u></p>
-                        <div id="list-ok">
-                            <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
-                                <p class="classic"><?= $user->getFullname() ?></p>
-                            <?php endforeach; ?>
-                        </div>
+            <div class="owl-carousel owl-theme">
+                <div class="text-center item">
+                    <i class="fa fa-check fa-4x green"></i>
+                    <p><u><b id="count-ok"><?= $counters[Application\Model\Guest::RESP_OK]?></b>  personne(s)</u></p>
+                    <div id="list-ok">
+                        <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="text-center item">
-                        <i class="fa fa-times fa-4x red"></i>
-                        <p><u><b id="count-no"><?= $counters[Application\Model\Guest::RESP_NO]?></b>  personne(s)</u></p>
-                        <div id="list-no">
-                            <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
-                                <p class="classic"><?= $user->getFullname() ?></p>
-                            <?php endforeach; ?>
-                        </div>
+                </div>
+                <div class="text-center item">
+                    <i class="fa fa-times fa-4x red"></i>
+                    <p><u><b id="count-no"><?= $counters[Application\Model\Guest::RESP_NO]?></b>  personne(s)</u></p>
+                    <div id="list-no">
+                        <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="text-center item">
-                        <i class="fa fa-question-circle fa-4x blue"></i>
-                        <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_INCERTAIN]?></b>  personne(s)</u></p>
-                        <div id="list-ph">
-                            <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
-                                <p class="classic"><?= $user->getFullname() ?></p>
-                            <?php endforeach; ?>
-                        </div>
+                </div>
+                <div class="text-center item">
+                    <i class="fa fa-question-circle fa-4x blue"></i>
+                    <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_INCERTAIN]?></b>  personne(s)</u></p>
+                    <div id="list-ph">
+                        <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="text-center item">
-                        <i class="fa fa-users fa-4x yellow-text"></i>
-                        <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?></b>  personne(s)</u></p>
-                        <div id="list-wo">
-                            <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
-                                <p class="classic"><?= $user->getFullname() ?></p>
-                            <?php endforeach; ?>
-                        </div>
+                </div>
+                <div class="text-center item">
+                    <i class="fa fa-users fa-4x yellow-text"></i>
+                    <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?></b>  personne(s)</u></p>
+                    <div id="list-wo">
+                        <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
-            <!-- /.container -->
         </div>
-    <?php //endif ?>
+        <!-- /.container -->
+    </div>
 
     <div class="section section-tabs">
         <div class="container">

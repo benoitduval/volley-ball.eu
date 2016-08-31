@@ -23,45 +23,24 @@
                 <div class="row">
                     <?php echo $this->form()->openTag($form); ?>
 
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">email</i>
-                            </span>
-                            <?php echo $this->formElement($form->get('name')); ?>
-                        </div>
-
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">lock_outline</i>
-                            </span>
-                            <?php echo $this->formElement($form->get('description')); ?>
-                        </div>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">lock_outline</i>
-                            </span>
-                            <?php echo $this->formElement($form->get('info')); ?>
-                        </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">email</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('name')); ?>
                     </div>
 
-                    <div class="col-md-6">
-
-                        <div class="togglebutton">
-                            <label>
-                                <?php echo $this->formElement($form->get('enable')); ?>
-                                <i class="fa fa-search-plus" ></i>
-                                Permettre aux utilisateurs de trouver et rejoindre ce groupe.
-                            </label>
-                        </div>
-
-                        <div class="togglebutton">
-                            <label>
-                                <?php echo $this->formElement($form->get('showUsers')); ?>
-                                <i class="fa fa-thumbs-o-up" ></i>
-                                Rendre les disponibilités des joueurs visible pour tous les membres.
-                            </label>
-                        </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock_outline</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('description')); ?>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock_outline</i>
+                        </span>
+                        <?php echo $this->formElement($form->get('info')); ?>
                     </div>
 
                     <div class="col-md-12 footer text-center">

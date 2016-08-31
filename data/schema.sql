@@ -42,8 +42,6 @@ CREATE TABLE `group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userIds` varchar(255) NOT NULL DEFAULT '',
   `adminIds` varchar(255) DEFAULT NULL,
-  `showUsers` tinyint(4) DEFAULT NULL,
-  `enable` tinyint(4) DEFAULT NULL,
   `userId` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
   `brand` varchar(150) NOT NULL,
