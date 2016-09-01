@@ -54,6 +54,29 @@
         </div>
     </div>
 </div>
+
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+        <i class="material-icons md-48">add</i>
+    </a>
+
+    <ul>
+        <li>
+            <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Créer groupe" href="/group/create">
+                <i class="material-icons submenu">group</i>
+            </a>
+        </li>
+        <?php foreach ($groups as $group): ?>
+            <li>
+                <a class="btn-floating red btn-tooltip" data-toggle="tooltip" data-placement="left" title="<?= $group->name ?>" href="/group/detail/<?= $group->id ?>">
+                    <?= strtoupper(substr($group->name, 0, 2));?>
+                </a>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+
 <?php echo $this->partial('partial/signin.phtml') ?>
 <?php echo $this->partial('partial/signup.phtml') ?>
 

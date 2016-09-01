@@ -10,8 +10,8 @@ use Zend\Form\Form;
  */
 class Group extends Form
 {
-	public function __construct($name = null)
-	{
+    public function __construct($name = null)
+    {
         parent::__construct('group');
 
         $this->setAttributes(array(

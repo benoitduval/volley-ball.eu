@@ -33,21 +33,11 @@ class IndexController extends AbstractController
             $groupTable = $this->getContainer()->get(TableGateway\Group::class);
             $eventTable = $this->getContainer()->get(TableGateway\Event::class);
 
-            $menu = [
-                [
-                    'icon'    => 'group',
-                    'tooltip' => 'Créer un groupe',
-                    'link'    => $baseUrl . '/group/create',
-                    'color'   => 'red',
-                ],
-            ];
-
             $guests = $guestTable->fetchAll([
                 'userId' => $this->getUser()->id,
             ]);
 
             $groups   = [];
-            $places   = [];
             $counters = [];
             foreach ($guests as $guest) {
                 $event    = $eventTable->find($guest->eventId);
@@ -66,12 +56,12 @@ class IndexController extends AbstractController
         }
 
         $this->layout()->user = $this->getUser();
-        $this->layout()->menu = $menu;
         return new ViewModel([
             'events'     => $result,
             'signInForm' => $signInForm,
             'signUpForm' => $signUpForm,
             'user'       => $this->getUser(),
+            'groups'     => $groups,
         ]);
     }
 
