@@ -23,15 +23,4 @@ class Guest extends AbstractModel
         self::RESP_INCERTAIN => 'Incertain',
     ];
 
-    public function toArray()
-    {
-        return array(
-            'id'       => (int) $this->_id,
-            'userId'   => (int) $this->_userId,
-            'eventId'  => (int) $this->_eventId,
-            'response' => (int) $this->_response,
-            'groupId'  => (int) $this->_groupId,
-            'date'     => $this->_date,
-        );
-    }
 }

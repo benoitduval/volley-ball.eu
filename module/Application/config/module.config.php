@@ -104,13 +104,14 @@ return [
             Model\EventTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\GuestTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\JoinTableGateway::class         => Factory\TableGatewayFactory::class,
-            Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
             Model\RecurentTableGateway::class     => Factory\TableGatewayFactory::class,
             Model\CommentTableGateway::class      => Factory\TableGatewayFactory::class,
+            Model\UserGroupTableGateway::class    => Factory\TableGatewayFactory::class,
+            Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
 
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
-            Service\MailService::class => Service\Factory\MailServiceFactory::class,
-            Service\Map::class => Service\Factory\MapServiceFactory::class,
+            Service\MailService::class           => Service\Factory\MailServiceFactory::class,
+            Service\Map::class                   => Service\Factory\MapServiceFactory::class,
         ],
     ],
 

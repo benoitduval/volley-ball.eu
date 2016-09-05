@@ -18,11 +18,12 @@ use Application\Model;
 class GroupController extends AbstractController
 {
 
-    public function CreateAction()
+    public function createAction()
     {
 
         $groupForm  = new Form\Group;
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
         $config     = $this->getContainer()->get('config');
 
         $request = $this->getRequest();
@@ -40,7 +41,12 @@ class GroupController extends AbstractController
                 $group->info        = $data['info'];
                 $brand              = $group->initBrand();
 
-                $groupTable->save($group);
+                $groupId = $groupTable->save($group);
+
+                $userGroup          = New Model\UserGroup();
+                $userGroup->userId  = $this->getUser()->id;
+                $userGroup->groupId = $groupId;
+                $userGroupTable->save($userGroup);
 
                 $this->flashMessenger()->addMessage('
                     Votre groupe est maintenant actif.<br/>
@@ -70,55 +76,47 @@ class GroupController extends AbstractController
 
     public function detailAction()
     {
-        $id = (int) $this->params()->fromRoute('id');
+        $id         = (int) $this->params()->fromRoute('id');
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-        $group = $groupTable->find($id);
-        $config = $this->getContainer()->get('config');
-        $baseUrl = $config['baseUrl'];
-        $menu = [
-            [
-                'tooltip' => 'Partager',
-                'icon'    => 'share',
-                'link'    => $baseUrl . '/group/share',
-                'color'   => 'indigo',
-            ],
-            [
-                'tooltip' => 'Éditer',
-                'icon'    => 'edit',
-                'link'    => $baseUrl . '/group/edit',
-                'color'   => 'dark-green',
-            ],
-            [
-                'tooltip' => 'Membres',
-                'icon'    => 'group_add',
-                'link'    => $baseUrl . '/group/member',
-                'color'   => 'amber',
-            ],
-            [
-                'tooltip' => 'Adresses',
-                'icon'    => 'add_location',
-                'link'    => $baseUrl . '/place/all/' . $id,
-                'color'   => 'light-blue',
-            ],
-            [
-                'tooltip' => 'Évèn. récurrent',
-                'icon'    => 'repeat',
-                'link'    => $baseUrl . '/group/recurrent-event',
-                'color'   => 'orange',
-            ],
-            [
-                'tooltip' => 'Évèn. ponctuel',
-                'icon'    => 'event',
-                'link'    => $baseUrl . '/group/event',
-                'color'   => 'pink',
-            ],
-        ];
+        $group      = $groupTable->find($id);
+        $config     = $this->getContainer()->get('config');
+        $baseUrl    = $config['baseUrl'];
+        $result     = [];
 
-        $this->layout()->menu = $menu;
-        return new ViewModel(array(
-            'group' => $group,
-            'user'  => $this->getUser(),
-        ));
+        $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+
+        foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
+            $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId); 
+        }
+
+        $guests = $guestTable->fetchAll([
+            'userId' => $this->getUser()->id,
+            'groupId' => $id,
+        ]);
+
+        $counters = [];
+        foreach ($guests as $guest) {
+            $event    = $eventTable->find($guest->eventId);
+            $counters = $guestTable->getCounters($guest->eventId);
+            $result[$guest->id] = [
+                'group'   => $groups[$guest->groupId],
+                'event'   => $event,
+                'guest'   => $guest,
+                'ok'      => $counters[Model\Guest::RESP_OK],
+                'no'      => $counters[Model\Guest::RESP_NO],
+                'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
+                'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $guest->date),
+            ];
+        }
+
+        $this->layout()->user = $this->getUser();
+        return new ViewModel([
+            'events'     => $result,
+            'user'       => $this->getUser(),
+            'groups'     => $groups,
+        ]);
     }
 
 }

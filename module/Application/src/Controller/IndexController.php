@@ -24,25 +24,27 @@ class IndexController extends AbstractController
         $signUpForm = new SignUp();
         $config     = $this->getContainer()->get('config');
         $baseUrl    = $config['baseUrl'];
+        $groups     = [];
+        $result     = [];
 
-
-        $result = [];
-        $menu = false;
         if ($this->getUser()) {
-            $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
-            $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-            $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+            $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
+            $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
+            $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+            $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+
+            foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
+                $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId); 
+            }
 
             $guests = $guestTable->fetchAll([
                 'userId' => $this->getUser()->id,
             ]);
 
-            $groups   = [];
             $counters = [];
             foreach ($guests as $guest) {
                 $event    = $eventTable->find($guest->eventId);
                 $counters = $guestTable->getCounters($guest->eventId);
-                if (!isset($groups[$guest->groupId])) $groups[$guest->groupId] = $groupTable->find($guest->groupId);
                 $result[$guest->id] = [
                     'group'   => $groups[$guest->groupId],
                     'event'   => $event,

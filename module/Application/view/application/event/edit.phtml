@@ -17,118 +17,124 @@
         <div class="section section-basic">
             <div class="container">
                 <div class="title">
-                    <h2><b><?= $group->name ?></b> - Nouvelle Adresse</h2>
+                    <h2><b><?= $group->name ?></b> - Nouvel évènement</h2>
                 </div>
 
                 <div class="row">
                     <?php echo $this->form()->openTag($form); ?>
 
                     <div class="col-md-12">
-                        <div class="form-group label-floating  is-filled">
+                        <div class="col-md-6">
+
+                            <div class="title">
+                                <h4>Informations</h4>
+                            </div>
+
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">account_balance</i>
+                                    </span>
+                                    <label class="control-label" for="name">
+                                        Nom de l'évènement
+                                    </label>
+                                    <?php echo $this->formInput($form->get('name')); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">local_post_office</i>
+                                    </span>
+                                    <label class="control-label" for="date">
+                                        Date
+                                    </label>
+                                    <?php echo $this->formInput($form->get('date')); ?>
+                                </div>
+                            </div>
+
                             <div class="input-group">
                                 <span class="input-group-addon">
-                                    <i class="material-icons">account_balance</i>
+                                    <i class="material-icons">comment</i>
                                 </span>
-                                <label class="control-label" for="name">
-                                    Nom de l'évènement
-                                </label>
-                                <?php echo $this->formInput($form->get('name')); ?>
+                                <?php echo $this->formElement($form->get('comment')); ?>
                             </div>
                         </div>
-
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">local_post_office</i>
-                                </span>
-                                <label class="control-label" for="date">
-                                    Date
-                                </label>
-                                <?php echo $this->formInput($form->get('date')); ?>
+                        <div class="col-md-6">
+                            <div class="title">
+                                <h4>Adresse</h4>
                             </div>
-                        </div>
-
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">account_balance</i>
-                                </span>
-                                <label class="control-label" for="place">
-                                    Nom du Gymnase / Lieu
-                                </label>
-                                <?php echo $this->formInput($form->get('place')); ?>
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">account_balance</i>
+                                    </span>
+                                    <label class="control-label" for="place">
+                                        Nom du Gymnase / Lieu
+                                    </label>
+                                    <?php echo $this->formInput($form->get('place')); ?>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">local_post_office</i>
-                                </span>
-                                <label class="control-label" for="address">
-                                    Adresse
-                                </label>
-                                <?php echo $this->formInput($form->get('address')); ?>
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">local_post_office</i>
+                                    </span>
+                                    <label class="control-label" for="address">
+                                        Adresse
+                                    </label>
+                                    <?php echo $this->formInput($form->get('address')); ?>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">language</i>
-                                </span>
-                                <label class="control-label" for="zipCode">
-                                    Code Postal
-                                </label>
-                                <?php echo $this->formInput($form->get('zipCode')); ?>
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">language</i>
+                                    </span>
+                                    <label class="control-label" for="zipCode">
+                                        Code Postal
+                                    </label>
+                                    <?php echo $this->formInput($form->get('zipCode')); ?>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">location_city</i>
-                                </span>
-                                <label class="control-label" for="city">
-                                    Ville
-                                </label>
-                                <?php echo $this->formInput($form->get('city')); ?>
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">location_city</i>
+                                    </span>
+                                    <label class="control-label" for="city">
+                                        Ville
+                                    </label>
+                                    <?php echo $this->formInput($form->get('city')); ?>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">location_city</i>
-                                </span>
-                                <label class="control-label" for="long">
-                                    Longitude
-                                </label>
-                                <?php echo $this->formInput($form->get('long')); ?>
+                            <div class="form-group label-floating  is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">location_city</i>
+                                    </span>
+                                    <label class="control-label" for="long">
+                                        Longitude
+                                    </label>
+                                    <?php echo $this->formInput($form->get('long')); ?>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">location_city</i>
-                                </span>
-                                <label class="control-label" for="lat">
-                                    Lattitude
-                                </label>
-                                <?php echo $this->formInput($form->get('lat')); ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group label-floating  is-filled">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">language</i>
-                                </span>
-                                <label class="control-label" for="comment">
-                                    Commentaire
-                                </label>
-                                <?php echo $this->formInput($form->get('comment')); ?>
+                            <div class="form-group label-floating  is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">location_city</i>
+                                    </span>
+                                    <label class="control-label" for="lat">
+                                        Lattitude
+                                    </label>
+                                    <?php echo $this->formInput($form->get('lat')); ?>
+                                </div>
                             </div>
                         </div>
 

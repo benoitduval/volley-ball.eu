@@ -108,18 +108,25 @@ class EventController extends AbstractController
 
     public function detailAction()
     {
-        $eventId      = $this->params()->fromRoute('id');
-        $eventTable   = $this->getContainer()->get(TableGateway\Event::class);
-        $groupTable   = $this->getContainer()->get(TableGateway\Group::class);
-        $guestTable   = $this->getContainer()->get(TableGateway\Guest::class);
-        $userTable    = $this->getContainer()->get(TableGateway\User::class);
-        $commentTable = $this->getContainer()->get(TableGateway\Comment::class);
+        $eventId        = $this->params()->fromRoute('id');
+        $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+        $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
+        $userTable      = $this->getContainer()->get(TableGateway\User::class);
+        $commentTable   = $this->getContainer()->get(TableGateway\Comment::class);
 
         $form = new Form\Comment();
 
         $event     = $eventTable->find($eventId);
         $comments  = $commentTable->fetchAll($eventId);
         $group     = $groupTable->find($event->groupId);
+        $isMember  = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
+        $isAdmin   = false;
+        if ($isMember) {
+            $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
+        }
+
         $counters  = $guestTable->getCounters($eventId);
         $guests    = $guestTable->fetchAll(['eventId' => $eventId]);
         $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
@@ -177,6 +184,8 @@ class EventController extends AbstractController
             'users'    => $availability,
             'user'     => $this->getUser(),
             'date'     => $eventDate,
+            'isAdmin'  => $isAdmin,
+            'isMember' => $isMember,
         ]);
     }
 

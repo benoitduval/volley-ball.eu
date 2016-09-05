@@ -1,7 +1,6 @@
 --
 -- Table structure for table `comment`
 --
-
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -15,7 +14,6 @@ CREATE TABLE `comment` (
 --
 -- Table structure for table `event`
 --
-
 DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -36,7 +34,6 @@ CREATE TABLE `event` (
 --
 -- Table structure for table `group`
 --
-
 DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -51,9 +48,21 @@ CREATE TABLE `group` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `usergroup`
+--
+DROP TABLE IF EXISTS `usergroup`;
+CREATE TABLE `usergroup` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userId` int(11) unsigned NOT NULL,
+  `groupId` int(11) unsigned NOT NULL,
+  `admin` tinyint(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`userId`, `groupId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `guest`
 --
-
 DROP TABLE IF EXISTS `guest`;
 CREATE TABLE `guest` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -68,7 +77,6 @@ CREATE TABLE `guest` (
 --
 -- Table structure for table `join`
 --
-
 DROP TABLE IF EXISTS `join`;
 CREATE TABLE `join` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -81,7 +89,6 @@ CREATE TABLE `join` (
 --
 -- Table structure for table `user`
 --
-
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

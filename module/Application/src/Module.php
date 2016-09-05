@@ -63,6 +63,10 @@ class Module implements ConfigProviderInterface
                     $tableGateway = $container->get(Model\RecurentTableGateway::class);
                     return new TableGateway\Recurent($tableGateway);
                 },
+                TableGateway\UserGroup::class => function($container) {
+                    $tableGateway = $container->get(Model\UserGroupTableGateway::class);
+                    return new TableGateway\UserGroup($tableGateway);
+                },
             ],
         ];
     }
