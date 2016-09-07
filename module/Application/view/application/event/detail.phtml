@@ -180,6 +180,13 @@
                     <i class="material-icons submenu">edit</i>
                 </a>
             </li>
+            <?php if ($match): ?>
+                <li>
+                    <a class="btn-floating pink btn-tooltip" data-toggle="tooltip" data-placement="left" title="Résultat" href="/match/edit/<?= $match->id ?>">
+                        <i class="material-icons submenu">content_paste</i>
+                    </a>
+                </li>
+            <?php endif ?>
         <?php endif ?>
         <li>
             <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Incertain" href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>">

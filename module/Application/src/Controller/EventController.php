@@ -24,9 +24,11 @@ class EventController extends AbstractController
         $form = new Form\Event();
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $post    = $request->getPost()->toArray();
+            $post  = $request->getPost();
+            $match = isset($post->match);
+            unset($post->match);
 
-            $form->setData($request->getPost());
+            $form->setData($post);
             if ($form->isValid()) {
 
                 $data = $form->getData();
@@ -92,10 +94,20 @@ class EventController extends AbstractController
                 ]);
                 $mail->send();
 
+                if ($match) {
+                    $match = new Model\Match();
+                    $match->eventId = $event->id;
+                    $matchTable = $this->getContainer()->get(TableGateway\Match::class);
+                    $matchTable->save($match);
+                }
+
                 $this->flashMessenger()->addMessage('Votre évènement a bien été créé.
                     Les notifications ont été envoyés aux membres du groupe.');
                 $this->redirect()->toRoute('home');
+            } else {
+                \Zend\Debug\Debug::dump("[]");die;
             }
+
         }
 
         return new ViewModel([
@@ -115,10 +127,13 @@ class EventController extends AbstractController
         $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
         $userTable      = $this->getContainer()->get(TableGateway\User::class);
         $commentTable   = $this->getContainer()->get(TableGateway\Comment::class);
+        $matchTable     = $this->getContainer()->get(TableGateway\Match::class);
 
         $form = new Form\Comment();
 
         $event     = $eventTable->find($eventId);
+
+        $match     = $matchTable->fetchOne(['eventId' => $event->id]);
         $comments  = $commentTable->fetchAll($eventId);
         $group     = $groupTable->find($event->groupId);
         $isMember  = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
@@ -176,6 +191,7 @@ class EventController extends AbstractController
 
         $this->layout()->opacity = true;
         return new ViewModel([
+            'match'    => $match,
             'counters' => $test,
             'comments' => $result,
             'event'    => $event,

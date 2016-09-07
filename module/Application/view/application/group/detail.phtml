@@ -63,27 +63,27 @@
 
         <ul>
             <li>
-                <a class="btn-floating indigo btn-tooltip" data-toggle="tooltip" data-placement="left" title="Partager" href="/group/share/<?= $groupId ?>">
+                <a class="btn-floating indigo btn-tooltip" data-toggle="tooltip" data-placement="left" title="Partager" href="/group/share/<?= $group->id ?>">
                     <i class="material-icons submenu">share</i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating orange btn-tooltip" data-toggle="tooltip" data-placement="left" title="Membres" href="/group/share/<?= $groupId ?>">
+                <a class="btn-floating orange btn-tooltip" data-toggle="tooltip" data-placement="left" title="Membres" href="/group/share/<?= $group->id ?>">
                     <i class="material-icons submenu">group</i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating dark-green btn-tooltip" data-toggle="tooltip" data-placement="left" title="Éditer" href="/group/edit/<?= $groupId ?>">
+                <a class="btn-floating dark-green btn-tooltip" data-toggle="tooltip" data-placement="left" title="Éditer" href="/group/edit/<?= $group->id ?>">
                     <i class="material-icons submenu">edit</i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Évèn. Récurent" href="/recurent/create/<?= $groupId ?>">
+                <a class="btn-floating amber btn-tooltip" data-toggle="tooltip" data-placement="left" title="Évèn. Récurent" href="/recurent/create/<?= $group->id ?>">
                     <i class="material-icons submenu">repeat</i>
                 </a>
             </li>
             <li>
-                <a class="btn-floating pink btn-tooltip" data-toggle="tooltip" data-placement="left" title="Évèn. Ponctuel" href="/event/create/<?= $groupId ?>">
+                <a class="btn-floating pink btn-tooltip" data-toggle="tooltip" data-placement="left" title="Évèn. Ponctuel" href="/event/create/<?= $group->id ?>">
                     <i class="material-icons submenu">event</i>
                 </a>
             </li>

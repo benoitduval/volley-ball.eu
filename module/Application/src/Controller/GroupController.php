@@ -32,7 +32,7 @@ class GroupController extends AbstractController
             $groupForm->setData($request->getPost());
             if ($groupForm->isValid()) {
 
-                $data  = $groupForm->getData();
+                $data               = $groupForm->getData();
                 $group              = New Model\Group();
                 $group->name        = ucfirst($data['name']);
                 $group->userId      = $this->getUser()->id;
@@ -46,6 +46,7 @@ class GroupController extends AbstractController
                 $userGroup          = New Model\UserGroup();
                 $userGroup->userId  = $this->getUser()->id;
                 $userGroup->groupId = $groupId;
+                $userGroup->admin   = 1;
                 $userGroupTable->save($userGroup);
 
                 $this->flashMessenger()->addMessage('
@@ -92,7 +93,7 @@ class GroupController extends AbstractController
         }
 
         $guests = $guestTable->fetchAll([
-            'userId' => $this->getUser()->id,
+            'userId'  => $this->getUser()->id,
             'groupId' => $id,
         ]);
 
@@ -116,6 +117,7 @@ class GroupController extends AbstractController
             'events'     => $result,
             'user'       => $this->getUser(),
             'groups'     => $groups,
+            'group'      => $group,
         ]);
     }
 

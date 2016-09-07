@@ -52,6 +52,9 @@ $(document).ready(function() {
         offsetY = 40;
       }
 
+      $button = $('.main-button');
+      $button.html('expand_more');
+
       $this.addClass('active');
       $this.find('ul .btn-floating').velocity(
         { scaleY: ".4", scaleX: ".4", translateY: offsetY + 'px', translateX: offsetX + 'px'},
@@ -78,6 +81,9 @@ $(document).ready(function() {
     } else {
       offsetY = 40;
     }
+
+    $button = $('.main-button');
+    $button.html('expand_less');
 
     $this.removeClass('active');
     var time = 0;

@@ -100,7 +100,7 @@ return [
         'factories' => [
             Model\UserTableGateway::class         => Factory\TableGatewayFactory::class,
             Model\GroupTableGateway::class        => Factory\TableGatewayFactory::class,
-            Model\BadgeTableGateway::class        => Factory\TableGatewayFactory::class,
+            Model\MatchTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\EventTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\GuestTableGateway::class        => Factory\TableGatewayFactory::class,
             Model\JoinTableGateway::class         => Factory\TableGatewayFactory::class,

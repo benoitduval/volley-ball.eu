@@ -120,16 +120,18 @@ CREATE TABLE `recurent` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `badge`
+-- Table structure for table `match`
 --
-DROP TABLE IF EXISTS `badge`;
-CREATE TABLE `badge` (
+DROP TABLE IF EXISTS `match`;
+CREATE TABLE `match` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) unsigned NOT NULL,
-  `itemType` tinyint(4) NOT NULL DEFAULT '0',
-  `itemId` int(11) DEFAULT NULL,
+  `eventId` int(11) unsigned NOT NULL,
+  `scoreA` tinyint(4) NULL DEFAULT NULL,
+  `scoreB` tinyint(4) NULL DEFAULT NULL,
+  `team` varchar(100) NULL DEFAULT NULL,
+  `debrief` text,
   PRIMARY KEY (`id`),
-  KEY (`userId`, `itemId`, `itemType`)
+  KEY (`eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

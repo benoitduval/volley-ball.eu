@@ -39,9 +39,9 @@ class Module implements ConfigProviderInterface
                     $tableGateway = $container->get(Model\GroupTableGateway::class);
                     return new TableGateway\Group($tableGateway);
                 },
-                TableGateway\Badge::class => function($container) {
-                    $tableGateway = $container->get(Model\BadgeTableGateway::class);
-                    return new TableGateway\Badge($tableGateway);
+                TableGateway\Match::class => function($container) {
+                    $tableGateway = $container->get(Model\MatchTableGateway::class);
+                    return new TableGateway\Match($tableGateway);
                 },
                 TableGateway\Event::class => function($container) {
                     $tableGateway = $container->get(Model\EventTableGateway::class);

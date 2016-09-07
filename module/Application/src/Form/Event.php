@@ -126,7 +126,6 @@ class Event extends Form
             ],
         ]);
 
-
         $this->add([
             'name' => 'submit',
             'type' => Element\Submit::class,
