@@ -95,10 +95,10 @@ function carousel() {
 }
 
 function fab() {
-    if ($('.fixed-action-btn').lenght > 0) {
+    if (($(".fixed-action-btn").length > 0)) {
+        window_width = $(window).width();
         if (window_width <= 1024){
             $('.fixed-action-btn').addClass('click-to-toggle');
         }
     }
-    window_width = $(window).width();
 }
