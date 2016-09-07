@@ -50,8 +50,8 @@ CREATE TABLE `group` (
 --
 -- Table structure for table `usergroup`
 --
-DROP TABLE IF EXISTS `usergroup`;
-CREATE TABLE `usergroup` (
+DROP TABLE IF EXISTS `userGroup`;
+CREATE TABLE `userGroup` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) unsigned NOT NULL,
   `groupId` int(11) unsigned NOT NULL,
