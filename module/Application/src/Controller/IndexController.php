@@ -33,18 +33,28 @@ class IndexController extends AbstractController
             $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
             $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
 
+            $today = new \DateTime('today midnight');
             foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
-                $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId); 
+                $groupIds[] = $userGroup->groupId;
+                $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId);
             }
 
-            $guests = $guestTable->fetchAll([
-                'userId' => $this->getUser()->id,
-            ]);
+            $events = $eventTable->fetchAll([
+                'groupId'   => $groupIds,
+                'date >= ?' => $today->format('Y-m-d H:i:s')
+            ], 'date ASC');
 
             $counters = [];
-            foreach ($guests as $guest) {
-                $event    = $eventTable->find($guest->eventId);
-                $counters = $guestTable->getCounters($guest->eventId);
+            foreach ($events as $event) {
+                $eventIds[]         = $event->id;
+                $userEvents[$event->id] = $event;
+
+                $guest = $guestTable->fetchOne([
+                    'userId'  => $this->getUser()->id,
+                    'eventId' => $event->id
+                ]);
+
+                $counters = $guestTable->getCounters($event->id);
                 $result[$guest->id] = [
                     'group'   => $groups[$guest->groupId],
                     'event'   => $event,
@@ -52,7 +62,7 @@ class IndexController extends AbstractController
                     'ok'      => $counters[Model\Guest::RESP_OK],
                     'no'      => $counters[Model\Guest::RESP_NO],
                     'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
-                    'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $guest->date),
+                    'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
                 ];
             }
         }

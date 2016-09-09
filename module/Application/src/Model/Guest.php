@@ -13,7 +13,6 @@ class Guest extends AbstractModel
     protected $_userId   = null;
     protected $_eventId  = null;
     protected $_response = null;
-    protected $_date     = null;
     protected $_groupId  = null;
 
     public static $literalDisponbility = [
@@ -22,5 +21,4 @@ class Guest extends AbstractModel
         self::RESP_NO        => 'Absent',
         self::RESP_INCERTAIN => 'Incertain',
     ];
-
 }

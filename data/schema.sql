@@ -70,7 +70,6 @@ CREATE TABLE `guest` (
   `userId` int(11) unsigned NOT NULL,
   `response` tinyint(4) NOT NULL DEFAULT '0',
   `groupId` int(5) DEFAULT NULL,
-  `date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

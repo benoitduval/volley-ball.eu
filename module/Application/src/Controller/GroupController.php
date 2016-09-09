@@ -20,7 +20,6 @@ class GroupController extends AbstractController
 
     public function createAction()
     {
-
         $groupForm  = new Form\Group;
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
         $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
@@ -41,8 +40,7 @@ class GroupController extends AbstractController
                 $group->info        = $data['info'];
                 $brand              = $group->initBrand();
 
-                $groupId = $groupTable->save($group);
-
+                $groupId            = $groupTable->save($group);
                 $userGroup          = New Model\UserGroup();
                 $userGroup->userId  = $this->getUser()->id;
                 $userGroup->groupId = $groupId;
@@ -77,12 +75,12 @@ class GroupController extends AbstractController
 
     public function detailAction()
     {
-        $id         = (int) $this->params()->fromRoute('id');
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-        $group      = $groupTable->find($id);
-        $config     = $this->getContainer()->get('config');
-        $baseUrl    = $config['baseUrl'];
-        $result     = [];
+        $id             = (int) $this->params()->fromRoute('id');
+        $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
+        $group          = $groupTable->find($id);
+        $config         = $this->getContainer()->get('config');
+        $baseUrl        = $config['baseUrl'];
+        $result         = [];
 
         $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
         $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
@@ -108,7 +106,7 @@ class GroupController extends AbstractController
                 'ok'      => $counters[Model\Guest::RESP_OK],
                 'no'      => $counters[Model\Guest::RESP_NO],
                 'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
-                'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $guest->date),
+                'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
             ];
         }
 

@@ -24,20 +24,20 @@
                 </div>
                 <div class="user card text-center">
                     <div class="agenda">
-                            <div class="agenda-header">
-                                <b><?= $date->format("F") ?></b>
-                            </div>
-                            <div class="agenda-content">
-                                <p><?= $date->format("l") ?></p>
-                                <p class="day"><?= $date->format("d") ?><p>
-                            </div>
+                        <div class="agenda-header">
+                            <b><?= $date->format("F") ?></b>
+                        </div>
+                        <div class="agenda-content">
+                            <p><?= $date->format("l") ?></p>
+                            <p class="day"><?= $date->format("d") ?><p>
+                        </div>
                     </div>
                 </div>
                 <div class="content">
                     <div class="main">
                         <h3 class="name"><?= $event->name ?></h3>
                         <p class="profession"><?= $group->name ?></p>
-                        <p class="text-center">Le RDV est à <b><?= $date->format("H\hs") ?></b></p>
+                        <p class="text-center">Le RDV est à <b><?= $date->format("H\hi") ?></b></p>
                         <p class="text-center">
                             <?= $event->place ?><br/>
                             <?= $event->address ?><br/>
@@ -57,7 +57,9 @@
                     <div class="main">
                         <h3 class="name"><?= $event->name ?></h3>
                         <p class="profession"><?= $group->name ?></p>
-                        <p class="text-center"><a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
+                        <p class="text-center">
+                            <a href="/event/detail/<?= $event->id ?>">Voir les Détails</a>
+                        </p>
 
                         <div class="stats-container">
                             <div class="stats">
@@ -84,7 +86,7 @@
                 </div>
                 <div>
                     <div class="text-center">
-                        <a href="/event/detail/<?= $event->id ?>">Voir les Détails</a>
+                        <a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a>
                     </div>
                 </div>
             </div> <!-- end back panel -->
