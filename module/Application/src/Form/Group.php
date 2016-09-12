@@ -26,7 +26,6 @@ class Group extends Form
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => 'Nom du groupe',
                 'required' => 'required',
             ],
         ]);
@@ -39,6 +38,7 @@ class Group extends Form
                 'label' => 'Description',
             ],
             'attributes' => [
+                'rows' => 5,
                 'placeholder' => 'Description du club, équipes etc',
                 'class' => 'form-control',
             ],
@@ -49,6 +49,7 @@ class Group extends Form
             'name' => 'info',
             'type' => Element\Textarea::class,
             'attributes' => [
+                'rows' => 5,
                 'class' => 'form-control',
                 'placeholder' => 'Information concernant les séances (niveau, jour, horaire ...)',
             ],

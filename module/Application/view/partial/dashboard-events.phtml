@@ -64,19 +64,19 @@
                         <div class="stats-container">
                             <div class="stats">
                                 <h4><?= $ok ?></h4>
-                                <a href="#" class="btn-tooltip btn btn-success btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>présent</b> à l'évènement">
+                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" class="btn-tooltip btn btn-success btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>présent</b> à l'évènement">
                                     Présent
                                 </a>
                             </div>
                             <div class="stats">
                                 <h4><?= $no ?></h4>
-                                <a href="#" class="btn-tooltip btn btn-danger btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>Absent</b> à l'évènement">
+                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>" class="btn-tooltip btn btn-danger btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>Absent</b> à l'évènement">
                                     Absent
                                 </a>
                             </div>
                             <div class="stats">
                                 <h4><?= $perhaps ?></h4>
-                                <a href="#" class="btn-tooltip btn btn-warning btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>à confirmer</b> à l'évènement">
+                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="btn-tooltip btn btn-warning btn-round btn-xs" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>à confirmer</b> à l'évènement">
                                     Attente
                                 </a>
                             </div>

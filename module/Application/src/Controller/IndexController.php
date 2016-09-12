@@ -46,7 +46,7 @@ class IndexController extends AbstractController
 
             $counters = [];
             foreach ($events as $event) {
-                $eventIds[]         = $event->id;
+                $eventIds[] = $event->id;
                 $userEvents[$event->id] = $event;
 
                 $guest = $guestTable->fetchOne([

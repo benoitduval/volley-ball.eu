@@ -119,4 +119,32 @@ class GroupController extends AbstractController
         ]);
     }
 
+    public function editAction()
+    {
+        $id         = (int) $this->params()->fromRoute('id');
+        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $group      = $groupTable->find($id);
+        $form       = new Form\Group;
+
+        $form->setData($group->toArray());
+        $request    = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $group->exchangeArray($data);
+                $groupTable->save($group);
+            }
+            $this->flashMessenger()->addMessage('Votre groupe a bien été modifié.');
+            $this->redirect()->toRoute('group', ['action' => 'detail', 'id' => $id]);
+        }
+
+        $this->layout()->user = $this->getUser();
+        return new ViewModel(array(
+            'form'    => $form,
+            'user'    => $this->getUser(),
+            'group'   => isset($group) ? $group : '',
+        ));
+    }
+
 }
