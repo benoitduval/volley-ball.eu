@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'zf2-whoops' => array($vendorDir . '/ghislainf/zf2-whoops/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
 );

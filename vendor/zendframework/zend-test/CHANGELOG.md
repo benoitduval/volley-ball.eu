@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.0.2 - 2016-09-06
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#33](https://github.com/zendframework/zend-test/pull/33) fixes
+  `queryContentRegexAssertion()` (used by `assertQueryContentRegex()` and
+  `assertXpathQueryContentRegex()`) properly checks all matching nodes for
+  content matching the regular expression, instead of only the first. The
+  prevents false negative assertions from occuring.
+- [#21](https://github.com/zendframework/zend-test/pull/21) updates the
+  `sebastian/version` dependency to also allow v2.0 releases.
+- [#31](https://github.com/zendframework/zend-test/pull/31) fixes an issue with
+  the `AbstractControllerTestCase` when used to test a console request.
+  Previously, routes with multiple literal flags were never matched; they now
+  are.
+
 ## 3.0.1 - 2016-06-15
 
 ### Added

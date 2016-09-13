@@ -68,6 +68,7 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         ),
         'W' => 
         array (
+            'Whoops\\' => 7,
             'Webmozart\\Assert\\' => 17,
         ),
         'S' => 
@@ -290,6 +291,10 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         array (
             0 => __DIR__ . '/..' . '/zfcampus/zf-development-mode/src',
         ),
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
@@ -329,6 +334,13 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
     );
 
     public static $prefixesPsr0 = array (
+        'z' => 
+        array (
+            'zf2-whoops' => 
+            array (
+                0 => __DIR__ . '/..' . '/ghislainf/zf2-whoops/src',
+            ),
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 
@@ -796,6 +808,7 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         'SebastianBergmann\\ResourceOperations\\ResourceOperations' => __DIR__ . '/..' . '/sebastian/resource-operations/src/ResourceOperations.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
+        'Zf2Whoops\\Module' => __DIR__ . '/..' . '/ghislainf/zf2-whoops/Module.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

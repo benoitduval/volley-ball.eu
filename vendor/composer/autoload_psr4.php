@@ -54,6 +54,7 @@ return array(
     'Zend\\Authentication\\' => array($vendorDir . '/zendframework/zend-authentication/src'),
     'ZendDeveloperTools\\' => array($vendorDir . '/zendframework/zend-developer-tools/src'),
     'ZF\\DevelopmentMode\\' => array($vendorDir . '/zfcampus/zf-development-mode/src'),
+    'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),

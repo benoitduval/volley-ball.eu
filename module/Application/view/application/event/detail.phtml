@@ -86,7 +86,7 @@
 
             <div class="owl-carousel owl-theme">
                 <div class="text-center item">
-                    <i class="fa fa-check fa-4x green"></i>
+                    <i class="material-icons green-text large">event_available</i>
                     <p><u><b id="count-ok"><?= $counters[Application\Model\Guest::RESP_OK]?></b>  personne(s)</u></p>
                     <div id="list-ok">
                         <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div class="text-center item">
-                    <i class="fa fa-times fa-4x red"></i>
+                    <i class="material-icons red-text large">event_busy</i>
                     <p><u><b id="count-no"><?= $counters[Application\Model\Guest::RESP_NO]?></b>  personne(s)</u></p>
                     <div id="list-no">
                         <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="text-center item">
-                    <i class="fa fa-question-circle fa-4x blue"></i>
+                    <i class="material-icons yellow-text large">date_range</i>
                     <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_INCERTAIN]?></b>  personne(s)</u></p>
                     <div id="list-ph">
                         <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
                 <div class="text-center item">
-                    <i class="fa fa-users fa-4x yellow-text"></i>
+                    <i class="material-icons large">hourglass_empty</i>
                     <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?></b>  personne(s)</u></p>
                     <div id="list-wo">
                         <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>

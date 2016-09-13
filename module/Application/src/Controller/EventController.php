@@ -106,9 +106,9 @@ class EventController extends AbstractController
             } else {
                 \Zend\Debug\Debug::dump("nop");die;
             }
-
         }
 
+        $this->layout()->user = $this->getUser();
         return new ViewModel([
             'group'  => $group,
             'form'   => $form,
@@ -189,6 +189,7 @@ class EventController extends AbstractController
         $baseUrl    = $config['baseUrl'];
 
         $this->layout()->opacity = true;
+        $this->layout()->user = $this->getUser();
         return new ViewModel([
             'match'    => $match,
             'counters' => $test,
@@ -269,55 +270,11 @@ class EventController extends AbstractController
             }
         }
 
+        $this->layout()->user = $this->getUser();
         return new ViewModel([
             'group'  => $group,
             'form'   => $form,
             'user'   => $this->getUser(),
         ]);
     }
-
-    // public function deleteAction()
-    // {
-    //     $eventId       = $this->params('eventId');
-    //     $eventMapper   = $this->_getMapper('event');
-    //     $groupMapper   = $this->_getMapper('group');
-    //     $guestMapper   = $this->_getMapper('guest');
-    //     $commentMapper = $this->_getMapper('comment');
-    //     $event         = $eventMapper->getById($eventId);
-
-    //     $group = $this->_getMapper('group')->getById($event->groupId);
-
-    //     if(!$group->isAdmin($this->user->id)) {
-    //         $this->redirect()->toRoute('volley/not-found');
-    //     }
-
-    //     $comments = $commentMapper->fetchAll([
-    //         'eventId' => $eventId
-    //     ]);
-
-    //     $guests = $guestMapper->fetchAll([
-    //         'eventId' => $eventId
-    //     ]);
-
-    //     // delete comment
-    //     foreach ($comments as $comment) {
-    //         $commentMapper->delete($comment->id);
-    //     }
-
-    //     // delete guest
-    //     foreach ($guests as $guest) {
-    //         $guestMapper->delete($guest->id);
-    //     }
-
-    //     // delete event
-    //     $eventMapper->delete($eventId);
-
-
-    //     $this->flashMessenger()->addMessage('Évènement supprimé.');
-    //     $this->redirect()->toRoute('volley/default');
-
-    //     // Mail Event deleted
-    //     // if (!$notifMapper->isAllowed(Notification::EVENT_UPDATE, $guest->userId)) continue;
-
-    // }
 }

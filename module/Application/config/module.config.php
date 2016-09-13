@@ -92,6 +92,21 @@ return [
             ],
         ],
     ],
+    'console' => [
+        'router' => [
+            'routes' => [
+                'migration' => [
+                    'options' => [
+                        'route'    => 'migration [--verbose|-v]',
+                        'defaults' => [
+                            'controller' => Controller\ConsoleController::class,
+                            'action'     => 'migration',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
 
     'service_manager' => [
         'invokable' => [

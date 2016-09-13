@@ -238,3 +238,20 @@ button.btn-floating {
 .index-page .wrapper > .header-map {
   height: 60vh;
 }
+
+
+div.item i.red-text {
+    color: #f44336;
+}
+
+div.item i.yellow-text {
+    color: #fbc02d;
+}
+
+div.item i.green-text {
+    color: #4caf50;
+}
+
+div.item i.large {
+    font-size:4em;
+}
