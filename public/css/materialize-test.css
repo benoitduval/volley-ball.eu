@@ -320,15 +320,3 @@ div.item i.large {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
-
-
-
-/*** Desktop Only Styles ***/
-@media only screen and (min-width: 993px) {
-/*  .mobile-fab-tip {
-    display: none;
-  }*/
-  .overlay {
-    display: none;
-  }
-}

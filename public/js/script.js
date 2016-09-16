@@ -95,13 +95,6 @@ function carousel() {
 }
 
 function fab() {
-    // if (($(".fixed-action-btn").length > 0)) {
-    //     window_width = $(window).width();
-    //     if (window_width <= 1024){
-    //         $('.fixed-action-btn').addClass('click-to-toggle');
-    //     }
-    // }
-
     var width = 0;
     $('.overlay-trigger').click(overlay);
     $('.overlay').click(hideOverlay);
@@ -109,6 +102,7 @@ function fab() {
 
     function overlay(event) {
       if (window.innerWidth < 992) {
+        // $('.fixed-action-btn').addClass('click-to-toggle');
         if ($('.overlay').css('display') == 'none') {
           $('.overlay').css({
             'display': 'block'
