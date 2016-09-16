@@ -210,6 +210,12 @@ nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul 
   line-height: 57.5px;
 }
 
+.fixed-action-btn a.btn-floating:hover
+{
+    color:#FFF;
+    text-decoration: none;
+}
+
 button.btn-floating {
   border: none;
 }
@@ -282,7 +288,7 @@ div.item i.large {
     right: 85px;
     padding: 7px 5px 4px 5px;
     text-align: right;
-    background-color: #323232;
+    background-color: #666;
     border-radius: 2px;
     color: #FFF;
     opacity: 0;
