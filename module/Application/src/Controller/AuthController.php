@@ -100,6 +100,10 @@ class AuthController extends AbstractController
             }
         }
         $this->redirect()->toRoute('home');
+        $view = new ViewModel([
+            'result' => ['ok']
+        ]);
+        $view->setTerminal(true);
     }
 
     public function verifyAction()
@@ -125,5 +129,9 @@ class AuthController extends AbstractController
             $this->flashMessenger()->addErrorMessage('Désolé, nous n\'avons pas pu confirmer votre compte, un erreur est survenue lors de cette vérification. Merci de me contacter afin de régler ce soucis.');
         }
         $this->redirect()->toRoute('home');
+        $view = new ViewModel([
+            'result' => ['ok']
+        ]);
+        $view->setTerminal(true);
     }
 }

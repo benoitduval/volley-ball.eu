@@ -95,10 +95,36 @@ function carousel() {
 }
 
 function fab() {
-    if (($(".fixed-action-btn").length > 0)) {
-        window_width = $(window).width();
-        if (window_width <= 1024){
-            $('.fixed-action-btn').addClass('click-to-toggle');
+    // if (($(".fixed-action-btn").length > 0)) {
+    //     window_width = $(window).width();
+    //     if (window_width <= 1024){
+    //         $('.fixed-action-btn').addClass('click-to-toggle');
+    //     }
+    // }
+
+    var width = 0;
+    $('.overlay-trigger').click(overlay);
+    $('.overlay').click(hideOverlay);
+    $(window).on("scroll", hideOverlay);
+
+    function overlay(event) {
+      if (window.innerWidth < 992) {
+        if ($('.overlay').css('display') == 'none') {
+          $('.overlay').css({
+            'display': 'block'
+          });
+          width = window.innerWidth;
         }
+      }
+    }
+
+    function hideOverlay(event) {
+      if (width < 992) {
+        if ($('.overlay').css('display') == 'block') {
+          $('.overlay').css({
+            'display': 'none'
+          });
+        }
+      }
     }
 }

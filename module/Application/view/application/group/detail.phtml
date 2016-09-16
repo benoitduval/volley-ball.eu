@@ -1,3 +1,9 @@
+<!-- Gray semi-transparent overlay
+If you don't want the overlay, don't include this div.
+If you do want it, include this div above all your content
+-->
+<div class="overlay"></div>
+
 <div class="header header-filter" style="background-image: url('/img/bg-recep-ori.jpg');">
     <div class="container">
         <div class="row">
@@ -52,7 +58,50 @@
     </div>
 </div>
 
-<?php if ($this->user): ?>
+<div class="overlay-trigger">
+
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons md-48">add</i>
+    </a>
+
+        <ul>
+            <li>
+                <span class="mobile-fab-tip">Partager</span>
+                <a href="/group/share/<?= $group->id ?>" class="btn-floating indigo tooltipped"   data-position="left" data-tooltip="Partager">
+                      <i class="material-icons submenu">share</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Membres</span>
+                <a href="/members/all/<?= $group->id ?>" class="btn-floating orange tooltipped"   data-position="left" data-tooltip="Membres">
+                      <i class="material-icons submenu">group</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Éditer</span>
+                <a href="/group/edit/<?= $group->id ?>" class="btn-floating dark-green tooltipped" data-position="left" data-tooltip="Éditer">
+                      <i class="material-icons submenu">edit</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Évènement récurent</span>
+                <a href="/recurent/create/<?= $group->id ?>" class="btn-floating amber tooltipped" data-position="left" data-tooltip="Évènement récurent">
+                      <i class="material-icons submenu">repeat</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Évènement ponctuel</span>
+                <a href="/event/create/<?= $group->id ?>" class="btn-floating pink tooltipped" data-position="left" data-tooltip="Évènement ponctuel">
+                      <i class="material-icons submenu">event</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<?php // if ($this->user): ?>
+<?php if (false): ?>
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
         <a class="btn-floating btn-large red">
             <i class="material-icons md-48">add</i>

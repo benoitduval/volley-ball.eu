@@ -26,6 +26,7 @@ class IndexController extends AbstractController
         $baseUrl    = $config['baseUrl'];
         $groups     = [];
         $result     = [];
+        $groupIds   = null;
 
         if ($this->getUser()) {
             $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
