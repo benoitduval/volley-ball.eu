@@ -12,13 +12,4 @@ class Join extends AbstractModel
     const RESPONSE_WAITING = 1;
     const RESPONSE_REFUSED = 2;
 
-    public function toArray()
-    {
-        return array(
-            'id'        => (int) $this->_id,
-            'userId'    => $this->_userId,
-            'groupId'   => $this->_groupId,
-            'response'  => $this->_response,
-        );
-    }
 }

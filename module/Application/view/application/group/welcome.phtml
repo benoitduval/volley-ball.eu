@@ -1,0 +1,102 @@
+<div id="map" class="header-map" data-lat="" data-long="">
+</div>
+
+<div class="main main-raised">
+
+    <div class="section section-basic">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2><?= $group->name ?></h2>
+                    <div class="row">
+                        <h4 class="text-center">
+                        <?php if (!$user): ?>
+                            Il semblerai que vous ne soyez pas connecté au site. Peut-être n'avez pas encore créé de compte. Afin de rejoindre le group <b><?= $group->name ?></b> vous devez avoir un compte actif.
+                        <?php else: ?>
+                            Pour rejoindre le groupe <b><?= $group->name ?></b> il vous suffit de cliquer sur le bouton ci-dessous.
+                            <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4">
+                                <a href="/welcome-to/<?= $group->brand?>?subscribe=true" class="btn btn-primary btn-lg">
+                                    <i class="material-icons">group_add</i>  Rejoindre le groupe
+                                </a>
+                            </div>
+                        <?php endif ?>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section section-full-screen section-signup" style="background-image: url('/img/bg-recep.jpg'); background-size: cover; background-position: top center; min-height: 300px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-signup">
+                        <div class="header header-primary text-center">
+                            <h4>Description</h4>
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <h3 class="name">Adresse</h3>
+                                <p class="profession">
+                                    Gymnase Dunois<br>
+                                    70 rue de Dunois,<br>
+                                    75013 Paris
+                                </p>
+                                <h2 class="name">Horaires</h2>
+                                <p class="profession">
+                                    Mardi 20h-22h30<br>
+                                    jeudi 20h-22h30
+                                </p>
+                                <p class="text-center"><a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section section-basic">
+        <div class="container">
+            <div class="title text-center">
+                <h2>Rejoindre le groupe</h2>
+            </div>
+
+            <div class="row">
+                    <h4 class="text-center">
+                        Il semblerai que vous ne soyez pas connecté au site. Peut-être n'avez pas encore créé de compte. Afin de rejoindre le group <b><?= $group->name ?></b> vous devez avoir un compte actif.
+                    </h4>
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
+
+</div>
+
+<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons md-48">add</i>
+    </a>
+
+    <ul>
+        <li>
+            <span class="mobile-fab-tip">Commenter</span>
+            <a href="#" class="btn-floating indigo tooltipped" data-position="left" data-tooltip="Commenter" data-toggle="modal" data-target="#modale-comment">
+                  <i class="material-icons submenu">comment</i>
+            </a>
+        </li>
+        <li>
+            <span class="mobile-fab-tip">Bloup</span>
+            <a href="#" class="btn-floating amber tooltipped" data-position="left" data-tooltip="Incertain">
+                  <i class="material-icons submenu">date_range</i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<?php if (!$user): ?>
+    <?php echo $this->partial('partial/signin.phtml') ?>
+    <?php echo $this->partial('partial/signup.phtml') ?>
+<?php endif ?>

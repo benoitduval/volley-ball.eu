@@ -14,6 +14,8 @@ use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
 use Application\Form;
 use Application\Model;
+use Application\Service\MailService;
+
 
 class GroupController extends AbstractController
 {
@@ -144,6 +146,71 @@ class GroupController extends AbstractController
             'form'    => $form,
             'user'    => $this->getUser(),
             'group'   => isset($group) ? $group : '',
+        ));
+    }
+
+    public function welcomeAction()
+    {
+        $brand      = $this->params()->fromRoute('brand');
+        $subscribe  = $this->params()->fromQuery('subscribe', null);
+        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $joinTable  = $this->getContainer()->get(TableGateway\Join::class);
+        $userTable  = $this->getContainer()->get(TableGateway\User::class);
+        $group      = $groupTable->fetchOne(['brand' => $brand]);
+
+        if (!$this->getUser()) {
+            $signInForm = new Form\SignIn();
+            $signUpForm = new Form\SignUp();
+
+            return new ViewModel(array(
+                'signInForm' => $signInForm,
+                'signUpForm' => $signUpForm,
+                'user'       => $this->getUser(),
+                'group'      => $group,
+            ));
+        } else {
+            if ($subscribe) {
+
+                $join = new Model\Join();
+                $join->exchangeArray([
+                    'userId'   => $this->getUser()->id,
+                    'groupId'  => $group->id,
+                    'response' => Model\Join::RESPONSE_WAITING
+                ]);
+
+                $joinTable->save($join);
+
+                $mail   = $this->getContainer()->get(MailService::class);
+                $config = $this->getContainer()->get('config');
+
+                $
+
+                // TODO - add admin emails
+                $mail->addBcc('benoit.duval.pro@gmail.com');
+                $mail->setSubject('[' . $group->name . '] Une personne souhaite rejoindre le groupe');
+                $mail->setTemplate(MailService::TEMPLATE_GROUP, array(
+                    'title'     => 'Demande d\'adhésion',
+                    'subtitle'  => $group->name,
+                    'pitch'     => $group->name,
+                    'user'      => $this->getUser()->getFullname(),
+                    'userId'    => $this->getUser()->id,
+                    'username'  => $this->getUser()->getFullname(),
+                    'groupname' => $group->name,
+                    'groupId'   => $group->id,
+                    'ok'        => Model\Group::RESPONSE_OK,
+                    'no'        => Model\Group::RESPONSE_NO,
+                    'baseUrl'   => $config['baseUrl']
+                ));
+                $mail->send();
+                $this->flashMessenger()->addMessage('Votre demande pour rejoindre le groupe <b>' . $group->name . '</b> à bien été enregistrer. Vous serez notifier quand cette demande aura été traitée.<br> merci de votre patience.');
+                $this->redirect()->toRoute('group-welcome', ['brand' => $group->brand]);
+            }
+        }
+
+        $this->layout()->user = $this->getUser();
+        return new ViewModel(array(
+            'user'       => $this->getUser(),
+            'group'      => $group,
         ));
     }
 

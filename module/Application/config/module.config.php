@@ -67,10 +67,23 @@ return [
                     ],
                 ],
             ],
+            'group-welcome' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/welcome-to[/:brand]',
+                    'constraints' => [
+                        'brand' => '[a-zA-Z\-]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\GroupController::class,
+                        'action'        => 'welcome',
+                    ],
+                ],
+            ],
             'auth' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/auth[/:action]',
+                    'route'    => '/auth[/:action[/:url]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ],

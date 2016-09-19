@@ -18,6 +18,11 @@ class AuthController extends AbstractController
 {
     public function signinAction()
     {
+
+        if ($this->getRequest()->getHeader('Referer')) {
+            $referer = $this->getRequest()->getHeader('Referer')->getUri();
+        }
+
         if (!($user = $this->getUser())) {
             $signInForm = new SignIn();
             $request    = $this->getRequest();
@@ -44,8 +49,11 @@ class AuthController extends AbstractController
                 }
             }
         }
-
-        $this->redirect()->toRoute('home');
+        if ($referer) {
+            $this->redirect()->toUrl($referer);
+        } else {
+            $this->redirect()->toRoute('home');
+        }
     }
 
     public function signoutAction()
@@ -59,6 +67,12 @@ class AuthController extends AbstractController
 
     public function signupAction()
     {
+
+        $referer = false;
+        if ($this->getRequest()->getHeader('Referer')) {
+            $referer = $this->getRequest()->getHeader('Referer')->getUri();
+        }
+
         $signUpForm = new SignUp();
         $request    = $this->getRequest();
 
@@ -99,11 +113,12 @@ class AuthController extends AbstractController
                 }
             }
         }
-        $this->redirect()->toRoute('home');
-        $view = new ViewModel([
-            'result' => ['ok']
-        ]);
-        $view->setTerminal(true);
+
+        if ($referer) {
+            $this->redirect()->toUrl($referer);
+        } else {
+            $this->redirect()->toRoute('home');
+        }
     }
 
     public function verifyAction()
@@ -129,9 +144,5 @@ class AuthController extends AbstractController
             $this->flashMessenger()->addErrorMessage('Désolé, nous n\'avons pas pu confirmer votre compte, un erreur est survenue lors de cette vérification. Merci de me contacter afin de régler ce soucis.');
         }
         $this->redirect()->toRoute('home');
-        $view = new ViewModel([
-            'result' => ['ok']
-        ]);
-        $view->setTerminal(true);
     }
 }
