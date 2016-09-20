@@ -1,15 +1,11 @@
 <?php
 
-namespace Volley\Services;
+namespace Application\Service;
 
-/**
-*
-*/
 class Date
 {
-    protected $_date;
 
-    public static $translate = array(
+    public static $toFr = array(
         '/Monday/i'    => 'Lundi',
         '/Tuesday/i'   => 'Mardi',
         '/Wednesday/i' => 'Mercredi',
@@ -44,20 +40,39 @@ class Date
         '/jun/i'       => 'Juin',
         '/jul/i'       => 'Juil',
         '/aug/i'       => 'Aout',
-        '/sep/i'       => 'Sept',
+        '/sep/i'       => 'Sep',
         '/oct/i'       => 'Oct',
         '/nov/i'       => 'Nov',
         '/dec/i'       => 'Dec',
     );
 
-    public function __construct($date)
+    public static $toEn = [
+        '/janvier/'   => 'january',
+        '/fevrier/'   => 'february',
+        '/mars/'      => 'march',
+        '/avril/'     => 'april',
+        '/mai/'       => 'may',
+        '/juin/'      => 'june',
+        '/juillet/'   => 'july',
+        '/aout/'      => 'august',
+        '/septembre/' => 'september',
+        '/octobre/'   => 'october',
+        '/novembre/'  => 'november',
+        '/decembre/'  => 'december',
+    ];
+
+    public static function toFr($str)
     {
-        $this->_date = \DateTime::createFromFormat('Y-m-d H:i:s', $date);
+        return preg_replace(array_keys(static::$toFr), array_values(static::$toFr), $str);
     }
 
-    public function format($format = 'D d M \- H\hi')
+    public static function isMonth($str)
     {
-        $date = $this->_date->format($format);
-        return preg_replace(array_keys(static::$translate), array_values(static::$translate), $date);
+        return in_array($str, ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre']);
+    }
+
+    public static function toEn($str)
+    {
+        return preg_replace(array_keys(static::$toEn), array_values(static::$toEn), $str);
     }
 }

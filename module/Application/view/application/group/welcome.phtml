@@ -13,7 +13,7 @@
                         <?php if (!$user): ?>
                             Il semblerai que vous ne soyez pas connecté au site. Peut-être n'avez pas encore créé de compte. Afin de rejoindre le group <b><?= $group->name ?></b> vous devez avoir un compte actif.
                         <?php else: ?>
-                            Pour rejoindre le groupe <b><?= $group->name ?></b> il vous suffit de cliquer sur le bouton ci-dessous.
+                            Pour rejoindre le groupe <b><?= $group->name ?></b> il vous suffit de cliquer sur le bouton ci-dessous.<br>
                             <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4">
                                 <a href="/welcome-to/<?= $group->brand?>?subscribe=true" class="btn btn-primary btn-lg">
                                     <i class="material-icons">group_add</i>  Rejoindre le groupe

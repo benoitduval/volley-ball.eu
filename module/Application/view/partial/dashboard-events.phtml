@@ -25,10 +25,10 @@
                 <div class="user card text-center">
                     <div class="agenda">
                         <div class="agenda-header">
-                            <b><?= $date->format("F") ?></b>
+                            <b><?= \Application\Service\Date::toFr($date->format("F")) ?></b>
                         </div>
                         <div class="agenda-content">
-                            <p><?= $date->format("l") ?></p>
+                            <p><?= \Application\Service\Date::toFr($date->format("l")) ?></p>
                             <p class="day"><?= $date->format("d") ?><p>
                         </div>
                     </div>

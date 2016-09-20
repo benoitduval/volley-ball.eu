@@ -183,8 +183,6 @@ class GroupController extends AbstractController
                 $mail   = $this->getContainer()->get(MailService::class);
                 $config = $this->getContainer()->get('config');
 
-                $
-
                 // TODO - add admin emails
                 $mail->addBcc('benoit.duval.pro@gmail.com');
                 $mail->setSubject('[' . $group->name . '] Une personne souhaite rejoindre le groupe');
@@ -207,11 +205,26 @@ class GroupController extends AbstractController
             }
         }
 
+        $this->layout()->opacity = true;
         $this->layout()->user = $this->getUser();
         return new ViewModel(array(
             'user'       => $this->getUser(),
             'group'      => $group,
         ));
+    }
+
+    public function historyAction()
+    {
+        $id = (int) $this->params()->fromRoute('id');
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $events = $eventTable->fetchAll([
+            'groupId' => $id
+        ], 'date DESC');
+
+        $this->layout()->user = $this->getUser();
+        return new ViewModel([
+            'events' => $events,
+        ]);
     }
 
 }

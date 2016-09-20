@@ -79,15 +79,16 @@ materialKit = {
                     $('.navbar-color-on-scroll').removeClass('navbar-transparent');
                     if ($('.navbar-color-on-scroll').hasClass('opacity')) {
                         $('.navbar-color-on-scroll').removeClass('opacity');
-                        $opacity = true;
+                        $('.navbar-color-on-scroll').addClass('opacity-removed');
                     }
                 }
             } else {
-                if( !transparent ) {
+                if(!transparent) {
                     transparent = true;
                     $('.navbar-color-on-scroll').addClass('navbar-transparent');
-                    if ($opacity) {
+                    if ($('.navbar-color-on-scroll').hasClass('opacity-removed')) {
                         $('.navbar-color-on-scroll').addClass('opacity');
+                        $('.navbar-color-on-scroll').removeClass('opacity-removed');
                     }
                 }
             }

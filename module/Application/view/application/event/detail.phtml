@@ -61,7 +61,7 @@
                             <div class="main">
                                 <h3 class="name"><?= $event->name ?></h3>
                                 <p class="profession"><?= $group->name ?></p>
-                                <h2 class="name"><?= $date->format('d l F Y') ?></h2>
+                                <h2 class="name"><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?></h2>
                                 <p class="profession">Le RDV est à <b><?= $date->format("H\hs") ?></b></p>
                                 <p class="text-center">
                                     <b><?= $event->place ?></b><br/>
@@ -147,7 +147,7 @@
                                             <?= nl2br($comment['comment']); ?>
                                         </p>
                                         <small>
-                                            <?= $comment['author']->getFullName(); ?> - <i><?= $comment['date']; ?></i>
+                                            <?= $comment['author']->getFullName(); ?> - <i><?= \Application\Service\Date::toFr($comment['date']); ?></i>
                                         </small>
                                     </blockquote>
                                 </div>

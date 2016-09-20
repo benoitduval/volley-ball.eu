@@ -43,4 +43,9 @@ class Group extends AbstractModel
         $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
         $this->brand = $str;
     }
+
+    public function getPublicLink()
+    {
+        return '/welcome-to/' . $this->brand;
+    }
 }

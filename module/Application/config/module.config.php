@@ -93,6 +93,16 @@ return [
                     ],
                 ],
             ],
+            'search' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/search',
+                    'defaults' => [
+                        'controller'    => Controller\SearchController::class,
+                        'action'        => 'index',
+                    ],
+                ],
+            ],
             'example' => [
                 'type' => Literal::class,
                 'options' => [
@@ -122,9 +132,6 @@ return [
     ],
 
     'service_manager' => [
-        'invokable' => [
-            Service\Map::class,
-        ],
         'factories' => [
             Model\UserTableGateway::class         => Factory\TableGatewayFactory::class,
             Model\GroupTableGateway::class        => Factory\TableGatewayFactory::class,
