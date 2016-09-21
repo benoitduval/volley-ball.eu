@@ -45,13 +45,28 @@ class ConsoleController extends AbstractController
 
     public function migrationAction()
     {
+        $console = Console::getInstance();
+
+
         $this->init();
+        $console->writeLine('Working on users ...', Color::BLUE);
         $this->users();
+        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('Working on groups ...', Color::BLUE);
         $this->groups();
+        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('Working on places ...', Color::BLUE);
         $this->places();
+        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('Working on events ...', Color::BLUE);
         $this->events();
+        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('Working on guests ...', Color::BLUE);
         $this->guests();
+        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('Working on comments ...', Color::BLUE);
         $this->comments();
+        $console->writeLine('DONE', Color::BLUE);
     }
 
     public function events()
