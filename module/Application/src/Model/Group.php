@@ -8,9 +8,6 @@ class Group extends AbstractModel
     const RESPONSE_NO = 2;
 
     protected $_id          = null;
-    protected $_userId      = null;
-    protected $_userIds     = null;
-    protected $_adminIds    = null;
     protected $_name        = null;
     protected $_brand       = null;
     protected $_info        = null;

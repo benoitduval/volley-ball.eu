@@ -92,15 +92,23 @@ class GroupController extends AbstractController
             $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId); 
         }
 
-        $guests = $guestTable->fetchAll([
-            'userId'  => $this->getUser()->id,
-            'groupId' => $id,
-        ]);
+        $today = new \DateTime('today midnight');
+        $events = $eventTable->fetchAll([
+            'groupId'   => $id,
+            'date >= ?' => $today->format('Y-m-d H:i:s')
+        ], 'date ASC');
 
         $counters = [];
-        foreach ($guests as $guest) {
-            $event    = $eventTable->find($guest->eventId);
-            $counters = $guestTable->getCounters($guest->eventId);
+        foreach ($events as $event) {
+            $eventIds[] = $event->id;
+            $userEvents[$event->id] = $event;
+
+            $guest = $guestTable->fetchOne([
+                'userId'  => $this->getUser()->id,
+                'eventId' => $event->id
+            ]);
+
+            $counters = $guestTable->getCounters($event->id);
             $result[$guest->id] = [
                 'group'   => $groups[$guest->groupId],
                 'event'   => $event,

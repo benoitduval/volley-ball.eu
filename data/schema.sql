@@ -20,7 +20,6 @@ CREATE TABLE `event` (
   `name` varchar(32) NOT NULL DEFAULT '',
   `date` timestamp NULL DEFAULT NULL,
   `comment` text,
-  `userId` int(11) DEFAULT NULL,
   `groupId` int(5) DEFAULT NULL,
   `place` varchar(255) NOT NULL DEFAULT '',
   `address` varchar(255) DEFAULT NULL,
@@ -37,9 +36,6 @@ CREATE TABLE `event` (
 DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userIds` varchar(255) NOT NULL DEFAULT '',
-  `adminIds` varchar(255) DEFAULT NULL,
-  `userId` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
   `brand` varchar(150) NOT NULL,
   `description` text,

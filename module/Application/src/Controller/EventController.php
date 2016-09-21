@@ -133,7 +133,7 @@ class EventController extends AbstractController
         $event     = $eventTable->find($eventId);
 
         $match     = $matchTable->fetchOne(['eventId' => $event->id]);
-        $comments  = $commentTable->fetchAll($eventId);
+        $comments  = $commentTable->fetchAll(['eventId' => $event->id]);
         $group     = $groupTable->find($event->groupId);
         $isMember  = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
         $isAdmin   = false;
@@ -179,6 +179,9 @@ class EventController extends AbstractController
         foreach ($comments as $comment) {
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $comment->date);
             $result[$comment->id]['date'] = $date->format('d F Y \à H:i');
+            // if (!isset($users[$comment->userId])) {
+            //     $users[$comment->userId] = $userTable->find($comment->userId);
+            // }
             $result[$comment->id]['author'] = $users[$comment->userId];
             $result[$comment->id]['comment'] = $comment->comment;
         }
