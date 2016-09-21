@@ -10,6 +10,9 @@ use Zend\Math\Rand;
 use Zend\Crypt\Password\Bcrypt;
 use Application\TableGateway;
 use Application\Model;
+use Zend\Console\Console;
+use Zend\Console\Exception\RuntimeException as ConsoleException;
+use Zend\Console\ColorInterface as Color;
 
 class ConsoleController extends AbstractController
 {
@@ -24,7 +27,7 @@ class ConsoleController extends AbstractController
 
         $this->adapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
-            'database' => 'volley',
+            'database' => '',
             'username' => '',
             'password' => '',
             'driver_options' => [
@@ -34,7 +37,7 @@ class ConsoleController extends AbstractController
 
         $this->newAdapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
-            'database' => 'album',
+            'database' => '',
             'username' => '',
             'password' => '',
             'driver_options' => [
@@ -119,12 +122,10 @@ class ConsoleController extends AbstractController
 
         // insert users
         $values = '';
-        $first = true;
         foreach ($this->_users as $key => $data) {
-            if (!$first) $values .= ',';
-            $values .= '("' . implode('","', $data) . '")';
-            $first = false;
+            $values .= '("' . implode('","', $data) . '"),';
         }
+        $values = substr($values, 0, -1);
         $values .= ';';
 
         $this->newAdapter->query('INSERT INTO `user` VALUES ' . $values)->execute();
