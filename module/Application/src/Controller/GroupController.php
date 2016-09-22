@@ -36,8 +36,6 @@ class GroupController extends AbstractController
                 $data               = $groupForm->getData();
                 $group              = New Model\Group();
                 $group->name        = ucfirst($data['name']);
-                $group->userId      = $this->getUser()->id;
-                $group->userIds     = json_encode([$this->getUser()->id]);
                 $group->description = $data['description'];
                 $group->info        = $data['info'];
                 $brand              = $group->initBrand();
@@ -228,6 +226,26 @@ class GroupController extends AbstractController
         $events = $eventTable->fetchAll([
             'groupId' => $id
         ], 'date DESC');
+
+        $this->layout()->user = $this->getUser();
+        return new ViewModel([
+            'events' => $events,
+        ]);
+    }
+
+    public function usersAction()
+    {
+        $id = (int) $this->params()->fromRoute('id');
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $userGroups = $userGroupTable->fetchAll([
+            'groupId' => $id
+        ]);
+
+        $userTable = $this->getContainer()->get(TableGateway\User::class);
+        foreach ($userGroups as $userGroup) {
+            $userIds[] = $userGroup->userId;
+        }
+        $users = $userTable->fetchAll(['userId' => $userIds]);
 
         $this->layout()->user = $this->getUser();
         return new ViewModel([

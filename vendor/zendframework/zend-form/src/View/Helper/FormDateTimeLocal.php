@@ -7,19 +7,20 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Form;
+namespace Zend\Form\View\Helper;
 
-/**
- * Deprecated by https://github.com/zendframework/zf2/pull/5636
- *
- * @deprecated
- */
-interface FieldsetPrepareAwareInterface
+use Zend\Form\ElementInterface;
+
+class FormDateTimeLocal extends FormDateTime
 {
     /**
-     * Prepare the fieldset element (called while this fieldset is added to another one)
+     * Determine input type to use
      *
-     * @return mixed
+     * @param  ElementInterface $element
+     * @return string
      */
-    public function prepareFieldset();
+    protected function getType(ElementInterface $element)
+    {
+        return 'datetime-local';
+    }
 }

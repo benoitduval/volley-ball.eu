@@ -11,7 +11,7 @@
  * This should be an array of module namespaces used in the application.
  */
 return [
-    'Zf2Whoops',
+    // 'Zf2Whoops',
     'Zend\Mail',
     'Zend\ServiceManager\Di',
     'Zend\Session',

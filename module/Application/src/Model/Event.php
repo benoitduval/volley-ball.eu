@@ -5,7 +5,6 @@ namespace Application\Model;
 class Event extends AbstractModel
 {
     protected $_id       = null;
-    protected $_userId   = null;
     protected $_groupId  = null;
     protected $_name     = null;
     protected $_comment  = null;

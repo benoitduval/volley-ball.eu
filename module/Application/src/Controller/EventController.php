@@ -15,6 +15,7 @@ class EventController extends AbstractController
         $groupId    = $this->params()->fromRoute('id');
 
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
         $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
         $userTable  = $this->getContainer()->get(TableGateway\User::class);
@@ -35,7 +36,6 @@ class EventController extends AbstractController
                 $date = \DateTime::createFromFormat('d/m/Y H:i', $data['date']);
 
                 $data['date']    = $date->format('Y-m-d H:i:s');
-                $data['userId']  = $this->getUser()->id;
                 $data['groupId'] = $groupId;
 
                 $mapService = $this->getContainer()->get(Service\Map::class);
@@ -51,15 +51,18 @@ class EventController extends AbstractController
 
                 // Create guest for this new event
                 $emails = [];
-                foreach (json_decode($group->userIds) as $id) {
+                
+                $userGroups = $userGroupTable->fetchAll(['groupId' => 1]);
 
-                    $user = $userTable->find($id);
+                foreach ($userGroups as $userGroup) {
+
+                    $user = $userTable->find($userGroup->userId);
                     $emails[] = $user->email;
 
                     $guest = new Model\Guest();
                     $guest->exchangeArray([
                         'eventId'  => $event->id,
-                        'userId'   => $id,
+                        'userId'   => $userGroup->userId,
                         'response' => Model\Guest::RESP_NO_ANSWER,
                         'groupId'  => $groupId,
                     ]);

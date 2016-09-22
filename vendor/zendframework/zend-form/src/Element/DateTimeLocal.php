@@ -9,49 +9,43 @@
 
 namespace Zend\Form\Element;
 
-use DateInterval;
-use DateTimezone;
-use Zend\Form\Element\DateTime as DateTimeElement;
 use Zend\Validator\DateStep as DateStepValidator;
 
-class Date extends DateTimeElement
+class DateTimeLocal extends DateTime
 {
+    const DATETIME_LOCAL_FORMAT = 'Y-m-d\TH:i';
+
     /**
      * Seed attributes
      *
      * @var array
      */
     protected $attributes = [
-        'type' => 'date',
+        'type' => 'datetime-local',
     ];
 
     /**
-     * Date format to use for DateTime values. By default, this is RFC-3339,
-     * full-date (Y-m-d), which is what HTML5 dictates.
-     *
-     * @var string
+     * {@inheritDoc}
      */
-    protected $format = 'Y-m-d';
+    protected $format = self::DATETIME_LOCAL_FORMAT;
 
     /**
-     * Retrieves a DateStep Validator configured for a Date Input type
+     * Retrieves a DateStepValidator configured for a Date Input type
      *
      * @return \Zend\Validator\ValidatorInterface
      */
     protected function getStepValidator()
     {
-        $format    = $this->getFormat();
         $stepValue = (isset($this->attributes['step']))
-                     ? $this->attributes['step'] : 1; // Days
+                     ? $this->attributes['step'] : 1; // Minutes
 
         $baseValue = (isset($this->attributes['min']))
-                     ? $this->attributes['min'] : date($format, 0);
+                     ? $this->attributes['min'] : '1970-01-01T00:00';
 
         return new DateStepValidator([
-            'format'    => $format,
+            'format'    => $this->format,
             'baseValue' => $baseValue,
-            'timezone'  => new DateTimezone('UTC'),
-            'step'      => new DateInterval("P{$stepValue}D"),
+            'step'      => new \DateInterval("PT{$stepValue}M"),
         ]);
     }
 }

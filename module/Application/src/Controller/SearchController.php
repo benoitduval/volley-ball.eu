@@ -27,7 +27,7 @@ class SearchController extends AbstractController
                 $groupIds[] = $userGroup->groupId;
             }
 
-            if ($groupIds) {
+            if (isset($groupIds)) {
                 $eventTable = $this->getContainer()->get(TableGateway\Event::class);
                 $events = $eventTable->fetchAll([
                     'name like ?' => '%' . $query . '%',

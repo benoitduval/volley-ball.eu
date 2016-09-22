@@ -854,85 +854,6 @@
         ]
     },
     {
-        "name": "zendframework/zend-form",
-        "version": "2.9.0",
-        "version_normalized": "2.9.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/zendframework/zend-form.git",
-            "reference": "3abb688fda20989b2e2b444efc1dba173abb2e07"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/zendframework/zend-form/zipball/3abb688fda20989b2e2b444efc1dba173abb2e07",
-            "reference": "3abb688fda20989b2e2b444efc1dba173abb2e07",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^5.5 || ^7.0",
-            "zendframework/zend-hydrator": "^1.1 || ^2.1",
-            "zendframework/zend-inputfilter": "^2.6",
-            "zendframework/zend-stdlib": "^2.7 || ^3.0"
-        },
-        "require-dev": {
-            "doctrine/annotations": "~1.0",
-            "fabpot/php-cs-fixer": "1.7.*",
-            "phpunit/phpunit": "^4.8",
-            "zendframework/zend-cache": "^2.6.1",
-            "zendframework/zend-captcha": "^2.5.4",
-            "zendframework/zend-code": "^2.6",
-            "zendframework/zend-escaper": "^2.5",
-            "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
-            "zendframework/zend-filter": "^2.6",
-            "zendframework/zend-i18n": "^2.6",
-            "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-            "zendframework/zend-session": "^2.6.2",
-            "zendframework/zend-text": "^2.6",
-            "zendframework/zend-validator": "^2.6",
-            "zendframework/zend-view": "^2.6.2",
-            "zendframework/zendservice-recaptcha": "*"
-        },
-        "suggest": {
-            "zendframework/zend-captcha": "^2.5.4, required for using CAPTCHA form elements",
-            "zendframework/zend-code": "^2.6 || ^3.0, required to use zend-form annotations support",
-            "zendframework/zend-eventmanager": "^2.6.2 || ^3.0, reuired for zend-form annotations support",
-            "zendframework/zend-i18n": "^2.6, required when using zend-form view helpers",
-            "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3, required to use the form factories or provide services",
-            "zendframework/zend-view": "^2.6.2, required for using the zend-form view helpers",
-            "zendframework/zendservice-recaptcha": "in order to use the ReCaptcha form element"
-        },
-        "time": "2016-06-07 18:22:51",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.9-dev",
-                "dev-develop": "2.10-dev"
-            },
-            "zf": {
-                "component": "Zend\\Form",
-                "config-provider": "Zend\\Form\\ConfigProvider"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Zend\\Form\\": "src/"
-            },
-            "files": [
-                "autoload/formElementManagerPolyfill.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "homepage": "https://github.com/zendframework/zend-form",
-        "keywords": [
-            "form",
-            "zf2"
-        ]
-    },
-    {
         "name": "zendframework/zend-code",
         "version": "3.0.4",
         "version_normalized": "3.0.4.0",
@@ -1080,46 +1001,6 @@
         "keywords": [
             "json",
             "zf2"
-        ]
-    },
-    {
-        "name": "psr/log",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-fig/log.git",
-            "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-            "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
-            "shasum": ""
-        },
-        "time": "2012-12-21 11:40:51",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Psr\\Log\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "PHP-FIG",
-                "homepage": "http://www.php-fig.org/"
-            }
-        ],
-        "description": "Common interface for logging libraries",
-        "keywords": [
-            "log",
-            "psr",
-            "psr-3"
         ]
     },
     {
@@ -4079,50 +3960,6 @@
         ]
     },
     {
-        "name": "myclabs/deep-copy",
-        "version": "1.5.3",
-        "version_normalized": "1.5.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/myclabs/DeepCopy.git",
-            "reference": "94e5ca3e90aa5b34663780393e10914f7438f991"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/94e5ca3e90aa5b34663780393e10914f7438f991",
-            "reference": "94e5ca3e90aa5b34663780393e10914f7438f991",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "doctrine/collections": "1.*",
-            "phpunit/phpunit": "~4.1"
-        },
-        "time": "2016-09-07 15:34:10",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "DeepCopy\\": "src/DeepCopy/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "description": "Create deep copies (clones) of your objects",
-        "homepage": "https://github.com/myclabs/DeepCopy",
-        "keywords": [
-            "clone",
-            "copy",
-            "duplicate",
-            "object",
-            "object graph"
-        ]
-    },
-    {
         "name": "phpunit/phpunit",
         "version": "5.5.4",
         "version_normalized": "5.5.4.0",
@@ -4491,5 +4328,177 @@
         ],
         "description": "PHP whoops error on ZF2 framework",
         "homepage": "https://github.com/ghislainf/zf2-whoops"
+    },
+    {
+        "name": "zendframework/zend-form",
+        "version": "2.9.1",
+        "version_normalized": "2.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zendframework/zend-form.git",
+            "reference": "a0f0ce0f4c11e1c78939b4e8a212f6ba44559253"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zendframework/zend-form/zipball/a0f0ce0f4c11e1c78939b4e8a212f6ba44559253",
+            "reference": "a0f0ce0f4c11e1c78939b4e8a212f6ba44559253",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5 || ^7.0",
+            "zendframework/zend-hydrator": "^1.1 || ^2.1",
+            "zendframework/zend-inputfilter": "^2.6",
+            "zendframework/zend-stdlib": "^2.7 || ^3.0"
+        },
+        "require-dev": {
+            "doctrine/annotations": "~1.0",
+            "fabpot/php-cs-fixer": "1.7.*",
+            "phpunit/phpunit": "^4.8",
+            "zendframework/zend-cache": "^2.6.1",
+            "zendframework/zend-captcha": "^2.5.4",
+            "zendframework/zend-code": "^2.6 || ^3.0",
+            "zendframework/zend-escaper": "^2.5",
+            "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
+            "zendframework/zend-filter": "^2.6",
+            "zendframework/zend-i18n": "^2.6",
+            "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
+            "zendframework/zend-session": "^2.6.2",
+            "zendframework/zend-text": "^2.6",
+            "zendframework/zend-validator": "^2.6",
+            "zendframework/zend-view": "^2.6.2",
+            "zendframework/zendservice-recaptcha": "*"
+        },
+        "suggest": {
+            "zendframework/zend-captcha": "^2.5.4, required for using CAPTCHA form elements",
+            "zendframework/zend-code": "^2.6 || ^3.0, required to use zend-form annotations support",
+            "zendframework/zend-eventmanager": "^2.6.2 || ^3.0, reuired for zend-form annotations support",
+            "zendframework/zend-i18n": "^2.6, required when using zend-form view helpers",
+            "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3, required to use the form factories or provide services",
+            "zendframework/zend-view": "^2.6.2, required for using the zend-form view helpers",
+            "zendframework/zendservice-recaptcha": "in order to use the ReCaptcha form element"
+        },
+        "time": "2016-09-14 17:47:35",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.9-dev",
+                "dev-develop": "2.10-dev"
+            },
+            "zf": {
+                "component": "Zend\\Form",
+                "config-provider": "Zend\\Form\\ConfigProvider"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Zend\\Form\\": "src/"
+            },
+            "files": [
+                "autoload/formElementManagerPolyfill.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "homepage": "https://github.com/zendframework/zend-form",
+        "keywords": [
+            "form",
+            "zf2"
+        ]
+    },
+    {
+        "name": "psr/log",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "5277094ed527a1c4477177d102fe4c53551953e0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/5277094ed527a1c4477177d102fe4c53551953e0",
+            "reference": "5277094ed527a1c4477177d102fe4c53551953e0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-09-19 16:02:08",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    },
+    {
+        "name": "myclabs/deep-copy",
+        "version": "1.5.4",
+        "version_normalized": "1.5.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/myclabs/DeepCopy.git",
+            "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
+            "reference": "ea74994a3dc7f8d2f65a06009348f2d63c81e61f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "doctrine/collections": "1.*",
+            "phpunit/phpunit": "~4.1"
+        },
+        "time": "2016-09-16 13:37:59",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "DeepCopy\\": "src/DeepCopy/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Create deep copies (clones) of your objects",
+        "homepage": "https://github.com/myclabs/DeepCopy",
+        "keywords": [
+            "clone",
+            "copy",
+            "duplicate",
+            "object",
+            "object graph"
+        ]
     }
 ]
