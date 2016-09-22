@@ -252,11 +252,12 @@ class GroupController extends AbstractController
         foreach ($userGroups as $userGroup) {
             $userIds[] = $userGroup->userId;
         }
-        $users = $userTable->fetchAll(['userId' => $userIds]);
+
+        $users = $userTable->fetchAll(['id' => $userIds]);
 
         $this->layout()->user = $this->getUser();
         return new ViewModel([
-            'events' => $events,
+            'users' => $users,
         ]);
     }
 
