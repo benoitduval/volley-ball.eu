@@ -67,8 +67,8 @@ If you do want it, include this div above all your content
 
         <ul>
             <li>
-                <span class="mobile-fab-tip">Partager</span>
-                <a href="/group/share/<?= $group->id ?>" class="btn-floating indigo tooltipped"   data-position="left" data-tooltip="Partager">
+                <span class="mobile-fab-tip">Page publique</span>
+                <a href="<?= $group->getPublicLink() ?>" class="btn-floating indigo tooltipped"   data-position="left" data-tooltip="Partager">
                       <i class="material-icons submenu">share</i>
                 </a>
             </li>

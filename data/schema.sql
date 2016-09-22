@@ -39,8 +39,13 @@ CREATE TABLE `group` (
   `name` varchar(255) NOT NULL,
   `brand` varchar(150) NOT NULL,
   `description` text,
-  `info` text,
-  PRIMARY KEY (`id`)
+  `address` text,
+  `schedule` text,
+  `gymnasium` varchar(150) NULL DEFAULT NULL,
+  `lat` double DEFAULT NULL,
+  `long` double DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`brand`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

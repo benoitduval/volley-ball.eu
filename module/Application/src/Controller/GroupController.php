@@ -15,7 +15,7 @@ use Application\Service\StorageCookieService;
 use Application\Form;
 use Application\Model;
 use Application\Service\MailService;
-
+use Application\Service;
 
 class GroupController extends AbstractController
 {
@@ -35,10 +35,15 @@ class GroupController extends AbstractController
 
                 $data               = $groupForm->getData();
                 $group              = New Model\Group();
-                $group->name        = ucfirst($data['name']);
-                $group->description = $data['description'];
-                $group->info        = $data['info'];
-                $brand              = $group->initBrand();
+                $data['name']       = ucfirst($data['name']);
+                $data['brand']      = $group->initBrand($data['name']);
+
+                $mapService = $this->getContainer()->get(Service\Map::class);
+                if ($coords = $mapService->getCoordinates($data['address'])) {
+                    $data = array_merge($data, $coords);
+                }
+
+                $group->exchangeArray($data);
 
                 $groupId            = $groupTable->save($group);
                 $userGroup          = New Model\UserGroup();
@@ -162,6 +167,7 @@ class GroupController extends AbstractController
         $groupTable = $this->getContainer()->get(TableGateway\Group::class);
         $joinTable  = $this->getContainer()->get(TableGateway\Join::class);
         $userTable  = $this->getContainer()->get(TableGateway\User::class);
+        $userGroupTable  = $this->getContainer()->get(TableGateway\UserGroup::class);
         $group      = $groupTable->fetchOne(['brand' => $brand]);
 
         if (!$this->getUser()) {
@@ -212,11 +218,12 @@ class GroupController extends AbstractController
         }
 
         $this->layout()->opacity = true;
-        $this->layout()->user = $this->getUser();
-        return new ViewModel(array(
-            'user'       => $this->getUser(),
-            'group'      => $group,
-        ));
+        $this->layout()->user   = $this->getUser();
+        return new ViewModel([
+            'member' => $userGroupTable->isMember($this->getUser()->id, $group->id),
+            'user'   => $this->getUser(),
+            'group'  => $group,
+        ]);
     }
 
     public function historyAction()

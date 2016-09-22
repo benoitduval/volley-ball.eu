@@ -20,33 +20,79 @@
                     <h2>Création d'un groupe</h2>
                 </div>
 
-                <div class="row">
-                    <?php echo $this->form()->openTag($form); ?>
+                    <div class="row">
+                        <?php echo $this->form()->openTag($form); ?>
 
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">email</i>
-                        </span>
-                        <?php echo $this->formElement($form->get('name')); ?>
-                    </div>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
 
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock_outline</i>
-                        </span>
-                        <?php echo $this->formElement($form->get('description')); ?>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock_outline</i>
-                        </span>
-                        <?php echo $this->formElement($form->get('info')); ?>
-                    </div>
+                                <div class="title">
+                                    <h4>Informations</h4>
+                                </div>
 
-                    <div class="col-md-12 footer text-center">
-                        <?php echo $this->formElement($form->get('submit')); ?>
+                                <div class="form-group label-floating is-empty">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">group</i>
+                                        </span>
+                                        <label class="control-label" for="name">
+                                            Nom du groupe
+                                        </label>
+                                        <?php echo $this->formInput($form->get('name')); ?>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">description</i>
+                                    </span>
+                                    <?php echo $this->formElement($form->get('description')); ?>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="title">
+                                    <h4>Adresse et horraire</h4>
+                                </div>
+                                <div class="form-group label-floating is-empty">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">account_balance</i>
+                                        </span>
+                                        <label class="control-label" for="gymnasium">
+                                            Nom du Gymnase
+                                        </label>
+                                        <?php echo $this->formInput($form->get('gymnasium')); ?>
+                                    </div>
+                                </div>
+
+                                <div class="form-group label-floating is-empty">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">local_post_office</i>
+                                        </span>
+                                        <label class="control-label" for="address">
+                                            Adresse
+                                        </label>
+                                        <?php echo $this->formInput($form->get('address')); ?>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">schedule</i>
+                                    </span>
+                                    <?php echo $this->formElement($form->get('schedule')); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 footer text-center">
+                            <?php echo $this->formElement($form->get('submit')); ?>
+                        </div>
+
+                        <?php echo $this->form()->closeTag(); ?>
                     </div>
-                    <?php echo $this->form()->closeTag(); ?>
                 </div>
             </div>
         </div>

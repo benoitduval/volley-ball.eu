@@ -29,7 +29,7 @@ class ConsoleController extends AbstractController
             'driver'   => 'Pdo_Mysql',
             'database' => 'volley',
             'username' => 'root',
-            'password' => 'root',
+            'password' => 'yuc742617',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],
@@ -39,7 +39,7 @@ class ConsoleController extends AbstractController
             'driver'   => 'Pdo_Mysql',
             'database' => 'album',
             'username' => 'root',
-            'password' => 'root',
+            'password' => 'yuc742617',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],
@@ -74,6 +74,8 @@ class ConsoleController extends AbstractController
 
     public function events()
     {
+        $this->newAdapter->query('TRUNCATE TABLE `event`')->execute();
+
         // Groups
         $data = $this->adapter->query('SELECT * FROM `event`')->execute();
         $values = '';
@@ -88,6 +90,8 @@ class ConsoleController extends AbstractController
 
     public function groups()
     {
+        $this->newAdapter->query('TRUNCATE TABLE `group`')->execute();
+
         // Groups
         $data = $this->adapter->query('SELECT * FROM `group`')->execute();
         $values = '';
@@ -98,20 +102,22 @@ class ConsoleController extends AbstractController
                 $isAdmin = (in_array(json_decode($group['adminIds']), $userIds) || ($userId == $group['userId'])) ? 1 : 0;
                 $userValues .= '("' . $userId . '", "' . $group['id'] . '", "' . $isAdmin . '"),';
             }
-            $values .= '("' . $group['id'] . '", "' . $group['name'] . '",  "' . $group['brand'] . '",  "' . $group['description'] . '",  "' . $group['info'] . '"),';
+            $values .= '("' . $group['id'] . '", "' . $group['name'] . '",  "' . $group['brand'] . '",  "' . $group['description'] . '"),';
         }
         $values = substr($values, 0, -1);
         $userValues = substr($userValues, 0, -1);
         
         $values .= ';';
 
-        $this->newAdapter->query('INSERT INTO `group` VALUES ' . $values)->execute();
+        $this->newAdapter->query('INSERT INTO `group` (`id`, `name`, `brand`, `description`) VALUES ' . $values)->execute();
         $this->newAdapter->query('INSERT INTO `userGroup` (`userId`, `groupId`, `admin`) VALUES ' . $userValues . ' ON DUPLICATE KEY UPDATE userId=userId')->execute();
 
     }
 
     public function users()
     {
+        $this->newAdapter->query('TRUNCATE TABLE `user`')->execute();
+
         $users = $this->adapter->query('SELECT * FROM `user`')->execute();
         foreach ($users as $data) {
             $bCrypt = new Bcrypt();
@@ -133,6 +139,8 @@ class ConsoleController extends AbstractController
 
     public function places()
     {
+        $this->newAdapter->query('TRUNCATE TABLE `place`')->execute();
+
         $data = $this->adapter->query('SELECT * FROM `place`')->execute();
         $this->places = [];
         foreach ($data as $place) {
@@ -142,6 +150,8 @@ class ConsoleController extends AbstractController
 
     public function guests()
     {
+        $this->newAdapter->query('TRUNCATE TABLE `guest`')->execute();
+
         $guests = $this->adapter->query('SELECT * FROM `guest`')->execute();
 
         // insert users
@@ -158,6 +168,8 @@ class ConsoleController extends AbstractController
 
     public function comments()
     {
+        $this->newAdapter->query('TRUNCATE TABLE `comment`')->execute();
+
         $data = $this->adapter->query('SELECT * FROM `comment`')->execute();
 
         // insert users

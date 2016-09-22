@@ -10,35 +10,22 @@ class Group extends AbstractModel
     protected $_id          = null;
     protected $_name        = null;
     protected $_brand       = null;
-    protected $_info        = null;
     protected $_description = null;
+    protected $_address     = null;
+    protected $_schedule    = null;
+    protected $_gymnasium   = null;
+    protected $_lat         = null;
+    protected $_long        = null;
 
-    public function isAdmin($user)
+    public function initBrand($name)
     {
-        if (is_object($user)) {
-            $user = $user->id;
-        }
-        $adminIds = json_decode($this->_adminIds, true);
-        if (is_null($adminIds)) $adminIds = [];
-        return ($this->_userId == $user || in_array($user, $adminIds));
-    }
-
-    public function isMember($userId)
-    {
-        $userIds = json_decode($this->_userIds, true);
-        if (is_null($userIds)) $userIds = [];
-        return ($this->_userId == $userId || in_array($userId, $userIds));
-    }
-
-    public function initBrand()
-    {
-        $str = strtolower($this->name);
+        $str = strtolower($name);
         $str = preg_replace('/ /', '-', $str);
         $str = htmlentities($str, ENT_NOQUOTES, 'utf-8');
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
         $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
-        $this->brand = $str;
+        return $str;
     }
 
     public function getPublicLink()

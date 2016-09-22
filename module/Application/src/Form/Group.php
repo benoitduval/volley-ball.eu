@@ -38,20 +38,60 @@ class Group extends Form
                 'label' => 'Description',
             ],
             'attributes' => [
-                'rows' => 5,
+                'rows' => 4,
                 'placeholder' => 'Description du club, équipes etc',
+                'required' => 'required',
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'gymnasium',
+            'type' => Element\Text::class,
+            'attributes' => [
+                'required' => 'required',
                 'class' => 'form-control',
             ],
         ]);
 
 
         $this->add([
-            'name' => 'info',
+            'name' => 'address',
+            'type' => Element\Text::class,
+            'attributes' => [
+                'rows' => 4,
+                'required' => 'required',
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'schedule',
             'type' => Element\Textarea::class,
             'attributes' => [
-                'rows' => 5,
+                'rows' => 4,
                 'class' => 'form-control',
-                'placeholder' => 'Information concernant les séances (niveau, jour, horaire ...)',
+                'required' => 'required',
+                'placeholder' => 'Jour et horaire des séances',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'long',
+            'type' => Element\Text::class,
+            'attributes' => [
+                'rows' => 4,
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+
+            'name' => 'lat',
+            'type' => Element\Text::class,
+            'attributes' => [
+                'rows' => 4,
+                'class' => 'form-control',
             ],
         ]);
 

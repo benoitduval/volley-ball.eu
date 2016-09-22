@@ -17,7 +17,7 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center">
-                    <h2>Les évènements</h2>
+                    <h2>Votre recherche</h2>
                     <h4>Chercher "<b>oll</b>" vous donnera tous les <u>groupes</u> ainsi que <u>vos évènements</u> ayant cette chaine de charactère dans leur nom (Ex: le groupe "Paris Volley" et l'évènement "Match Paris Volley / Asnière").</h4>
                 </div>
             </div>
@@ -39,7 +39,6 @@
                             <th data-field="date" data-sortable="true">Description</th>
                             <th data-field="action"></th>
                         </thead>
-                        </thead>
                         <tbody>
                         <?php if (count($groups)): ?>
                             <?php foreach ($groups as $group): ?>
@@ -48,7 +47,7 @@
                                     <td><?= $group->description ?></td>
                                     <td class="text-right">
 
-                                        <a href="<?= $group->getPublicLink() ?>"><i class="material-icons">search</i> Détails</a>
+                                        <a href="<?= $group->getPublicLink() ?>"><i class="material-icons">search</i></a>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
@@ -63,7 +62,7 @@
 
                 <div class="row">
                     <h2>Les évènements</h2>
-                    <table data-toggle="table"
+                    <table class="table-striped" data-toggle="table"
                            data-pagination="true"
                            data-search="true"
                            data-page-size="10"
@@ -81,7 +80,7 @@
                                     <td><?= $event->date ?></td>
                                     <td class="text-right">
 
-                                        <a href="/event/detail/<?= $event->id ?>"><i class="material-icons">search</i> Détails</a>
+                                        <a href="/event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
