@@ -5,44 +5,28 @@ namespace Api;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
-use Api\Controller\AuthController;
+use Api\Controller;
 
 return [
     'router' => [
         'routes' => [
-            // 'api' => [
-            //     'type'    => Segment::class,
-            //     'options' => [
-            //         'route'    => '/api/auth[/:action]',
-            //         'constraints' => [
-            //             'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-            //         ],
-            //         'defaults' => [
-            //             'controller'    => Controller\AuthController::class,
-            //             'action'        => 'signin',
-            //         ],
-            //     ],
-            // ],
+            'api' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/user/grant/:groupId/:userId/:status',
+                    'constraints' => [
+                        'groupId' => '[0-9]*',
+                        'userId' => '[0-9]*',
+                        'status' => '[0-1]{1}',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\UserController::class,
+                        'action'        => 'grant',
+                    ],
+                ],
+            ],
         ],
     ],
-
-    // 'service_manager' => [
-    //     'factories' => [
-    //         AuthenticationService::class => AuthenticationServiceFactory::class,
-    //     ],
-    // ],
-
-    // 'controllers' => [
-    //     'factories' => [
-    //         Controller\AuthController::class => InvokableFactory::class,
-    //     ],
-    // ],
-
-    // 'controllers' => [
-    //     'abstract_factories' => [
-    //         \Application\Factory\ControllerFactory::class
-    //     ],
-    // ],
 
     'view_manager' => [
         

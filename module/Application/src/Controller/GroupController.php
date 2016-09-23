@@ -244,20 +244,41 @@ class GroupController extends AbstractController
     {
         $id = (int) $this->params()->fromRoute('id');
         $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $joinTable      = $this->getContainer()->get(TableGateway\Join::class);
+        $userTable      = $this->getContainer()->get(TableGateway\User::class);
+        $groupTable      = $this->getContainer()->get(TableGateway\Group::class);
+
+        $group = $groupTable->find($id);
+
+        $joins = $joinTable->fetchAll([
+            'groupId' => $id
+        ]);
+
+        $joinUserIds = [];
+        $userJoin = [];
+        foreach ($joins as $join) {
+            $joinUserIds[] = $join->userId;
+        }
+        if (!empty($joinUserIds)) $userJoin = $userTable->fetchAll(['id' => $joinUserIds]);
+
         $userGroups = $userGroupTable->fetchAll([
             'groupId' => $id
         ]);
 
-        $userTable = $this->getContainer()->get(TableGateway\User::class);
+        $adminIds = [];
         foreach ($userGroups as $userGroup) {
-            $userIds[] = $userGroup->userId;
+            if ($userGroup->admin) $adminIds[] = $userGroup->userId;
+            $userIds[]  = $userGroup->userId;
         }
 
         $users = $userTable->fetchAll(['id' => $userIds]);
 
         $this->layout()->user = $this->getUser();
         return new ViewModel([
+            'adminIds' => $adminIds,
             'users' => $users,
+            'group' => $group,
+            'join'  => $userJoin,
         ]);
     }
 

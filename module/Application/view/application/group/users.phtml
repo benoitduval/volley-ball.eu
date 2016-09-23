@@ -26,14 +26,11 @@
         <div class="section">
             <div class="container">
                 <div class="row">
-                    <table class="table-striped" data-toggle="table"
-                           data-pagination="true"
-                           data-search="true"
-                           data-page-size="10"
-                           data-page-list="[10,25,50,100]">
+                    <table class="table table-striped col-md-12">
                         <thead>
-                            <th data-field="name" data-sortable="true">Nom</th>
-                            <th data-field="date">Admin</th>
+                            <th>Nom</th>
+                            <th class="text-right">Admin</th>
+                            <th></th>
                         </thead>
                         <tbody>
                         <?php if (count($users)): ?>
@@ -43,9 +40,20 @@
                                         <?= $user->getFullname() ?>
                                     </td>
                                     <td class="text-right">
-                                        <a href="Nop#">
-                                            <i class="material-icons">search</i>
-                                        </a>
+                                        <span class="togglebutton">
+                                            <label>
+                                                <input name="users" data-group="<?php echo $group->id ?>" data-user="<?php echo $user->id ?>" 
+                                                <?php if (in_array($user->id, $adminIds)): ?>
+                                                    checked=""
+                                                    value="0"
+                                                <?php else: ?>
+                                                    value="1"
+                                                <?php endif ?>
+                                                type="checkbox">
+                                            </label>
+                                        </span>
+                                    </td>
+                                    <td class="text-right">
                                         <a href="#">
                                             <i class="material-icons">delete_forever</i>
                                         </a>
@@ -60,6 +68,39 @@
                         </tbody>
                     </table>
                 </div>
+
+                <?php if (count($join)): ?>
+                    <div class="row">
+                        <h2>Demande à rejoindre le groupe</h2>
+                        <table class="table-striped" data-toggle="table"
+                               data-pagination="true"
+                               data-search="false"
+                               data-page-size="10"
+                               data-page-list="[10,25,50,100]">
+                            <thead>
+                                <th data-field="name" data-sortable="true">Nom</th>
+                                <th data-field="date">Admin</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($join as $userJoin): ?>
+                                    <tr>
+                                        <td>
+                                            <?= $userJoin->getFullname() ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="Nop#">
+                                                <i class="material-icons">done</i>
+                                            </a>
+                                            <a href="#">
+                                                <i class="material-icons">highlight_off</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif ?>
             </div>
         </div>
     </div>

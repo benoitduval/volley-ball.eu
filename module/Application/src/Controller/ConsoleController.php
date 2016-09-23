@@ -27,9 +27,9 @@ class ConsoleController extends AbstractController
 
         $this->adapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
-            'database' => 'volley',
-            'username' => 'root',
-            'password' => 'yuc742617',
+            'database' => '',
+            'username' => '',
+            'password' => '',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],
@@ -37,9 +37,9 @@ class ConsoleController extends AbstractController
 
         $this->newAdapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
-            'database' => 'album',
-            'username' => 'root',
-            'password' => 'yuc742617',
+            'database' => '',
+            'username' => '',
+            'password' => '',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],

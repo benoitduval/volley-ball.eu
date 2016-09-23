@@ -3,6 +3,7 @@ $(function () {
     map();
     datepicker();
     carousel();
+    switcher();
 });
 
 /* =========================================
@@ -100,5 +101,22 @@ function fab() {
         if (window_width < 992){
             $('.fixed-action-btn').addClass('click-to-toggle');
         }
+    }
+}
+
+function switcher()
+{
+    if ($("[name='users']").length) {
+        $('input[name="users"]').on('click', function(event) {
+            var userId  = $(this).attr('data-user');
+            var groupId = $(this).attr('data-group');
+            var value = $(this).attr("value");
+
+            var url = '/api/user/grant/' + groupId + '/' + userId + '/' + value;
+            var request = $.ajax({
+                type: "GET",
+                url: url
+            });
+        });
     }
 }
