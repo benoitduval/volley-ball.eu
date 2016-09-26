@@ -4,10 +4,19 @@ namespace Application\Model;
 
 class Match extends AbstractModel
 {
-    protected $_id       = null;
-    protected $_eventId  = null;
-    protected $_scoreA   = null;
-    protected $_scoreB   = null;
-    protected $_team     = null;
-    protected $_debrief  = null;
+    protected $_id        = null;
+    protected $_eventId   = null;
+    protected $_victory   = null;
+    protected $_sets      = null;
+    protected $_set1Team1 = null;
+    protected $_set1Team2 = null;
+    protected $_set2Team1 = null;
+    protected $_set2Team2 = null;
+    protected $_set3Team1 = null;
+    protected $_set3Team2 = null;
+    protected $_set4Team1 = null;
+    protected $_set4Team2 = null;
+    protected $_set5Team1 = null;
+    protected $_set5Team2 = null;
+    protected $_debrief   = null;
 }

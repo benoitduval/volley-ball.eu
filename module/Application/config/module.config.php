@@ -29,7 +29,7 @@ return [
                 'options' => [
                     'route'    => '/event[/:action[/:id]]',
                     'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-z][a-z_-]*',
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
@@ -43,7 +43,7 @@ return [
                 'options' => [
                     'route'    => '/guest[/:action[/:id[/:response]]]',
                     'constraints' => [
-                        'action'   => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action'   => '[a-z][a-z_-]*',
                         'id'       => '[0-9]+',
                         'response' => '[0-9]+',
                     ],
@@ -58,7 +58,7 @@ return [
                 'options' => [
                     'route'    => '/group[/:action[/:id]]',
                     'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-z][a-z_-]*',
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
@@ -72,7 +72,7 @@ return [
                 'options' => [
                     'route'    => '/welcome-to[/:brand]',
                     'constraints' => [
-                        'brand' => '[a-zA-Z\-]*',
+                        'brand' => '[a-z\-]*',
                     ],
                     'defaults' => [
                         'controller'    => Controller\GroupController::class,
@@ -85,11 +85,25 @@ return [
                 'options' => [
                     'route'    => '/auth[/:action[/:url]]',
                     'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-z][a-z_-]*',
                     ],
                     'defaults' => [
                         'controller'    => Controller\AuthController::class,
                         'action'        => 'signin',
+                    ],
+                ],
+            ],
+            'match' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/match[/:action[/:id]]',
+                    'constraints' => [
+                        'action'   => '[a-z][a-z_-]*',
+                        'id'       => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\MatchController::class,
+                        'action'        => 'create',
                     ],
                 ],
             ],

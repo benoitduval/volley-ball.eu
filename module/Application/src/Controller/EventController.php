@@ -12,13 +12,13 @@ class EventController extends AbstractController
 {
     public function createAction()
     {
-        $groupId    = $this->params()->fromRoute('id');
+        $groupId        = $this->params()->fromRoute('id');
 
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
         $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
-        $userTable  = $this->getContainer()->get(TableGateway\User::class);
+        $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
+        $userTable      = $this->getContainer()->get(TableGateway\User::class);
 
         $group = $groupTable->find($groupId);
 
@@ -181,11 +181,8 @@ class EventController extends AbstractController
         $result = [];
         foreach ($comments as $comment) {
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $comment->date);
-            $result[$comment->id]['date'] = $date->format('d F Y \à H:i');
-            // if (!isset($users[$comment->userId])) {
-            //     $users[$comment->userId] = $userTable->find($comment->userId);
-            // }
-            $result[$comment->id]['author'] = $users[$comment->userId];
+            $result[$comment->id]['date']    = $date->format('d F Y \à H:i');
+            $result[$comment->id]['author']  = $users[$comment->userId];
             $result[$comment->id]['comment'] = $comment->comment;
         }
 
