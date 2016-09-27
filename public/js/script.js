@@ -4,6 +4,7 @@ $(function () {
     datepicker();
     carousel();
     switcher();
+    rotating();
 });
 
 /* =========================================
@@ -118,5 +119,26 @@ function switcher()
                 url: url
             });
         });
+    }
+}
+
+function rotating()
+{
+    if (($(".card-container").length > 0)) {
+        window_width = $(window).width();
+        if (window_width < 992) {
+            $(".card-container").each(function () {
+                $(this).addClass('manual-flip');
+            });
+        }
+    }
+}
+
+function rotateCard(btn){
+    var $card = $(btn).closest('.card-container');
+    if($card.hasClass('hover')){
+        $card.removeClass('hover');
+    } else {
+        $card.addClass('hover');
     }
 }
