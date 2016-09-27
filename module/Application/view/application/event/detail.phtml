@@ -81,13 +81,13 @@
                     <div class="col-md-6">
                         <div class="card card-signup">
                             <div class="header header-primary text-center">
-                                <h4>Résumé du match</h4>
+                                <h4>Débrief</h4>
                             </div>
                             <div class="col-md-10 col-md-offset-1">
                                 <div class="main">
                                     <h3 class="name"><?= $match->victory ? 'Victoire' : 'Défaite'; ?></h3>
                                     <p class="profession"><?= $match->sets ?></p>
-                                    <table width="100%">
+                                    <table class="table table-bordered" width="100%">
                                         <tr>
                                             <td><?= $group->name ?></td>
                                             <td><?= $match->set1Team1 ?></td>
@@ -106,16 +106,32 @@
                                         </tr>
 
                                     </table>
-                                    <h2 class="name">Débrief</h2>
-                                    <p class="text-center">
-                                        <?= $match->debrief ?>
-                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <?php endif ?>
             </div>
+            <?php if ($match): ?>
+                <div class="row debrief">
+                    <div class="col-md-12">
+                        <div class="card card-signup">
+                            <div class="header header-primary text-center">
+                                <h4>Résultat</h4>
+                            </div>
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="content">
+                                    <div class="main">
+                                        <p>
+                                            <?= nl2br($match->debrief) ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ?>
         </div>
     </div>
 

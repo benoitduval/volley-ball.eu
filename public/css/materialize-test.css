@@ -326,3 +326,7 @@ div.item i.large {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
+
+.debrief {
+    margin-top:50px;
+}
