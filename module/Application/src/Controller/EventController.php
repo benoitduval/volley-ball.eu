@@ -51,7 +51,6 @@ class EventController extends AbstractController
 
                 // Create guest for this new event
                 $emails = [];
-                
                 $userGroups = $userGroupTable->fetchAll(['groupId' => 1]);
 
                 foreach ($userGroups as $userGroup) {
