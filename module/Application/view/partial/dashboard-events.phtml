@@ -2,16 +2,20 @@
     switch ($guest->response) {
         case Application\Model\Guest::RESP_OK:
             $class = 'header-success';
+            $txt = 'text-success';
             break;
         case Application\Model\Guest::RESP_NO:
             $class = 'header-danger';
+            $txt = 'text-danger';
             break;
         case Application\Model\Guest::RESP_INCERTAIN:
             $class = 'header-warning';
+            $txt = 'text-warning';
             break;
         
         default:
             $class = 'header-info';
+            $txt = '';
             break;
     }
 ?>
@@ -22,7 +26,7 @@
                 <div class="cover">
                     <img src="/img/rotating_card_thumb2.png"/>
                 </div>
-                <div class="user card text-center">
+                <div class="user card text-center success">
                     <div class="agenda">
                         <div class="agenda-header">
                             <b><?= \Application\Service\Date::toFr($date->format("F")) ?></b>
@@ -35,7 +39,7 @@
                 </div>
                 <div class="content">
                     <div class="main">
-                        <h3 class="name"><?= $event->name ?></h3>
+                        <h3 class="name <?= $txt ?>"><?= $event->name ?></h3>
                         <p class="profession"><?= $group->name ?></p>
                         <p class="text-center">Le RDV est à <b><?= $date->format("H\hi") ?></b></p>
                         <p class="text-center">
