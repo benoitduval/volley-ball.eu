@@ -2,6 +2,9 @@
     <td><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?><br><?= \Application\Service\Date::toFr($date->format('H:i')) ?></td>
     <td><?= $group->name ?><br><?= $event->name ?></td>
     <td class="text-right">
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" class="text-success"><i class="material-icons">event_available</i></a>
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>" class="text-danger"><i class="material-icons">event_busy</i></a>
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="text-warning"><i class="material-icons">date_range</i></a>
         <a href="event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
     </td>
 </tr>
