@@ -27,14 +27,14 @@ If you do want it, include this div above all your content
                 </div>
                 <div class="col-md-3 col-md-offset-5">
                     <ul class="nav nav-pills" role="tablist">
-                        <li class="active">
-                            <a href="#dashboard" role="tab" data-tggle="tab">
+                        <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_LARGE) ? 'active' : ''; ?>">
+                            <a href="#" class="display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_LARGE ?>">
                                 <i class="material-icons">view_module</i>
                                 Vue étendue
                             </a>
                         </li>
-                        <li>
-                            <a href="#tasks" role="tab" data-toggle="tab">
+                        <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_SMALL) ? 'active' : ''; ?>">
+                            <a class="display" href="#" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_SMALL ?>">
                                 <i class="material-icons">view_list</i>
                                 Vue minimale
                             </a>
@@ -47,11 +47,32 @@ If you do want it, include this div above all your content
     <div class="section section-tabs">
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
-                    <?php foreach ($events as $event): ?>
-                        <?php echo $this->partial('partial/dashboard-events.phtml', $event) ?>
-                    <?php endforeach ?>
-                </div>
+                <?php if ($this->user->display == Application\Model\User::DISPLAY_LARGE): ?>
+                    <div class="col-sm-12">
+                        <?php foreach ($events as $event): ?>
+                            <?php echo $this->partial('partial/dashboard-events.phtml', $event) ?>
+                        <?php endforeach ?>
+                    </div>
+                <?php else: ?>
+                    <table class="table-striped"
+                    data-toggle="table"
+                           data-pagination="true"
+                           data-locale="fr-FR"
+                           data-search="true"
+                           data-page-size="10"
+                           data-page-list="[10,25,50,100]">
+                        <thead>
+                            <th data-field="date" data-sortable="true">Date</th>
+                            <th data-field="name" data-sortable="true">Nom</th>
+                            <th data-field="action"></th>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($events as $event): ?>
+                                <?php echo $this->partial('partial/list-events.phtml', $event) ?>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                <?php endif ?>
             </div>
         </div>
     </div>
