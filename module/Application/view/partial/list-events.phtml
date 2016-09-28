@@ -1,0 +1,7 @@
+<tr>
+    <td><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?><br><?= \Application\Service\Date::toFr($date->format('H:i')) ?></td>
+    <td><?= $group->name ?><br><?= $event->name ?></td>
+    <td class="text-right">
+        <a href="event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
+    </td>
+</tr>

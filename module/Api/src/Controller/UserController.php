@@ -32,6 +32,24 @@ class UserController extends AbstractController
         $view->setTerminal(true);
         $view->setTemplate('api/default/json.phtml');
         return $view;
+    }
 
+    public function displayAction()
+    {
+        $userTable = $this->getContainer()->get(TableGateway\User::class);
+
+        $display  = $this->params('display', null);
+        $this->getUser()->display = $display;
+        $userTable->save($this->getUser());
+
+        $view = new ViewModel(array(
+            'result'   => [
+                'success'  => true
+            ]
+        ));
+
+        $view->setTerminal(true);
+        $view->setTemplate('api/default/json.phtml');
+        return $view;
     }
 }

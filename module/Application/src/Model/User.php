@@ -4,8 +4,8 @@ namespace Application\Model;
 class User extends AbstractModel
 {
 
-    const DISPLAY_LARGE     = 1;
-    const DISPLAY_SMALL     = 2;
+    const DISPLAY_SMALL     = 1;
+    const DISPLAY_LARGE     = 2;
 
     const HAS_TO_CONFIRM    = 1;
     const CONFIRMED         = 2;

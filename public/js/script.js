@@ -5,6 +5,7 @@ $(function () {
     carousel();
     switcher();
     rotating();
+    display();
 });
 
 /* =========================================
@@ -94,6 +95,35 @@ function carousel() {
             }
         });
     });
+
+    $(".owl-carousel-2").each(function () {
+        $(this).owlCarousel({
+            responsiveClass:true,
+            navText: ['<i class="fa fa-backward" aria-hidden="true"></i>',
+                      '<i class="fa fa-forward" aria-hidden="true"></i>'
+            ],
+            responsive:{
+                0:{
+                    autoHeight:true,
+                    items:1,
+                    nav:false,
+                    dots: true
+                },
+                600:{
+                    autoHeight:true,
+                    items:1,
+                    nav:false,
+                    dots: true
+                },
+                1000:{
+                    autoHeight:false,
+                    items:2,
+                    nav:false,
+                    dots: true
+                }
+            }
+        });
+    });
 }
 
 function fab() {
@@ -140,5 +170,23 @@ function rotateCard(btn){
         $card.removeClass('hover');
     } else {
         $card.addClass('hover');
+    }
+}
+
+function display()
+{
+    if ($(".display").length) {
+        $('.display').on('click', function(event) {
+            event.preventDefault();
+            var display = $(this).attr('data-display');
+
+            var url = '/api/user/display/' + display;
+            var request = $.ajax({
+                type: "GET",
+                url: url
+            }).done(function() {
+                location.reload();
+            });
+        });
     }
 }

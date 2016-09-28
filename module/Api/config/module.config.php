@@ -10,7 +10,7 @@ use Api\Controller;
 return [
     'router' => [
         'routes' => [
-            'api' => [
+            'grant-user' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/api/user/grant/:groupId/:userId/:status',
@@ -22,6 +22,19 @@ return [
                     'defaults' => [
                         'controller'    => Controller\UserController::class,
                         'action'        => 'grant',
+                    ],
+                ],
+            ],
+            'user-display' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/user/display/:display',
+                    'constraints' => [
+                        'display' => '[1-2]{1}',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\UserController::class,
+                        'action'        => 'display',
                     ],
                 ],
             ],
