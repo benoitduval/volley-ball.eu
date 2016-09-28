@@ -49,7 +49,11 @@
                         <?php endforeach ?>
                     </div>
                 <?php else: ?>
-                    <table class="table-striped"
+
+                    <?php foreach ($events as $event): ?>
+                        <?php echo $this->partial('partial/list-events.phtml', $event) ?>
+                    <?php endforeach ?>
+<!--                     <table class="table-striped"
                     data-toggle="table"
                            data-pagination="true"
                            data-locale="fr-FR"
@@ -66,7 +70,7 @@
                                 <?php echo $this->partial('partial/list-events.phtml', $event) ?>
                             <?php endforeach ?>
                         </tbody>
-                    </table>
+                    </table> -->
                 <?php endif ?>
             </div>
         </div>

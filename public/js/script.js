@@ -96,7 +96,7 @@ function carousel() {
         });
     });
 
-    $(".owl-carousel-2").each(function () {
+    $(".owl-carousel-3").each(function () {
         $(this).owlCarousel({
             responsiveClass:true,
             navText: ['<i class="fa fa-backward" aria-hidden="true"></i>',
@@ -111,15 +111,15 @@ function carousel() {
                 },
                 600:{
                     autoHeight:true,
-                    items:1,
+                    items:3,
                     nav:false,
-                    dots: true
+                    dots: false
                 },
                 1000:{
                     autoHeight:false,
-                    items:2,
+                    items:3,
                     nav:false,
-                    dots: true
+                    dots: false
                 }
             }
         });
