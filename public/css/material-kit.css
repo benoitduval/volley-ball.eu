@@ -3661,7 +3661,8 @@ h2.title {
   background: rgba(38, 169, 167, 0.64);
   background: linear-gradient(45deg, rgba(38, 169, 167, 0.88) 0%, rgba(125, 46, 185, 0.45) 100%);
   background: -moz-linear-gradient(135deg, rgba(38, 169, 167, 0.88) 0%, rgba(125, 46, 185, 0.45) 100%);
-  background: -webkit-linear-gradient(135deg, rgba(38, 169, 167, 0.88) 0%, rgba(0, 188, 212, 0.45) 100%);
+  background: -webkit-linear-gradient(135deg, rgba(38, 169, 167, 0.88) 0%, rgba(125, 46, 185, 0.45) 100%);
+  /*background: -webkit-linear-gradient(135deg, rgba(38, 169, 167, 0.88) 0%, rgba(0, 188, 212, 0.45) 100%);*/
 }
 
 .landing-page .header {
