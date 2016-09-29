@@ -67,6 +67,20 @@ return [
                     ],
                 ],
             ],
+            'recurent' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/recurent[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-z][a-z_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\RecurentController::class,
+                        'action'        => 'create',
+                    ],
+                ],
+            ],
             'group-welcome' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -138,6 +152,15 @@ return [
                         'defaults' => [
                             'controller' => Controller\ConsoleController::class,
                             'action'     => 'migration',
+                        ],
+                    ],
+                ],
+                'recurent' => [
+                    'options' => [
+                        'route'    => 'recurent [--verbose|-v]',
+                        'defaults' => [
+                            'controller' => Controller\ConsoleController::class,
+                            'action'     => 'recurent',
                         ],
                     ],
                 ],

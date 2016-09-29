@@ -1,0 +1,141 @@
+<div class="header header-filter" style="background-image: url('/img/bg-recep-ori.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="brand">
+                    <h1>Volley-ball.eu</h1>
+                    <h3>Gestion de groupes, entrainements, matchs.</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<?php if (isset($form)): ?>
+    <div class="main main-raised">
+        <div class="section section-basic">
+            <div class="container">
+                <div class="title">
+                    <h2><b><?= $group->name ?></b> - Nouvel évènement récurent</h2>
+                </div>
+
+                <div class="row">
+                    <?php echo $this->form()->openTag($form); ?>
+
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+
+                            <div class="title">
+                                <h4>Informations</h4>
+                            </div>
+
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">account_balance</i>
+                                    </span>
+                                    <label class="control-label" for="name">
+                                        Nom de l'évènement
+                                    </label>
+                                    <?php echo $this->formInput($form->get('name')); ?>
+                                </div>
+                            </div>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">local_post_office</i>
+                                    </span>
+                                    <label class="control-label" for="eventDay">
+                                        Jour de la semaine
+                                    </label>
+                                    <?php echo $this->formElement($form->get('eventDay')); ?>
+                                </div>
+                            </div>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">local_post_office</i>
+                                    </span>
+                                    <label class="control-label" for="time">
+                                        Horaire
+                                    </label>
+                                    <?php echo $this->formInput($form->get('time')); ?>
+                                </div>
+                            </div>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">local_post_office</i>
+                                    </span>
+                                    <label class="control-label" for="emailDay">
+                                        Jour de l'envoi des invitations
+                                    </label>
+                                    <?php echo $this->formElement($form->get('emailDay')); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="title">
+                                <h4>Adresse</h4>
+                            </div>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">account_balance</i>
+                                    </span>
+                                    <label class="control-label" for="place">
+                                        Nom du Gymnase / Lieu
+                                    </label>
+                                    <?php echo $this->formInput($form->get('place')); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">local_post_office</i>
+                                    </span>
+                                    <label class="control-label" for="address">
+                                        Adresse
+                                    </label>
+                                    <?php echo $this->formInput($form->get('address')); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">language</i>
+                                    </span>
+                                    <label class="control-label" for="zipCode">
+                                        Code Postal
+                                    </label>
+                                    <?php echo $this->formInput($form->get('zipCode')); ?>
+                                </div>
+                            </div>
+
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">location_city</i>
+                                    </span>
+                                    <label class="control-label" for="city">
+                                        Ville
+                                    </label>
+                                    <?php echo $this->formInput($form->get('city')); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 footer text-center">
+                        <?php echo $this->formElement($form->get('submit')); ?>
+                    </div>
+
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif ?>

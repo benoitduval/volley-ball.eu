@@ -10,6 +10,7 @@ use Zend\Math\Rand;
 use Zend\Crypt\Password\Bcrypt;
 use Application\TableGateway;
 use Application\Model;
+use Application\Service;
 use Zend\Console\Console;
 use Zend\Console\Exception\RuntimeException as ConsoleException;
 use Zend\Console\ColorInterface as Color;
@@ -181,5 +182,131 @@ class ConsoleController extends AbstractController
         $values .= ';';
 
         $this->newAdapter->query('INSERT INTO `comment` VALUES ' . $values)->execute();
+    }
+
+    public function recurentAction()
+    {
+        date_default_timezone_set('Europe/Paris');
+        $recurentTable  = $this->getContainer()->get(TableGateway\Recurent::class);
+        $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
+        $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $userTable      = $this->getContainer()->get(TableGateway\User::class);
+
+        $recurents      = $recurentTable->fetchAll([
+            // 'emailDay' => date('l'),
+            'status'   => \Application\Model\Recurent::ACTIVE
+        ]);
+
+        // $mail           = new Mail($this->getServiceLocator()->get('volley_transport_mail'));
+        // $config         = $this->getServiceLocator()->get('volley-config');
+
+        $groups = [];
+        foreach ($recurents as $recurent) {
+            if (!isset($groups[$recurent->groupId])) {
+                $group = $groupTable->find($recurent->groupId);
+                $groups[$recurent->groupId] = $group;
+            } else {
+                $group = $groups[$recurent->groupId];
+            }
+
+            $userIds = $userGroupTable->getUserIds($group->id);
+            $users = $userTable->fetchAll([
+                'id' => $userIds
+            ]);
+
+            $date = new \DateTime('now');
+            $date = $date->modify('next ' . strtolower($recurent->eventDay) . $recurent->time);
+            $date = $date->format('Y-m-d H:i:s');
+
+            // Create Event
+            $params = [
+                'date'    => $date,
+                'comment' => '',
+                'name'    => $recurent->name,
+                'groupId' => $recurent->groupId,
+                'place'   => $recurent->place,
+                'address' => $recurent->address,
+                'zipCode' => $recurent->zipCode,
+                'city'    => $recurent->city,
+            ];
+
+            $mapService = $this->getContainer()->get(Service\Map::class);
+            $address = $recurent->address . ', ' . $recurent->zipCode . ' ' . $recurent->city . ' France';
+
+            if ($coords = $mapService->getCoordinates($address)) {
+                $params = array_merge($params, $coords);
+            }
+
+            $event = new Model\Event;
+            $event->exchangeArray($params);
+            $eventId = $eventTable->save($event);
+
+            foreach ($userIds as $id) {
+                $guest = new Model\Guest;
+                $params = [
+                    'eventId'  => $eventId,
+                    'userId'   => $id,
+                    'response' => Model\Guest::RESP_NO_ANSWER,
+                    'groupId'  => $group->id,
+                ];
+                $guest->exchangeArray($params);
+                $guestTable->save($guest);
+            }
+
+            // if ($event) {
+            //     $email = false;
+            //     foreach ($userIds as $id) {
+
+            //         // if (!$notifTable->isAllowed(Notification::EVENT_RECURENT, $id)) continue;
+
+            //             $email = true;
+            //             $user = $userTable->getById($id);
+            //             $mail->addBcc($user->email);
+            //         }
+            //         $params = array(
+            //             'eventId'  => $event->id,
+            //             'userId'   => $id,
+            //             'response' => Guest::RESP_NO_ANSWER,
+            //             'date'     => $date,
+            //             'groupId'  => $group->id,
+            //         );
+
+            //         $guest = $guestTable->fromArray($params)->getEntity();
+            //         // make sure id is empty to avoid update. Create only here
+            //         $guest->id = null;
+            //         $guestTable->setEntity($guest)->save();
+            //     }
+
+            //     $comment  = 'Aucun commentaire sur l\'évènement';
+
+            //     if ($email) {
+            //         // Send Email
+            //         $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $event->getDate()->format('d-m-Y'));
+            //         $mail->setTemplate(Mail::TEMPLATE_EVENT, array(
+            //             'pitch'     => 'Nouvel Évènement!',
+            //             'subtitle'  => $group->name,
+            //             'title'     => $event->name . ' <br /> ' . $event->getDate()->format('l d F \à H\hi'),
+            //             'name'      => $place->name,
+            //             'address'   => $place->address,
+            //             'zip'       => $place->zipCode,
+            //             'city'      => $place->city,
+            //             'eventId'   => $event->id,
+            //             'date'      => $event->getDate()->format('l d F \à H\hi'),
+            //             'day'       => $event->getDate()->format('d'),
+            //             'month'     => $event->getDate()->format('F'),
+            //             'ok'        => Guest::RESP_OK,
+            //             'no'        => Guest::RESP_NO,
+            //             'perhaps'   => Guest::RESP_INCERTAIN,
+            //             'comment'   => $comment,
+            //             'baseUrl'   => $config['baseUrl']
+            //         ));
+            //         $mail->send();
+            //     }
+            // } else {
+            //     error_log('Recurent event failed');
+            // }
+        }
     }
 }

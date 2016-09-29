@@ -19,4 +19,15 @@ class UserGroup extends AbstractTableGateway
         $obj = $this->fetchOne(['userId' => $userId, 'groupId' => $groupId]);
         return $obj && $obj->admin;
     }
+
+    public function getUserIds($groupId)
+    {
+        $objs = $this->fetchAll(['groupId' => $groupId]);
+        $result = [];
+        foreach ($objs as $obj) {
+            $result[] = $obj->userId;
+        }
+
+        return $result;
+    }
 }

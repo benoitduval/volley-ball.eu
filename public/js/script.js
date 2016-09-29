@@ -57,7 +57,16 @@ function datepicker() {
             lang : 'fr',
             weekStart : 1,
             cancelText : 'ANNULER',
-            minDate : new Date() 
+            minDate : new Date(),
+        });
+    }
+
+    if (($("#datetimepicker").length > 0)) {
+        $('#datetimepicker').bootstrapMaterialDatePicker({ 
+            format : 'HH:mm',
+            lang : 'fr',
+            cancelText : 'ANNULER',
+            date : false
         });
     }
 }

@@ -160,10 +160,17 @@
 .card .footer .btn-simple{
     margin-top: -6px;
 }
+
 .card .header {
     padding: 15px 20px;
     height: 90px;
 }
+
+.card-small-header .header {
+    padding: 4px 20px;
+    height: 53px;
+}
+
 .card .motto{
     color: #FFF;
     font-size: 14px;

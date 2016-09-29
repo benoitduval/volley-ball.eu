@@ -53,24 +53,6 @@
                     <?php foreach ($events as $event): ?>
                         <?php echo $this->partial('partial/list-events.phtml', $event) ?>
                     <?php endforeach ?>
-<!--                     <table class="table-striped"
-                    data-toggle="table"
-                           data-pagination="true"
-                           data-locale="fr-FR"
-                           data-search="true"
-                           data-page-size="10"
-                           data-page-list="[10,25,50,100]">
-                        <thead>
-                            <th data-field="date">Date</th>
-                            <th data-field="name">Nom</th>
-                            <th data-field="action"></th>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($events as $event): ?>
-                                <?php echo $this->partial('partial/list-events.phtml', $event) ?>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table> -->
                 <?php endif ?>
             </div>
         </div>

@@ -108,14 +108,16 @@ CREATE TABLE `user` (
 DROP TABLE IF EXISTS `recurent`;
 CREATE TABLE `recurent` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) unsigned NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `groupId` int(5) DEFAULT NULL,
-  `placeId` int(5) DEFAULT NULL,
-  `day` varchar(15) DEFAULT NULL,
-  `sendDay` varchar(15) DEFAULT NULL,
-  `time` int(2) DEFAULT NULL,
   `name` varchar(20) NOT NULL,
+  `emailDay` varchar(15) DEFAULT NULL,
+  `eventDay` varchar(15) DEFAULT NULL,
+  `time` varchar(5) DEFAULT NULL,
+  `place` varchar(255) NOT NULL DEFAULT '',
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(48) DEFAULT NULL,
+  `zipCode` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
