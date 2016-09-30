@@ -868,11 +868,11 @@
 }
 
 .cyan {
-  background-color: #4ac38b !important;
+  background-color: var(--main-color) !important;
 }
 
 .cyan-text {
-  color: #4ac38b !important;
+  color: var(--main-color) !important;
 }
 
 .cyan.lighten-5 {

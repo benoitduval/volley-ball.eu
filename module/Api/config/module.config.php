@@ -38,6 +38,20 @@ return [
                     ],
                 ],
             ],
+            'guest' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/guest/response/:eventId/:response',
+                    'constraints' => [
+                        'response' => '[1-3]{1}',
+                        'eventId' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\GuestController::class,
+                        'action'        => 'response',
+                    ],
+                ],
+            ],
         ],
     ],
 

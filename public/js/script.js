@@ -6,6 +6,7 @@ $(function () {
     switcher();
     rotating();
     display();
+    response();
 });
 
 /* =========================================
@@ -195,6 +196,32 @@ function display()
                 url: url
             }).done(function() {
                 location.reload();
+            });
+        });
+    }
+}
+
+function response()
+{
+    if ($(".response").length) {
+        $('.response').on('click', function(event) {
+            event.preventDefault();
+            element = $(this);
+            var response = $(this).attr('data-response');
+            var eventId  = $(this).attr('data-event');
+            
+            var url = '/api/guest/response/' + eventId + '/' + response;
+            var request = $.ajax({
+                type: "GET",
+                url: url
+            }).done(function() {
+                var header = element.prev('.header');
+                // this.closest(":has(h3 span b)")
+                header.removeClass('header-success');
+                header.removeClass('header-danger');
+                header.removeClass('header-warning');
+                header.removeClass('header-primary');
+                header.addClass('header-success');
             });
         });
     }
