@@ -16,7 +16,7 @@
 ?>
 <div class="col-sm-12 col-md-6 col-lg-4">
     <div class="card card-nav-tabs card-small-header" style="min-height:180px">
-        <div class="header <?= $class ?>">
+        <div id="header-<?= $event->id ?>" class="header blabla <?= $class ?>">
             <div class="nav-tabs-navigation">
                 <div class="nav-tabs-wrapper">
                     <ul class="nav nav-tabs" data-tabs="tabs">
@@ -46,9 +46,9 @@
                         <div class="agenda">
                             <a href="/event/detail/<?= $event->id?>" class="event-list-date">
                                 <div class="agenda-content">
-                                        <p><?= \Application\Service\Date::toFr($date->format("l")) ?></p>
-                                        <p class="day"><?= $date->format("d") ?><p>
-                                        <?= \Application\Service\Date::toFr($date->format("F")) ?>
+                                    <p><?= \Application\Service\Date::toFr($date->format("l")) ?></p>
+                                    <p class="day"><?= $date->format("d") ?><p>
+                                    <?= \Application\Service\Date::toFr($date->format("F")) ?>
                                 </div>
                             </a>
                         </div>

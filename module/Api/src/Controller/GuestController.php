@@ -22,9 +22,12 @@ class GuestController extends AbstractController
             $guestTable->save($guest);
         }
 
+        $counts = $guestTable->getCounters($eventId);
+
         $view = new ViewModel(array(
             'result'   => [
-                'success'  => true
+                'success'  => true,
+                'counts' => $counts
             ]
         ));
 

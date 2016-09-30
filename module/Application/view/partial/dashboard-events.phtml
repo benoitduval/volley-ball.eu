@@ -14,7 +14,7 @@
             break;
         
         default:
-            $class = 'header-info';
+            $class = 'header-primary';
             $txt = '';
             break;
     }
@@ -39,7 +39,7 @@
                 </div>
                 <div class="content">
                     <div class="main">
-                        <h3 class="name <?= $txt ?>"><?= $event->name ?></h3>
+                        <h3 id="title-<?= $event->id ?>" class="name <?= $txt ?>"><?= $event->name ?></h3>
                         <p class="profession"><?= $group->name ?></p>
                         <p class="text-center">Le RDV est à <b><?= $date->format("H\hi") ?></b></p>
                         <p class="text-center">
@@ -56,7 +56,7 @@
                 </div>
             </div> <!-- end front panel -->
             <div class="back">
-                <div class="header <?= $class ?>">
+                <div id="header-<?= $event->id ?>" class="header <?= $class ?>">
                     <h5 class="motto">Vous êtes noté <b><?= Application\Model\Guest::$literalDisponbility[$guest->response] ?></b> à cet évènement</h5>
                 </div>
                 <div class="content">
@@ -68,21 +68,30 @@
                         </p>
                         <div class="stats-container">
                             <div class="stats">
-                                <h4><?= $ok ?></h4>
-                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" class="btn-tooltip text-success" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>présent</b> à l'évènement">
-                                    Présent
+                                <h4 id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_OK ?>"><?= $ok ?></h4>
+                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" 
+                                   class="text-success response" 
+                                   data-event="<?= $event->id ?>" 
+                                   data-response="<?= Application\Model\Guest::RESP_OK ?>">
+                                        Présent
                                 </a>
                             </div>
                             <div class="stats">
-                                <h4><?= $no ?></h4>
-                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>" class="btn-tooltip text-danger" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>Absent</b> à l'évènement">
-                                    Absent
+                                <h4 id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO ?>"><?= $no ?></h4>
+                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>"
+                                   class="text-danger response"
+                                   data-event="<?= $event->id ?>" 
+                                   data-response="<?= Application\Model\Guest::RESP_NO ?>">
+                                        Absent
                                 </a>
                             </div>
                             <div class="stats">
-                                <h4><?= $perhaps ?></h4>
-                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="btn-tooltip text-warning" data-toggle="tooltip" data-placement="top" data-html="true" title="Répondre <b>à confirmer</b> à l'évènement">
-                                    Incertain
+                                <h4 id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_INCERTAIN ?>"><?= $perhaps ?></h4>
+                                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>"
+                                   class="text-warning response"
+                                   data-event="<?= $event->id ?>" 
+                                   data-response="<?= Application\Model\Guest::RESP_INCERTAIN ?>">
+                                        Incertain
                                 </a>
                             </div>
                         </div>
