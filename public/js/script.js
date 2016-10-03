@@ -246,21 +246,21 @@ function response()
                 title.addClass(titleColor);
             }
 
-            // var url = '/api/guest/response/' + eventId + '/' + response;
-            // var request = $.ajax({
-            //     type: "GET",
-            //     url: url
-            // }).done(function(resp) {
+            var url = '/api/guest/response/' + eventId + '/' + response;
+            var request = $.ajax({
+                type: "GET",
+                url: url
+            }).done(function(resp) {
 
-            //     var result = jQuery.parseJSON(resp);
-            //     $.each( result.counts, function( key, value ) {
-            //         console.log($("#resp-" + eventId + '-' + key));
-            //         if ($("#resp-" + eventId + '-' + key).length) {
-            //             $("#resp-" + eventId + '-' + key).html(value);
-            //         }
-            //     });
+                var result = jQuery.parseJSON(resp);
+                $.each( result.counts, function( key, value ) {
+                    console.log($("#resp-" + eventId + '-' + key));
+                    if ($("#resp-" + eventId + '-' + key).length) {
+                        $("#resp-" + eventId + '-' + key).html(value);
+                    }
+                });
 
-            // });
+            });
         });
     }
 }
