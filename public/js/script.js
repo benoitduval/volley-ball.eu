@@ -209,51 +209,58 @@ function response()
             el = $(this);
             var response = $(this).attr('data-response');
             var eventId  = $(this).attr('data-event');
-            
-            var url = '/api/guest/response/' + eventId + '/' + response;
-            var request = $.ajax({
-                type: "GET",
-                url: url
-            }).done(function(resp) {
 
-                if (response == 1) {
-                    var headerColor = 'header-success';
-                    var titleColor = 'text-success';
-                }
-                if (response == 2) {
-                    var headerColor = 'header-danger';
-                    var titleColor = 'text-danger';
-                }
-                if (response == 3) {
-                    var headerColor = 'header-warning';
-                    var titleColor = 'text-warning';
-                }
+            // var header = $(this).find('div.header');
 
-                var header = $('#header-' + eventId);
-                header.removeClass('header-success');
-                header.removeClass('header-warning');
-                header.removeClass('header-danger');
-                header.removeClass('header-primary');
-                header.addClass(headerColor);
+            if (response == 1) {
+                var txt = 'Présent';
+                var headerColor = 'header-success';
+                var titleColor = 'text-success';
+            }
 
-                if ($("#title-" + eventId).length) {
-                    var title = $("#title-" + eventId);
-                    title.removeClass('text-success');
-                    title.removeClass('text-warning');
-                    title.removeClass('text-danger');
-                    title.removeClass('text-primary');
-                    title.addClass(titleColor);
-                }
+            if (response == 2) {
+                var text = 'Absent';
+                var headerColor = 'header-danger';
+                var titleColor = 'text-danger';
+            }
 
-                var result = jQuery.parseJSON(resp);
-                $.each( result.counts, function( key, value ) {
-                    console.log($("#resp-" + eventId + '-' + key));
-                    if ($("#resp-" + eventId + '-' + key).length) {
-                        $("#resp-" + eventId + '-' + key).html(value);
-                    }
-                });
+            if (response == 3) {
+                var text = 'À confirmer';
+                var headerColor = 'header-warning';
+                var titleColor = 'text-warning';
+            }
 
-            });
+            var header = $('#header-' + eventId);
+            header.removeClass('header-success');
+            header.removeClass('header-warning');
+            header.removeClass('header-danger');
+            header.removeClass('header-primary');
+            header.addClass(headerColor);
+
+            if ($("#title-" + eventId).length) {
+                var title = $("#title-" + eventId);
+                title.removeClass('text-success');
+                title.removeClass('text-warning');
+                title.removeClass('text-danger');
+                title.removeClass('text-primary');
+                title.addClass(titleColor);
+            }
+
+            // var url = '/api/guest/response/' + eventId + '/' + response;
+            // var request = $.ajax({
+            //     type: "GET",
+            //     url: url
+            // }).done(function(resp) {
+
+            //     var result = jQuery.parseJSON(resp);
+            //     $.each( result.counts, function( key, value ) {
+            //         console.log($("#resp-" + eventId + '-' + key));
+            //         if ($("#resp-" + eventId + '-' + key).length) {
+            //             $("#resp-" + eventId + '-' + key).html(value);
+            //         }
+            //     });
+
+            // });
         });
     }
 }

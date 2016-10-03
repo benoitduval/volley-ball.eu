@@ -13,9 +13,9 @@ class GuestController extends AbstractController
         $eventId    = $this->params()->fromRoute('id');
         $responseId = $this->params()->fromRoute('response');
 
-        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
-        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $groupTable = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable = $this->get(TableGateway\Guest::class);
+        $eventTable = $this->get(TableGateway\Event::class);
+        $groupTable = $this->get(TableGateway\Event::class);
 
         $event      = $eventTable->find($eventId);
         $guest      = $guestTable->fetchOne([

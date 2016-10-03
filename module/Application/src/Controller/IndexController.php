@@ -20,19 +20,19 @@ class IndexController extends AbstractController
 {
     public function indexAction()
     {
-        $signInForm = new SignIn();
-        $signUpForm = new SignUp();
-        $config     = $this->getContainer()->get('config');
-        $baseUrl    = $config['baseUrl'];
-        $groups     = [];
-        $result     = [];
-        $groupIds   = null;
 
         if ($this->getUser()) {
-            $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
-            $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
-            $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-            $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+            $signInForm     = new SignIn();
+            $signUpForm     = new SignUp();
+            $config         = $this->get('config');
+            $baseUrl        = $config['baseUrl'];
+            $groups         = [];
+            $result         = [];
+            $groupIds       = null;
+            $guestTable     = $this->get(TableGateway\Guest::class);
+            $groupTable     = $this->get(TableGateway\Group::class);
+            $userGroupTable = $this->get(TableGateway\UserGroup::class);
+            $eventTable     = $this->get(TableGateway\Event::class);
 
             $today = new \DateTime('today midnight');
             foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
@@ -66,21 +66,34 @@ class IndexController extends AbstractController
                     'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
                 ];
             }
+            $this->layout()->user = $this->getUser();
+            return new ViewModel([
+                'events'     => $result,
+                'signInForm' => $signInForm,
+                'signUpForm' => $signUpForm,
+                'user'       => $this->getUser(),
+                'groups'     => $groups,
+            ]);
+        } else {
+            return $this->redirect()->toRoute('welcome');
         }
-
-        $this->layout()->user = $this->getUser();
-        return new ViewModel([
-            'events'     => $result,
-            'signInForm' => $signInForm,
-            'signUpForm' => $signUpForm,
-            'user'       => $this->getUser(),
-            'groups'     => $groups,
-        ]);
     }
 
     public function exampleAction()
     {
         return new ViewModel([]);
+    }
+
+    public function welcomeAction()
+    {
+        $signInForm = new SignIn();
+        $signUpForm = new SignUp();
+
+        $this->layout()->user = $this->getUser();
+        return new ViewModel([
+            'signInForm' => $signInForm,
+            'signUpForm' => $signUpForm,
+        ]);
     }
 
 }

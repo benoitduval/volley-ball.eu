@@ -12,9 +12,9 @@ class RecurentController extends AbstractController
     public function createAction()
     {
         $groupId       = $this->params()->fromRoute('id');
-        $groupTable    = $this->getContainer()->get(TableGateway\Group::class);
+        $groupTable    = $this->get(TableGateway\Group::class);
         $group         = $groupTable->find($groupId);
-        $recurentTable = $this->getContainer()->get(TableGateway\Recurent::class);
+        $recurentTable = $this->get(TableGateway\Recurent::class);
 
         $form = new Form\Recurent;
         $request = $this->getRequest();

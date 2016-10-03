@@ -16,7 +16,7 @@ class GuestController extends AbstractController
         $eventId  = $this->params('eventId', null);
         $response = $this->params('response', null);
 
-        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+        $guestTable = $this->get(TableGateway\Guest::class);
         if ($guest = $guestTable->fetchOne(['userId' => $this->getUser()->id, 'eventId' => $eventId])) {
             $guest->response = $response;
             $guestTable->save($guest);

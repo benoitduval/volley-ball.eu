@@ -22,10 +22,10 @@ class GroupController extends AbstractController
 
     public function createAction()
     {
-        $groupForm  = new Form\Group;
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-        $config     = $this->getContainer()->get('config');
+        $groupForm      = new Form\Group;
+        $groupTable     = $this->get(TableGateway\Group::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
+        $config         = $this->get('config');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -38,7 +38,7 @@ class GroupController extends AbstractController
                 $data['name']       = ucfirst($data['name']);
                 $data['brand']      = $group->initBrand($data['name']);
 
-                $mapService = $this->getContainer()->get(Service\Map::class);
+                $mapService = $this->get(Service\Map::class);
                 if ($coords = $mapService->getCoordinates($data['address'])) {
                     $data = array_merge($data, $coords);
                 }
@@ -81,15 +81,15 @@ class GroupController extends AbstractController
     public function detailAction()
     {
         $id             = (int) $this->params()->fromRoute('id');
-        $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
+        $groupTable     = $this->get(TableGateway\Group::class);
         $group          = $groupTable->find($id);
-        $config         = $this->getContainer()->get('config');
+        $config         = $this->get('config');
         $baseUrl        = $config['baseUrl'];
         $result         = [];
 
-        $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
-        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-        $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable     = $this->get(TableGateway\Guest::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
+        $eventTable     = $this->get(TableGateway\Event::class);
 
         foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
             $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId); 
@@ -135,7 +135,7 @@ class GroupController extends AbstractController
     public function editAction()
     {
         $id         = (int) $this->params()->fromRoute('id');
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $groupTable = $this->get(TableGateway\Group::class);
         $group      = $groupTable->find($id);
         $form       = new Form\Group;
 
@@ -164,10 +164,10 @@ class GroupController extends AbstractController
     {
         $brand      = $this->params()->fromRoute('brand');
         $subscribe  = $this->params()->fromQuery('subscribe', null);
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
-        $joinTable  = $this->getContainer()->get(TableGateway\Join::class);
-        $userTable  = $this->getContainer()->get(TableGateway\User::class);
-        $userGroupTable  = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $groupTable = $this->get(TableGateway\Group::class);
+        $joinTable  = $this->get(TableGateway\Join::class);
+        $userTable  = $this->get(TableGateway\User::class);
+        $userGroupTable  = $this->get(TableGateway\UserGroup::class);
         $group      = $groupTable->fetchOne(['brand' => $brand]);
 
         if (!$this->getUser()) {
@@ -192,8 +192,8 @@ class GroupController extends AbstractController
 
                 $joinTable->save($join);
 
-                $mail   = $this->getContainer()->get(MailService::class);
-                $config = $this->getContainer()->get('config');
+                $mail   = $this->get(MailService::class);
+                $config = $this->get('config');
 
                 // TODO - add admin emails
                 $mail->addBcc('benoit.duval.pro@gmail.com');
@@ -229,7 +229,7 @@ class GroupController extends AbstractController
     public function historyAction()
     {
         $id = (int) $this->params()->fromRoute('id');
-        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $eventTable = $this->get(TableGateway\Event::class);
         $events = $eventTable->fetchAll([
             'groupId' => $id
         ], 'date DESC');
@@ -243,10 +243,10 @@ class GroupController extends AbstractController
     public function usersAction()
     {
         $id = (int) $this->params()->fromRoute('id');
-        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-        $joinTable      = $this->getContainer()->get(TableGateway\Join::class);
-        $userTable      = $this->getContainer()->get(TableGateway\User::class);
-        $groupTable      = $this->getContainer()->get(TableGateway\Group::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
+        $joinTable      = $this->get(TableGateway\Join::class);
+        $userTable      = $this->get(TableGateway\User::class);
+        $groupTable      = $this->get(TableGateway\Group::class);
 
         $group = $groupTable->find($id);
 

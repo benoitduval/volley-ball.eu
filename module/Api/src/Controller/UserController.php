@@ -17,7 +17,7 @@ class UserController extends AbstractController
         $groupId = $this->params('groupId', null);
         $status  = $this->params('status', null);
 
-        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
         $userGroup = $userGroupTable->fetchOne(['userId' => $userId, 'groupId' => $groupId]);
 
         $userGroup->admin = $status;
@@ -36,7 +36,7 @@ class UserController extends AbstractController
 
     public function displayAction()
     {
-        $userTable = $this->getContainer()->get(TableGateway\User::class);
+        $userTable = $this->get(TableGateway\User::class);
 
         $display  = $this->params('display', null);
         $this->getUser()->display = $display;

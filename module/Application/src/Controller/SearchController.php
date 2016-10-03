@@ -15,20 +15,20 @@ class SearchController extends AbstractController
         $events = [];
         $groups = [];
         $query = urldecode($query);
-        $groupTable = $this->getContainer()->get(TableGateway\Group::class);
+        $groupTable = $this->get(TableGateway\Group::class);
         $groups = $groupTable->fetchAll([
             'name like ?' => '%' . $query . '%'
         ]);
 
         if ($this->getUser()) {
-            $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+            $userGroupTable = $this->get(TableGateway\UserGroup::class);
             $userGroups = $userGroupTable->fetchAll(['userId' => $this->getUser()->id]);
             foreach ($userGroups as $userGroup) {
                 $groupIds[] = $userGroup->groupId;
             }
 
             if (isset($groupIds)) {
-                $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+                $eventTable = $this->get(TableGateway\Event::class);
                 $events = $eventTable->fetchAll([
                     'name like ?' => '%' . $query . '%',
                     'groupId' => $groupIds

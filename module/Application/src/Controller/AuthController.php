@@ -32,7 +32,7 @@ class AuthController extends AbstractController
                 if ($signInForm->isValid()) {
                     $data = $signInForm->getData();
 
-                   $authService = $this->getContainer()->get(AuthenticationService::class);
+                   $authService = $this->get(AuthenticationService::class);
                     if (!$authService->hasIdentity()) {
                         $adapter  = $authService->getAdapter();
                         $adapter->setIdentity($data['email']);
@@ -58,7 +58,7 @@ class AuthController extends AbstractController
 
     public function signoutAction()
     {
-        $authService = $this->getContainer()->get(AuthenticationService::class);
+        $authService = $this->get(AuthenticationService::class);
         $authService->clearIdentity();
         $this->setActiveUser(null);
 
@@ -81,7 +81,7 @@ class AuthController extends AbstractController
             if ($signUpForm->isValid()) {
                 $data = $signUpForm->getData();
 
-                $userTable = $this->getContainer()->get(TableGateway\User::class);
+                $userTable = $this->get(TableGateway\User::class);
                 if ($userTable->fetchOne(['email' => $data['email']])) {
                     $this->flashMessenger()->addErrorMessage('Il est impossible de créer un compte avec l\'adresse <b>' . $data['email'] . '</b> Cette adresse email est déjà utilisée. Merci de recommencer en changeant votre adresse.');
                 } elseif ($data['password'] != $data['repassword']) {
@@ -97,8 +97,8 @@ class AuthController extends AbstractController
                     $userTable->save($user);
 
                     // Activation mail
-                    $mail   = $this->getContainer()->get(MailService::class);
-                    $config = $this->getContainer()->get('config');
+                    $mail   = $this->get(MailService::class);
+                    $config = $this->get('config');
                     $salt   = $config['salt'];
                     $mail->addTo($user->email);
                     $mail->setSubject('[Volley-ball.eu] Confirmation de compte');
@@ -123,17 +123,17 @@ class AuthController extends AbstractController
 
     public function verifyAction()
     {
-        $config = $this->getContainer()->get('config');
+        $config = $this->get('config');
         $email      = $this->params()->fromQuery('email');
         $paramToken = $this->params()->fromQuery('token');
-        $userTable  = $this->getContainer()->get(TableGateway\User::class);
+        $userTable  = $this->get(TableGateway\User::class);
         if ($user = $userTable->fetchOne(['email' => $email])) {
             $token = md5($user->email . $config['salt']);
             if ($paramToken == $token) {
                 $user->status = Model\User::CONFIRMED;
                 $userTable->save($user);
 
-                $authService = $this->getContainer()->get(AuthenticationService::class);
+                $authService = $this->get(AuthenticationService::class);
                 if (!$authService->hasIdentity()) {
                     $authService->getStorage()->write($user);
                     $this->setActiveUser($user);

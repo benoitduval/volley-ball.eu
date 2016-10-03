@@ -13,10 +13,10 @@ class MatchController extends AbstractController
     public function createAction()
     {
         $eventId    = $this->params()->fromRoute('id');
-        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $eventTable = $this->get(TableGateway\Event::class);
         $event      = $eventTable->find($eventId);
 
-        $matchTable = $this->getContainer()->get(TableGateway\Match::class);
+        $matchTable = $this->get(TableGateway\Match::class);
 
         $form = new Form\Match;
         $request = $this->getRequest();
@@ -62,10 +62,10 @@ class MatchController extends AbstractController
     public function editAction()
     {
         $matchId    = $this->params()->fromRoute('id');
-        $matchTable = $this->getContainer()->get(TableGateway\Match::class);
+        $matchTable = $this->get(TableGateway\Match::class);
         $match = $matchTable->find($matchId);
 
-        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $eventTable = $this->get(TableGateway\Event::class);
         $event      = $eventTable->find($match->eventId);
 
         $form = new Form\Match;

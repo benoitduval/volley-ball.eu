@@ -24,6 +24,16 @@ return [
                     ],
                 ],
             ],
+            'welcome' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/welcome',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'welcome',
+                    ],
+                ],
+            ],
             'event' => [
                 'type'    => Segment::class,
                 'options' => [

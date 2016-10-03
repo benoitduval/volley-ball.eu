@@ -17,9 +17,9 @@ class AbstractController extends AbstractActionController
         $this->_user      = $user;
     }
 
-    public function getContainer()
+    public function get($name)
     {
-        return $this->_container;
+        return $this->_container->get($name);
     }
 
     public function getUser()

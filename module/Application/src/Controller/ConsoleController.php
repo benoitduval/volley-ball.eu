@@ -21,16 +21,18 @@ class ConsoleController extends AbstractController
 
     public function init()
     {
-        $this->groupTable = $this->getContainer()->get(TableGateway\Group::class);
-        $this->eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $this->guestTable = $this->getContainer()->get(TableGateway\Guest::class);
-        $this->userTable  = $this->getContainer()->get(TableGateway\User::class);
+        $this->groupTable = $this->get(TableGateway\Group::class);
+        $this->eventTable = $this->get(TableGateway\Event::class);
+        $this->guestTable = $this->get(TableGateway\Guest::class);
+        $this->userTable  = $this->get(TableGateway\User::class);
+        $config = $this->get('config');
+
 
         $this->adapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
-            'database' => '',
-            'username' => '',
-            'password' => '',
+            'username' => $config['db']['username'],
+            'password' => $config['db']['password'],
+            'database' => 'volley',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],
@@ -38,9 +40,9 @@ class ConsoleController extends AbstractController
 
         $this->newAdapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
-            'database' => '',
-            'username' => '',
-            'password' => '',
+            'username' => $config['db']['username'],
+            'password' => $config['db']['password'],
+            'database' => 'album',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],
@@ -55,22 +57,25 @@ class ConsoleController extends AbstractController
         $this->init();
         $console->writeLine('Working on users ...', Color::BLUE);
         $this->users();
-        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('DONE', Color::GREEN);
         $console->writeLine('Working on groups ...', Color::BLUE);
         $this->groups();
-        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('DONE', Color::GREEN);
         $console->writeLine('Working on places ...', Color::BLUE);
         $this->places();
-        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('DONE', Color::GREEN);
         $console->writeLine('Working on events ...', Color::BLUE);
         $this->events();
-        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('DONE', Color::GREEN);
+        $console->writeLine('Working on recurent events ...', Color::BLUE);
+        $this->recurents();
+        $console->writeLine('DONE', Color::GREEN);
         $console->writeLine('Working on guests ...', Color::BLUE);
         $this->guests();
-        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('DONE', Color::GREEN);
         $console->writeLine('Working on comments ...', Color::BLUE);
         $this->comments();
-        $console->writeLine('DONE', Color::BLUE);
+        $console->writeLine('DONE', Color::GREEN);
     }
 
     public function events()
@@ -184,15 +189,31 @@ class ConsoleController extends AbstractController
         $this->newAdapter->query('INSERT INTO `comment` VALUES ' . $values)->execute();
     }
 
+    public function recurents()
+    {
+        $this->newAdapter->query('TRUNCATE TABLE `recurent`')->execute();
+
+        // Groups
+        $data = $this->adapter->query('SELECT * FROM `recurent`')->execute();
+        $values = '';
+        foreach ($data as $recurent) {
+            $values .= '("' . $recurent['id'] . '", "' . $recurent['status'] . '",  "' . $recurent['groupId'] . '",  "' . $recurent['name'] . '",  "' . $recurent['sendDay'] . '",  "' . $recurent['day'] . '",  "' . $recurent['time'] . '" ,  "' . $this->places[$recurent['placeId']]['name'] . '" ,  "' . $this->places[$recurent['placeId']]['address'] . '" ,  "' . $this->places[$recurent['placeId']]['city'] . '" ,  "' . $this->places[$recurent['placeId']]['zipCode'] . '"),';
+        }
+        $values = substr($values, 0, -1);
+        $values .= ';';
+
+        $this->newAdapter->query('INSERT INTO `recurent` VALUES ' . $values)->execute();
+    }
+
     public function recurentAction()
     {
         date_default_timezone_set('Europe/Paris');
-        $recurentTable  = $this->getContainer()->get(TableGateway\Recurent::class);
-        $groupTable     = $this->getContainer()->get(TableGateway\Group::class);
-        $eventTable     = $this->getContainer()->get(TableGateway\Event::class);
-        $guestTable     = $this->getContainer()->get(TableGateway\Guest::class);
-        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-        $userTable      = $this->getContainer()->get(TableGateway\User::class);
+        $recurentTable  = $this->get(TableGateway\Recurent::class);
+        $groupTable     = $this->get(TableGateway\Group::class);
+        $eventTable     = $this->get(TableGateway\Event::class);
+        $guestTable     = $this->get(TableGateway\Guest::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
+        $userTable      = $this->get(TableGateway\User::class);
 
         $recurents      = $recurentTable->fetchAll([
             // 'emailDay' => date('l'),
@@ -232,7 +253,7 @@ class ConsoleController extends AbstractController
                 'city'    => $recurent->city,
             ];
 
-            $mapService = $this->getContainer()->get(Service\Map::class);
+            $mapService = $this->get(Service\Map::class);
             $address = $recurent->address . ', ' . $recurent->zipCode . ' ' . $recurent->city . ' France';
 
             if ($coords = $mapService->getCoordinates($address)) {
