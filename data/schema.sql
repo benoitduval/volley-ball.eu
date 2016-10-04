@@ -71,7 +71,8 @@ CREATE TABLE `guest` (
   `userId` int(11) unsigned NOT NULL,
   `response` tinyint(4) NOT NULL DEFAULT '0',
   `groupId` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`userId`, `eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -83,7 +84,8 @@ CREATE TABLE `join` (
   `userId` int(11) NOT NULL,
   `groupId` int(11) NOT NULL,
   `response` int(4) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`userId`, `groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -98,7 +100,8 @@ CREATE TABLE `user` (
   `password` varchar(64) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `display` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -142,7 +145,7 @@ CREATE TABLE `match` (
   `set5Team2` varchar(4) NULL DEFAULT NULL,
   `debrief` text,
   PRIMARY KEY (`id`),
-  KEY (`eventId`)
+  UNIQUE KEY (`eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

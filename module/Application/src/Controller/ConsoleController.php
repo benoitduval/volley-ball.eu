@@ -53,7 +53,6 @@ class ConsoleController extends AbstractController
     {
         $console = Console::getInstance();
 
-
         $this->init();
         $console->writeLine('Working on users ...', Color::BLUE);
         $this->users();
@@ -167,9 +166,8 @@ class ConsoleController extends AbstractController
             $values .= '("' . implode('","', $guest) . '"),';
         }
         $values = substr($values, 0, -1);
-        $values .= ';';
 
-        $this->newAdapter->query('INSERT INTO `guest` VALUES ' . $values)->execute();
+        $this->newAdapter->query('INSERT INTO `guest` VALUES ' . $values . ' ON DUPLICATE KEY UPDATE eventId=eventId;')->execute();
     }
 
     public function comments()
