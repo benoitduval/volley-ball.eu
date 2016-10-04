@@ -96,6 +96,7 @@ class ConsoleController extends AbstractController
     public function groups()
     {
         $this->newAdapter->query('TRUNCATE TABLE `group`')->execute();
+        $this->newAdapter->query('TRUNCATE TABLE `userGroup`')->execute();
 
         // Groups
         $data = $this->adapter->query('SELECT * FROM `group`')->execute();
