@@ -129,6 +129,7 @@ class ConsoleController extends AbstractController
             $this->_users[$data['id']] = $data;
             $this->_users[$data['id']]['status']   = Model\User::CONFIRMED;
             $this->_users[$data['id']]['password'] = $bCrypt->create($data['password']);
+            $this->_users[$data['id']]['display']  = Model\User::DISPLAY_LARGE;
         }
 
         // insert users
