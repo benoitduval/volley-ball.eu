@@ -102,6 +102,8 @@ class ConsoleController extends AbstractController
         $values = '';
         $userValues = '';
         foreach ($data as $group) {
+            $group['brand'] = Model\Group::initBrand($group['name']);
+            if (!isset($group['description'])) $group['description'] = '';
             $userIds = json_decode($group['userIds']);
             foreach ($userIds as $userId) {
                 $isAdmin = (in_array(json_decode($group['adminIds']), $userIds) || ($userId == $group['userId'])) ? 1 : 0;
