@@ -17,7 +17,7 @@
                       <i class="material-icons submenu">edit</i>
                 </a>
             </li>
-            <?php if (!$match || ($match && $match->set1Team1)): ?>
+            <?php if (!$match || ($match && !$match->set1Team1)): ?>
                 <li>
                     <span class="mobile-fab-tip">Résultat de la rencontre</span>
                     <a href="/match/create/<?= $event->id ?>" class="btn-floating pink tooltipped" data-position="left" data-tooltip="Résultat">
@@ -27,7 +27,7 @@
             <?php else: ?>
             	<li>
             	    <span class="mobile-fab-tip">Résultat de la rencontre</span>
-            	    <a href="/match/edit/<?= $match->id ?>" class="btn-floating pink tooltipped" data-position="left" data-tooltip="Résultat">
+            	    <a href="/match/edit/<?= $event->id ?>" class="btn-floating pink tooltipped" data-position="left" data-tooltip="Résultat">
             	          <i class="material-icons submenu">content_paste</i>
             	    </a>
             	</li>

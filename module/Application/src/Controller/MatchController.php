@@ -67,13 +67,13 @@ class MatchController extends AbstractController
 
     public function editAction()
     {
-        $matchId    = $this->params()->fromRoute('id');
+        $eventId    = $this->params('id');
         $matchTable = $this->get(TableGateway\Match::class);
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
-        $match = $matchTable->find($matchId);
+        $match      = $matchTable->fetchOne(['eventId' => $eventId]);
 
         $eventTable = $this->get(TableGateway\Event::class);
-        if ($match && ($event = $eventTable->find($match->eventId)) && $userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
+        if ($match && ($event = $eventTable->find($eventId)) && $userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
 
             $form = new Form\Match;
             $request = $this->getRequest();

@@ -107,7 +107,7 @@ class Match extends Form
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => 'Débriefing',
-                'rows'      => 7,
+                'rows'      => 17,
                 'required' => 'required',
             ],
         ]);
