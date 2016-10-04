@@ -269,6 +269,8 @@ class GroupController extends AbstractController
             $this->layout()->user = $this->getUser();
             return new ViewModel([
                 'events' => $events,
+                'group'  => $this->_group,
+                'isAdmin' => $this->_isAdmin
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
@@ -283,7 +285,7 @@ class GroupController extends AbstractController
             $joinTable      = $this->get(TableGateway\Join::class);
 
             $joins = $joinTable->fetchAll([
-                'groupId' => $id
+                'groupId' => $this->_id
             ]);
 
             $joinUserIds = [];

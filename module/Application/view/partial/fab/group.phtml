@@ -19,13 +19,13 @@
         <?php if ($isAdmin): ?>
             <li>
                 <span class="mobile-fab-tip">Membres</span>
-                <a href="/members/all/<?= $group->id ?>" class="btn-floating orange tooltipped"   data-position="left" data-tooltip="Membres">
+                <a href="/group/users/<?= $group->id ?>" class="btn-floating orange tooltipped"   data-position="left" data-tooltip="Membres">
                       <i class="material-icons submenu">group</i>
                 </a>
             </li>
             <li>
                 <span class="mobile-fab-tip">Éditer</span>
-                <a href="/group/users/<?= $group->id ?>" class="btn-floating dark-green tooltipped" data-position="left" data-tooltip="Éditer">
+                <a href="/group/edit/<?= $group->id ?>" class="btn-floating dark-green tooltipped" data-position="left" data-tooltip="Éditer">
                       <i class="material-icons submenu">edit</i>
                 </a>
             </li>

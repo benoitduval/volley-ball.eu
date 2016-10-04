@@ -33,7 +33,7 @@
                                     <label class="control-label" for="set1Team1">
                                         Set1
                                     </label>
-                                    <?php echo $this->formInput($form->get('set1Team1')); ?>
+                                    <?php echo $this->formElement($form->get('set1Team1')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -41,7 +41,7 @@
                                     <label class="control-label" for="set2Team1">
                                         Set2
                                     </label>
-                                    <?php echo $this->formInput($form->get('set2Team1')); ?>
+                                    <?php echo $this->formElement($form->get('set2Team1')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -49,7 +49,7 @@
                                     <label class="control-label" for="set3Team1">
                                         Set3
                                     </label>
-                                    <?php echo $this->formInput($form->get('set3Team1')); ?>
+                                    <?php echo $this->formElement($form->get('set3Team1')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -57,7 +57,7 @@
                                     <label class="control-label" for="set4Team1">
                                         Set4
                                     </label>
-                                    <?php echo $this->formInput($form->get('set4Team1')); ?>
+                                    <?php echo $this->formElement($form->get('set4Team1')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -65,7 +65,7 @@
                                     <label class="control-label" for="set5Team1">
                                         Set5
                                     </label>
-                                    <?php echo $this->formInput($form->get('set5Team1')); ?>
+                                    <?php echo $this->formElement($form->get('set5Team1')); ?>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                     <label class="control-label" for="set1Team2">
                                         Set1
                                     </label>
-                                    <?php echo $this->formInput($form->get('set1Team2')); ?>
+                                    <?php echo $this->formElement($form->get('set1Team2')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -87,7 +87,7 @@
                                     <label class="control-label" for="set2Team2">
                                         Set2
                                     </label>
-                                    <?php echo $this->formInput($form->get('set2Team2')); ?>
+                                    <?php echo $this->formElement($form->get('set2Team2')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -95,7 +95,7 @@
                                     <label class="control-label" for="set3Team2">
                                         Set3
                                     </label>
-                                    <?php echo $this->formInput($form->get('set3Team2')); ?>
+                                    <?php echo $this->formElement($form->get('set3Team2')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -103,7 +103,7 @@
                                     <label class="control-label" for="set4Team2">
                                         Set4
                                     </label>
-                                    <?php echo $this->formInput($form->get('set4Team2')); ?>
+                                    <?php echo $this->formElement($form->get('set4Team2')); ?>
                                 </div>
                             </div>
                             <div class="form-group label-floating is-empty">
@@ -111,7 +111,7 @@
                                     <label class="control-label" for="set5Team2">
                                         Set5
                                     </label>
-                                    <?php echo $this->formInput($form->get('set5Team2')); ?>
+                                    <?php echo $this->formElement($form->get('set5Team2')); ?>
                                 </div>
                             </div>
                         </div>
@@ -119,11 +119,16 @@
                     </div>
                     <div class="col-md-6">
                         <h3>Résumé</h3>
-                        <div class="input-group">
-                            <span class="input-group-addon">
-                                <i class="material-icons">comment</i>
-                            </span>
-                            <?php echo $this->formElement($form->get('debrief')); ?>
+                        <div class="form-group label-floating is-empty">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">comment</i>
+                                </span>
+                                <label class="control-label" for="debrief">
+                                    Débriefing
+                                </label>
+                                <?php echo $this->formElement($form->get('debrief')); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
