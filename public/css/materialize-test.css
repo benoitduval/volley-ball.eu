@@ -1,6 +1,8 @@
 :root {
-   --main-color: #4B83D1;
-   /*--main-color: #03A9F4;*/
+   /*--main-color: #4B83D1;*/
+   /*--main-color: #169ABF;*/
+   --main-color: #1F8BBF;
+   /*--main-color: #26A3BF;*/
 }
 
 .fixed-action-btn ul {
