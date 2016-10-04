@@ -175,6 +175,9 @@ class EventController extends AbstractController
             ];
 
             foreach ($guests as $guest) {
+                if ($event->date > date('Y-m-d')) {
+                    if (!$userGroupTable->fetchOne(['userId' => $guest->userId, 'groupId' => $event->groupId])) continue;
+                }
                 $users[$guest->userId] = $userTable->find($guest->userId);
                 $availability[$guest->response][] = $users[$guest->userId];
             }

@@ -17,7 +17,7 @@ class Group extends AbstractModel
     protected $_lat         = null;
     protected $_long        = null;
 
-    public function initBrand($name)
+    public static function initBrand($name)
     {
         $str = strtolower($name);
         $str = preg_replace('/ /', '-', $str);
