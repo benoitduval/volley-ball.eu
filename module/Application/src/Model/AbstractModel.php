@@ -4,6 +4,7 @@ namespace Application\Model;
 
 class AbstractModel
 {
+
     public function __call($name, $arguments)
     {
         if (preg_match('/^(g|s)et(\w+)$/', $name, $matches)) {

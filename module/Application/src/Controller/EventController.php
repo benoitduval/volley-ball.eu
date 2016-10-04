@@ -24,6 +24,9 @@ class EventController extends AbstractController
             $request = $this->getRequest();
             if ($request->isPost()) {
                 $post  = $request->getPost();
+                $match = $post->match == 'on';
+                unset($post->match);
+
                 $form->setData($post);
                 if ($form->isValid()) {
 
@@ -43,6 +46,15 @@ class EventController extends AbstractController
                     $event = new Model\Event();
                     $event->exchangeArray($data);
                     $event->id = $eventTable->save($event);
+
+                    if ($match) {
+                        $matchTable = $this->get(TableGateway\Match::class);
+                        $match = new Model\Match;
+                        $match->exchangeArray([
+                            'eventId' => $event->id
+                        ]);
+                        $matchTable->save($match);
+                    }
 
                     // Create guest for this new event
                     $emails = [];

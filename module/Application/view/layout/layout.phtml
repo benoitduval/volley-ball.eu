@@ -72,14 +72,33 @@
                         </a>
                     </li>
                 <?php else: ?>
-                    <li>
-                        <a title="Se connecter" href="#" data-toggle="modal" data-target="#modale-signin">
-                            <i class="material-icons">settings</i> <?php echo $this->user->getFullname() ?>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->user->getFullname() ?> <b class="caret"></b>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li class="dropdown-header">Vos Groupes</li>
+                            <?php if ($this->groups): ?>
+                                <?php foreach ($this->groups as $group): ?>
+                                    <li>
+                                        <a href="/group/detail/<?= $group->id ?>">
+                                            <?= $group->name ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach ?>
+                            <?php else: ?>
+                                <li>
+                                    <a href="/group/create">
+                                        Créer un groupe
+                                    </a>
+                                </li>
+                            <?php endif ?>
+                            <li class="divider"></li>
+                            <li><a href="#">Paramètres</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a title="Déconnexion" href="/auth/signout">
-                            <i class="material-icons">power_settings_new</i> Déconnexion
+                            <i class="material-icons">power_settings_new</i>
                         </a>
                     </li>
                 <?php endif ?>
