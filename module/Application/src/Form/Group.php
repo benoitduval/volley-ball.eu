@@ -99,7 +99,7 @@ class Group extends Form
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [
-                'value' => 'Connexion',
+                'value' => 'Enregistrer',
                 'class' => 'btn btn-primary',
             ],
         ]);

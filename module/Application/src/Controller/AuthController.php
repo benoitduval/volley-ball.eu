@@ -97,8 +97,8 @@ class AuthController extends AbstractController
                     $userTable->save($user);
 
                     // Activation mail
-                    $mail   = $this->get(MailService::class);
                     $config = $this->get('config');
+                    $mail   = $this->get(MailService::class);
                     $salt   = $config['salt'];
                     $mail->addTo($user->email);
                     $mail->setSubject('[Volley-ball.eu] Confirmation de compte');

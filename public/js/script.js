@@ -7,7 +7,9 @@ $(function () {
     rotating();
     display();
     response();
+    deleteUser();
 });
+
 
 /* =========================================
  *  map 
@@ -263,4 +265,12 @@ function response()
             });
         });
     }
+}
+
+function deleteUser() {
+
+    $(document).on("click", ".open-delete-modal", function () {
+         var url = $(this).data('url');
+         $("#delete-url").attr('href', url);
+    });
 }

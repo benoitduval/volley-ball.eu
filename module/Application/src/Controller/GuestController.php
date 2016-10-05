@@ -20,8 +20,8 @@ class GuestController extends AbstractController
             $eventTable = $this->get(TableGateway\Event::class);
             $userGroupTable = $this->get(TableGateway\UserGroup::class);
             if($this->_event = $eventTable->find($this->_id)) {
-                $this->_isAdmin  = $userGroupTable->isAdmin($this->getUser()->id, $this->_event->id);
-                $this->_isMember = $userGroupTable->isMember($this->getUser()->id, $this->_event->id);
+                $this->_isAdmin  = $userGroupTable->isAdmin($this->getUser()->id, $this->_event->groupId);
+                $this->_isMember = $userGroupTable->isMember($this->getUser()->id, $this->_event->groupId);
             }
         }
         return parent::onDispatch($e);

@@ -102,11 +102,13 @@ class ConsoleController extends AbstractController
         $data = $this->adapter->query('SELECT * FROM `group`')->execute();
         $values = '';
         $userValues = '';
+        $this->_userGroups = [];
         foreach ($data as $group) {
             $group['brand'] = Model\Group::initBrand($group['name']);
             if (!isset($group['description'])) $group['description'] = '';
             $userIds = json_decode($group['userIds']);
             foreach ($userIds as $userId) {
+                $this->_userGroups[$group['id']][] = $userId;
                 $isAdmin = (in_array(json_decode($group['adminIds']), $userIds) || ($userId == $group['userId'])) ? 1 : 0;
                 $userValues .= '("' . $userId . '", "' . $group['id'] . '", "' . $isAdmin . '"),';
             }
@@ -119,7 +121,6 @@ class ConsoleController extends AbstractController
 
         $this->newAdapter->query('INSERT INTO `group` (`id`, `name`, `brand`, `description`) VALUES ' . $values)->execute();
         $this->newAdapter->query('INSERT INTO `userGroup` (`userId`, `groupId`, `admin`) VALUES ' . $userValues . ' ON DUPLICATE KEY UPDATE userId=userId')->execute();
-
     }
 
     public function users()
@@ -166,6 +167,11 @@ class ConsoleController extends AbstractController
         // insert users
         $values = '';
         foreach ($guests as $guest) {
+            if (($guest['date'] > date('Y-m-d H:i:s', time())) && !in_array($guest['userId'], $this->_userGroups[$guest['groupId']])) {
+                $console = Console::getInstance();
+                $console->writeLine('User ' . $guest['userId'] . ' no more in group ' . $guest['groupId'], Color::RED);
+                continue;
+            }
             unset($guest['date']);
             $values .= '("' . implode('","', $guest) . '"),';
         }

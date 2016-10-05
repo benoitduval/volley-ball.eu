@@ -63,13 +63,28 @@ return [
                     ],
                 ],
             ],
+            'guest-response' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/guest/response[/:id[/:response]]',
+                    'constraints' => [
+                        'id'       => '[0-9]+',
+                        'response' => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\GuestController::class,
+                        'action'        => 'response',
+                    ],
+                ],
+            ],
             'group' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/group[/:action[/:id]]',
+                    'route'    => '/group[/:action[/:id[/:userId]]]',
                     'constraints' => [
                         'action' => '[a-z][a-z_-]*',
                         'id'     => '[0-9]+',
+                        'userId' => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller'    => Controller\GroupController::class,
@@ -80,10 +95,11 @@ return [
             'recurent' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/recurent[/:action[/:id]]',
+                    'route'    => '/recurent[/:action[/:id[/:recurentId]]]',
                     'constraints' => [
                         'action' => '[a-z][a-z_-]*',
                         'id'     => '[0-9]+',
+                        'recurentId'     => '[0-9]+',
                     ],
                     'defaults' => [
                         'controller'    => Controller\RecurentController::class,
@@ -104,6 +120,20 @@ return [
                     ],
                 ],
             ],
+            // 'group-user-delete' => [
+            //     'type'    => Segment::class,
+            //     'options' => [
+            //         'route'    => '/group/:id/:action/:userId',
+            //         'constraints' => [
+            //             'id'     => '[0-9]+',
+            //             'userId' => '[0-9]+',
+            //         ],
+            //         'defaults' => [
+            //             'controller'    => Controller\GroupController::class,
+            //             'action'        => 'deleteUser',
+            //         ],
+            //     ],
+            // ],
             'auth' => [
                 'type'    => Segment::class,
                 'options' => [

@@ -186,6 +186,7 @@ class GroupController extends AbstractController
                 'form'    => $form,
                 'user'    => $this->getUser(),
                 'group'   => isset($this->_group) ? $this->_group : '',
+                'isAdmin' => $this->_isAdmin,
             ));
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
@@ -310,6 +311,7 @@ class GroupController extends AbstractController
 
             return new ViewModel([
                 'adminIds' => $adminIds,
+                'isAdmin' => $this->_isAdmin,
                 'users' => $users,
                 'group' => $this->_group,
                 'join'  => $userJoin,
@@ -318,5 +320,88 @@ class GroupController extends AbstractController
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
             $this->redirect()->toRoute('home');
         }
+    }
+
+    public function deleteUserAction()
+    {
+        $userId    = $this->params('userId');
+        $userTable = $this->get(TableGateway\User::class);
+
+        if ($userId && $this->_group && $this->_isAdmin) {
+            $userGroupTable = $this->get(TableGateway\UserGroup::class);
+            $userGroup = $userGroupTable->fetchOne([
+                'groupId' => $this->_id,
+                'userId'  => $userId
+            ]);
+
+            $eventTable = $this->get(TableGateway\Event::class);
+            $events = $eventTable->fetchAll([
+                'date > NOW()',
+                'groupId' => $this->_group->id
+            ]);
+            $guestTable = $this->get(TableGateway\Guest::class);
+            foreach ($events as $event) {
+                $guest = $guestTable->fetchOne([
+                    'userId'  => $userId,
+                    'groupId' => $this->_group->id,
+                    'eventId' => $event->id,
+                ]);
+                $guestTable->delete($guest);
+            }
+            $userGroupTable->delete($userGroup);
+
+            $this->flashMessenger()->addMessage('Utilisateur supprimé.');
+        } else {
+            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
+        }
+        $this->redirect()->toRoute('group', ['action' => 'users', 'id' => $this->_group->id]);
+    }
+
+    public function addUserAction()
+    {
+        $userId    = $this->params('userId');
+        $userTable = $this->get(TableGateway\User::class);
+
+        if ($userId && $this->_group && $this->_isAdmin) {
+            $userGroupTable = $this->get(TableGateway\UserGroup::class);
+            $userGroup = new Model\UserGroup;
+            $userGroup->exchangeArray([
+                'groupId' => $this->_group->id,
+                'userId'  => $userId,
+                'admin'   => Model\UserGroup::MEMBER,
+            ]);
+
+            $userGroupTable->save($userGroup);
+
+            $eventTable = $this->get(TableGateway\Event::class);
+            $events = $eventTable->fetchAll([
+                'date > NOW()',
+                'groupId' => $this->_group->id
+            ]);
+
+            $guestTable = $this->get(TableGateway\Guest::class);
+            foreach ($events as $event) {
+                $guest = new Model\Guest;
+                $guest->exchangeArray([
+                    'userId'  => $userId,
+                    'groupId' => $this->_group->id,
+                    'eventId' => $event->id,
+                    'response' => Model\Guest::RESP_NO_ANSWER,
+                ]);
+                $guestTable->save($guest);
+            }
+
+            $joinTable = $this->get(TableGateway\Join::class);
+            $join = $joinTable->fetchOne([
+                'userId'  => $userId,
+                'groupId' => $this->_group->id,
+            ]);
+            $joinTable->delete($join);
+
+            $this->flashMessenger()->addMessage('Utilisateur ajouté.');
+        } else {
+            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
+        }
+        $this->redirect()->toRoute('group', ['action' => 'users', 'id' => $this->_group->id]);
     }
 }
