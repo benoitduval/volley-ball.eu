@@ -483,7 +483,6 @@ class MailService
                                             <tr>
                                                 <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
                                                   <h3 ' . $this->_getCss('h3') . '>{title}</h3>
-                                                  <h4 ' . $this->_getCss('h4', 'text-align:left') . '>{pitch}</h4>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -572,7 +571,6 @@ class MailService
                                         <tr>
                                             <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
                                               <h3 ' . $this->_getCss('h3') . '>{title}</h3>
-                                              <h4 ' . $this->_getCss('h4', 'text-align:left') . '>{pitch}</h4>
                                             </td>
                                         </tr>
                                         <tr>
@@ -633,7 +631,6 @@ class MailService
                                             <tr>
                                                 <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
                                                   <h3 ' . $this->_getCss('h3') . '>{title}</h3>
-                                                  <h4 ' . $this->_getCss('h4', 'text-align:left') . '>{pitch}</h4>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -692,7 +689,6 @@ class MailService
                                             <tr>
                                                 <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
                                                   <h3 ' . $this->_getCss('h3') . '>{title}</h3>
-                                                  <h4 ' . $this->_getCss('h4', 'text-align:left') . '>{pitch}</h4>
                                                 </td>
                                             </tr>
                                             <tr>

@@ -39,7 +39,6 @@ class Group extends Form
             ],
             'attributes' => [
                 'rows' => 4,
-                'placeholder' => 'Description du club, équipes etc',
                 'required' => 'required',
                 'class' => 'form-control',
             ],
@@ -72,7 +71,6 @@ class Group extends Form
                 'rows' => 4,
                 'class' => 'form-control',
                 'required' => 'required',
-                'placeholder' => 'Jour et horaire des séances',
             ],
         ]);
 
@@ -100,7 +98,7 @@ class Group extends Form
             'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Enregistrer',
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-finish btn-fill btn-primary',
             ],
         ]);
     }

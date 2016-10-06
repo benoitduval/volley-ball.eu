@@ -17,7 +17,7 @@
         <div class="section section-basic">
             <div class="container">
                 <div class="title">
-                    <h2><b><?= $group->name ?></b> - Nouvel évènement</h2>
+                    <h2><b><?= $group->name ?></b> - Édition</h2>
                 </div>
 
                 <div class="row">
@@ -38,7 +38,7 @@
                                     <label class="control-label" for="name">
                                         Nom de l'évènement
                                     </label>
-                                    <?php echo $this->formInput($form->get('name')); ?>
+                                    <?php echo $this->formElement($form->get('name')); ?>
                                 </div>
                             </div>
 
@@ -50,15 +50,20 @@
                                     <label class="control-label" for="date">
                                         Date
                                     </label>
-                                    <?php echo $this->formInput($form->get('date')); ?>
+                                    <?php echo $this->formElement($form->get('date')); ?>
                                 </div>
                             </div>
 
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">comment</i>
-                                </span>
-                                <?php echo $this->formElement($form->get('comment')); ?>
+                            <div class="form-group label-floating is-filled">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">account_balance</i>
+                                    </span>
+                                    <label class="control-label" for="comment">
+                                        Commentaire de l'évènement
+                                    </label>
+                                    <?php echo $this->formElement($form->get('comment')); ?>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -73,7 +78,7 @@
                                     <label class="control-label" for="place">
                                         Nom du Gymnase / Lieu
                                     </label>
-                                    <?php echo $this->formInput($form->get('place')); ?>
+                                    <?php echo $this->formElement($form->get('place')); ?>
                                 </div>
                             </div>
 
@@ -85,7 +90,7 @@
                                     <label class="control-label" for="address">
                                         Adresse
                                     </label>
-                                    <?php echo $this->formInput($form->get('address')); ?>
+                                    <?php echo $this->formElement($form->get('address')); ?>
                                 </div>
                             </div>
 
@@ -97,7 +102,7 @@
                                     <label class="control-label" for="zipCode">
                                         Code Postal
                                     </label>
-                                    <?php echo $this->formInput($form->get('zipCode')); ?>
+                                    <?php echo $this->formElement($form->get('zipCode')); ?>
                                 </div>
                             </div>
 
@@ -109,7 +114,7 @@
                                     <label class="control-label" for="city">
                                         Ville
                                     </label>
-                                    <?php echo $this->formInput($form->get('city')); ?>
+                                    <?php echo $this->formElement($form->get('city')); ?>
                                 </div>
                             </div>
 
@@ -121,7 +126,7 @@
                                     <label class="control-label" for="long">
                                         Longitude
                                     </label>
-                                    <?php echo $this->formInput($form->get('long')); ?>
+                                    <?php echo $this->formElement($form->get('long')); ?>
                                 </div>
                             </div>
 
@@ -133,7 +138,7 @@
                                     <label class="control-label" for="lat">
                                         Lattitude
                                     </label>
-                                    <?php echo $this->formInput($form->get('lat')); ?>
+                                    <?php echo $this->formElement($form->get('lat')); ?>
                                 </div>
                             </div>
                         </div>

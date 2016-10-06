@@ -83,7 +83,7 @@ class GroupController extends AbstractController
                             <li>Gérer les membres ainsi que leurs permissions</li>
                         </ul>
                     ');
-                    return $this->redirect()->toRoute('home');
+                    return $this->redirect()->toRoute('group-welcome', ['brand' => $group->brand]);
                 }
             }
 
@@ -149,7 +149,7 @@ class GroupController extends AbstractController
                 'user'       => $this->getUser(),
                 'groups'     => $groups,
                 'group'      => $this->_group,
-                'isAdmin'   => $this->_isAdmin,
+                'isAdmin'    => $this->_isAdmin,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
@@ -178,10 +178,10 @@ class GroupController extends AbstractController
                     $groupTable->save($this->_group);
                 }
                 $this->flashMessenger()->addMessage('Votre groupe a bien été modifié.');
-                $this->redirect()->toRoute('group', ['action' => 'detail', 'id' => $this->_id]);
+                return $this->redirect()->toRoute('group-welcome', ['brand' => $this->_group->brand]);
+
             }
 
-            $this->layout()->user = $this->getUser();
             return new ViewModel(array(
                 'form'    => $form,
                 'user'    => $this->getUser(),
@@ -190,7 +190,7 @@ class GroupController extends AbstractController
             ));
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
-            $this->redirect()->toRoute('home');
+            return $this->redirect()->toRoute('home');
         }
     }
 
@@ -235,7 +235,6 @@ class GroupController extends AbstractController
                 $mail->setTemplate(MailService::TEMPLATE_GROUP, array(
                     'title'     => 'Demande d\'adhésion',
                     'subtitle'  => $group->name,
-                    'pitch'     => $group->name,
                     'user'      => $this->getUser()->getFullname(),
                     'userId'    => $this->getUser()->id,
                     'username'  => $this->getUser()->getFullname(),

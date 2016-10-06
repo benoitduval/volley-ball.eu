@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="row">
-                    <?php echo $this->form()->openTag($form); ?>
+                    <?= $this->form()->openTag($form); ?>
 
                     <div class="col-md-12">
                         <div class="col-md-6">
@@ -38,7 +38,7 @@
                                     <label class="control-label" for="name">
                                         Nom de l'évènement
                                     </label>
-                                    <?php echo $this->formInput($form->get('name')); ?>
+                                    <?= $this->formElement($form->get('name')); ?>
                                 </div>
                             </div>
 
@@ -50,15 +50,20 @@
                                     <label class="control-label" for="date">
                                         Date
                                     </label>
-                                    <?php echo $this->formInput($form->get('date')); ?>
+                                    <?= $this->formElement($form->get('date')); ?>
                                 </div>
                             </div>
 
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">comment</i>
-                                </span>
-                                <?php echo $this->formElement($form->get('comment')); ?>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">comment</i>
+                                    </span>
+                                    <label class="control-label" for="comment">
+                                        Commentaire de l'évènement
+                                    </label>
+                                    <?= $this->formElement($form->get('comment')); ?>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -73,7 +78,7 @@
                                     <label class="control-label" for="place">
                                         Nom du Gymnase / Lieu
                                     </label>
-                                    <?php echo $this->formInput($form->get('place')); ?>
+                                    <?= $this->formElement($form->get('place')); ?>
                                 </div>
                             </div>
 
@@ -85,7 +90,7 @@
                                     <label class="control-label" for="address">
                                         Adresse
                                     </label>
-                                    <?php echo $this->formInput($form->get('address')); ?>
+                                    <?= $this->formElement($form->get('address')); ?>
                                 </div>
                             </div>
 
@@ -97,7 +102,7 @@
                                     <label class="control-label" for="zipCode">
                                         Code Postal
                                     </label>
-                                    <?php echo $this->formInput($form->get('zipCode')); ?>
+                                    <?= $this->formElement($form->get('zipCode')); ?>
                                 </div>
                             </div>
 
@@ -109,7 +114,7 @@
                                     <label class="control-label" for="city">
                                         Ville
                                     </label>
-                                    <?php echo $this->formInput($form->get('city')); ?>
+                                    <?= $this->formElement($form->get('city')); ?>
                                 </div>
                             </div>
                         </div>
@@ -124,10 +129,10 @@
                      </div>
 
                     <div class="col-md-12 footer text-center">
-                        <?php echo $this->formElement($form->get('submit')); ?>
+                        <?= $this->formElement($form->get('submit')); ?>
                     </div>
 
-                    <?php echo $this->form()->closeTag(); ?>
+                    <?= $this->form()->closeTag(); ?>
                 </div>
             </div>
         </div>

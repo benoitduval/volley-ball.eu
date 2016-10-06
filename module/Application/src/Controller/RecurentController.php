@@ -68,7 +68,7 @@ class RecurentController extends AbstractController
                 $form->setData($request->getPost());
                 if ($form->isValid()) {
                     $data = $form->getData();
-                    $data['groupId'] = $group->id;
+                    $data['groupId'] = $this->_group->id;
                     $data['status'] = Model\Recurent::ACTIVE;
 
                     $recurent = new Model\Recurent;

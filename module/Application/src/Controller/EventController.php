@@ -84,7 +84,6 @@ class EventController extends AbstractController
                         $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
 
                         $mail->setTemplate(MailService::TEMPLATE_EVENT, [
-                            'pitch'     => '$pitch',
                             'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
                             'subtitle'  => $group->name,
                             'name'      => $event->place,
@@ -149,6 +148,19 @@ class EventController extends AbstractController
             $guests    = $guestTable->fetchAll(['eventId' => $eventId]);
             $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
+            $availability    = [
+                Model\Guest::RESP_NO_ANSWER => [],
+                Model\Guest::RESP_OK        => [],
+                Model\Guest::RESP_NO        => [],
+                Model\Guest::RESP_INCERTAIN => [],
+            ];
+
+            foreach ($guests as $guest) {
+                $users[$guest->userId] = $userTable->find($guest->userId);
+                $availability[$guest->response][] = $users[$guest->userId];
+                $bcc[] = $users[$guest->userId]->email;
+            }
+
             $request = $this->getRequest();
             if ($request->isPost()) {
                 $form->setData($request->getPost());
@@ -161,22 +173,28 @@ class EventController extends AbstractController
                     $comment = new Model\Comment();
                     $comment->exchangeArray($data);
                     $comment->id = $commentTable->save($comment);
+                    $config = $this->get('config');
+                    if ($config['mail']['allowed']) {
+                        $commentDate = \DateTime::createFromFormat('U', time());
+                        $mail   = $this->get(MailService::class);
+                        $mail->addBcc($bcc);
+                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $eventDate->format('l d F \à H\hi'));
+                        $mail->setTemplate(MailService::TEMPLATE_COMMENT, array(
+                            'title'     => $event->name . '<br>' . $eventDate->format('l d F \à H\hi'),
+                            'subtitle'  => $group->name,
+                            'username'  => $this->getUser()->getFullname(),
+                            'comment'   => nl2br($comment->comment),
+                            'date'      => $commentDate->format('d\/m'),
+                            'eventId'   => $eventId,
+                            'baseUrl'   => $config['baseUrl']
+
+                        ));
+                        $mail->send();
+                    }
 
                     $this->flashMessenger()->addMessage('Votre commentaire a bien été enregistré.');
                     $this->redirect()->toRoute('event', ['action' => detail, 'id' => $eventId]);
                 }
-            }
-
-            $availability    = [
-                Model\Guest::RESP_NO_ANSWER => [],
-                Model\Guest::RESP_OK        => [],
-                Model\Guest::RESP_NO        => [],
-                Model\Guest::RESP_INCERTAIN => [],
-            ];
-
-            foreach ($guests as $guest) {
-                $users[$guest->userId] = $userTable->find($guest->userId);
-                $availability[$guest->response][] = $users[$guest->userId];
             }
 
             $result = [];
@@ -217,6 +235,7 @@ class EventController extends AbstractController
     {
         $eventId    = $this->params()->fromRoute('id');
         $eventTable = $this->get(TableGateway\Event::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
         if (($event = $eventTable->find($eventId)) && $userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
             $groupTable = $this->get(TableGateway\Group::class);
@@ -245,34 +264,6 @@ class EventController extends AbstractController
 
                     $event->exchangeArray($data);
                     $eventTable->save($event);
-
-                    // send emails
-                    $config = $this->get('config');
-                    if ($config['mail']['allowed']) {
-                        $mail = $this->get(MailService::class);
-                        $mail->addBcc($emails);
-                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
-
-                        $mail->setTemplate(MailService::TEMPLATE_EVENT, [
-                            'pitch'     => '$pitch',
-                            'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
-                            'subtitle'  => $group->name,
-                            'name'      => $event->place,
-                            'zip'       => $event->zipCode,
-                            'city'      => $event->city,
-                            'eventId'   => $event->id,
-                            'date'      => $date->format('l d F \à H\hi'),
-                            'day'       => $date->format('d'),
-                            'month'     => $date->format('F'),
-                            'ok'        => Model\Guest::RESP_OK,
-                            'no'        => Model\Guest::RESP_NO,
-                            'perhaps'   => Model\Guest::RESP_INCERTAIN,
-                            'comment'   => $data['comment'],
-                            'baseUrl'   => $config['baseUrl']
-                        ]);
-
-                        $mail->send();
-                    }
 
                     $this->flashMessenger()->addMessage('Votre évènement a bien été modifié.');
                     $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);

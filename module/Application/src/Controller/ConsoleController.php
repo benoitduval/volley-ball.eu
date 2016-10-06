@@ -14,6 +14,7 @@ use Application\Service;
 use Zend\Console\Console;
 use Zend\Console\Exception\RuntimeException as ConsoleException;
 use Zend\Console\ColorInterface as Color;
+use Application\Service\MailService;
 
 class ConsoleController extends AbstractController
 {
@@ -224,12 +225,9 @@ class ConsoleController extends AbstractController
         $userTable      = $this->get(TableGateway\User::class);
 
         $recurents      = $recurentTable->fetchAll([
-            // 'emailDay' => date('l'),
+            'emailDay' => date('l'),
             'status'   => \Application\Model\Recurent::ACTIVE
         ]);
-
-        // $mail           = new Mail($this->getServiceLocator()->get('volley_transport_mail'));
-        // $config         = $this->getServiceLocator()->get('volley-config');
 
         $groups = [];
         foreach ($recurents as $recurent) {
@@ -284,58 +282,34 @@ class ConsoleController extends AbstractController
                 $guestTable->save($guest);
             }
 
-            // if ($event) {
-            //     $email = false;
-            //     foreach ($userIds as $id) {
+            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+            $config = $this->get('config');
+            if ($config['mail']['allowed']) {
+                $mail   = $this->get(MailService::class);
+                foreach ($users as $user) {
+                    $mail->addBcc($user->email);
+                }
+                $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
 
-            //         // if (!$notifTable->isAllowed(Notification::EVENT_RECURENT, $id)) continue;
-
-            //             $email = true;
-            //             $user = $userTable->getById($id);
-            //             $mail->addBcc($user->email);
-            //         }
-            //         $params = array(
-            //             'eventId'  => $event->id,
-            //             'userId'   => $id,
-            //             'response' => Guest::RESP_NO_ANSWER,
-            //             'date'     => $date,
-            //             'groupId'  => $group->id,
-            //         );
-
-            //         $guest = $guestTable->fromArray($params)->getEntity();
-            //         // make sure id is empty to avoid update. Create only here
-            //         $guest->id = null;
-            //         $guestTable->setEntity($guest)->save();
-            //     }
-
-            //     $comment  = 'Aucun commentaire sur l\'évènement';
-
-            //     if ($email) {
-            //         // Send Email
-            //         $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $event->getDate()->format('d-m-Y'));
-            //         $mail->setTemplate(Mail::TEMPLATE_EVENT, array(
-            //             'pitch'     => 'Nouvel Évènement!',
-            //             'subtitle'  => $group->name,
-            //             'title'     => $event->name . ' <br /> ' . $event->getDate()->format('l d F \à H\hi'),
-            //             'name'      => $place->name,
-            //             'address'   => $place->address,
-            //             'zip'       => $place->zipCode,
-            //             'city'      => $place->city,
-            //             'eventId'   => $event->id,
-            //             'date'      => $event->getDate()->format('l d F \à H\hi'),
-            //             'day'       => $event->getDate()->format('d'),
-            //             'month'     => $event->getDate()->format('F'),
-            //             'ok'        => Guest::RESP_OK,
-            //             'no'        => Guest::RESP_NO,
-            //             'perhaps'   => Guest::RESP_INCERTAIN,
-            //             'comment'   => $comment,
-            //             'baseUrl'   => $config['baseUrl']
-            //         ));
-            //         $mail->send();
-            //     }
-            // } else {
-            //     error_log('Recurent event failed');
-            // }
+                $mail->setTemplate(MailService::TEMPLATE_EVENT, [
+                    'title'     => $event->name . ' <br /> ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
+                    'subtitle'  => $group->name,
+                    'name'      => $event->place,
+                    'zip'       => $event->zipCode,
+                    'address'   => $event->address,
+                    'city'      => $event->city,
+                    'eventId'   => $eventId,
+                    'date'      => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
+                    'day'       => \Application\Service\Date::toFr($date->format('d')),
+                    'month'     => \Application\Service\Date::toFr($date->format('F')),
+                    'ok'        => Model\Guest::RESP_OK,
+                    'no'        => Model\Guest::RESP_NO,
+                    'perhaps'   => Model\Guest::RESP_INCERTAIN,
+                    'comment'   => 'Aucun commentaire sur l\'évènement',
+                    'baseUrl'   => $config['baseUrl']
+                ]);
+                $mail->send();
+            }
         }
     }
 }

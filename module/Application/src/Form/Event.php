@@ -50,7 +50,6 @@ class Event extends Form
                 'label' => 'Commentaire',
             ],
             'attributes' => [
-                'placeholder' => 'Commentaire de l\'évènement',
                 'rows' => 5,
                 'class' => 'form-control',
             ],
