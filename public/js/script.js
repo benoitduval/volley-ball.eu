@@ -9,6 +9,7 @@ $(function () {
     response();
     deleteUser();
     grow();
+    filtering();
 });
 
 
@@ -271,6 +272,19 @@ function grow()
 {
     $('input[type=text], textarea').each(function () {
         $(this).autogrow({vertical: true, horizontal: false});
+    });
+}
+
+function filtering()
+{
+    $('#a').on('click', function(event) {
+        event.preventDefault();
+        $('.event-card').each(function() {
+            console.log($(this));
+            if ($(this).attr('data-brand') == 'dunois-rem') {
+                $(this).css('display', 'none');
+            }
+        });
     });
 }
 
