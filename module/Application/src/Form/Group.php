@@ -38,9 +38,9 @@ class Group extends Form
                 'label' => 'Description',
             ],
             'attributes' => [
-                'rows' => 4,
                 'required' => 'required',
                 'class' => 'form-control',
+                'style' => 'height: 40px;',
             ],
         ]);
 
@@ -58,7 +58,6 @@ class Group extends Form
             'name' => 'address',
             'type' => Element\Text::class,
             'attributes' => [
-                'rows' => 4,
                 'required' => 'required',
                 'class' => 'form-control',
             ],
@@ -68,9 +67,9 @@ class Group extends Form
             'name' => 'schedule',
             'type' => Element\Textarea::class,
             'attributes' => [
-                'rows' => 4,
                 'class' => 'form-control',
                 'required' => 'required',
+                'style' => 'height: 40px;',
             ],
         ]);
 
@@ -78,7 +77,6 @@ class Group extends Form
             'name' => 'long',
             'type' => Element\Text::class,
             'attributes' => [
-                'rows' => 4,
                 'class' => 'form-control',
             ],
         ]);
@@ -88,7 +86,6 @@ class Group extends Form
             'name' => 'lat',
             'type' => Element\Text::class,
             'attributes' => [
-                'rows' => 4,
                 'class' => 'form-control',
             ],
         ]);

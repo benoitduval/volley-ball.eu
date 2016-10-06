@@ -8,6 +8,7 @@ $(function () {
     display();
     response();
     deleteUser();
+    grow();
 });
 
 
@@ -256,7 +257,6 @@ function response()
 
                 var result = jQuery.parseJSON(resp);
                 $.each( result.counts, function( key, value ) {
-                    console.log($("#resp-" + eventId + '-' + key));
                     if ($("#resp-" + eventId + '-' + key).length) {
                         $("#resp-" + eventId + '-' + key).html(value);
                     }
@@ -265,6 +265,13 @@ function response()
             });
         });
     }
+}
+
+function grow()
+{
+    $('input[type=text], textarea').each(function () {
+        $(this).autogrow({vertical: true, horizontal: false});
+    });
 }
 
 function deleteUser() {
