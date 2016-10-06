@@ -98,7 +98,7 @@
 
                     </div>
                     <div class="text-center">
-                        <a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Google Maps</a>
+                        <a href="https://www.google.fr/maps/search/<?= urlencode($event->getFullAddress()) ?>"><i class="material-icons">place</i>Google Maps</a>
                     </div>
                     <div class="footer visible-xs visible-sm">
                         <button class="btn btn-simple" onclick="rotateCard(this)">

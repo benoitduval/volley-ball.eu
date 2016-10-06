@@ -33,7 +33,7 @@ class ConsoleController extends AbstractController
             'driver'   => 'Pdo_Mysql',
             'username' => $config['db']['username'],
             'password' => $config['db']['password'],
-            'database' => 'volley',
+            'database' => 'volley3',
             'driver_options' => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
             ],

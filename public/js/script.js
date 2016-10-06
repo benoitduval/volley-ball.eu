@@ -277,12 +277,17 @@ function grow()
 
 function filtering()
 {
-    $('#a').on('click', function(event) {
-        event.preventDefault();
+    $('.group-filter').on('click', function(event) {
+        var el = $(this);
         $('.event-card').each(function() {
-            console.log($(this));
-            if ($(this).attr('data-brand') == 'dunois-rem') {
-                $(this).css('display', 'none');
+            if ($(this).attr('data-brand') == el.attr('data-brand')) {
+                if (el.prop('checked')) {
+                    el.prop( "checked", true);
+                    $(this).css('display', 'block');
+                } else {
+                    el.prop( "checked", false);
+                    $(this).css('display', 'none');
+                }
             }
         });
     });
