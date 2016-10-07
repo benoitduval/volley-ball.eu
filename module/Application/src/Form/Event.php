@@ -50,8 +50,8 @@ class Event extends Form
                 'label' => 'Commentaire',
             ],
             'attributes' => [
-                'rows' => 5,
                 'class' => 'form-control',
+                'style' => 'height: 40px;',
             ],
         ]);
 
@@ -130,7 +130,7 @@ class Event extends Form
             'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Enregistrer',
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-finish btn-fill btn-primary',
             ],
         ]);
     }

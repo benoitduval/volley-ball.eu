@@ -283,10 +283,24 @@ function filtering()
             if ($(this).attr('data-brand') == el.attr('data-brand')) {
                 if (el.prop('checked')) {
                     el.prop( "checked", true);
+                    $(this).animate({
+                        opacity: 1,
+                        left: "-=50",
+                        height: "toggle"
+                      }, 300, function() {
+                        // Animation complete.
+                      });
                     $(this).css('display', 'block');
                 } else {
                     el.prop( "checked", false);
-                    $(this).css('display', 'none');
+                    $(this).animate({
+                        opacity: 0.25,
+                        left: "+=50",
+                        height: "toggle"
+                      }, 300, function() {
+                        // Animation complete.
+                      });
+                    // $(this).css('display', 'none');
                 }
             }
         });
