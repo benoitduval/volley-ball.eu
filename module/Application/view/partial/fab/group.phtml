@@ -1,22 +1,10 @@
-<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-    <a class="btn-floating btn-large red">
-      <i class="large material-icons md-48">add</i>
-    </a>
+<?php if ($isAdmin): ?>
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons md-48">add</i>
+        </a>
 
-    <ul>
-        <li>
-            <span class="mobile-fab-tip">Page publique</span>
-            <a href="<?= $group->getPublicLink() ?>" class="btn-floating indigo tooltipped"   data-position="left" data-tooltip="Partager">
-                  <i class="material-icons submenu">share</i>
-            </a>
-        </li>
-        <li>
-            <span class="mobile-fab-tip">Historic</span>
-            <a href="/group/history/<?= $group->id ?>" class="btn-floating blue tooltipped"   data-position="left" data-tooltip="Partager">
-                  <i class="material-icons">history</i>
-            </a>
-        </li>
-        <?php if ($isAdmin): ?>
+        <ul>
             <li>
                 <span class="mobile-fab-tip">Membres</span>
                 <a href="/group/users/<?= $group->id ?>" class="btn-floating orange tooltipped"   data-position="left" data-tooltip="Membres">
@@ -41,6 +29,6 @@
                       <i class="material-icons submenu">event</i>
                 </a>
             </li>
-	    <?php endif ?>
-    </ul>
-</div>
+        </ul>
+    </div>
+<?php endif ?>

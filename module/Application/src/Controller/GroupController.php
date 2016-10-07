@@ -266,7 +266,6 @@ class GroupController extends AbstractController
                 ]);
                 if ($match) {
                     $result[$event->id]['result'] = $match->victory;
-                    // $result[$event->id]['scores'] = $match->scrores;
                 }
             }
         }
@@ -278,6 +277,7 @@ class GroupController extends AbstractController
             'group'   => $group,
             'events'  => $events,
             'matches' => $result,
+            'isAdmin' => $userGroupTable->isMember($this->getUser()->id, $group->id),
         ]);
     }
 

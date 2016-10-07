@@ -112,7 +112,7 @@ return [
                 'options' => [
                     'route'    => '/welcome-to[/:brand]',
                     'constraints' => [
-                        'brand' => '[a-z\-]*',
+                        'brand' => '[a-z0-9\-]*',
                     ],
                     'defaults' => [
                         'controller'    => Controller\GroupController::class,

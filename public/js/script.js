@@ -284,20 +284,20 @@ function filtering()
                 if (el.prop('checked')) {
                     el.prop( "checked", true);
                     $(this).animate({
-                        width: [ "toggle", "swing" ],
-                        height: [ "toggle", "swing" ],
+                        // width: [ "toggle", "swing" ],
+                        // height: [ "toggle", "swing" ],
                         opacity: "toggle"
-                      }, 200, function() {
+                      }, 500, function() {
                         // Animation complete.
                       });
                     $(this).css('display', 'block');
                 } else {
                     el.prop( "checked", false);
                     $(this).animate({
-                        width: [ "toggle", "swing" ],
-                        height: [ "toggle", "swing" ],
+                        // width: [ "toggle", "swing" ],
+                        // height: [ "toggle", "swing" ],
                         opacity: "toggle"
-                      }, 200, function() {
+                      }, 500, function() {
                         // Animation complete.
                       });
                     // $(this).css('display', 'none');
