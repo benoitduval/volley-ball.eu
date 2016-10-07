@@ -44,12 +44,10 @@
             <div class="row text-center">
                 <div class="checkbox">
                     <?php foreach ($groups as $group): ?>
-                        
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
-                                <?= $group->name ?>
-                            </label>
-                        
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
+                            <?= $group->name ?>
+                        </label>
                     <?php endforeach ?>
                 </div>
                 <?php if ($this->user->display == Application\Model\User::DISPLAY_LARGE): ?>

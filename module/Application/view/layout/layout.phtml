@@ -82,7 +82,7 @@
                             <?php if ($this->groups): ?>
                                 <?php foreach ($this->groups as $group): ?>
                                     <li>
-                                        <a href="/group/detail/<?= $group->id ?>">
+                                        <a href="<?= $group->getPublicLink() ?>">
                                             <?= $group->name ?>
                                         </a>
                                     </li>

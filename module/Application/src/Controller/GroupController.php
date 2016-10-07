@@ -250,11 +250,34 @@ class GroupController extends AbstractController
             }
         }
 
+        $events = [];
+        if ($this->getUser() && $userGroupTable->isMember($this->getUser()->id, $group->id)) {
+            $eventTable = $this->get(TableGateway\Event::class);
+            $events = $eventTable->fetchAll([
+                'groupId' => $group->id
+            ], 'date DESC');
+
+            $result = [];
+            $events->buffer();
+            foreach ($events as $event) {
+                $matchTable = $this->get(TableGateway\Match::class);
+                $match = $matchTable->fetchOne([
+                    'eventId' => $event->id
+                ]);
+                if ($match) {
+                    $result[$event->id]['result'] = $match->victory;
+                    // $result[$event->id]['scores'] = $match->scrores;
+                }
+            }
+        }
+
         $this->layout()->opacity = true;
         return new ViewModel([
-            'member' => $userGroupTable->isMember($this->getUser()->id, $group->id),
-            'user'   => $this->getUser(),
-            'group'  => $group,
+            'member'  => $userGroupTable->isMember($this->getUser()->id, $group->id),
+            'user'    => $this->getUser(),
+            'group'   => $group,
+            'events'  => $events,
+            'matches' => $result,
         ]);
     }
 
