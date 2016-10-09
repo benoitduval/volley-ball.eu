@@ -85,14 +85,18 @@ class IndexController extends AbstractController
 
     public function welcomeAction()
     {
-        $signInForm = new SignIn();
-        $signUpForm = new SignUp();
+        if (!$this->getUser()) {
+            $signInForm = new SignIn();
+            $signUpForm = new SignUp();
 
-        $this->layout()->user = $this->getUser();
-        return new ViewModel([
-            'signInForm' => $signInForm,
-            'signUpForm' => $signUpForm,
-        ]);
+            $this->layout()->user = $this->getUser();
+            return new ViewModel([
+                'signInForm' => $signInForm,
+                'signUpForm' => $signUpForm,
+            ]);
+        } else {
+            return $this->redirect()->toRoute('home');
+        }
     }
 
 }

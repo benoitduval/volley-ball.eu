@@ -16,7 +16,8 @@ class EventController extends AbstractController
         $groupTable     = $this->get(TableGateway\Group::class);
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
 
-        if (($group = $groupTable->find($groupId)) && $userGroupTable->isAdmin($this->getUser()->id, $groupId)) {
+        $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $groupId);
+        if (($group = $groupTable->find($groupId)) && $isAdmin) {
             $eventTable     = $this->get(TableGateway\Event::class);
             $guestTable     = $this->get(TableGateway\Guest::class);
             $userTable      = $this->get(TableGateway\User::class);
@@ -110,9 +111,10 @@ class EventController extends AbstractController
 
             $this->layout()->user = $this->getUser();
             return new ViewModel([
-                'group'  => $group,
-                'form'   => $form,
-                'user'   => $this->getUser(),
+                'group'   => $group,
+                'form'    => $form,
+                'user'    => $this->getUser(),
+                'isAdmin' => $isAdmin
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
