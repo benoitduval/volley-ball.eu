@@ -106,8 +106,8 @@ class Match extends Form
             'name' => 'debrief',
             'attributes' => [
                 'class' => 'form-control',
-                'rows'      => 17,
                 'required' => 'required',
+                'style' => 'height: 40px;',
             ],
         ]);
 

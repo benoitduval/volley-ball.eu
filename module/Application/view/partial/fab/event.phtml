@@ -4,19 +4,7 @@
     </a>
 
     <ul>
-        <li>
-            <span class="mobile-fab-tip">Supprimer le groupe</span>
-            <a href="/group/delete/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
-                  <i class="material-icons submenu">delete_forever</i>
-            </a>
-        </li>
         <?php if ($isAdmin): ?>
-            <li>
-                <span class="mobile-fab-tip">Modifier l'évènement</span>
-                <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
-                      <i class="material-icons submenu">edit</i>
-                </a>
-            </li>
             <?php if (!$match || ($match && !$match->set1Team1)): ?>
                 <li>
                     <span class="mobile-fab-tip">Résultat de la rencontre</span>
@@ -33,23 +21,31 @@
             	</li>
             <?php endif ?>
         <?php endif ?>
-        <li>
-            <span class="mobile-fab-tip">Incertain</span>
-            <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="btn-floating amber tooltipped" data-position="left" data-tooltip="Incertain">
-                  <i class="material-icons submenu">date_range</i>
-            </a>
-        </li>
-        <li>
-            <span class="mobile-fab-tip">Absent</span>
-            <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>" class="btn-floating red tooltipped" data-position="left" data-tooltip="Absent">
-                  <i class="material-icons submenu">event_busy</i>
-            </a>
-        </li>
-        <li>
-            <span class="mobile-fab-tip">Présent</span>
-            <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" class="btn-floating green tooltipped" data-position="left" data-tooltip="Présent">
-                  <i class="material-icons submenu">event_available</i>
-            </a>
-        </li>
+        <?php if ($event->date > date('Y-m-d H:i:s')): ?>
+            <li>
+                <span class="mobile-fab-tip">Modifier l'évènement</span>
+                <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
+                      <i class="material-icons submenu">edit</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Incertain</span>
+                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="btn-floating amber tooltipped" data-position="left" data-tooltip="Incertain">
+                      <i class="material-icons submenu">date_range</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Absent</span>
+                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>" class="btn-floating red tooltipped" data-position="left" data-tooltip="Absent">
+                      <i class="material-icons submenu">event_busy</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Présent</span>
+                <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" class="btn-floating green tooltipped" data-position="left" data-tooltip="Présent">
+                      <i class="material-icons submenu">event_available</i>
+                </a>
+            </li>
+        <?php endif ?>
     </ul>
 </div>
