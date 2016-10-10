@@ -33,6 +33,7 @@ class AbstractController extends AbstractActionController
 
     public function getUserGroups()
     {
+        $groups = [];
         if (empty($this->_userGroups) && $this->_user) {
             $userGroupTable = $this->get(TableGateway\UserGroup::class);
             $groupTable     = $this->get(TableGateway\Group::class);

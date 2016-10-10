@@ -1,10 +1,16 @@
-<?php if ($isAdmin): ?>
+<?php if ($user && $isAdmin): ?>
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
         <a class="btn-floating btn-large red">
           <i class="large material-icons md-48">add</i>
         </a>
 
         <ul>
+            <li>
+                <span class="mobile-fab-tip">Supprimer le groupe</span>
+                <a href="/group/delete/<?= $group->id ?>" class="btn-floating red tooltipped" data-position="left" data-tooltip="Éditer">
+                      <i class="material-icons submenu">delete_forever</i>
+                </a>
+            </li>
             <li>
                 <span class="mobile-fab-tip">Membres</span>
                 <a href="/group/users/<?= $group->id ?>" class="btn-floating orange tooltipped"   data-position="left" data-tooltip="Membres">

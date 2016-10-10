@@ -175,6 +175,7 @@ class EventController extends AbstractController
                     $comment = new Model\Comment();
                     $comment->exchangeArray($data);
                     $comment->id = $commentTable->save($comment);
+
                     $config = $this->get('config');
                     if ($config['mail']['allowed']) {
                         $commentDate = \DateTime::createFromFormat('U', time());

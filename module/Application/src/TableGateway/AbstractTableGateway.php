@@ -62,9 +62,10 @@ class AbstractTableGateway
         $this->getTableGateway()->update($data, ['id' => $id]);
     }
 
-    public function delete($obj)
+    public function delete(array $where)
     {
-        $this->getTableGateway()->delete(['id' => (int) $obj->id]);
+        $this->getTableGateway()->delete($where);
+        // $this->getTableGateway()->delete(['id' => (int) $obj->id]);
     }
 
 }

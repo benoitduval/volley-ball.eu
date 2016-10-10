@@ -347,3 +347,7 @@ blockquote.comment {
     border-left: 5px solid #1F8BBF;
 }
 
+table th.action {
+    width:30px;
+}
+

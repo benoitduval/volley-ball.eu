@@ -5,9 +5,9 @@
 
     <ul>
         <li>
-            <span class="mobile-fab-tip">Commenter</span>
-            <a href="#" class="btn-floating indigo tooltipped" data-position="left" data-tooltip="Commenter" data-toggle="modal" data-target="#modale-comment">
-                  <i class="material-icons submenu">comment</i>
+            <span class="mobile-fab-tip">Supprimer le groupe</span>
+            <a href="/group/delete/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
+                  <i class="material-icons submenu">delete_forever</i>
             </a>
         </li>
         <?php if ($isAdmin): ?>

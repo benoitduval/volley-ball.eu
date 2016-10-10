@@ -116,7 +116,7 @@ class Match extends Form
             'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Enregistrer',
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-finish btn-fill btn-primary',
             ],
         ]);
     }
