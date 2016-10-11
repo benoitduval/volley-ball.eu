@@ -13,13 +13,13 @@ class Notification extends AbstractModel
     const COMMENT_ABSENT     = 6;
     const SELF_COMMENT       = 7;
 
-    CONST STATUS_ENABLE      = 1;
-    CONST STATUS_DISABLE     = 2;
+    CONST ACTIVE             = 1;
+    CONST DISABLED           = 2;
 
     public static $labels = [
         self::EVENT_SIMPLE   => 'Recevoir les notifications pour les évènements ponctuels.',
         self::EVENT_RECURENT => 'Recevoir les notifications pour les évènements récurrents.',
-        self::EVENT_UPDATE   => 'Recevoir les notifications pour les modifications et annulation d\'évènement.',
+        self::EVENT_UPDATE   => 'Recevoir les notifications pour les modifications d\'évènement.',
         self::COMMENTS       => 'Recevoir les notifications pour les commentaires.',
         self::REMINDER       => 'Recevoir les notifications pour les rappels.',
         self::COMMENT_ABSENT => 'Recevoir les notifications pour les commentaires étant absent à l\'évènement.',
@@ -34,15 +34,5 @@ class Notification extends AbstractModel
     public function getLabel()
     {
         return self::$labels[$this->_notification];
-    } 
-
-    public function toArray()
-    {
-        return array(
-            'id'           => (int) $this->_id,
-            'userId'       => (int) $this->_userId,
-            'notification' => (int) $this->_notification,
-            'status'       => (int) $this->_status,
-        );
     }
 }

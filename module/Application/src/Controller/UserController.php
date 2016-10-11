@@ -1,19 +1,14 @@
 <?php
-namespace Volley\Controller;
+namespace Application\Controller;
 
 use Zend\View\Model\ViewModel;
-use Volley\Entity\Guest;
-use Volley\Entity\Device;
-use Zend\Db\Sql\Select;
-use Volley\Form\EditUserValidator;
-use Volley\Form\EditUser;
-use Volley\Form\Pushbullet;
-use Zend\Http\Client;
-use Zend\Json\Json;
-use Zend\Json\Decoder;
+use Application\Form;
+use Application\Model;
+use Application\Service;
+use Application\TableGateway;
+use Application\Service\MailService;
 
-
-class UserController extends BaseController
+class UserController extends AbstractController
 {
     public function indexAction()
     {
@@ -125,5 +120,22 @@ class UserController extends BaseController
             'redirect'      =>$config['api']['pushbullet']['redirectUrl'],
             'devices'       => $devices,
         ));
+    }
+
+    public function paramsAction()
+    {
+        if ($this->getUser()) {
+            $notifTable = $this->get(TableGateway\Notification::class);
+            $notifs = $notifTable->fetchAll(['userId' => $this->getUser()->id]);
+
+            return new ViewModel(array(
+                'notifications' => $notifs,
+                'user'          => $this->getUser(),
+            ));
+
+        } else {
+            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
+            $this->redirect()->toRoute('home');
+        }
     }
 }

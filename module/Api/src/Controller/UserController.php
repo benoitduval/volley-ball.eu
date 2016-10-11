@@ -34,6 +34,28 @@ class UserController extends AbstractController
         return $view;
     }
 
+    public function paramsAction()
+    {
+        $notifId = $this->params('id', null);
+        $status = $this->params('status', null);
+
+        $notifTable = $this->get(TableGateway\Notification::class);
+        $notif = $notifTable->find($notifId);
+
+        $notif->status = $status;
+        $notifTable->save($notif);
+
+        $view = new ViewModel(array(
+            'result'   => [
+                'success'  => true
+            ]
+        ));
+
+        $view->setTerminal(true);
+        $view->setTemplate('api/default/json.phtml');
+        return $view;
+    }
+
     public function displayAction()
     {
         $userTable = $this->get(TableGateway\User::class);

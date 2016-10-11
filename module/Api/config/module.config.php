@@ -52,6 +52,20 @@ return [
                     ],
                 ],
             ],
+            'notif' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/user/params/:id/:status',
+                    'constraints' => [
+                        'id' => '[0-9]*',
+                        'status' => '[1-2]{1}',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\UserController::class,
+                        'action'        => 'params',
+                    ],
+                ],
+            ],
         ],
     ],
 

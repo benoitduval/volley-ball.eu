@@ -134,6 +134,7 @@ class EventController extends AbstractController
             $userTable      = $this->get(TableGateway\User::class);
             $commentTable   = $this->get(TableGateway\Comment::class);
             $matchTable     = $this->get(TableGateway\Match::class);
+            $notifTable     = $this->get(TableGateway\Notification::class);
 
             $form = new Form\Comment();
 

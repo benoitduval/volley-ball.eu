@@ -76,6 +76,9 @@ class ConsoleController extends AbstractController
         $console->writeLine('Working on comments ...', Color::BLUE);
         $this->comments();
         $console->writeLine('DONE', Color::GREEN);
+        $console->writeLine('Working on notifications ...', Color::BLUE);
+        $this->notifs();
+        $console->writeLine('DONE', Color::GREEN);
     }
 
     public function events()
@@ -212,6 +215,23 @@ class ConsoleController extends AbstractController
         $values .= ';';
 
         $this->newAdapter->query('INSERT INTO `recurent` VALUES ' . $values)->execute();
+    }
+
+    public function notifs()
+    {
+        $this->newAdapter->query('TRUNCATE TABLE `notification`')->execute();
+
+        $data = $this->adapter->query('SELECT * FROM `notification`')->execute();
+
+        // insert users
+        $values = '';
+        foreach ($data as $row) {
+            $values .= '("' . implode('","', $row) . '"),';
+        }
+        $values = substr($values, 0, -1);
+        $values .= ';';
+
+        $this->newAdapter->query('INSERT INTO `notification` VALUES ' . $values)->execute();
     }
 
     public function recurentAction()

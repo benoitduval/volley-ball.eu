@@ -164,6 +164,23 @@ function switcher()
             });
         });
     }
+
+    if ($('input[name="notification"]').length) {
+        $('input[name="notification"]').on('click', function(event) {
+            var id    = $(this).attr('data-notif');
+            var value = $(this).attr("value");
+            if (value == 1) {
+                $(this).attr("value", 2);
+            } else {
+                $(this).attr("value", 1);
+            }
+            var url = '/api/user/params/' + id + '/' + value;
+            var request = $.ajax({
+                type: "GET",
+                url: url
+            });
+        });
+    }
 }
 
 function rotating()

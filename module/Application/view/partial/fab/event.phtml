@@ -23,6 +23,12 @@
         <?php endif ?>
         <?php if ($event->date > date('Y-m-d H:i:s')): ?>
             <li>
+                <span class="mobile-fab-tip">Commenter</span>
+                <a href="#" class="btn-floating indigo tooltipped" data-position="left" data-tooltip="Commenter" data-toggle="modal" data-target="#modale-comment">
+                <i class="material-icons submenu">comment</i>
+                </a>
+            </li>
+            <li>
                 <span class="mobile-fab-tip">Modifier l'évènement</span>
                 <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
                       <i class="material-icons submenu">edit</i>
