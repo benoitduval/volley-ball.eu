@@ -6,6 +6,7 @@ class User extends AbstractModel
 
     const DISPLAY_SMALL     = 1;
     const DISPLAY_LARGE     = 2;
+    const DISPLAY_TABLE     = 3;
 
     const HAS_TO_CONFIRM    = 1;
     const CONFIRMED         = 2;

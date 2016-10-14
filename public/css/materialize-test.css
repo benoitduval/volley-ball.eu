@@ -351,3 +351,10 @@ table th.action {
     width:30px;
 }
 
+.nav>li.active a {
+  color:var(--main-color);
+}
+
+.nav>li a {
+  color:#000;
+}

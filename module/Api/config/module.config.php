@@ -30,7 +30,7 @@ return [
                 'options' => [
                     'route'    => '/api/user/display/:display',
                     'constraints' => [
-                        'display' => '[1-2]{1}',
+                        'display' => '[1-3]{1}',
                     ],
                     'defaults' => [
                         'controller'    => Controller\UserController::class,

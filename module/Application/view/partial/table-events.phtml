@@ -1,0 +1,27 @@
+<?php
+    switch ($guest->response) {
+        case Application\Model\Guest::RESP_OK:
+            $class = 'header-success';
+            break;
+        case Application\Model\Guest::RESP_NO:
+            $class = 'header-danger';
+            break;
+        case Application\Model\Guest::RESP_INCERTAIN:
+            $class = 'header-warning';
+            break;
+        default:
+            $class = 'header-primary';
+            break;
+    }
+?>
+
+<tr class="text-left event-card" data-brand="<?= $group->brand ?>">
+    <td><?= $event->name ?></td>
+    <td><?= $group->name ?></td>
+    <td><?= $date->format('d/m/Y') ?></td>
+    <td>
+        <a href="/event/detail/<?= $event->id ?>">
+            <i class="material-icons">search</i>
+        </a>
+    </td>
+</tr>

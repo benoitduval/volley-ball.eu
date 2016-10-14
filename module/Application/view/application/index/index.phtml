@@ -20,18 +20,24 @@
                     <h2>Vos évènements à venir</h2>
                     <h4>Bienvenue sur votre page principale. Ici seront répertoriés tous vos évènements de tous les groupes auxquel vous appartenez.</h4>
                 </div>
-                <div class="col-md-3 col-md-offset-5">
+                <div class="col-md-4 col-md-offset-4">
                     <ul class="nav nav-pills" role="tablist">
                         <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_LARGE) ? 'active' : ''; ?>">
                             <a href="#" class="display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_LARGE ?>">
-                                <i class="material-icons">view_module</i>
-                                Vue étendue
+                                <i class="material-icons">dashboard</i>
+                                <span class="hidden-xs">Vue étendue</span>
                             </a>
                         </li>
                         <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_SMALL) ? 'active' : ''; ?>">
                             <a class="display" href="#" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_SMALL ?>">
-                                <i class="material-icons">view_list</i>
-                                Vue minimale
+                                <i class="material-icons">view_module</i>
+                                <span class="hidden-xs">Vue minimal</span>
+                            </a>
+                        </li>
+                        <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_TABLE) ? 'active' : ''; ?>">
+                            <a class="display" href="#" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_TABLE ?>">
+                                <i class="material-icons">border_all</i>
+                                <span class="hidden-xs">Vue tableau</span>
                             </a>
                         </li>
                     </ul>
@@ -42,25 +48,47 @@
     <div class="section section-tabs">
         <div class="container">
             <div class="row text-center">
-                <div class="checkbox">
-                    <?php foreach ($groups as $group): ?>
-                        <label class="checkbox-inline">
-                            <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
-                            <?= $group->name ?>
-                        </label>
-                    <?php endforeach ?>
-                </div>
+                <?php if ($this->user->display != Application\Model\User::DISPLAY_TABLE): ?>
+                    <div class="checkbox">
+                        <?php foreach ($groups as $group): ?>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
+                                <?= $group->name ?>
+                            </label>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif ?>
                 <?php if ($this->user->display == Application\Model\User::DISPLAY_LARGE): ?>
                     <div class="col-xs-12">
                         <?php foreach ($events as $event): ?>
                             <?php echo $this->partial('partial/dashboard-events.phtml', $event) ?>
                         <?php endforeach ?>
                     </div>
-                <?php else: ?>
+                <?php elseif ($this->user->display == Application\Model\User::DISPLAY_SMALL): ?>
 
                     <?php foreach ($events as $event): ?>
                         <?php echo $this->partial('partial/list-events.phtml', $event) ?>
                     <?php endforeach ?>
+                <?php elseif ($this->user->display == Application\Model\User::DISPLAY_TABLE): ?>
+                    <table class="table table-striped"
+                           data-toggle="table"
+                           data-pagination="true"
+                           data-locale="fr-FR"
+                           data-search="true"
+                           data-page-size="10"
+                           data-page-list="[10,25,50,100]">
+                        <thead>
+                            <th data-field="name">Nom</th>
+                            <th data-field="group">Groupe</th>
+                            <th data-field="date">Date</th>
+                            <th data-field="action" class="action"></th>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($events as $event): ?>
+                                <?php echo $this->partial('partial/table-events.phtml', $event) ?>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
                 <?php endif ?>
             </div>
         </div>

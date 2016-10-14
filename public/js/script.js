@@ -10,6 +10,7 @@ $(function () {
     deleteUser();
     grow();
     filtering();
+    pills();
 });
 
 
@@ -322,6 +323,18 @@ function filtering()
             }
         });
     });
+}
+
+function pills() {
+    if (($(".nav-pills").length > 0)) {
+        window_width = $(window).width();
+        if (window_width < 992) {
+            $(".nav-pills").each(function () {
+                $(this).removeClass('nav-pills');
+                $(this).children('li').addClass('col-xs-4')
+            });
+        }
+    }
 }
 
 function deleteUser() {
