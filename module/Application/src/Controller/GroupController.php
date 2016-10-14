@@ -197,9 +197,10 @@ class GroupController extends AbstractController
     public function welcomeAction()
     {
         $isAdmin        = false;
+        $isMember       = false;
         $isJoining      = false;
         $brand          = $this->params('brand');
-        $subscribe      = $this->params('subscribe', null);
+        $subscribe      = $this->params()->fromQuery('subscribe', null);
         $groupTable     = $this->get(TableGateway\Group::class);
         $joinTable      = $this->get(TableGateway\Join::class);
         $userTable      = $this->get(TableGateway\User::class);
@@ -211,6 +212,7 @@ class GroupController extends AbstractController
             $signUpForm = new Form\SignUp();
 
             return new ViewModel(array(
+                'isMember'   => false,
                 'signInForm' => $signInForm,
                 'signUpForm' => $signUpForm,
                 'user'       => $this->getUser(),
@@ -284,8 +286,8 @@ class GroupController extends AbstractController
             'group'   => $group,
             'events'  => $events,
             'matches' => $result,
-            'isMember'  => $userGroupTable->isMember($this->getUser()->id, $group->id),
-            'isAdmin' => $userGroupTable->isAdmin($this->getUser()->id, $group->id),
+            'isMember' => $userGroupTable->isMember($this->getUser()->id, $group->id),
+            'isAdmin'  => $userGroupTable->isAdmin($this->getUser()->id, $group->id),
             'isJoining' => $isJoining
         ]);
     }
