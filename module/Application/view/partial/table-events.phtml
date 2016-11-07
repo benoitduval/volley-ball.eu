@@ -1,21 +1,21 @@
 <?php
     switch ($guest->response) {
         case Application\Model\Guest::RESP_OK:
-            $class = 'header-success';
+            $class = 'success';
             break;
         case Application\Model\Guest::RESP_NO:
-            $class = 'header-danger';
+            $class = 'danger';
             break;
         case Application\Model\Guest::RESP_INCERTAIN:
-            $class = 'header-warning';
+            $class = 'warning';
             break;
         default:
-            $class = 'header-primary';
+            $class = 'primary';
             break;
     }
 ?>
 
-<tr class="text-left event-card" data-brand="<?= $group->brand ?>">
+<tr class="text-left event-card <?= $class ?>">
     <td><?= $event->name ?></td>
     <td><?= $group->name ?></td>
     <td><?= $date->format('d/m/Y') ?></td>

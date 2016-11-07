@@ -31,8 +31,10 @@ class MailService
 
     public function send()
     {
-        $this->_mail->addFrom('volleyball.eu@gmail.com');
-        $this->_transport->send($this->_mail);
+        try {
+            $this->_mail->addFrom('volleyball.eu@gmail.com');
+            $this->_transport->send($this->_mail);
+        } catch (\Exception $e) {}
     }
 
     public function addBcc($recipients)
@@ -444,13 +446,58 @@ class MailService
                     </tr>
                 ';
                 break;
+            case self::TEMPLATE_GROUP_SHARE:
+                $content .= '
+                    <tr>
+                      <td align="center" valign="top">
+                          <!-- // BEGIN BODY -->
+                          <table border="0" cellpadding="40" cellspacing="0" width="100%">
+                              <tr>
+                                  <td align="center" valign="top" ' . $this->_getCss('templateBody') . '>
+                                      <table border="0" cellpadding="0" cellspacing="0" width="600">
+                                          <tr>
+                                                <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
+                                                    <h3 ' . $this->_getCss('h3') . '>{name}</h3>
+                                                    <h4 ' . $this->_getCss('h4', 'text-align:left') . '>Vous avez été invité</h4>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" valign="top" ' . $this->_getCss('bodyContentBlock', 'padding-top:30px;') . '>
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:30px;') . '>
+                                                                Bonjour,
+                                                                <br>
+                                                                Volley-ball.eu est un outil de gestion de groupe de volley.<br>
+                                                                Vous êtes invité à rejoindre le groupe {name}. Merci de suivre le lien ci dessous. <br>
+                                                                <table border="0" cellpadding="10" cellspacing="0" ' . $this->_getCss('button') . '>
+                                                                    <tr>
+                                                                        <td align="center" valign="middle">
+                                                                            <a href="{baseUrl}/welcome-to/{brand}" target="_blank" style="color:#FFFFFF;text-decoration:none;">Rejoindre le groupe</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- END BODY \\ -->
+                        </td>
+                    </tr>
+                ';
+                break;
 
             case self::TEMPLATE_PASSWORD:
                 $content .= '
                     <div style="">
                         <div style ="">
                             <h1 ' . $this->_getCss('h1') . '>
-                                Ton nouveau mot de passe
+                                Votre nouveau mot de passe
                             </h1>
                         </div>
                         <div style="">
@@ -459,7 +506,7 @@ class MailService
                             </h3>
                             <div style="margin-left:50px;">
                                 Ce mot de passe à été généré aléatoirement : <i>{password}</i> <br/>
-                                Tu peux maintenant te connecter à ton compte avec ce nouveau mot de passe.
+                                Vous pouvez maintenant vous connecter à votre compte avec ce nouveau mot de passe.
                             </div>
                             <div style ="">
                                 <a href="{baseUrl}/auth/login" style="">Repondre</a>
@@ -508,7 +555,7 @@ class MailService
                                                             </td>
                                                             <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:10px;') . '>
                                                                 Voici les informations concernant l\'évènement:<br />
-                                                                Tu es attendu le <b>{date}</b> à l\'adresse suivante:
+                                                                Vous êtes attendu le <b>{date}</b> à l\'adresse suivante:
                                                                 <br><br>
                                                                 <i>
                                                                     {name}<br />
@@ -516,7 +563,7 @@ class MailService
                                                                     {zip} {city}<br />
                                                                 </i>
                                                                 <br>
-                                                                Merci de donner au plus vite ta disponibilité pour cette date en cliquant sur les liens ci-dessous<br><br>
+                                                                Merci de donner au plus vite votre disponibilité pour cette date en cliquant sur un des liens ci-dessous<br><br>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -619,64 +666,6 @@ class MailService
                 ';
                 break;
 
-                case self::TEMPLATE_CONTACT:
-                    $content .= '
-                    <tr>
-                        <td align="center" valign="top">
-                          <!-- // BEGIN BODY -->
-                            <table border="0" cellpadding="40" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center" valign="top" ' . $this->_getCss('templateBody') . '>
-                                        <table border="0" cellpadding="0" cellspacing="0" width="600">
-                                            <tr>
-                                                <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
-                                                  <h3 ' . $this->_getCss('h3') . '>{title}</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center" valign="top" ' . $this->_getCss('bodyContentBlock', 'padding-top:30px;') . '>
-                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                        <tr>
-                                                            <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:10px;') . '>
-                                                                <h3>Nouveau message</h3>
-                                                                <b>{name}</b> vous a comtacté</b><br />
-
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td align="center" valign="top" width="100%">
-                                                                <table border="0" cellpadding="6" cellspacing="0" width="100%">
-                                                                    <tr>
-                                                                        <td align="center" valign="top">
-                                                                            email 
-                                                                        </td>
-                                                                        <td align="center" valign="top">
-                                                                            {email}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td align="center" valign="top">
-                                                                            message 
-                                                                        </td>
-                                                                        <td align="center" valign="top">
-                                                                            {message}
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                              </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                            <!-- END BODY \\ -->
-                        </td>
-                    </tr>
-                    ';
-                    break;
                 case self::TEMPLATE_CONTACT_GROUP:
                     $content .= '
                     <tr>

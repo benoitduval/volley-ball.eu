@@ -4,6 +4,7 @@ namespace Application\Form;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
+use Application\Model;
 
 /**
  * Class SignInForm
@@ -18,12 +19,8 @@ class SignUp extends Form
         $this->add([
             'type' => Element\Text::class,
             'name' => 'firstname',
-            'options' => [
-                'label' => 'Prénom',
-            ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => 'Prénom',
                 'required' => 'required',
             ],
         ]);
@@ -31,25 +28,17 @@ class SignUp extends Form
         $this->add([
             'type' => Element\Text::class,
             'name' => 'lastname',
-            'options' => [
-                'label' => 'Username',
-            ],
             'attributes' => [
                 'required' => 'required',
                 'class' => 'form-control',
-                'placeholder' => 'Nom',
             ],
         ]);
 
         $this->add([
             'type' => Element\Email::class,
             'name' => 'email',
-            'options' => [
-                'label' => 'E-mail',
-            ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => 'E-mail',
                 'required' => 'required',
             ],
         ]);
@@ -57,12 +46,8 @@ class SignUp extends Form
         $this->add([
             'type' => Element\Password::class,
             'name' => 'password',
-            'options' => [
-                'label' => 'Password',
-            ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => 'Mot de passe',
                 'required' => 'required',
             ],
         ]);
@@ -70,14 +55,58 @@ class SignUp extends Form
         $this->add([
             'type' => Element\Password::class,
             'name' => 'repassword',
-            'options' => [
-                'label' => 'Password (Re-type)',
-            ],
             'attributes' => [
                 'class' => 'form-control',
-                'placeholder' => 'Mot de passe (confirmation)',
                 'required' => 'required',
             ],
+        ]);
+
+        $this->add([
+            'type' => Element\Text::class,
+            'name' => 'phone',
+            'attributes' => [
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+            'type' => Element\Text::class,
+            'name' => 'licence',
+            'attributes' => [
+                'class' => 'form-control',
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'display',
+            'type' => Element\Select::class,
+            'attributes' => [
+                'class' => 'form-control',
+                'required' => false,
+            ],
+            'options' => [
+                'value_options' => [
+                    0 => '',
+                    Model\User::DISPLAY_SMALL => 'Small',
+                    Model\User::DISPLAY_LARGE => 'Large',
+                    Model\User::DISPLAY_TABLE => 'Table',
+                ],
+            ]
+        ]);
+
+        $this->add([
+            'name' => 'status',
+            'type' => Element\Select::class,
+            'attributes' => [
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'value_options' => [
+                    0 => '',
+                    Model\User::CONFIRMED => 'Confirmed',
+                    Model\User::HAS_TO_CONFIRM => 'Not Confirmed',
+                ],
+            ]
         ]);
 
         $this->add([

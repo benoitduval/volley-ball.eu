@@ -1,6 +1,8 @@
 <?php
 namespace Application\Model;
 
+use Application\Tablegateway;
+
 class User extends AbstractModel
 {
 
@@ -18,9 +20,16 @@ class User extends AbstractModel
     protected $_password    = null;
     protected $_status      = null;
     protected $_display     = null;
+    protected $_phone       = null;
+    protected $_licence     = null;
 
     public function getFullname()
     {
         return $this->_firstname . ' ' . $this->lastname;
+    }
+
+    public function getGroups()
+    {
+        var_dump($this->getContainer()->get(Tablegateway\UserGroup::class));
     }
 }

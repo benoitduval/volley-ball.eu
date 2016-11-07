@@ -14,47 +14,134 @@
 
 <div class="main main-raised">
     <div class="section section-basic">
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center">
-                <h2>Paramètres de votre compte</h2>
-                <h4>Vous pouvez choisir d'être avertis ou non suivant les cas de figures.</h4>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2>Mon Compte</h2>
+                    <h4>Vous pouvez gérer vos paramètres de compte ainsi que les notificiations que vous souhaitez recevoir.</h4>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-    <div class="section">
+    <div class="section section-signup" style="background-image: url('/img/cover_4_blur.jpg'); background-size: cover; background-position: top center; min-height: 300px;">
         <div class="container">
             <div class="row">
-                <table class="table table-striped col-md-12">
-                    <thead>
-                        <th></th>
-                        <th class="text-right">Actif</th>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($notifications as $notification): ?>
-                            <tr>
-                                <td>
-                                    <?= $notification->getLabel() ?>
-                                </td>
-                                <td class="text-right">
-                                    <span class="togglebutton">
-                                        <label>
-                                            <input name="notification" data-notif="<?= $notification->id ?>" 
-                                            <?php if ($notification->status == \Application\Model\Notification::ACTIVE): ?>
-                                                checked="checked"
-                                                value="2"
-                                            <?php else: ?>
-                                                value="1"
-                                            <?php endif ?>
-                                            type="checkbox">
-                                        </label>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach ?>
-                    </tbody>
-                </table>
+                <div class="col-md-6">
+                    <div class="card card-signup">
+                        <div class="header header-primary text-center">
+                            <h4>Notifications</h4>
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <h4 class="text-center">Je souhaite recevoir une notification pour</h4>
+                                <table class="table table-striped col-md-12">
+                                    <thead>
+                                        <th></th>
+                                        <th></th>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($notifications as $notification): ?>
+                                            <tr>
+                                                <td>
+                                                    <?= $notification->getLabel() ?>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="togglebutton">
+                                                        <label>
+                                                            <input name="notification" data-notif="<?= $notification->id ?>" 
+                                                            <?php if ($notification->status == \Application\Model\Notification::ACTIVE): ?>
+                                                                checked="checked"
+                                                                value="2"
+                                                            <?php else: ?>
+                                                                value="1"
+                                                            <?php endif ?>
+                                                            type="checkbox">
+                                                        </label>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-signup">
+                        <div class="header header-primary text-center">
+                            <h4>Mon Profil</h4>
+                        </div>
+                        <div class="content">
+                            <div class="main">
+                                <?php echo $this->form()->openTag($form); ?>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="firstname">
+                                                Prénom
+                                            </label>
+                                            <?= $this->formElement($form->get('firstname')); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">face</i>
+                                            </span>
+                                            <label class="control-label" for="lastname">
+                                                Nom
+                                            </label>
+                                            <?= $this->formElement($form->get('lastname')); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">email</i>
+                                            </span>
+                                            <label class="control-label" for="email">
+                                                E-mail
+                                            </label>
+                                            <?= $this->formElement($form->get('email')); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">lock_outline</i>
+                                            </span>
+                                            <label class="control-label" for="licence">
+                                                Numéro de licence
+                                            </label>
+                                            <?= $this->formElement($form->get('licence')); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">lock_outline</i>
+                                            </span>
+                                            <label class="control-label" for="phone">
+                                                Numéro de téléphone
+                                            </label>
+                                            <?= $this->formElement($form->get('phone')); ?>
+                                        </div>
+                                    </div>
+                                    <div class=" text-center">
+                                        <?php echo $this->formElement($form->get('submit')); ?>
+                                    </div>
+                                <?php echo $this->form()->closeTag(); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

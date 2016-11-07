@@ -21,50 +21,52 @@ class IndexController extends AbstractController
     public function indexAction()
     {
         if ($this->getUser()) {
-            $signInForm     = new SignIn();
-            $signUpForm     = new SignUp();
-            $config         = $this->get('config');
-            $baseUrl        = $config['baseUrl'];
-            $groups         = [];
-            $result         = [];
-            $groupIds       = null;
-            $guestTable     = $this->get(TableGateway\Guest::class);
-            $groupTable     = $this->get(TableGateway\Group::class);
-            $userGroupTable = $this->get(TableGateway\UserGroup::class);
-            $eventTable     = $this->get(TableGateway\Event::class);
+            $signInForm = new SignIn();
+            $signUpForm = new SignUp();
 
-            $today = new \DateTime('today midnight');
-            foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
-                $groupIds[] = $userGroup->groupId;
-                $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId);
+            $guestTable = $this->get(TableGateway\Guest::class);
+            $groupTable = $this->get(TableGateway\Group::class);
+            $eventTable = $this->get(TableGateway\Event::class);
+
+            $config     = $this->get('config');
+            $baseUrl    = $config['baseUrl'];
+
+            $userId     = $this->getUser()->id;
+            $groups     = $groupTable->getUserGroups($userId);
+            $result     = [];
+            $counters   = [];
+            if ($groups) {
+                foreach ($groups as $group) {
+                    $userGroups[$group->id] = $group;
+                }
+
+                $today = new \DateTime('today midnight');
+                $events = $eventTable->fetchAll([
+                    'groupId'   => array_keys($userGroups),
+                    'date >= ?' => $today->format('Y-m-d H:i:s')
+                ], 'date ASC');
+
+                foreach ($events as $event) {
+                    $eventIds[] = $event->id;
+
+                    $guest = $guestTable->fetchOne([
+                        'userId'  => $userId,
+                        'eventId' => $event->id
+                    ]);
+
+                    $counters = $guestTable->getCounters($event->id);
+                    $result[$guest->id] = [
+                        'group'   => $userGroups[$guest->groupId],
+                        'event'   => $event,
+                        'guest'   => $guest,
+                        'ok'      => $counters[Model\Guest::RESP_OK],
+                        'no'      => $counters[Model\Guest::RESP_NO],
+                        'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
+                        'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
+                    ];
+                }
             }
 
-            $events = $eventTable->fetchAll([
-                'groupId'   => $groupIds,
-                'date >= ?' => $today->format('Y-m-d H:i:s')
-            ], 'date ASC');
-
-            $counters = [];
-            foreach ($events as $event) {
-                $eventIds[] = $event->id;
-                $userEvents[$event->id] = $event;
-
-                $guest = $guestTable->fetchOne([
-                    'userId'  => $this->getUser()->id,
-                    'eventId' => $event->id
-                ]);
-
-                $counters = $guestTable->getCounters($event->id);
-                $result[$guest->id] = [
-                    'group'   => $groups[$guest->groupId],
-                    'event'   => $event,
-                    'guest'   => $guest,
-                    'ok'      => $counters[Model\Guest::RESP_OK],
-                    'no'      => $counters[Model\Guest::RESP_NO],
-                    'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
-                    'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
-                ];
-            }
             $this->layout()->user = $this->getUser();
             return new ViewModel([
                 'events'     => $result,
@@ -85,11 +87,14 @@ class IndexController extends AbstractController
 
     public function welcomeAction()
     {
+        $this->layout()->setTemplate('layout/welcome.phtml');
         if (!$this->getUser()) {
             $signInForm = new SignIn();
             $signUpForm = new SignUp();
 
             $this->layout()->user = $this->getUser();
+            $this->layout()->signInForm = $signInForm;
+            $this->layout()->signUpForm = $signUpForm;
             return new ViewModel([
                 'signInForm' => $signInForm,
                 'signUpForm' => $signUpForm,

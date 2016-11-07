@@ -23,12 +23,10 @@ class GuestController extends AbstractController
         }
 
         $counts = $guestTable->getCounters($eventId);
+        $result  = $guestTable->getUserResponses($eventId);
 
         $view = new ViewModel(array(
-            'result'   => [
-                'success'  => true,
-                'counts' => $counts
-            ]
+            'result'   => $result
         ));
 
         $view->setTerminal(true);

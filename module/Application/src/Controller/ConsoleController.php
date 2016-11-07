@@ -237,15 +237,17 @@ class ConsoleController extends AbstractController
     public function recurentAction()
     {
         date_default_timezone_set('Europe/Paris');
+        $console        = Console::getInstance();
         $recurentTable  = $this->get(TableGateway\Recurent::class);
         $groupTable     = $this->get(TableGateway\Group::class);
         $eventTable     = $this->get(TableGateway\Event::class);
         $guestTable     = $this->get(TableGateway\Guest::class);
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
         $userTable      = $this->get(TableGateway\User::class);
+        $absentTable    = $this->get(TableGateway\Absent::class);
 
         $recurents      = $recurentTable->fetchAll([
-            'emailDay' => date('l'),
+            'emailDay' => date('l'), 
             'status'   => \Application\Model\Recurent::ACTIVE
         ]);
 
@@ -279,27 +281,34 @@ class ConsoleController extends AbstractController
                 'city'    => $recurent->city,
             ];
 
-            $mapService = $this->get(Service\Map::class);
-            $address = $recurent->address . ', ' . $recurent->zipCode . ' ' . $recurent->city . ' France';
+            try {
+                $mapService = $this->get(Service\Map::class);
+                $address = $recurent->address . ', ' . $recurent->zipCode . ' ' . $recurent->city . ' France';
 
-            if ($coords = $mapService->getCoordinates($address)) {
-                $params = array_merge($params, $coords);
+                if ($coords = $mapService->getCoordinates($address)) {
+                    $params = array_merge($params, $coords);
+                }
+            } catch (RuntimeException $e) {
+                $console->writeLine($e->getMessage(), Color::RED);
             }
 
-            $event = new Model\Event;
-            $event->exchangeArray($params);
-            $eventId = $eventTable->save($event);
+            $event = $eventTable->save($params);
 
             foreach ($userIds as $id) {
-                $guest = new Model\Guest;
-                $params = [
-                    'eventId'  => $eventId,
+                $absent = $absentTable->fetchOne([
+                    '`from` < ?' => $date,
+                    '`to` > ?'   => $date,
+                    'userId = ?' => $id
+                ]);
+
+                $response = ($absent) ? Model\Guest::RESP_NO : Model\Guest::RESP_NO_ANSWER;
+
+                $guest = $guestTable->save([
+                    'eventId'  => $event->id,
                     'userId'   => $id,
-                    'response' => Model\Guest::RESP_NO_ANSWER,
+                    'response' => $response,
                     'groupId'  => $group->id,
-                ];
-                $guest->exchangeArray($params);
-                $guestTable->save($guest);
+                ]);
             }
 
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
@@ -328,7 +337,11 @@ class ConsoleController extends AbstractController
                     'comment'   => 'Aucun commentaire sur l\'évènement',
                     'baseUrl'   => $config['baseUrl']
                 ]);
-                $mail->send();
+                try {
+                    $mail->send();
+                } catch (RuntimeException $e) {
+                    $console->writeLine($e->getMessage(), Color::RED);
+                }
             }
         }
     }

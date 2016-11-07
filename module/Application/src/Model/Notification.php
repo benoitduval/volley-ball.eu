@@ -17,13 +17,13 @@ class Notification extends AbstractModel
     CONST DISABLED           = 2;
 
     public static $labels = [
-        self::EVENT_SIMPLE   => 'Recevoir les notifications pour les évènements ponctuels.',
-        self::EVENT_RECURENT => 'Recevoir les notifications pour les évènements récurrents.',
-        self::EVENT_UPDATE   => 'Recevoir les notifications pour les modifications d\'évènement.',
-        self::COMMENTS       => 'Recevoir les notifications pour les commentaires.',
-        self::REMINDER       => 'Recevoir les notifications pour les rappels.',
-        self::COMMENT_ABSENT => 'Recevoir les notifications pour les commentaires étant absent à l\'évènement.',
-        self::SELF_COMMENT   => 'Recevoir les notifications pour ses propres commentaires.',
+        self::EVENT_SIMPLE   => 'Les évènements ponctuels.',
+        self::EVENT_RECURENT => 'Les évènements récurrents.',
+        self::EVENT_UPDATE   => 'Les modifications d\'évènement.',
+        self::REMINDER       => 'Les rappels d\'évènement.',
+        self::COMMENT_ABSENT => 'Les commentaires étant absent à l\'évènement.',
+        self::SELF_COMMENT   => 'Mes propres commentaires.',
+        self::COMMENTS       => 'Les commentaires.',
     ];
 
     protected $_id           = null;

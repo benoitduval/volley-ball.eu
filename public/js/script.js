@@ -11,6 +11,8 @@ $(function () {
     grow();
     filtering();
     pills();
+    table();
+    comment();
 });
 
 
@@ -57,12 +59,23 @@ function map() {
 }
 
 function datepicker() {
+    $(".date-only-picker").each(function () {
+        $(this).bootstrapMaterialDatePicker({ 
+            format : 'DD/MM/YYYY',
+            lang : 'fr',
+            weekStart : 1,
+            cancelText : 'ANNULER',
+            minDate : new Date(),
+            time : false
+        });
+    });
+
     if (($("#datepicker").length > 0)) {
         $('#datepicker').bootstrapMaterialDatePicker({ 
             format : 'DD/MM/YYYY HH:mm',
             lang : 'fr',
             weekStart : 1,
-            cancelText : 'ANNULER',
+            cancelText : 'Annuler',
             minDate : new Date(),
         });
     }
@@ -95,44 +108,9 @@ function carousel() {
                     nav:true,
                     dots: true
                 },
-                600:{
-                    autoHeight:true,
-                    items:2,
-                    nav:true,
-                    dots: true
-                },
                 1000:{
                     autoHeight:false,
                     items:4,
-                    nav:false,
-                    dots: false
-                }
-            }
-        });
-    });
-
-    $(".owl-carousel-3").each(function () {
-        $(this).owlCarousel({
-            responsiveClass:true,
-            navText: ['<i class="fa fa-backward" aria-hidden="true"></i>',
-                      '<i class="fa fa-forward" aria-hidden="true"></i>'
-            ],
-            responsive:{
-                0:{
-                    autoHeight:true,
-                    items:1,
-                    nav:false,
-                    dots: true
-                },
-                600:{
-                    autoHeight:true,
-                    items:3,
-                    nav:false,
-                    dots: false
-                },
-                1000:{
-                    autoHeight:false,
-                    items:3,
                     nav:false,
                     dots: false
                 }
@@ -152,22 +130,28 @@ function fab() {
 
 function switcher()
 {
-    if ($("[name='users']").length) {
-        $('input[name="users"]').on('click', function(event) {
+    $('input[name="users"]').each(function () {
+        $(this).on('click', function(event) {
             var userId  = $(this).attr('data-user');
             var groupId = $(this).attr('data-group');
             var value = $(this).attr("value");
-
+            if (value == 0) {
+                $(this).attr("value", 1);
+            } else {
+                $(this).attr("value", 0);
+            }
             var url = '/api/user/grant/' + groupId + '/' + userId + '/' + value;
             var request = $.ajax({
                 type: "GET",
                 url: url
+            }).done(function() {
+                notify();
             });
         });
-    }
+    });
 
-    if ($('input[name="notification"]').length) {
-        $('input[name="notification"]').on('click', function(event) {
+    $('input[name="notification"]').each(function() {
+        $(this).on('click', function(event) {
             var id    = $(this).attr('data-notif');
             var value = $(this).attr("value");
             if (value == 1) {
@@ -179,9 +163,30 @@ function switcher()
             var request = $.ajax({
                 type: "GET",
                 url: url
+            }).done(function() {
+                notify();
             });
         });
-    }
+    });
+
+    $('input[name="recurent"]').each(function () {
+        $(this).on('click', function(event) {
+            var id    = $(this).attr('data-id');
+            var value = $(this).attr("value");
+            if (value == 1) {
+                $(this).attr("value", 2);
+            } else {
+                $(this).attr("value", 1);
+            }
+            var url = '/api/user/params/' + id + '/' + value;
+            var request = $.ajax({
+                type: "GET",
+                url: url
+            }).done(function() {
+                notify();
+            });
+        });
+    });
 }
 
 function rotating()
@@ -227,12 +232,11 @@ function response()
 {
     if ($(".response").length) {
         $('.response').on('click', function(event) {
+
             event.preventDefault();
             el = $(this);
             var response = $(this).attr('data-response');
             var eventId  = $(this).attr('data-event');
-
-            // var header = $(this).find('div.header');
 
             if (response == 1) {
                 var txt = 'Présent';
@@ -274,12 +278,28 @@ function response()
                 url: url
             }).done(function(resp) {
 
+                notify();
+
                 var result = jQuery.parseJSON(resp);
-                $.each( result.counts, function( key, value ) {
+                $.each( result.counters, function( key, value ) {
                     if ($("#resp-" + eventId + '-' + key).length) {
                         $("#resp-" + eventId + '-' + key).html(value);
                     }
                 });
+
+                $.each( result.users, function( key, values ) {
+                    if ($("#list-" + key).length) {
+                        $("#list-" + key).html('');
+                        $.each(values, function (index, value) {
+                            $("#list-" + key).prepend(
+                            '<p class="classic">' + value + '</p>');
+                        });
+                    }
+                });
+
+                var $owl = $('.owl-item.active');
+                $owl.trigger('next.owl.carousel');
+                $owl.trigger('prev.owl.carousel');
 
             });
         });
@@ -342,5 +362,156 @@ function deleteUser() {
     $(document).on("click", ".open-delete-modal", function () {
          var url = $(this).data('url');
          $("#delete-url").attr('href', url);
+    });
+}
+
+function table() {
+    $().ready(function(){
+        $('.ftable').each(function() {
+            $(this).bootstrapTable({
+                toolbar: ".toolbar",
+
+                showRefresh: false,
+                search: true,
+                showToggle: false,
+                showColumns: true,
+                pagination: true,
+                striped: true,
+                sortable: true,
+                pageSize: 5,
+                pageList: [5,10,25,50,100],
+
+                formatShowingRows: function(pageFrom, pageTo, totalRows) {
+                    //do nothing here, we don't want to show the text "showing x of y from..." 
+                },
+                formatRecordsPerPage: function(pageNumber){
+                    return pageNumber + " lignes";
+                }
+            });
+        })
+    });
+}
+
+function comment() {
+    if ($("#submit-comment").length) {
+        $('#submit-comment').on('click', function(event) {
+            $('#modale-comment').toggle();
+            $('.modal-backdrop').remove();
+            $('.index-page').removeClass('modal-open');
+            event.preventDefault();
+            var groupId = $(this).attr('data-groupId');
+            var eventId = $(this).attr('data-eventId');
+            var comment = $('textarea[name=comment]').val();
+            var url = '/api/comment/' + eventId + '/' + groupId;
+            var request = $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    comment: comment
+                }
+            }).done(function(resp) {
+                if ($('.no-comment').length > 0) {
+                    $('.no-comment').remove();
+                }
+                var result = jQuery.parseJSON(resp);
+                if (result.success) {
+                    $('.comment-title').after('<div class="card card-nav-tabs">'
+                        + '<div class="content">'
+                            + '<div class="tab-content">'
+                                + '<div class="tab-pane active" id="profile">'
+                                    + '<blockquote class="comment">'
+                                        + '<p>'
+                                            + nl2br(comment) + '</p>'
+                                        + '<small>'
+                                            + result.user + ' - <i>' + result.date + '</i>'
+                                        + '</small>'
+                                    + '</blockquote>'
+                                + '</div>'
+                            + '</div>'
+                        + '</div>'
+                    + '</div>');
+                    notify();
+                } else {
+                    notify(false);
+                }
+            });
+        });
+    }
+}
+
+function share() {
+    if ($("#submit-comment").length) {
+        $('#submit-comment').on('click', function(event) {
+            $('#modale-comment').toggle();
+            $('.modal-backdrop').remove();
+            $('.index-page').removeClass('modal-open');
+             event.preventDefault();
+            var groupId = $(this).attr('data-groupId');
+            var emails = $('textarea[name=share]').val();
+            var url = '/api/group/share/' + groupId;
+            var request = $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    emails: emails
+                }
+            }).done(function(resp) {
+                var result = jQuery.parseJSON(resp);
+                if (result.success) {
+                    notify('Envoyé!');
+                } else {
+                    notify('Erreur!', false);
+                }
+            });
+
+         });
+    }
+}
+
+function nl2br (str, is_xhtml) {
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
+}
+
+function notify(txt = 'Enregistré!', success = true) {
+    if (success == true) {
+        var type = 'success';
+    } else {
+        var type = 'danger';
+    }
+    $.notify({  // options
+        message: txt,
+    },{
+        // settings
+        element: 'body',
+        type: type,
+        allow_dismiss: true,
+        placement: {
+            from: "top",
+            align: "center"
+        },
+        offset: {
+            x: 0,
+            y: 0,
+        },
+        spacing: 10,
+        z_index: 1031,
+        delay: 1500,
+        timer: 100,
+        animate: {
+            enter: 'animated bounceInDown',
+            exit: 'animated bounceOutUp'
+        },
+        icon_type: 'class',
+        template: '<div data-notify="container" class="text-center col-xs-6 col-sm-3 alert alert-{0}" style="border-radius:3px;" role="alert">' +
+            '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+            '<span data-notify="icon"></span> ' +
+            '<span data-notify="title">{1}</span> ' +
+            '<span data-notify="message">{2}</span>' +
+            '<div class="progress" data-notify="progressbar">' +
+                '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+            '</div>' +
+            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+        '</div>' 
     });
 }

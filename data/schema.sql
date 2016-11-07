@@ -97,6 +97,8 @@ CREATE TABLE `user` (
   `firstname` varchar(20) NOT NULL,
   `lastname` varchar(20) NOT NULL,
   `email` varchar(64) DEFAULT NULL,
+  `phone` varchar(64) DEFAULT NULL,
+  `licence` int(11) DEFAULT NULL,
   `password` varchar(64) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `display` tinyint(1) DEFAULT NULL,
@@ -157,5 +159,17 @@ CREATE TABLE `notification` (
   `userId` int(11) unsigned NOT NULL,
   `status` tinyint(4) NULL DEFAULT NULL,
   `notification` tinyint(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `notification`
+--
+DROP TABLE IF EXISTS `absent`;
+CREATE TABLE `absent` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userId` int(11) unsigned NOT NULL,
+  `from` timestamp NULL DEFAULT NULL,
+  `to` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

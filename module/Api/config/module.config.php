@@ -66,6 +66,20 @@ return [
                     ],
                 ],
             ],
+            'comment' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/comment/:eventId/:groupId',
+                    'constraints' => [
+                        'eventId' => '[0-9]*',
+                        'groupId' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\CommentController::class,
+                        'action'        => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
 

@@ -14,85 +14,87 @@
 
 <div class="main main-raised">
     <div class="section section-basic">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center">
-                    <h2>Votre recherche</h2>
-                    <h4>Chercher "<b>oll</b>" vous donnera tous les <u>groupes</u> ainsi que <u>vos évènements</u> ayant cette chaine de charactère dans leur nom (Ex: le groupe "Paris Volley" et l'évènement "Match Paris Volley / Asnière").</h4>
-                </div>
-            </div>
-        </div>
-
         <div class="section">
-            <div class="container">
-                <div class="row">
-                    <h2>Les groupes</h2>
-                    <table class="table-striped"
-                    data-toggle="table"
-                           data-pagination="true"
-                           data-locale="fr-FR"
-                           data-search="false"
-                           data-page-size="10"
-                           data-page-list="[10,25,50,100]">
-                        <thead>
-                            <th data-field="name" data-sortable="true">Nom</th>
-                            <th data-field="date" data-sortable="true">Description</th>
-                            <th data-field="action"></th>
-                        </thead>
-                        <tbody>
-                        <?php if (count($groups)): ?>
-                            <?php foreach ($groups as $group): ?>
-                                <tr>
-                                    <td><?= $group->name ?></td>
-                                    <td><?= $group->description ?></td>
-                                    <td class="text-right">
-
-                                        <a href="<?= $group->getPublicLink() ?>"><i class="material-icons">search</i></a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">Aucun résultat pour le nom de groupe</td>
-                            </tr>
-                        <?php endif ?>
-                        </tbody>
-                    </table>
+            <?php if (count($groups)): ?>
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <h2>Les Groupes</h2>
+                            <h4>Ci-dessous sont listés tous les groupes correspondant à votre recherche</h4>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="row">
-                    <h2>Les évènements</h2>
-                    <table class="table-striped" data-toggle="table"
-                           data-pagination="true"
-                           data-search="true"
-                           data-page-size="10"
-                           data-page-list="[10,25,50,100]">
-                        <thead>
-                            <th data-field="name" data-sortable="true">Nom</th>
-                            <th data-field="date" data-sortable="true">Date</th>
-                            <th data-field="action"></th>
-                        </thead>
-                        <tbody>
-                        <?php if (count($events)): ?>
-                            <?php foreach ($events as $event): ?>
-                                <tr>
-                                    <td><?= $event->name ?></td>
-                                    <td><?= $event->date ?></td>
-                                    <td class="text-right">
-
-                                        <a href="/event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">Aucun résultat pour vos évènements</td>
-                            </tr>
-                        <?php endif ?>
-                        </tbody>
-                    </table>
+                <div class="container">
+                    <div class="fresh-table">
+                        <table class="ftable table">
+                            <thead>
+                                <th data-field="name" data-sortable="true">Nom</th>
+                                <th data-field="description">Description</th>
+                                <th class="text-right" data-field="actions" data-width="50px">Actions</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($groups as $group): ?>
+                                    <tr>
+                                        <td><?= $group->name ?></td>
+                                        <td><?= $group->description ?></td>
+                                        <td class="text-right">
+                                            <a href="<?= $group->getPublicLink() ?>"><i class="material-icons">search</i></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            <?php endif ?>
+
+            <?php if (count($events)): ?>
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <h2>Mes Évènements</h2>
+                            <h4>Ci-dessous sont listés tous vos évènements correspondant à votre recherche</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="fresh-table">
+                        <div class="toolbar"></div>
+
+                        <table class="ftable table">
+                            <thead>
+                                <th data-field="name" data-sortable="true">Nom</th>
+                                <th data-field="date" data-sortable="true">Date</th>
+                                <th class="text-right" data-field="actions" data-width="50px">Actions</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($events as $event): ?>
+                                    <tr>
+                                        <td><?= $event->name ?></td>
+                                        <?php $date = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date) ?>
+                                        <td><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?></td>
+                                        <td class="text-right">
+
+                                            <a href="/event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif ?>
+
+            <?php if (!count($groups) && !count($events)): ?>
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <h2>Désolé</h2>
+                            <h4>Aucun groupe et aucun de vos évènements ne correspond à votre recherche. Vous pouvez faire une recherche par partie de mot ou nom (ex: chercher 'unoi' trouvera le groupe 'Dunois REM' ainsi que l'évènement 'Volley 6 / Dunois' .</h4>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ?>
         </div>
     </div>
 </div>

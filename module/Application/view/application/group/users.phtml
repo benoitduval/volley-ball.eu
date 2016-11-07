@@ -37,31 +37,34 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center">
                     <h2>Les Membres</h2>
-                    <h4>Ici sont listé tous les membres du groupe ainsi que les personnes voulant rejoindre le groupe.</h4>
+                    <h4>Ici sont listés tous les membres du groupe ainsi que les personnes voulant rejoindre le groupe.</h4>
                 </div>
             </div>
         </div>
 
-        <div class="section">
-            <div class="container">
-                <div class="row">
-                    <table class="table table-striped col-md-12">
-                        <thead>
-                            <th>Nom</th>
-                            <th class="text-right">Admin</th>
-                            <th class="action"></th>
-                        </thead>
-                        <tbody>
+        <div class="container">
+            <div class="fresh-table">
+                <table class="table table-striped">
+                    <thead>
+                        <th data-field="firstname" data-sortable="true">Prénom</th>
+                        <th data-field="lastname" data-sortable="true">Nom</th>
+                        <th data-field="admin" style="width:100px">Admin</th>
+                        <th class="text-right" style="width:100px">Actions</th>
+                    </thead>
+                    <tbody>
                         <?php if (count($users)): ?>
                             <?php foreach ($users as $user): ?>
                                 <tr>
                                     <td>
-                                        <?= $user->getFullname() ?>
+                                        <?= $user->firstname ?>
                                     </td>
-                                    <td class="text-right">
+                                    <td>
+                                        <?= $user->lastname ?>
+                                    </td>
+                                    <td class="text-center">
                                         <span class="togglebutton">
                                             <label>
-                                                <input name="users" data-group="<?php echo $group->id ?>" data-user="<?php echo $user->id ?>" 
+                                                <input name="users" data-group="<?= $group->id ?>" data-user="<?= $user->id ?>" 
                                                 <?php if (in_array($user->id, $adminIds)): ?>
                                                     checked=""
                                                     value="0"
@@ -84,45 +87,56 @@
                                 <td colspan="3">Aucun résultat pour vos évènements</td>
                             </tr>
                         <?php endif ?>
-                        </tbody>
-                    </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2>Demande d'adhésion</h2>
+                    <h4>Les personnes ci dessous demandent à rejoindre le groupe.</h4>
                 </div>
-
-                <?php if (count($join)): ?>
-                    <div class="row">
-                        <h2>Demande à rejoindre le groupe</h2>
-                        <table class="table-striped" data-toggle="table"
-                               data-pagination="true"
-                               data-search="false"
-                               data-page-size="10"
-                               data-page-list="[10,25,50,100]">
-                            <thead>
-                                <th data-field="name" data-sortable="true">Nom</th>
-                                <th data-field="date">Admin</th>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($join as $userJoin): ?>
-                                    <tr>
-                                        <td>
-                                            <?= $userJoin->getFullname() ?>
-                                        </td>
-                                        <td class="text-right">
-                                            <a href="/group/add-user/<?= $group->id ?>/<?= $userJoin->id?>">
-                                                <i class="material-icons">done</i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="material-icons">highlight_off</i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php endif ?>
+            </div>
+        </div>
+        <div class="container">
+            <div class="fresh-table">
+                <table class="table table-striped">
+                    <thead>
+                        <th data-field="firstname" data-sortable="true">Prénom</th>
+                        <th data-field="lastname" data-sortable="true">Nom</th>
+                        <th class="text-right" style="width:100px">Actions</th>
+                    </thead>
+                    <tbody>
+                        <?php if (count($joins)): ?>
+                            <?php foreach ($joins as $user): ?>
+                                <tr>
+                                    <td>
+                                        <?= $user->firstname ?>
+                                    </td>
+                                    <td>
+                                        <?= $user->lastname ?>
+                                    </td>
+                                    <td class="text-right">
+                                        <a href="/group/add-user/<?= $group->id ?>/<?= $user->id?>">
+                                            <i class="material-icons text-success">done</i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="material-icons text-danger">highlight_off</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="3">Aucun résultat pour vos évènements</td>
+                            </tr>
+                        <?php endif ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-<?php echo $this->partial('partial/fab/group.phtml') ?>
+<?= $this->partial('partial/fab/group.phtml') ?>

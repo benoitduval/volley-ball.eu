@@ -22,25 +22,25 @@
         <div class="container text-center">
             <div class="row">
                 <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em;">
+                    <p class="number" style="font-size:4em;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_OK ?>">
                         <?= $counters[Application\Model\Guest::RESP_OK]?>
                     </p>
                     Présents
                 </div>
                 <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em" >
+                    <p class="number" style="font-size:4em" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO ?>">
                         <?= $counters[Application\Model\Guest::RESP_NO]?>
                     </p>
                     Absents
                 </div>
                 <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em">
+                    <p class="number" style="font-size:4em" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_INCERTAIN ?>">
                         <?= $counters[Application\Model\Guest::RESP_INCERTAIN]?>
                     </p>
                     Incertains
                 </div>
                 <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em">
+                    <p class="number" style="font-size:4em"  id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
                         <?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?>
                     </p>
                     Sans réponse
@@ -154,27 +154,42 @@
 
             <div class="owl-carousel owl-theme">
                 <div class="text-center item">
-                    <i class="material-icons green-text large">event_available</i>
-                    <p><u><b id="count-ok"><?= $counters[Application\Model\Guest::RESP_OK]?></b>  personne(s)</u></p>
-                    <div id="list-ok">
+                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>"
+                        class="text-success response"
+                        data-event="<?= $event->id ?>" 
+                        data-response="<?= Application\Model\Guest::RESP_OK ?>">
+                        <i class="material-icons green-text large">event_available</i>
+                    </a>
+                    <p><u><b>personnes</b></u></p>
+                    <div id="list-<?= Application\Model\Guest::RESP_OK ?>">
                         <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
                             <p class="classic"><?= $user->getFullname() ?></p>
                         <?php endforeach; ?>
                     </div>
                 </div>
                 <div class="text-center item">
-                    <i class="material-icons red-text large">event_busy</i>
-                    <p><u><b id="count-no"><?= $counters[Application\Model\Guest::RESP_NO]?></b>  personne(s)</u></p>
-                    <div id="list-no">
+                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>"
+                        class="text-danger response"
+                        data-event="<?= $event->id ?>" 
+                        data-response="<?= Application\Model\Guest::RESP_NO ?>">
+                        <i class="material-icons large">event_busy</i>
+                    </a>
+                    <p><u><b>personnes</b></u></p>
+                    <div id="list-<?= Application\Model\Guest::RESP_NO ?>">
                         <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
                             <p class="classic"><?= $user->getFullname() ?></p>
                         <?php endforeach; ?>
                     </div>
                 </div>
                 <div class="text-center item">
-                    <i class="material-icons yellow-text large">date_range</i>
-                    <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_INCERTAIN]?></b>  personne(s)</u></p>
-                    <div id="list-ph">
+                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>"
+                        class="text-warning response"
+                        data-event="<?= $event->id ?>" 
+                        data-response="<?= Application\Model\Guest::RESP_INCERTAIN ?>">
+                            <i class="material-icons large">date_range</i>
+                    </a>
+                    <p><u><b>personnes</b></u></p>
+                    <div id="list-<?= Application\Model\Guest::RESP_INCERTAIN ?>">
                         <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
                             <p class="classic"><?= $user->getFullname() ?></p>
                         <?php endforeach; ?>
@@ -182,8 +197,8 @@
                 </div>
                 <div class="text-center item">
                     <i class="material-icons large">hourglass_empty</i>
-                    <p><u><b id="count-ph"><?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?></b>  personne(s)</u></p>
-                    <div id="list-wo">
+                    <p><u><b>personnes</b></u></p>
+                    <div id="list-<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
                         <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
                             <p class="classic"><?= $user->getFullname() ?></p>
                         <?php endforeach; ?>
@@ -198,30 +213,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="title">
+                    <div class="title comment-title">
                         <h3>Commentaires</h3>
                     </div>
                     <?php if (empty($comments)): ?>
-                        <p class="">Il n'y a actuellement aucun commentaire pour cet évènement.</p>
+                        <p class="no-comment">Il n'y a actuellement aucun commentaire pour cet évènement.</p>
                     <?php endif ?>
 
                     <?php foreach ($comments as $comment): ?>
-                    <div class="card card-nav-tabs">
-                        <div class="content">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="profile">
-                                    <blockquote class="comment">
-                                        <p>
-                                            <?= nl2br($comment['comment']); ?>
-                                        </p>
-                                        <small>
-                                            <?= $comment['author']->getFullName(); ?> - <i><?= \Application\Service\Date::toFr($comment['date']); ?></i>
-                                        </small>
-                                    </blockquote>
+                        <div class="card card-nav-tabs">
+                            <div class="content">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="profile">
+                                        <blockquote class="comment">
+                                            <p>
+                                                <?= nl2br($comment['comment']); ?>
+                                            </p>
+                                            <small>
+                                                <?= $comment['author']->getFullName(); ?> - <i><?= \Application\Service\Date::toFr($comment['date']); ?></i>
+                                            </small>
+                                        </blockquote>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach ?>
                     <!-- End Tabs with icons on Card -->
                 </div>
@@ -233,7 +248,6 @@
 
 <?php echo $this->partial('partial/fab/event.phtml') ?>
 
-<!-- Sart login Modal -->
 <div class="modal fade" id="modale-comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -251,8 +265,8 @@
                                 <?php echo $this->formElement($form->get('comment')); ?>
                             </div>
                         </div>
-                        <div class="footer text-center">
-                            <?php echo $this->formElement($form->get('submit')); ?>
+                        <div class="text-center">
+                            <input id="submit-comment" data-eventId="<?= $event->id ?>" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
                         </div>
                     <?php echo $this->form()->closeTag(); ?>
                 </div>

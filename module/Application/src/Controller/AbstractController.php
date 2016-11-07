@@ -35,10 +35,9 @@ class AbstractController extends AbstractActionController
     {
         $groups = [];
         if (empty($this->_userGroups) && $this->_user) {
-            $userGroupTable = $this->get(TableGateway\UserGroup::class);
             $groupTable     = $this->get(TableGateway\Group::class);
-            foreach ($userGroupTable->fetchAll(['userId' => $this->_user->id]) as $userGroup) {
-                $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId);
+            foreach ($groupTable->getUserGroups($this->_user->id) as $group) {
+                $groups[$group->id] = $group;
             }
             $this->_userGroups = $groups;
         }

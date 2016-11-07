@@ -71,9 +71,7 @@ class RecurentController extends AbstractController
                     $data['groupId'] = $this->_group->id;
                     $data['status'] = Model\Recurent::ACTIVE;
 
-                    $recurent = new Model\Recurent;
-                    $recurent->exchangeArray($data);
-                    $recurentTable->save($recurent);
+                    $recurentTable->save($data);
                 }
 
                 $this->flashMessenger()->addMessage('Vous avez créé votre évènement récurrent.');

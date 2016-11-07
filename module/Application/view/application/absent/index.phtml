@@ -1,0 +1,93 @@
+<div class="header header-filter" style="background-image: url('/img/bg-recep-ori.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="brand">
+                    <h1>Volley-ball.eu</h1>
+                    <h3>Gestion de groupes, entrainements, matchs.</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="delete-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Êtes-vous sûr?</h4>
+            </div>
+            <div class="modal-body">
+                Voulez-vous supprimer cette période d'absence ? 
+            </div>
+            <div class="modal-footer">
+                <a id="delete-url" href="" class="btn btn-primary" type="button"><i class="fa fa-trash-o"></i> Supprimer</a>
+                <button class="btn btn-inverse" type="button" data-dismiss="modal"><i class="icon icon-times icon-lg"></i> Annuler</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="main main-raised">
+    <div class="section section-basic">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2>Vos Absences</h2>
+                    <h4>Ici vous pourrez définir vos absences à venir. Tous les événements en cours ou à venir seront automatiquement mis à jour.</h4>
+                    <div class="col-xs-8 col-xs-offset-2 col-sm-4 col-sm-offset-4">
+                        <a href="/absent/create" class="btn btn-primary btn-lg">
+                            <i class="material-icons">repeat</i>  Ajouter une absence
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="container">
+                <div class="fresh-table">
+                    <div class="toolbar"></div>
+                    
+                    <table class="ftable" data-toggle="false">
+                        <thead>
+                            <th data-field="from" data-sortable="true">Du</th>
+                            <th data-field="to" data-sortable="true">Au</th>
+                            <th data-field="actions" data-width="50px">Actions</th>
+                        </thead>
+                        <tbody>
+                            <?php if (count($absents)): ?>
+                                <?php foreach ($absents as $absent): ?>
+                                    <?php 
+                                        $from = \Datetime::createFromFormat('Y-m-d H:i:s', $absent->from);
+                                        $to = \Datetime::createFromFormat('Y-m-d H:i:s', $absent->to);
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?= \Application\Service\Date::toFr($from->format('l d F')) ?>
+                                        </td>
+                                        <td>
+                                            <?= \Application\Service\Date::toFr($to->format('l d F')) ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="/absent/edit/<?= $absent->id ?>"><i class="material-icons text-success">edit</i></a>
+                                            <a href="javascrip:void(0)" class="open-delete-modal" data-toggle="modal" data-url="/absent/delete/<?= $absent->id ?>" data-target="#delete-user" style="background-color: transparent;border:0;">
+                                                <i class="material-icons text-danger">delete_forever</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3">Aucun résultat</td>
+                                </tr>
+                            <?php endif ?>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

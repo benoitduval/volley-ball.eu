@@ -67,7 +67,6 @@ class AuthController extends AbstractController
 
     public function signupAction()
     {
-
         $referer = false;
         if ($this->getRequest()->getHeader('Referer')) {
             $referer = $this->getRequest()->getHeader('Referer')->getUri();
@@ -77,6 +76,9 @@ class AuthController extends AbstractController
         $request    = $this->getRequest();
 
         if ($request->isPost()) {
+            $post = $request->getPost();
+            $post['display'] = Model\User::DISPLAY_LARGE;
+            $post['status'] = Model\User::HAS_TO_CONFIRM;
             $signUpForm->setData($request->getPost());
             if ($signUpForm->isValid()) {
                 $data = $signUpForm->getData();
@@ -87,14 +89,23 @@ class AuthController extends AbstractController
                 } elseif ($data['password'] != $data['repassword']) {
                     $this->flashMessenger()->addErrorMessage('Les <b>mots de passe</b> ne correspondent pas. Merci de recommencer votre inscription.');
                 } else {
-                    $user   = new Model\User();
                     $bCrypt = new Bcrypt();
                     $data['status']  = Model\User::HAS_TO_CONFIRM;
                     $data['display'] = Model\User::DISPLAY_LARGE;
                     $data['password'] = $bCrypt->create(md5($data['password']));
 
-                    $user->exchangeArray($data);
-                    $userTable->save($user);
+                    $user = $userTable->save($data);
+
+                    // create account notifications
+                    $notifs = Model\Notification::$labels;
+                    $notifTable = $this->get(TableGateway\Notification::class);
+                    foreach ($notifs as $id => $label) {
+                        $notifTable->save([
+                            'userId' => $user->id,
+                            'notification' => $id,
+                            'status' => Model\Notification::ACTIVE
+                        ]);
+                    }
 
                     // Activation mail
                     $config = $this->get('config');

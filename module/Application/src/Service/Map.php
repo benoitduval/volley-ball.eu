@@ -22,13 +22,16 @@ class Map
 
     public function getGeocodedLatitudeAndLongitude($address)
     {
-        $client = new Client();
-        $client->setUri($this->_url);
-        $client->setParameterGet(array('address' => urlencode($address), 'sensor' => 'false'));
+        $response = null;
+        try {
+            $client = new Client();
+            $client->setUri($this->_url);
+            $client->setParameterGet(array('address' => urlencode($address), 'sensor' => 'false'));
 
-        $client->setMethod('GET');
-        $result = $client->send();
-        $response = Decoder::decode($result->getBody(), Json::TYPE_OBJECT);
+            $client->setMethod('GET');
+            $result = $client->send();
+            $response = Decoder::decode($result->getBody(), Json::TYPE_OBJECT);
+        } catch (\Exception $e) {}
         return $response;
     }
 

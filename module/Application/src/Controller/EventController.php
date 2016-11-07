@@ -21,12 +21,14 @@ class EventController extends AbstractController
             $eventTable     = $this->get(TableGateway\Event::class);
             $guestTable     = $this->get(TableGateway\Guest::class);
             $userTable      = $this->get(TableGateway\User::class);
+            $absentTable    = $this->get(TableGateway\Absent::class);
+            $notifTable     = $this->get(TableGateway\Notification::class);
             $form = new Form\Event();
             $request = $this->getRequest();
             if ($request->isPost()) {
                 $post  = $request->getPost();
-                $match = $post->match == 'on';
-                unset($post->match);
+                $match = isset($post->match);
+                if ($match) unset($post->match);
 
                 $form->setData($post);
                 if ($form->isValid()) {
@@ -37,44 +39,50 @@ class EventController extends AbstractController
                     $data['date']    = $date->format('Y-m-d H:i:s');
                     $data['groupId'] = $groupId;
 
-                    $mapService = $this->get(Service\Map::class);
-                    $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
+                    try {
+                        $mapService = $this->get(Service\Map::class);
+                        $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
 
-                    if ($coords = $mapService->getCoordinates($address)) {
-                        $data = array_merge($data, $coords);
-                    }
+                        if ($coords = $mapService->getCoordinates($address)) {
+                            $data = array_merge($data, $coords);
+                        }
+                    } catch (\Exception $e) {}
 
-                    $event = new Model\Event();
-                    $event->exchangeArray($data);
-                    $event->id = $eventTable->save($event);
+                    $event = $eventTable->save($data);
 
                     if ($match) {
                         $matchTable = $this->get(TableGateway\Match::class);
-                        $match = new Model\Match;
-                        $match->exchangeArray([
+                        $matchTable->save([
                             'eventId' => $event->id
                         ]);
-                        $matchTable->save($match);
                     }
 
                     // Create guest for this new event
                     $emails = [];
-                    $userGroups = $userGroupTable->fetchAll(['groupId' => $group->id]);
-
-                    foreach ($userGroups as $userGroup) {
-                        $user     = $userTable->find($userGroup->userId);
-                        $emails[] = $user->email;
-
-                        $guest = new Model\Guest();
-                        $guest->exchangeArray([
-                            'eventId'  => $event->id,
-                            'userId'   => $userGroup->userId,
-                            'response' => Model\Guest::RESP_NO_ANSWER,
-                            'groupId'  => $groupId,
+                    // $userGroups = $userGroupTable->fetchAll(['groupId' => $group->id]);
+                    $users = $userTable->getGroupUsers($groupId);
+                    foreach ($users as $user) {
+                        $absent = $absentTable->fetchOne([
+                            '`from` < ?' => $date->format('Y-m-d H:i:s'),
+                            '`to` > ?'   => $date->format('Y-m-d H:i:s'),
+                            'userId = ?' => $user->id
                         ]);
 
-                        $guestTable->save($guest);
-                        unset($guest);
+                        if ($absent) {
+                            $response = Model\Guest::RESP_NO;
+                        } else {
+                            $response = Model\Guest::RESP_NO_ANSWER;
+                            if ($notifTable->isAllowed(Model\Notification::EVENT_SIMPLE, $user->id)) {
+                                $emails[] = $user->email;
+                            }
+                        }
+
+                        $guestTable->save([
+                            'eventId'  => $event->id,
+                            'userId'   => $user->id,
+                            'response' => $response,
+                            'groupId'  => $groupId,
+                        ]);
                     }
 
                     // send emails
@@ -100,7 +108,9 @@ class EventController extends AbstractController
                             'comment'   => $data['comment'],
                             'baseUrl'   => $config['baseUrl']
                         ]);
-                        $mail->send();
+                        try {
+                            $mail->send();
+                        } catch (\Exception $e) {}
                     }
 
                     $this->flashMessenger()->addMessage('Votre évènement a bien été créé.
@@ -161,44 +171,6 @@ class EventController extends AbstractController
             foreach ($guests as $guest) {
                 $users[$guest->userId] = $userTable->find($guest->userId);
                 $availability[$guest->response][] = $users[$guest->userId];
-                $bcc[] = $users[$guest->userId]->email;
-            }
-
-            $request = $this->getRequest();
-            if ($request->isPost()) {
-                $form->setData($request->getPost());
-                if ($form->isValid()) {
-                    $data            = $form->getData();
-                    $data['date']    = date('Y-m-d H:i:s');
-                    $data['eventId'] = $eventId;
-                    $data['userId']  = $this->getUser()->id;
-
-                    $comment = new Model\Comment();
-                    $comment->exchangeArray($data);
-                    $comment->id = $commentTable->save($comment);
-
-                    $config = $this->get('config');
-                    if ($config['mail']['allowed']) {
-                        $commentDate = \DateTime::createFromFormat('U', time());
-                        $mail   = $this->get(MailService::class);
-                        $mail->addBcc($bcc);
-                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $eventDate->format('l d F \à H\hi'));
-                        $mail->setTemplate(MailService::TEMPLATE_COMMENT, array(
-                            'title'     => $event->name . '<br>' . $eventDate->format('l d F \à H\hi'),
-                            'subtitle'  => $group->name,
-                            'username'  => $this->getUser()->getFullname(),
-                            'comment'   => nl2br($comment->comment),
-                            'date'      => $commentDate->format('d\/m'),
-                            'eventId'   => $eventId,
-                            'baseUrl'   => $config['baseUrl']
-
-                        ));
-                        $mail->send();
-                    }
-
-                    $this->flashMessenger()->addMessage('Votre commentaire a bien été enregistré.');
-                    $this->redirect()->toRoute('event', ['action' => detail, 'id' => $eventId]);
-                }
             }
 
             $result = [];
@@ -209,7 +181,7 @@ class EventController extends AbstractController
                 $result[$comment->id]['comment'] = $comment->comment;
             }
 
-             $test = $guestTable->getCounters($eventId);
+            $counters = $guestTable->getCounters($eventId);
 
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
@@ -218,7 +190,7 @@ class EventController extends AbstractController
             $this->layout()->user = $this->getUser();
             return new ViewModel([
                 'match'    => $match,
-                'counters' => $test,
+                'counters' => $counters,
                 'comments' => $result,
                 'event'    => $event,
                 'form'     => $form,
@@ -247,7 +219,10 @@ class EventController extends AbstractController
             $group = $groupTable->find($event->groupId);
 
             $form = new Form\Event();
-            $form->setData($event->toArray());
+            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+            $formData = $event->toArray();
+            $formData['date'] = $date->format('d/m/Y H:i');
+            $form->setData($formData);
             $request = $this->getRequest();
             if ($request->isPost()) {
                 $post    = $request->getPost()->toArray();
@@ -259,12 +234,6 @@ class EventController extends AbstractController
                     $date = \DateTime::createFromFormat('d/m/Y H:i', $data['date']);
 
                     $data['date']    = $date->format('Y-m-d H:i:s');
-                    $mapService = $this->get(Service\Map::class);
-                    $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
-
-                    if ($coords = $mapService->getCoordinates($address)) {
-                        $data = array_merge($data, $coords);
-                    }
 
                     $event->exchangeArray($data);
                     $eventTable->save($event);

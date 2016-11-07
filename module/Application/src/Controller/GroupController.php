@@ -54,22 +54,23 @@ class GroupController extends AbstractController
                 if ($groupForm->isValid()) {
 
                     $data               = $groupForm->getData();
-                    $group              = New Model\Group();
                     $data['name']       = ucfirst($data['name']);
-                    $data['brand']      = $group->initBrand($data['name']);
+                    $data['brand']      = Model\Group::initBrand($data['name']);
 
-                    $mapService = $this->get(Service\Map::class);
-                    if ($coords = $mapService->getCoordinates($data['address'])) {
-                        $data = array_merge($data, $coords);
-                    }
+                    try {
+                        $mapService = $this->get(Service\Map::class);
+                        if ($coords = $mapService->getCoordinates($data['address'])) {
+                            $data = array_merge($data, $coords);
+                        }
+                    } catch (\Exception $e) {}
 
-                    $group->exchangeArray($data);
-                    $groupId            = $groupTable->save($group);
-                    $userGroup          = New Model\UserGroup();
-                    $userGroup->userId  = $this->getUser()->id;
-                    $userGroup->groupId = $groupId;
-                    $userGroup->admin   = 1;
-                    $userGroupTable->save($userGroup);
+                    $group = $groupTable->save($data);
+
+                    $userGroup = $userGroupTable->save([
+                        'userId'  => $this->getUser()->id,
+                        'groupId' => $group->id,
+                        'admin'   => 1,
+                    ]);
 
                     $this->flashMessenger()->addMessage('
                         Votre groupe est maintenant actif.<br/>
@@ -150,6 +151,7 @@ class GroupController extends AbstractController
                 'groups'     => $groups,
                 'group'      => $this->_group,
                 'isAdmin'    => $this->_isAdmin,
+                'form'       => $form,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
@@ -168,11 +170,6 @@ class GroupController extends AbstractController
                 if ($form->isValid()) {
                     $groupTable = $this->get(TableGateway\Group::class);
                     $data       = $form->getData();
-
-                    $mapService = $this->get(Service\Map::class);
-                    if ($coords = $mapService->getCoordinates($data['address'])) {
-                        $data = array_merge($data, $coords);
-                    }
 
                     $this->_group->exchangeArray($data);
                     $groupTable->save($this->_group);
@@ -206,7 +203,7 @@ class GroupController extends AbstractController
         $userTable      = $this->get(TableGateway\User::class);
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
         $group          = $groupTable->fetchOne(['brand' => $brand]);
-
+        $form           = new Form\Share();
         if (!$this->getUser()) {
             $signInForm = new Form\SignIn();
             $signUpForm = new Form\SignUp();
@@ -221,15 +218,11 @@ class GroupController extends AbstractController
             ));
         } else {
             if ($subscribe) {
-
-                $join = new Model\Join();
-                $join->exchangeArray([
+                $join = $joinTable->save([
                     'userId'   => $this->getUser()->id,
                     'groupId'  => $group->id,
                     'response' => Model\Join::RESPONSE_WAITING
                 ]);
-
-                $joinTable->save($join);
 
                 $mail   = $this->get(MailService::class);
                 $config = $this->get('config');
@@ -262,13 +255,16 @@ class GroupController extends AbstractController
 
         $events = [];
         $result = [];
+        $users  = [];
         if ($this->getUser() && $userGroupTable->isMember($this->getUser()->id, $group->id)) {
+
+            $users = $userTable->getGroupUsers($group->id);
+
             $eventTable = $this->get(TableGateway\Event::class);
             $events = $eventTable->fetchAll([
                 'groupId' => $group->id
             ], 'date DESC');
 
-            $events->buffer();
             foreach ($events as $event) {
                 $matchTable = $this->get(TableGateway\Match::class);
                 $match = $matchTable->fetchOne([
@@ -282,13 +278,15 @@ class GroupController extends AbstractController
 
         $this->layout()->opacity = true;
         return new ViewModel([
-            'user'    => $this->getUser(),
-            'group'   => $group,
-            'events'  => $events,
-            'matches' => $result,
-            'isMember' => $userGroupTable->isMember($this->getUser()->id, $group->id),
-            'isAdmin'  => $userGroupTable->isAdmin($this->getUser()->id, $group->id),
-            'isJoining' => $isJoining
+            'user'      => $this->getUser(),
+            'group'     => $group,
+            'events'    => $events,
+            'matches'   => $result,
+            'users'     => $users,
+            'isMember'  => $userGroupTable->isMember($this->getUser()->id, $group->id),
+            'isAdmin'   => $userGroupTable->isAdmin($this->getUser()->id, $group->id),
+            'isJoining' => $isJoining,
+            'form'      => $form
         ]);
     }
 
@@ -344,11 +342,11 @@ class GroupController extends AbstractController
 
             return new ViewModel([
                 'adminIds' => $adminIds,
-                'isAdmin' => $this->_isAdmin,
-                'users' => $users,
-                'group' => $this->_group,
-                'join'  => $userJoin,
-                'user' => $this->getUser()
+                'isAdmin'  => $this->_isAdmin,
+                'users'    => $users,
+                'group'    => $this->_group,
+                'joins'    => $userJoin,
+                'user'     => $this->getUser()
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
@@ -398,14 +396,11 @@ class GroupController extends AbstractController
 
         if ($userId && $this->_group && $this->_isAdmin) {
             $userGroupTable = $this->get(TableGateway\UserGroup::class);
-            $userGroup = new Model\UserGroup;
-            $userGroup->exchangeArray([
+            $userGroup = $userGroupTable->save([
                 'groupId' => $this->_group->id,
                 'userId'  => $userId,
                 'admin'   => Model\UserGroup::MEMBER,
             ]);
-
-            $userGroupTable->save($userGroup);
 
             $eventTable = $this->get(TableGateway\Event::class);
             $events = $eventTable->fetchAll([
@@ -413,16 +408,22 @@ class GroupController extends AbstractController
                 'groupId' => $this->_group->id
             ]);
 
-            $guestTable = $this->get(TableGateway\Guest::class);
+            $guestTable  = $this->get(TableGateway\Guest::class);
+            $absentTable = $this->get(TableGateway\Absent::class);
             foreach ($events as $event) {
-                $guest = new Model\Guest;
-                $guest->exchangeArray([
+                $absent = $absentTable->fetchOne([
+                    'userId'     => $userId,
+                    '`from` < ?' => $event->date,
+                    '`to` > ?'   => $event->date,
+                ]);
+
+                $response = $absent ? Model\Guest::RESP_NO : Model\Guest::RESP_NO_ANSWER;
+                $guest = $guestTable->save([
                     'userId'  => $userId,
                     'groupId' => $this->_group->id,
                     'eventId' => $event->id,
-                    'response' => Model\Guest::RESP_NO_ANSWER,
+                    'response' => $response,
                 ]);
-                $guestTable->save($guest);
             }
 
             $joinTable = $this->get(TableGateway\Join::class);
@@ -458,9 +459,11 @@ class GroupController extends AbstractController
                     $eventIds[] = $event->id;
                 }
 
-                $test = $commentTable->delete(['eventId' => $eventIds]);
-                $matchTable->delete(['eventId' => $eventIds]);
-                $guestTable->delete(['eventId' => $eventIds]);
+                if ($eventIds) {
+                    $commentTable->delete(['eventId' => $eventIds]);
+                    $matchTable->delete(['eventId' => $eventIds]);
+                    $guestTable->delete(['eventId' => $eventIds]);
+                }
                 $userGroupTable->delete(['groupId' => $this->_id]);
                 $eventTable->delete(['groupId' => $this->_id]);
                 $joinTable->delete(['groupId' => $this->_id]);

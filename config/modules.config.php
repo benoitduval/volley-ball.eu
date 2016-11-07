@@ -28,6 +28,9 @@ return [
     'ZendDeveloperTools',
     'Zend\Router',
     'Zend\Validator',
+
+    // modules
     'Application',
+    'Admin',
     'Api',
 ];

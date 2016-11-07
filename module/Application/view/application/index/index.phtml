@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center">
                     <h2>Vos évènements à venir</h2>
-                    <h4>Bienvenue sur votre page principale. Ici seront répertoriés tous vos évènements de tous les groupes auxquel vous appartenez.</h4>
+                    <h4>Bienvenue sur votre page principale. Ici seront répertoriés tous vos évènements à venir.</h4>
                 </div>
                 <div class="col-md-4 col-md-offset-4">
                     <ul class="nav nav-pills" role="tablist">
@@ -45,54 +45,66 @@
             </div>
         </div>
     </div>
-    <div class="section section-tabs">
-        <div class="container">
-            <div class="row text-center">
-                <?php if ($this->user->display != Application\Model\User::DISPLAY_TABLE): ?>
-                    <div class="checkbox">
-                        <?php foreach ($groups as $group): ?>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
-                                <?= $group->name ?>
-                            </label>
-                        <?php endforeach ?>
-                    </div>
-                <?php endif ?>
-                <?php if ($this->user->display == Application\Model\User::DISPLAY_LARGE): ?>
-                    <div class="col-xs-12">
-                        <?php foreach ($events as $event): ?>
-                            <?php echo $this->partial('partial/dashboard-events.phtml', $event) ?>
-                        <?php endforeach ?>
-                    </div>
-                <?php elseif ($this->user->display == Application\Model\User::DISPLAY_SMALL): ?>
-
-                    <?php foreach ($events as $event): ?>
-                        <?php echo $this->partial('partial/list-events.phtml', $event) ?>
-                    <?php endforeach ?>
-                <?php elseif ($this->user->display == Application\Model\User::DISPLAY_TABLE): ?>
-                    <table class="table table-striped"
-                           data-toggle="table"
-                           data-pagination="true"
-                           data-locale="fr-FR"
-                           data-search="true"
-                           data-page-size="10"
-                           data-page-list="[10,25,50,100]">
-                        <thead>
-                            <th data-field="name">Nom</th>
-                            <th data-field="group">Groupe</th>
-                            <th data-field="date">Date</th>
-                            <th data-field="action" class="action"></th>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($events as $event): ?>
-                                <?php echo $this->partial('partial/table-events.phtml', $event) ?>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
-                <?php endif ?>
+    <?php if (!$events): ?>
+        <div class="section section-tabs">
+            <div class="container">
+                <div class="row text-center">
+                    <h4>Vous n'avez actuellement aucun évènement à venir</h4>
+                </div>
             </div>
         </div>
-    </div>
+    <?php else: ?>
+        <?php if ($this->user->display != Application\Model\User::DISPLAY_TABLE): ?>
+            <div class="section section-tabs">
+                <div class="container">
+                    <div class="row text-center">
+                        <?php if (count($groups) > 1): ?>
+                            <div class="checkbox">
+                                <?php foreach ($groups as $group): ?>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
+                                        <?= $group->name ?>
+                                    </label>
+                                <?php endforeach ?>
+                            </div>
+                        <?php endif ?>
+                        <?php if ($this->user->display == Application\Model\User::DISPLAY_LARGE): ?>
+                            <div class="col-xs-12">
+                                <?php foreach ($events as $event): ?>
+                                    <?php echo $this->partial('partial/events/extend.phtml', $event) ?>
+                                <?php endforeach ?>
+                            </div>
+                        <?php else: ?>
+                            <?php foreach ($events as $event): ?>
+                                <?php echo $this->partial('partial/events/minimal.phtml', $event) ?>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+        <?php elseif ($this->user->display == Application\Model\User::DISPLAY_TABLE): ?>
+            <div class="section section-basic">
+                <div class="container">
+                    <div class="fresh-table">
+                        <div class="toolbar"></div>
+                        <table class="ftable table">
+                            <thead>
+                                <th data-field="name" data-sortable="true">Nom</th>
+                                <th data-field="group" data-sortable="true">Groupe</th>
+                                <th data-field="date" data-sortable="true">Date</th>
+                                <th data-field="action" data-sortable="false" data-width="50px">Actions</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($events as $event): ?>
+                                    <?php echo $this->partial('partial/events/table.phtml', $event) ?>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <?php endif ?>
+    <?php endif ?>
 </div>
 
 <?php if ($this->user): ?>
@@ -100,7 +112,6 @@
         <a class="btn-floating btn-large red">
           <i class="large material-icons md-48">add</i>
         </a>
-
         <ul>
             <li>
                 <span class="mobile-fab-tip">Créer un groupe</span>

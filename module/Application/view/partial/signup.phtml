@@ -10,46 +10,71 @@
                             <h4>Créer un compte</h4>
                         </div>
                         <div class="content">
-
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">fingerprint</i>
-                                </span>
-                                <?php echo $this->formElement($signUpForm->get('firstname')); ?>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">finger_print</i>
+                                    </span>
+                                    <label class="control-label" for="firstname">
+                                        Prénom
+                                    </label>
+                                    <?= $this->formElement($signUpForm->get('firstname')); ?>
+                                </div>
                             </div>
 
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">face</i>
-                                </span>
-                                <?php echo $this->formElement($signUpForm->get('lastname')); ?>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">face</i>
+                                    </span>
+                                    <label class="control-label" for="lastname">
+                                        Nom
+                                    </label>
+                                    <?= $this->formElement($signUpForm->get('lastname')); ?>
+                                </div>
                             </div>
 
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">email</i>
-                                </span>
-                                <?php echo $this->formElement($signUpForm->get('email')); ?>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">email</i>
+                                    </span>
+                                    <label class="control-label" for="email">
+                                        E-mail
+                                    </label>
+                                    <?= $this->formElement($signUpForm->get('email')); ?>
+                                </div>
                             </div>
 
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">lock_outline</i>
-                                </span>
-                                <?php echo $this->formElement($signUpForm->get('password')); ?>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">lock_outline</i>
+                                    </span>
+                                    <label class="control-label" for="password">
+                                        Mot de passe
+                                    </label>
+                                    <?= $this->formElement($signUpForm->get('password')); ?>
+                                </div>
                             </div>
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">lock_outline</i>
-                                </span>
-                                <?php echo $this->formElement($signUpForm->get('repassword')); ?>
+
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">lock_outline</i>
+                                    </span>
+                                    <label class="control-label" for="password">
+                                        Confirmation de mot de passe
+                                    </label>
+                                    <?= $this->formElement($signUpForm->get('repassword')); ?>
+                                </div>
                             </div>
+
                         </div>
-                        <div class="footer text-center">
+                        <div class="text-center">
                             <?php echo $this->formElement($signUpForm->get('submit')); ?>
                         </div>
                     <?php echo $this->form()->closeTag(); ?>
-                    </form>
                 </div>
             </div>
         </div>

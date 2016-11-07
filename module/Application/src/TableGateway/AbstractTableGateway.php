@@ -4,16 +4,23 @@ namespace Application\TableGateway;
 
 use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
-use Zend\Db\TableGateway\AbstractTableGateway as AbstractTable;
+use Interop\Container\ContainerInterface;
 
 class AbstractTableGateway
 {
 
     private $_tableGateway;
+    private $_container;
 
-    public function __construct(TableGatewayInterface $tableGateway)
+    public function __construct(TableGatewayInterface $tableGateway, ContainerInterface $container)
     {
         $this->_tableGateway = $tableGateway;
+        $this->_container = $container;
+    }
+
+    public function getContainer()
+    {
+        return $this->_container;
     }
 
     public function getTableGateway()
@@ -23,9 +30,12 @@ class AbstractTableGateway
 
     public function fetchAll($where = [], $orderBy = 'id DESC')
     {
-        return $this->getTableGateway()->select(function($select) use ($orderBy, $where) {
+        $result = $this->getTableGateway()->select(function($select) use ($orderBy, $where) {
             $select->where($where)->order($orderBy);
         });
+        $result->buffer();
+        return $result;
+
     }
 
     public function find($id)
@@ -41,15 +51,24 @@ class AbstractTableGateway
         return $rowset->current();
     }
 
-    public function save($model)
+    public function save($data)
     {
-        $data = $model->toArray();
-        $id   = (int) $model->id;
+        if (is_object($data)) $data = $data->toArray();
+
+        foreach ($data as $key => $value) {
+            $property = '_' . $key;
+            $obj = $this->getTableGateway()->getResultSetPrototype()->getArrayObjectPrototype();
+            if (!property_exists($obj, $property)) {
+                unset($data[$key]);
+            }
+        }
+
+        $id = isset($data['id']) ? $data['id'] : 0;
 
         if ($id === 0) {
             $this->getTableGateway()->insert($data);
             $id = $this->getTableGateway()->getLastInsertValue();
-            return $id;
+            return $this->find($id);
         }
 
         if (!$this->find($id)) {
@@ -60,12 +79,16 @@ class AbstractTableGateway
         }
 
         $this->getTableGateway()->update($data, ['id' => $id]);
+        return $this->find($id);
     }
 
-    public function delete(array $where)
+    public function delete($params)
     {
-        $this->getTableGateway()->delete($where);
-        // $this->getTableGateway()->delete(['id' => (int) $obj->id]);
+        if (is_array($params)) {
+            $this->getTableGateway()->delete($params);
+        } else if (is_object($params)) {
+            $this->getTableGateway()->delete(['id' => (int) $params->id]);
+        }
     }
 
 }

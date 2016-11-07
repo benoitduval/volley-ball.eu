@@ -2,6 +2,100 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.2.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 3.1.1 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 3.1.0 - 2016-10-24
+
+### Added
+
+- [#87](https://github.com/zendframework/zend-code/pull/95) support for
+  PHP 7.1's `void` return type declaration.
+- [#87](https://github.com/zendframework/zend-code/pull/95) support for
+  PHP 7.1's nullable type declarations.
+- [#87](https://github.com/zendframework/zend-code/pull/95) support for
+  PHP 7.1's `iterable` type declaration.
+- [#62](https://github.com/zendframework/zend-code/pull/62) added
+  `Zend\Code\Generator\MethodGenerator#getReturnType()` accessor.
+- [#68](https://github.com/zendframework/zend-code/pull/68)
+  [#26](https://github.com/zendframework/zend-code/pull/26) added mutators
+  to allow removing/checking for existence of methods, properties, constants,
+  parameters and type declarations across all the code generator API.
+- [#65](https://github.com/zendframework/zend-code/pull/65) continuous
+  integration testing now checks locked, newest and oldest dependency
+  sets.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
+## 3.0.5 - 2016-10-24
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#92](https://github.com/zendframework/zend-code/pull/92) corrected
+  `Zend\Code\Scanner\ClassScanner` to detect multiple interface inheritance.
+- [#95](https://github.com/zendframework/zend-code/pull/95) corrected
+  `Zend\Code\Generator\ParameterGenerator` to allow copying parameter signatures
+  for non-optional parameters that are still nullable via a default `= null`
+  value.
+- [#94](https://github.com/zendframework/zend-code/pull/94) corrected
+  `Zend\Code\Generator\ValueGenerator` so that class constants can now
+  be generated with arrays as default value (supported since PHP 5.6).
+
 ## 3.0.4 - 2016-06-30
 
 ### Added

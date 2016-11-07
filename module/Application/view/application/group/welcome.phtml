@@ -12,7 +12,9 @@
                         <h4 class="text-center">
                         <?php if (!$user): ?>
                             <div class="col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                                Il semblerai que vous ne soyez pas connecté au site. Peut-être n'avez pas encore créé de compte. Afin de rejoindre le group <b><?= $group->name ?></b> vous devez avoir un compte actif.
+                                <p>Afin de pouvoir rejoindre le groupe <b><?= $group->name ?></b>, vous devez être authentifié.</p>
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#modale-signup" class="btn btn-neutral btn-lg btn-fill">Créer un compte</a>
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#modale-signin" class="btn btn-info btn-lg btn-fill">Se connecter</a>
                             </div>
                         <?php elseif ($isMember): ?>
                             <div class="col-xs-offset-2 col-sm-8 col-sm-offset-2">
@@ -42,7 +44,11 @@
     <div class="section section-signup" style="background-image: url('/img/cover_4_blur.jpg'); background-size: cover; background-position: top center; min-height: 300px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-md-offset-3">
+                <?php if ($isMember): ?>
+                    <div class="col-md-6">
+                <?php else: ?>
+                    <div class="col-md-6 col-md-offset-3">
+                <?php endif ?>
                     <div class="card card-signup">
                         <div class="header header-primary text-center">
                             <h4>Description</h4>
@@ -65,56 +71,80 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+                <?php if ($isMember): ?>
+                    <div class="col-md-6">
+                        <div class="card card-signup">
+                            <div class="header header-primary text-center">
+                                <h4>Les membres</h4>
+                            </div>
+                            <div class="content">
+                                <div class="fresh-table">
+                                    <div class="toolbar"></div>
+                                    <table class="ftable table">
+                                        <thead>
+                                            <th data-field="name" data-sortable="true">Nom Prénom</th>
+                                            <th data-field="date" data-sortable="true">Numéro Licence</th>
+                                            <th data-field="type" data-sortable="true">Téléphone</th>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($users as $user): ?>
+                                            <tr>
+                                                <td><?= $user->getFullName() ?></td>
+                                                <td><?= $user->licence ?></td>
+                                                <td><?= $user->phone ?></td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row debrief">
+                    <div class="col-md-12">
+                        <div class="card card-signup">
+                            <div class="header header-primary text-center">
+                                <h4>Évènements du groupe</h4>
+                            </div>
+                            <div class="content">
+                                <div class="fresh-table">
+                                    <div class="toolbar"></div>
+                                    <table class="ftable table">
+                                        <thead>
+                                            <th data-field="name" data-sortable="true">Nom</th>
+                                            <th data-field="date" data-sortable="true">Date</th>
+                                            <th data-field="type" data-sortable="true">Type</th>
+                                            <th data-field="action" data-sortable="false" data-width="50px">Actions</th>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($events as $event): ?>
+                                            <?php $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date) ?>
+                                            <tr>
+                                                <td><?= $event->name ?></td>
+                                                <td><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?></td>
+                                                <td><?= (isset($matches[$event->id])) ? 'Match' : ''; ?></td>
+                                                <td class="text-right">
+                                                    <a href="/event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                </div>
+            <?php endif ?>
             </div>
         </div>
     </div>
-
-    <?php if ($isMember): ?>
-            <div class="section">
-                <div class="container">
-                    <div class="row">
-                        <h2 class="text-center">Historique des évènements</h2>
-                        <table class="table-striped"
-                               data-toggle="table"
-                               data-pagination="true"
-                               data-locale="fr-FR"
-                               data-search="true"
-                               data-page-size="10"
-                               data-page-list="[10,25,50,100]">
-                            <thead>
-                                <th data-field="name">Nom</th>
-                                <th data-field="date">Date</th>
-                                <th data-field="type" data-sortable="true">type</th>
-                                <th data-field="action" class="action"></th>
-                            </thead>
-                            </thead>
-                            <tbody>
-                            <?php if (count($events)): ?>
-                                <?php foreach ($events as $event): ?>
-                                    <?php $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date) ?>
-                                    <tr>
-                                        <td><?= $event->name ?></td>
-                                        <td><?= $date->format('d-m-Y') ?></td>
-                                        <td><?= (isset($matches[$event->id])) ? 'Match' : ''; ?></td>
-                                        <td class="text-right">
-                                            <a href="/event/detail/<?= $event->id ?>"><i class="material-icons">search</i></a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="3">Aucun résultat pour le nom de groupe</td>
-                                </tr>
-                            <?php endif ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-    <?php endif ?>
 </div>
+
 
 <?php echo $this->partial('partial/fab/group.phtml') ?>
 
@@ -122,3 +152,31 @@
     <?php echo $this->partial('partial/signin.phtml') ?>
     <?php echo $this->partial('partial/signup.phtml') ?>
 <?php endif ?>
+
+<div class="modal fade" id="modale-share" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="card card-signup">
+                    <?php echo $this->form()->openTag($form); ?>
+                        <div class="header header-primary text-center">
+                            <h4>Inviter des membres</h4>
+                        </div>
+                        <div class="content">
+                            <p class="text-center">Vous pouvez ajouter une liste d'email en les séparant par des virgules.</p>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">share</i>
+                                </span>
+                                <?php echo $this->formElement($form->get('emails')); ?>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <input id="submit-share" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
+                        </div>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

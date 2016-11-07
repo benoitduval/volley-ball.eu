@@ -9,8 +9,46 @@ namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+use Zend\Cache;
 
 return [
+
+    'service_manager' => [
+        'factories' => [
+            Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
+            Service\MailService::class           => Service\Factory\MailServiceFactory::class,
+            Service\Map::class                   => Service\Factory\MapServiceFactory::class,
+            Model\User::class                    => Model\Factory\UserFactory::class,
+        ],
+
+        'abstract_factories' => [
+            Factory\TableGatewayFactory::class,
+            Cache\Service\StorageCacheAbstractServiceFactory::class,
+        ],
+    ],
+
+    'controllers' => [
+        'abstract_factories' => [
+            Factory\ControllerFactory::class,
+        ],
+    ],
+
+    'view_manager' => [
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => [
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ],
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+    ],
 
     'router' => [
         'routes' => [
@@ -25,9 +63,9 @@ return [
                 ],
             ],
             'welcome' => [
-                'type' => Literal::class,
+                'type' => Segment::class,
                 'options' => [
-                    'route'    => '/welcome',
+                    'route'    => '/welcome/',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
                         'action'     => 'welcome',
@@ -104,6 +142,20 @@ return [
                     'defaults' => [
                         'controller'    => Controller\RecurentController::class,
                         'action'        => 'create',
+                    ],
+                ],
+            ],
+            'absent' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/absent[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-z][a-z_-]*',
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\AbsentController::class,
+                        'action'        => 'index',
                     ],
                 ],
             ],
@@ -219,48 +271,6 @@ return [
                     ],
                 ],
             ],
-        ],
-    ],
-
-    'service_manager' => [
-        'factories' => [
-            Model\UserTableGateway::class         => Factory\TableGatewayFactory::class,
-            Model\GroupTableGateway::class        => Factory\TableGatewayFactory::class,
-            Model\MatchTableGateway::class        => Factory\TableGatewayFactory::class,
-            Model\EventTableGateway::class        => Factory\TableGatewayFactory::class,
-            Model\GuestTableGateway::class        => Factory\TableGatewayFactory::class,
-            Model\JoinTableGateway::class         => Factory\TableGatewayFactory::class,
-            Model\RecurentTableGateway::class     => Factory\TableGatewayFactory::class,
-            Model\CommentTableGateway::class      => Factory\TableGatewayFactory::class,
-            Model\UserGroupTableGateway::class    => Factory\TableGatewayFactory::class,
-            Model\NotificationTableGateway::class => Factory\TableGatewayFactory::class,
-
-            Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
-            Service\MailService::class           => Service\Factory\MailServiceFactory::class,
-            Service\Map::class                   => Service\Factory\MapServiceFactory::class,
-        ],
-    ],
-
-    'controllers' => [
-        'abstract_factories' => [
-            Factory\ControllerFactory::class
-        ],
-    ],
-
-    'view_manager' => [
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
-        'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ],
-        'template_path_stack' => [
-            __DIR__ . '/../view',
         ],
     ],
 ];

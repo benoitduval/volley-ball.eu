@@ -19,16 +19,14 @@ class Comment extends Form
         ));
 
         $this->add([
-            'type' => Element\Textarea::class,
             'name' => 'comment',
+            'type' => Element\Textarea::class,
             'options' => [
                 'label' => 'Commentaire',
             ],
             'attributes' => [
-                'placeholder' => 'Votre commentaire',
-                'rows'  => 4,
                 'class' => 'form-control',
-                'required' => 'required',
+                'style' => 'height: 40px;',
             ],
         ]);
 
