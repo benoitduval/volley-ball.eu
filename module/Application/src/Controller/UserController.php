@@ -18,11 +18,16 @@ class UserController extends AbstractController
             $form->setData($this->getUser()->toArray());
             $request = $this->getRequest();
             if ($request->isPost()) {
+                $post = $request->getPost();
+                $post['status']  = $this->getUser()->status;
+                $post['display'] = $this->getUser()->display;
+
                 $form->setData($request->getPost());
                 $userTable = $this->get(TableGateway\User::class);
                 if ($form->isValid()) {
-                    $data = $form->getData();
-                    $data['id'] = $this->getUser()->id;
+                    $data = $this->getUser()->toArray();
+                    $data['phone'] = $post['phone'];
+                    $data['licence'] = $post['licence'];
                     $user = $userTable->save($data);
                     $this->_user = $user;
                 }
