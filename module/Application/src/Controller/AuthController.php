@@ -83,7 +83,6 @@ class AuthController extends AbstractController
                 $data = $signUpForm->getData();
 
                 $userTable = $this->get(TableGateway\User::class);
-                \Zend\Debug\Debug::dump($userTable->fetchOne(['email' => $data['email']]));die;
                 if ($userTable->fetchOne(['email' => $data['email']])) {
                     $this->flashMessenger()->addErrorMessage('Il est impossible de créer un compte avec l\'adresse <b>' . $data['email'] . '</b> Cette adresse email est déjà utilisée. Merci de recommencer en changeant votre adresse.');
                 } elseif ($data['password'] != $data['repassword']) {
