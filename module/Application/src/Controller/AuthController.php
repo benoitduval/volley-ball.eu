@@ -31,8 +31,7 @@ class AuthController extends AbstractController
                 $signInForm->setData($request->getPost());
                 if ($signInForm->isValid()) {
                     $data = $signInForm->getData();
-
-                   $authService = $this->get(AuthenticationService::class);
+                    $authService = $this->get(AuthenticationService::class);
                     if (!$authService->hasIdentity()) {
                         $adapter  = $authService->getAdapter();
                         $adapter->setIdentity($data['email']);
@@ -84,18 +83,18 @@ class AuthController extends AbstractController
                 $data = $signUpForm->getData();
 
                 $userTable = $this->get(TableGateway\User::class);
+                \Zend\Debug\Debug::dump($userTable->fetchOne(['email' => $data['email']]));die;
                 if ($userTable->fetchOne(['email' => $data['email']])) {
                     $this->flashMessenger()->addErrorMessage('Il est impossible de créer un compte avec l\'adresse <b>' . $data['email'] . '</b> Cette adresse email est déjà utilisée. Merci de recommencer en changeant votre adresse.');
                 } elseif ($data['password'] != $data['repassword']) {
                     $this->flashMessenger()->addErrorMessage('Les <b>mots de passe</b> ne correspondent pas. Merci de recommencer votre inscription.');
                 } else {
                     $bCrypt = new Bcrypt();
-                    $data['status']  = Model\User::HAS_TO_CONFIRM;
-                    $data['display'] = Model\User::DISPLAY_LARGE;
+                    $data['status']   = Model\User::HAS_TO_CONFIRM;
+                    $data['display']  = Model\User::DISPLAY_LARGE;
                     $data['password'] = $bCrypt->create(md5($data['password']));
 
                     $user = $userTable->save($data);
-
                     // create account notifications
                     $notifs = Model\Notification::$labels;
                     $notifTable = $this->get(TableGateway\Notification::class);

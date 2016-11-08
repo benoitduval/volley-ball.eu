@@ -153,30 +153,32 @@
     <?php echo $this->partial('partial/signup.phtml') ?>
 <?php endif ?>
 
-<div class="modal fade" id="modale-share" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="row">
-                <div class="card card-signup">
-                    <?php echo $this->form()->openTag($form); ?>
-                        <div class="header header-primary text-center">
-                            <h4>Inviter des membres</h4>
-                        </div>
-                        <div class="content">
-                            <p class="text-center">Vous pouvez ajouter une liste d'email en les séparant par des virgules.</p>
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">share</i>
-                                </span>
-                                <?php echo $this->formElement($form->get('emails')); ?>
+<?php if (isset($form)): ?>
+    <div class="modal fade" id="modale-share" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="card card-signup">
+                        <?php echo $this->form()->openTag($form); ?>
+                            <div class="header header-primary text-center">
+                                <h4>Inviter des membres</h4>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <input id="submit-share" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
-                        </div>
-                    <?php echo $this->form()->closeTag(); ?>
+                            <div class="content">
+                                <p class="text-center">Vous pouvez ajouter une liste d'email en les séparant par des virgules.</p>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">share</i>
+                                    </span>
+                                    <?php echo $this->formElement($form->get('emails')); ?>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <input id="submit-share" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
+                            </div>
+                        <?php echo $this->form()->closeTag(); ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+<?php endif ?>
