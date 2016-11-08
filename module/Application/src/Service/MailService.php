@@ -19,6 +19,7 @@ class MailService
     const TEMPLATE_WELCOME        = 9;
     const TEMPLATE_WELCOME_GROUP  = 10;
     const TEMPLATE_ACCOUNT_VERIFY = 11;
+    const TEMPLATE_GROUP_SHARE    = 12;
 
     protected $_transport;
     protected $_mail;

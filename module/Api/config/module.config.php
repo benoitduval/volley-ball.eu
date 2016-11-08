@@ -80,6 +80,19 @@ return [
                     ],
                 ],
             ],
+            'share' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/group/share/:groupId',
+                    'constraints' => [
+                        'eventId' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\GroupController::class,
+                        'action'        => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
 

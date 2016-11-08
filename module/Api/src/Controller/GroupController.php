@@ -9,31 +9,30 @@ use Application\Model;
 use Application\TableGateway;
 use Application\Service\MailService;
 
-class CommentController extends AbstractController
+class GroupController extends AbstractController
 {
 
     public function indexAction()
     {
         $groupId    = $this->params('groupId', null);
         $groupTable = $this->get(TableGateway\Group::class);
+        $userGroupTable = $this->get(TableGateway\UserGroup::class);
         $isAdmin    = false;
         $bcc        = [];
         if($group = $groupTable->find($groupId)) {
             $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $groupId);
         }
         $emails = $this->params()->fromPost('emails');
-
         if ($this->getUser() && $emails && $isAdmin) {
-
             $config = $this->get('config');
             if ($config['mail']['allowed']) {
                 $emails = explode(',', $emails);
-                foreach ($emails as $$email) {
+                foreach ($emails as $email) {
                     $email = trim($email);
                     $bcc[] = $email;
                 }
                 $mail        = $this->get(MailService::class);
-                $mail->addBcc($emails);
+                $mail->addBcc($bcc);
                 $mail->setSubject('[Volley-ball.eu] Vous avez été invité!');
                 $mail->setTemplate(MailService::TEMPLATE_GROUP_SHARE, [
                     'name'    => $group->name,
@@ -47,8 +46,9 @@ class CommentController extends AbstractController
             $data = ['result' => ['success' => false]];
         }
         if (!isset($data)) {
-            $data = ['result' => ['success' => true, 'user' => $this->getUser()->getFullname(), 'date' => \Application\Service\Date::toFr($commentDate->format('d F Y \à H:i'))]];
+            $data = ['result' => ['success' => true]];
         }
+
         $view = new ViewModel($data);
 
         $view->setTerminal(true);

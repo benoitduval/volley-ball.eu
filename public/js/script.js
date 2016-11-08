@@ -13,6 +13,7 @@ $(function () {
     pills();
     table();
     comment();
+    share();
 });
 
 
@@ -440,14 +441,39 @@ function comment() {
 }
 
 function share() {
-    if ($("#submit-comment").length) {
-        $('#submit-comment').on('click', function(event) {
-            $('#modale-comment').toggle();
+    if ($("#submit-share").length) {
+        $('#submit-share').on('click', function(event) {
+            var notify = $.notify('Envoi des notifications...', {
+                type: 'info',
+                placement: {
+                    from: "top",
+                    align: "center"
+                },
+                allow_dismiss: false,
+                delay: 5000,
+                animate: {
+                    enter: 'animated bounceInDown',
+                    exit: 'animated bounceOutUp'
+                },
+                icon_type: 'class',
+                template: '<div data-notify="container" class="text-center col-xs-6 col-sm-3 alert alert-{0}" style="border-radius:3px;" role="alert">' +
+                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                    '<span data-notify="icon"></span> ' +
+                    '<span data-notify="title">{1}</span> ' +
+                    '<span data-notify="message">{2}</span>' +
+                    '<div class="progress" data-notify="progressbar">' +
+                        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                    '</div>' +
+                    '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                '</div>' 
+            });
+
+            $('#modale-share').toggle();
             $('.modal-backdrop').remove();
             $('.index-page').removeClass('modal-open');
              event.preventDefault();
             var groupId = $(this).attr('data-groupId');
-            var emails = $('textarea[name=share]').val();
+            var emails = $('textarea[name=emails]').val();
             var url = '/api/group/share/' + groupId;
             var request = $.ajax({
                 type: "POST",
@@ -458,9 +484,10 @@ function share() {
             }).done(function(resp) {
                 var result = jQuery.parseJSON(resp);
                 if (result.success) {
-                    notify('Envoyé!');
+                    notify.update({'type': 'success', 'message': 'Envoyé', 'progress': 25, delay: 5000});
+                    notify.close();
                 } else {
-                    notify('Erreur!', false);
+                    notify.update({'type': 'error', 'message': '<strong>Erreur</strong> pendant l\'envoi', 'progress': 25});
                 }
             });
 
