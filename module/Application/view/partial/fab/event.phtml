@@ -12,12 +12,6 @@
                           <i class="material-icons submenu">content_paste</i>
                     </a>
                 </li>
-                <li>
-                    <span class="mobile-fab-tip">Modifier l'évènement</span>
-                    <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
-                          <i class="material-icons submenu">edit</i>
-                    </a>
-                </li>
             <?php else: ?>
             	<li>
             	    <span class="mobile-fab-tip">Résultat de la rencontre</span>
@@ -26,6 +20,12 @@
             	    </a>
             	</li>
             <?php endif ?>
+            <li>
+                <span class="mobile-fab-tip">Modifier l'évènement</span>
+                <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
+                      <i class="material-icons submenu">edit</i>
+                </a>
+            </li>
         <?php endif ?>
         <li>
             <span class="mobile-fab-tip">Commenter</span>
