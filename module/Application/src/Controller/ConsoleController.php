@@ -147,8 +147,7 @@ class ConsoleController extends AbstractController
         }
         $values = substr($values, 0, -1);
         $values .= ';';
-
-        $this->newAdapter->query('INSERT INTO `user` VALUES ' . $values)->execute();
+        $this->newAdapter->query('INSERT INTO `user` (`id`, `firstname`, `lastname`, `email`, `password`, `status`, `display`) VALUES ' . $values)->execute();
     }
 
     public function places()
