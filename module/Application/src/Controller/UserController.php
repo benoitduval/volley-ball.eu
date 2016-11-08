@@ -14,7 +14,7 @@ class UserController extends AbstractController
     public function paramsAction()
     {
         if ($this->getUser()) {
-            $form = new Form\Signup;
+            $form = new Form\SignUp;
             $form->setData($this->getUser()->toArray());
             $request = $this->getRequest();
             if ($request->isPost()) {
