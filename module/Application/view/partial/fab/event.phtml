@@ -12,6 +12,12 @@
                           <i class="material-icons submenu">content_paste</i>
                     </a>
                 </li>
+                <li>
+                    <span class="mobile-fab-tip">Modifier l'évènement</span>
+                    <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
+                          <i class="material-icons submenu">edit</i>
+                    </a>
+                </li>
             <?php else: ?>
             	<li>
             	    <span class="mobile-fab-tip">Résultat de la rencontre</span>
@@ -28,12 +34,6 @@
             </a>
         </li>
         <?php if ($event->date > date('Y-m-d H:i:s')): ?>
-            <li>
-                <span class="mobile-fab-tip">Modifier l'évènement</span>
-                <a href="/event/edit/<?= $event->id ?>" class="btn-floating blue tooltipped" data-position="left" data-tooltip="Édition">
-                      <i class="material-icons submenu">edit</i>
-                </a>
-            </li>
             <li>
                 <span class="mobile-fab-tip">Incertain</span>
                 <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="btn-floating amber tooltipped response" data-position="left" data-tooltip="Incertain" data-event="<?= $event->id ?>" 
