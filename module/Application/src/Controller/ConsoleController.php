@@ -265,7 +265,7 @@ class ConsoleController extends AbstractController
             ]);
 
             $date = new \DateTime('now');
-            $date = $date->modify('next ' . strtolower($recurent->eventDay) . $recurent->time);
+            $date = $date->modify('next ' . strtolower($recurent->eventDay) . ' ' . $recurent->time);
             $date = $date->format('Y-m-d H:i:s');
 
             // Create Event
@@ -326,7 +326,7 @@ class ConsoleController extends AbstractController
                     'zip'       => $event->zipCode,
                     'address'   => $event->address,
                     'city'      => $event->city,
-                    'eventId'   => $eventId,
+                    'eventId'   => $event->id,
                     'date'      => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
                     'day'       => \Application\Service\Date::toFr($date->format('d')),
                     'month'     => \Application\Service\Date::toFr($date->format('F')),
