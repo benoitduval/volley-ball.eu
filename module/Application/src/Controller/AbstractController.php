@@ -51,6 +51,9 @@ class AbstractController extends AbstractActionController
 
     public function onDispatch(\Zend\Mvc\MvcEvent $e)
     {
+        $config = $this->get('config');
+        $this->layout()->vCss   = $config['version']['css'];
+        $this->layout()->vJs    = $config['version']['js'];
         $this->layout()->user   = $this->getUser();
         $this->layout()->groups = $this->getUserGroups();
         return parent::onDispatch($e);

@@ -33,6 +33,10 @@ return [
             'key' => '',
         ]
     ],
+    'version' => [
+        'css' => ,
+        'js'  => ,
+    ],
     'salt'    => '',
     'baseUrl' => '',
 ];
