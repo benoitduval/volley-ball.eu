@@ -1,0 +1,177 @@
+
+    <div class="content">
+            <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <div class="card">
+                            <div class="card-header" data-background-color="purple">
+                                <h4><?= $event->name ?></h4>
+                            </div>
+
+                            <div class="card-content">
+                                <?= $this->form()->openTag($form); ?>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="name">
+                                                Name
+                                            </label>
+                                            <?= $this->formElement($form->get('name')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">time</i>
+                                            </span>
+                                            <label class="control-label" for="date">
+                                                Date
+                                            </label>
+                                            <?= $this->formElement($form->get('date')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">comment</i>
+                                            </span>
+                                            <label class="control-label" for="comment">
+                                                Comment
+                                            </label>
+                                            <?= $this->formElement($form->get('comment')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="place">
+                                                Place
+                                            </label>
+                                            <?= $this->formElement($form->get('place')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="address">
+                                                Address
+                                            </label>
+                                            <?= $this->formElement($form->get('address')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="city">
+                                                City
+                                            </label>
+                                            <?= $this->formElement($form->get('city')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="zipCode">
+                                                Zip Code
+                                            </label>
+                                            <?= $this->formElement($form->get('zipCode')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="lat">
+                                                Lattitude
+                                            </label>
+                                            <?= $this->formElement($form->get('lat')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group label-floating is-filed">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">finger_print</i>
+                                            </span>
+                                            <label class="control-label" for="long">
+                                                Longitude
+                                            </label>
+                                            <?= $this->formElement($form->get('long')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <?= $this->formElement($form->get('submit')); ?>
+                                    </div>
+                                <?= $this->form()->closeTag($form); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="card">
+                            <div class="card-header" data-background-color="green">
+                                <h4 class="title">Members</h4>
+                            </div>
+                            <div class="card-content table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-success">
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th style="width:50px" class="text-right"></th>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($users as $user): ?>
+                                            <tr>
+                                                <td><?= $user->id ?></td>
+                                                <td><?= $user->getFullname() ?></td>
+                                                <td>
+                                                    <a href="/admin/user/detail/<?= $user->id ?>" class="text-success">
+                                                        <i class="material-icons">search</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="orange">
+                                <h4 class="title">Response</h4>
+                            </div>
+                            <div class="card-content table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="text-warning">
+                                        <th>ID</th>
+                                        <th>User</th>
+                                        <th>Response</th>
+                                        <th style="width:50px" class="text-right"></th>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($guests as $guest): ?>
+                                            <tr>
+                                                <td><?= $guest->id ?></td>
+                                                <td><?= $users[$guest->userId]->getFullName() ?></td>
+                                                <td><?= \Application\Model\Guest::$literalDisponbility[$guest->response] ?></td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
