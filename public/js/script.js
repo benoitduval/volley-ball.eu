@@ -240,7 +240,7 @@ function response()
             var eventId  = $(this).attr('data-event');
 
             if (response == 1) {
-                var txt = 'Présent';
+                var text = 'Présent';
                 var headerColor = 'header-success';
                 var titleColor = 'text-success';
             }
@@ -271,6 +271,10 @@ function response()
                 title.removeClass('text-danger');
                 title.removeClass('text-primary');
                 title.addClass(titleColor);
+            }
+
+            if ($("#presence-" + eventId).length) {
+                $("#presence-" + eventId).html(text);
             }
 
             var url = '/api/guest/response/' + eventId + '/' + response;

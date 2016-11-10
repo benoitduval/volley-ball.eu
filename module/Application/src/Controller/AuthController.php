@@ -8,6 +8,7 @@ use Application\TableGateway;
 use Application\Model;
 use Application\Form\SignIn;
 use Application\Form\SignUp;
+use Application\Form\Password;
 use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
 use Application\Service\MailService;
@@ -153,5 +154,65 @@ class AuthController extends AbstractController
             $this->flashMessenger()->addErrorMessage('Désolé, nous n\'avons pas pu confirmer votre compte, un erreur est survenue lors de cette vérification. Merci de me contacter afin de régler ce soucis.');
         }
         $this->redirect()->toRoute('home');
+    }
+
+    public function emailAction()
+    {
+         if ($email = $this->params()->fromPost('email')) {
+            $userTable = $this->get(TableGateway\User::class);
+            if ($user = $userTable->fetchOne(['email' => $email])) {
+                $config = $this->get('config');
+                $mail   = $this->get(MailService::class);
+                $salt   = $config['salt'];
+                $mail->addTo($user->email);
+                $mail->setSubject('[Volley-ball.eu] Mot de passe oublié');
+                $token = md5($user->email . $config['salt']);
+
+                $mail->setTemplate(MailService::TEMPLATE_PASSWORD, array(
+                    'email' => $user->email,
+                    'url'   => $config['baseUrl'] . '/auth/reset?email=' . urlencode($user->email) . '&token=' . $token,
+                ));
+                $mail->send();
+            }
+        }
+        return $this->redirect()->toRoute('home');
+    }
+
+    public function resetAction()
+    {
+        $email = $this->params()->fromQuery('email');
+        $token = $this->params()->fromQuery('token');
+        $userTable = $this->get(TableGateway\User::class);
+        if ($user = $userTable->fetchOne(['email' => $email])) {
+            $config = $this->get('config');
+            $salt   = $config['salt'];
+            $verify = md5($user->email . $config['salt']);
+            if ($verify == $token) {
+                $form = new Password;
+                $request    = $this->getRequest();
+
+                if ($request->isPost()) {
+                    $form->setData($request->getPost());
+                    if ($form->isValid()) {
+                        $data = $form->getData();
+                        if ($data['password'] == $data['repassword']) {
+                            $bCrypt = new Bcrypt();
+                            $user->password = $bCrypt->create(md5($data['password']));
+                            $userTable->save($user->toArray());
+                            $authService = $this->get(AuthenticationService::class);
+                            $authService->getStorage()->write($user);
+                            $this->setActiveUser($user);
+                            $this->flashMessenger()->addMessage('Votremot de passe est modifié, vous avez été automatiquement identifié.');
+                            return $this->redirect()->toRoute('home');
+                        }
+                    }
+                }
+
+                return new ViewModel([
+                    'form'   => $form,
+                ]);
+            }
+
+        }
     }
 }

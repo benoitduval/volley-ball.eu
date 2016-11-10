@@ -78,6 +78,11 @@
                             <i class="material-icons">power_settings_new</i> Connexion
                         </a>
                     </li>
+                    <li>
+                        <a title="Se connecter" href="#" data-toggle="modal" data-target="#modale-password">
+                            <i class="material-icons">error_outline</i> oublié
+                        </a>
+                    </li>
                 <?php else: ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->user->getFullname() ?> <b class="caret"></b>
@@ -160,6 +165,7 @@
 </div>
 
 <?php echo $this->partial('partial/modal.phtml') ?>
+<?php echo $this->partial('partial/reset.phtml') ?>
 
 </body>
 <!--   Core JS Files   -->

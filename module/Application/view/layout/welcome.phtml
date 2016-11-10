@@ -54,6 +54,11 @@
                                 <i class="material-icons">power_settings_new</i> Connexion
                             </a>
                         </li>
+                        <li>
+                            <a title="Mot de passe oublié" href="#" data-toggle="modal" data-target="#modale-password">
+                                <i class="material-icons">warning</i> Oublié
+                            </a>
+                        </li>
                     </ul>
                      <form class="navbar-form navbar-right navbar-search-form" role="search" method="GET" action="/search">
                        <div class="form-group">
@@ -357,6 +362,35 @@
                                 </div>
                             <?php echo $this->form()->closeTag(); ?>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modale-password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="wrapper" style="padding:30px;">
+                        <form method="POST" name="signup" action="/auth/email" id="signup">  
+                                <div class="header header-primary text-center">
+                                    <h4>Mot de passe oublié</h4>
+                                </div>
+                                    <p class="center">Merci d'indiquer votre adresse email, un lien vous sera envoyé pour changer votre mot de passe.</p>
+                                    <div class="form-group">
+                                        <label class="control-label" for="email">
+                                            Email
+                                        </label>
+                                        <input type="email" name="email" class="form-control" required="required" value="">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-center" style="margin-bottom: 30px">
+                                        <!-- <a href="#">Mot de passe oublié</a> -->
+                                        <input type="submit" name="submit" class="btn btn-info btn-lg btn-fill" value="Valider">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

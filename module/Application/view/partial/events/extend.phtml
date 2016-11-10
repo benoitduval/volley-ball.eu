@@ -57,7 +57,7 @@
             </div> <!-- end front panel -->
             <div class="back">
                 <div id="header-<?= $event->id ?>" class="header <?= $class ?>">
-                    <h5 class="motto">Vous êtes noté <b><?= Application\Model\Guest::$literalDisponbility[$guest->response] ?></b> à cet évènement</h5>
+                    <h5 class="motto">Vous êtes noté <b id="presence-<?= $event->id ?>"><?= Application\Model\Guest::$literalDisponbility[$guest->response] ?></b> à cet évènement</h5>
                 </div>
                 <div class="content">
                     <div class="main">

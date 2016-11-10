@@ -495,25 +495,47 @@ class MailService
 
             case self::TEMPLATE_PASSWORD:
                 $content .= '
-                    <div style="">
-                        <div style ="">
-                            <h1 ' . $this->_getCss('h1') . '>
-                                Votre nouveau mot de passe
-                            </h1>
-                        </div>
-                        <div style="">
-                            <h3 style="margin-left:50px;font-weight: 500; font-family: HelveticaNeue-Thin;text-decoration:underline;">
-                                Pour le compte {email}
-                            </h3>
-                            <div style="margin-left:50px;">
-                                Ce mot de passe à été généré aléatoirement : <i>{password}</i> <br/>
-                                Vous pouvez maintenant vous connecter à votre compte avec ce nouveau mot de passe.
-                            </div>
-                            <div style ="">
-                                <a href="{baseUrl}/auth/login" style="">Repondre</a>
-                            </div>
-                        </div>
-                    </div>
+                <tr>
+                  <td align="center" valign="top">
+                      <!-- // BEGIN BODY -->
+                      <table border="0" cellpadding="40" cellspacing="0" width="100%">
+                          <tr>
+                              <td align="center" valign="top" ' . $this->_getCss('templateBody') . '>
+                                  <table border="0" cellpadding="0" cellspacing="0" width="600">
+                                      <tr>
+                                            <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:20px;') . '>
+                                                <h3 ' . $this->_getCss('h3') . '>{name}</h3>
+                                                <h4 ' . $this->_getCss('h4', 'text-align:left') . '>Changement de mot de passe</h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" valign="top" ' . $this->_getCss('bodyContentBlock', 'padding-top:30px;') . '>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top" ' . $this->_getCss('bodyContent', 'padding-bottom:30px;') . '>
+                                                            Bonjour,
+                                                            <br>
+                                                            Un demande pour changer de mot de passe à été lancée. Si vous n\'êtes pas l\auteur de cette demande, merci d\'ignorer cet email.<br>
+                                                            Dans le cas contraire, merci de cliquer sur le lien ci dessous<br>
+                                                            <table border="0" cellpadding="10" cellspacing="0" ' . $this->_getCss('button') . '>
+                                                                <tr>
+                                                                    <td align="center" valign="middle">
+                                                                        <a href="{url}" target="_blank" style="color:#FFFFFF;text-decoration:none;">Modifier</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- END BODY \\ -->
+                    </td>
+                </tr>
                 ';
                 break;
 

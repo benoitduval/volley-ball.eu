@@ -151,7 +151,7 @@ class GroupController extends AbstractController
                 'groups'     => $groups,
                 'group'      => $this->_group,
                 'isAdmin'    => $this->_isAdmin,
-                'form'       => $form,
+                // 'form'       => $form,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');

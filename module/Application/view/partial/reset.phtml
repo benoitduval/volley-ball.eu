@@ -1,0 +1,32 @@
+<div class="modal fade" id="modale-password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="row">
+                <div class="card card-signup">
+                    <form method="POST" name="signup" action="/auth/email" id="signup">  
+                        <div class="header header-primary text-center">
+                            <h4>Mot de passe oublié</h4>
+                        </div>
+                        <div class="content">
+                            <p class="center">Merci d'indiquer votre adresse email, un lien vous sera envoyé pour changer votre mot de passe.</p>
+                            <div class="form-group label-floating is-empty">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">email</i>
+                                    </span>
+                                    <label class="control-label" for="email">
+                                        Email
+                                    </label>
+                                    <input type="email" name="email" class="form-control" required="required" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" name="submit" class="btn btn-primary" value="Enregistrer"></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
