@@ -84,6 +84,7 @@
                                     <table class="ftable table">
                                         <thead>
                                             <th data-field="name" data-sortable="true">Nom Prénom</th>
+                                            <th data-field="email" data-sortable="true">Email</th>
                                             <th data-field="date" data-sortable="true">Numéro Licence</th>
                                             <th data-field="type" data-sortable="true">Téléphone</th>
                                         </thead>
@@ -91,6 +92,7 @@
                                         <?php foreach ($users as $user): ?>
                                             <tr>
                                                 <td><?= $user->getFullName() ?></td>
+                                                <td><?= $user->email ?></td>
                                                 <td><?= $user->licence ?></td>
                                                 <td><?= $user->phone ?></td>
                                             </tr>
