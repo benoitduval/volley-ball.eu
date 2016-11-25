@@ -146,7 +146,7 @@ function switcher()
                 type: "GET",
                 url: url
             }).done(function() {
-                notify();
+                notify('Enregistré', true);
             });
         });
     });
@@ -165,7 +165,7 @@ function switcher()
                 type: "GET",
                 url: url
             }).done(function() {
-                notify();
+                notify('Enregistré', true);
             });
         });
     });
@@ -184,7 +184,7 @@ function switcher()
                 type: "GET",
                 url: url
             }).done(function() {
-                notify();
+                notify('Enregistré', true);
             });
         });
     });
@@ -283,7 +283,7 @@ function response()
                 url: url
             }).done(function(resp) {
 
-                notify();
+                notify('Enregistré', true);
 
                 var result = jQuery.parseJSON(resp);
                 $.each( result.counters, function( key, value ) {
@@ -529,7 +529,7 @@ function nl2br (str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
 }
 
-function notify(txt = 'Enregistré!', success = true) {
+function notify(txt, success) {
     if (success == true) {
         var type = 'success';
     } else {
