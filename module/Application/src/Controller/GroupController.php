@@ -204,6 +204,7 @@ class GroupController extends AbstractController
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
         $group          = $groupTable->fetchOne(['brand' => $brand]);
         $form           = new Form\Share();
+
         if (!$this->getUser()) {
             $signInForm = new Form\SignIn();
             $signUpForm = new Form\SignUp();
@@ -227,8 +228,10 @@ class GroupController extends AbstractController
                 $mail   = $this->get(MailService::class);
                 $config = $this->get('config');
 
-                // TODO - add admin emails
-                $mail->addBcc('benoit.duval.pro@gmail.com');
+                $admins = $groupTable->getAdmins($group->id);
+                foreach ($admins as $admin) {
+                    $mail->addBcc($admin->email);
+                }
                 $mail->setSubject('[' . $group->name . '] Une personne souhaite rejoindre le groupe');
                 $mail->setTemplate(MailService::TEMPLATE_GROUP, array(
                     'title'     => 'Demande d\'adhésion',

@@ -146,7 +146,7 @@ function switcher()
                 type: "GET",
                 url: url
             }).done(function() {
-                notify();
+                notify('Enregistré', true);
             });
         });
     });
@@ -165,7 +165,7 @@ function switcher()
                 type: "GET",
                 url: url
             }).done(function() {
-                notify();
+                notify('Enregistré', true);
             });
         });
     });
@@ -184,7 +184,7 @@ function switcher()
                 type: "GET",
                 url: url
             }).done(function() {
-                notify();
+                notify('Enregistré', true);
             });
         });
     });
@@ -283,7 +283,7 @@ function response()
                 url: url
             }).done(function(resp) {
 
-                notify();
+                notify('Enregistré', true);
 
                 var result = jQuery.parseJSON(resp);
                 $.each( result.counters, function( key, value ) {
@@ -404,6 +404,30 @@ function comment() {
             $('.modal-backdrop').remove();
             $('.index-page').removeClass('modal-open');
             event.preventDefault();
+            var notify = $.notify('Envoi des notifications...', {
+                type: 'info',
+                placement: {
+                    from: "top",
+                    align: "center"
+                },
+                allow_dismiss: false,
+                delay: 2000,
+                animate: {
+                    enter: 'animated bounceInDown',
+                    exit: 'animated bounceOutUp'
+                },
+                icon_type: 'class',
+                template: '<div data-notify="container" class="text-center col-xs-6 col-sm-3 alert alert-{0}" style="border-radius:3px;" role="alert">' +
+                    '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                    '<span data-notify="icon"></span> ' +
+                    '<span data-notify="title">{1}</span> ' +
+                    '<span data-notify="message">{2}</span>' +
+                    '<div class="progress" data-notify="progressbar">' +
+                        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                    '</div>' +
+                    '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                '</div>' 
+            });
             var groupId = $(this).attr('data-groupId');
             var eventId = $(this).attr('data-eventId');
             var comment = $('textarea[name=comment]').val();
@@ -435,9 +459,10 @@ function comment() {
                             + '</div>'
                         + '</div>'
                     + '</div>');
-                    notify();
+                    notify.update({'type': 'success', 'message': 'Envoyé', 'progress': 25, delay: 5000});
+                    notify.close();
                 } else {
-                    notify(false);
+                    notify.update({'type': 'error', 'message': '<strong>Erreur</strong> pendant l\'envoi', 'progress': 25});
                 }
             });
         });
@@ -504,7 +529,7 @@ function nl2br (str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ breakTag +'$2');
 }
 
-function notify(txt = 'Enregistré!', success = true) {
+function notify(txt, success) {
     if (success == true) {
         var type = 'success';
     } else {
