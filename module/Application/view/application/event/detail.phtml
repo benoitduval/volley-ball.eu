@@ -19,34 +19,70 @@
     </div>
 
     <div class="section section-basic">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_OK ?>">
-                        <?= $counters[Application\Model\Guest::RESP_OK]?>
-                    </p>
-                    Présents
+        <div class="container">
+            <div class="owl-carousel owl-theme">
+                <div class="text-center item">
+                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>"
+                        class="text-success response"
+                        data-event="<?= $event->id ?>" 
+                        data-response="<?= Application\Model\Guest::RESP_OK ?>">
+                        <p class="number" style="font-size:4em; margin-top: 20px;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_OK ?>">
+                            <?= $counters[Application\Model\Guest::RESP_OK]?>
+                        </p>
+                        <span>Présents</span>
+                    </a>
+                    <div id="list-<?= Application\Model\Guest::RESP_OK ?>" style="margin-top:30px;">
+                        <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-                <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO ?>">
-                        <?= $counters[Application\Model\Guest::RESP_NO]?>
-                    </p>
-                    Absents
+                <div class="text-center item">
+                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>"
+                        class="text-danger response"
+                        data-event="<?= $event->id ?>" 
+                        data-response="<?= Application\Model\Guest::RESP_NO ?>">
+                        <p class="number"  style="font-size:4em; margin-top: 20px;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO ?>">
+                            <?= $counters[Application\Model\Guest::RESP_NO]?>
+                        </p>
+                        <span>Absents</span>
+                    </a>
+                    <div id="list-<?= Application\Model\Guest::RESP_NO ?>" style="margin-top:30px;">
+                        <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-                <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_INCERTAIN ?>">
-                        <?= $counters[Application\Model\Guest::RESP_INCERTAIN]?>
-                    </p>
-                    Incertains
+                <div class="text-center item">
+                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>"
+                        class="text-warning response"
+                        data-event="<?= $event->id ?>" 
+                        data-response="<?= Application\Model\Guest::RESP_INCERTAIN ?>">
+                            <p class="number"  style="font-size:4em; margin-top: 20px;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_INCERTAIN ?>">
+                                <?= $counters[Application\Model\Guest::RESP_INCERTAIN]?>
+                            </p>
+                        <span>Incertains</span>
+                    </a>
+                    <div id="list-<?= Application\Model\Guest::RESP_INCERTAIN ?>" style="margin-top:30px;">
+                        <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-                <div class="col-xs-6 col-md-3" style="margin-bottom:20px;">
-                    <p class="number" style="font-size:4em"  id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
+                <div class="text-center item">
+                    <p class="number"  style="font-size:4em; margin-top: 20px;"  id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
                         <?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?>
                     </p>
-                    Sans réponse
+                    <span>Sans réponse</span>
+                    <div id="list-<?= Application\Model\Guest::RESP_NO_ANSWER ?>" style="margin-top:30px;">
+                        <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                            <p class="classic"><?= $user->getFullname() ?></p>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- /.container -->
     </div>
 
     <div class="section section-signup" style="background-image: url('/img/cover_4_blur.jpg'); background-size: cover; background-position: top center; min-height: 300px;">
@@ -72,7 +108,7 @@
                                         <?= $event->address ?><br/>
                                         <?= $event->zipCode ?>, <?= $event->city ?>
                                     </p>
-                                    <p class="text-center"><a href="https://www.google.fr/maps/search/70+rue+de+Dunois+75013+Paris"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
+                                    <p class="text-center"><a href="https://www.google.fr/maps/search/<?= urlencode($event->getFullAddress()) ?>"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
                                 </div>
                             </div>
                         </div>
@@ -144,69 +180,6 @@
                 </div>
             <?php endif ?>
         </div>
-    </div>
-
-    <div class="section section-basic">
-        <div class="container">
-            <div class="title text-center">
-                <h2>Disponibilités</h2>
-            </div>
-
-            <div class="owl-carousel owl-theme">
-                <div class="text-center item">
-                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>"
-                        class="text-success response"
-                        data-event="<?= $event->id ?>" 
-                        data-response="<?= Application\Model\Guest::RESP_OK ?>">
-                        <i class="material-icons green-text large">event_available</i>
-                    </a>
-                    <p><u><b>personnes</b></u></p>
-                    <div id="list-<?= Application\Model\Guest::RESP_OK ?>">
-                        <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="text-center item">
-                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>"
-                        class="text-danger response"
-                        data-event="<?= $event->id ?>" 
-                        data-response="<?= Application\Model\Guest::RESP_NO ?>">
-                        <i class="material-icons large">event_busy</i>
-                    </a>
-                    <p><u><b>personnes</b></u></p>
-                    <div id="list-<?= Application\Model\Guest::RESP_NO ?>">
-                        <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="text-center item">
-                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>"
-                        class="text-warning response"
-                        data-event="<?= $event->id ?>" 
-                        data-response="<?= Application\Model\Guest::RESP_INCERTAIN ?>">
-                            <i class="material-icons large">date_range</i>
-                    </a>
-                    <p><u><b>personnes</b></u></p>
-                    <div id="list-<?= Application\Model\Guest::RESP_INCERTAIN ?>">
-                        <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="text-center item">
-                    <i class="material-icons large">hourglass_empty</i>
-                    <p><u><b>personnes</b></u></p>
-                    <div id="list-<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
-                        <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.container -->
     </div>
 
     <div class="section section-tabs">
