@@ -18,4 +18,26 @@ return [
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ],
     ],
+    'caches' => [
+        'memcached' => [
+            'adapter' => [
+                'name'     =>'memcached',
+                'lifetime' => 7200,
+                'options'  => [
+                    'namespace'  => 'cache',
+                    'liboptions' => [
+                        'COMPRESSION'     => true,
+                        'binary_protocol' => true,
+                        'no_block'        => true,
+                        'connect_timeout' => 100
+                    ]
+                ]
+            ],
+            'plugins' => [
+                'exception_handler' => [
+                    'throw_exceptions' => false
+                ],
+            ],
+        ],
+    ],
 ];

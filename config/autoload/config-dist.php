@@ -22,6 +22,17 @@ return [
             'old-db'  => ''
         ],
     ],
+    'caches' => [
+        'memcached' => [
+            'adapter' => [
+                'options'  => [
+                    'servers'   => [
+                        [''/* host */, /* port */]
+                    ],
+                ],
+            ],
+        ],
+    ],
     'mail' => [
         'address'  => '',
         'password' => '',
