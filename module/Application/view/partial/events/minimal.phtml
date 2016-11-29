@@ -44,7 +44,7 @@
                 <div class="tab-pane active" id="profile-<?= $event->id ?>">
                     <div class="text-center col-xs-5">
                         <div class="agenda">
-                            <a href="/event/detail/<?= $event->id?>" class="event-list-date">
+                            <a href="/event/detail/<?= $event->id?>" data-eventId="<?= $event->id?>" class="event-list-date badge-comment">
                                 <div class="agenda-content">
                                     <p><?= \Application\Service\Date::toFr($date->format("l")) ?></p>
                                     <p class="day"><?= $date->format("d") ?><p>

@@ -20,7 +20,7 @@
     <td><?= $group->name ?></td>
     <td><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?></td>
     <td>
-        <a href="/event/detail/<?= $event->id ?>">
+        <a href="/event/detail/<?= $event->id ?>" data-eventId="<?= $event->id?>" class="badge-comment">
             <i class="material-icons">search</i>
         </a>
     </td>

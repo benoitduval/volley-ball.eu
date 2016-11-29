@@ -36,6 +36,7 @@ class CommentController extends AbstractController
 
         if ($isMember) {
             $event = $eventTable->find($eventId);
+            $eventDate   = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
             $comment = $commentTable->save([
                 'date'    => date('Y-m-d H:i:s'),
                 'eventId' => $eventId,
@@ -48,6 +49,24 @@ class CommentController extends AbstractController
                 $users = $userTable->getGroupUsers($groupId);
                 $bcc   = [];
                 foreach ($users as $user) {
+
+                    // Store comment Id in cache for badges
+                    $key = 'badges.comments.user.' . $user->id;
+
+                    $cachedData = $this->get('memcached')->getItem($key);
+                    if (isset($cachedData[$event->id])) {
+                        $cachedData[$event->id]['count'] ++;
+                    } else {
+                        $cachedData[$event->id] = [
+                            'name'     => $event->name,
+                            'id'       => $event->id,
+                            'date'     => \Application\Service\Date::toFr($eventDate->format('d F')),
+                            'count'    => 1,
+                        ];
+                    }
+                    $this->get('memcached')->removeItem($key);
+                    $this->get('memcached')->setItem($key, $cachedData);
+
                     $email = true;
                     $guest = $guestTable->fetchOne(['userId' => $user->id, 'eventId' => $event->id]);
                     if ($guest && $guest->response = Model\Guest::RESP_NO && !$notifTable->isAllowed(Model\Notification::COMMENT_ABSENT, $user->id)) {
@@ -62,7 +81,6 @@ class CommentController extends AbstractController
                 }
 
                 $commentDate = \DateTime::createFromFormat('U', time());
-                $eventDate   = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
                 $mail        = $this->get(MailService::class);
                 $mail->addBcc($bcc);
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $eventDate->format('l d F \à H\hi'));
@@ -86,6 +104,21 @@ class CommentController extends AbstractController
         }
         $view = new ViewModel($data);
 
+        $view->setTerminal(true);
+        $view->setTemplate('api/default/json.phtml');
+        return $view;
+    }
+
+    public function cacheAction()
+    {
+        $eventId  = $this->params('eventId', null);
+        $key = 'badges.comments.user.' . $this->getUser()->id;
+        $cached = $this->get('memcached')->getItem($key);
+        unset($cached[$eventId]);
+        $this->get('memcached')->setItem($key, $cached);
+
+        $data = ['result' => ['success' => true]];
+        $view = new ViewModel($data);
         $view->setTerminal(true);
         $view->setTemplate('api/default/json.phtml');
         return $view;

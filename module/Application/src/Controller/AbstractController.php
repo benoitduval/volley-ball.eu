@@ -56,6 +56,29 @@ class AbstractController extends AbstractActionController
         $this->layout()->vJs    = $config['version']['js'];
         $this->layout()->user   = $this->getUser();
         $this->layout()->groups = $this->getUserGroups();
+        $this->layout()->badges = $this->_getBadges();
         return parent::onDispatch($e);
+    }
+
+    protected function _getBadges()
+    {
+        $result['count'] = 0;
+        if ($this->getUser()) {
+            $count = 0;
+            $key = 'badges.comments.user.' . $this->getUser()->id;
+            $cached = $this->get('memcached')->getItem($key);
+            // \Zend\Debug\Debug::dump($cached);die;
+            if ($cached = $this->get('memcached')->getItem($key)) {
+                foreach ($cached as $data) {
+                    $result['count'] += $data['count'];
+                    $result['comments'][] = [
+                        'label' => '<span class="badge">' . $data['count'] . '</span> ' . $data['name'] . ' (' . $data['date'].')',
+                        'link' => '#',
+                        'id' => $data['id']
+                    ];
+                }
+            }
+        }
+        return $result;
     }
 }

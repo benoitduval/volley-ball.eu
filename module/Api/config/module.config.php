@@ -66,6 +66,19 @@ return [
                     ],
                 ],
             ],
+            'cache-comment' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/comment/cache/:eventId',
+                    'constraints' => [
+                        'eventId' => '[0-9]*',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\CommentController::class,
+                        'action'        => 'cache',
+                    ],
+                ],
+            ],
             'comment' => [
                 'type'    => Segment::class,
                 'options' => [

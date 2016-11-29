@@ -14,6 +14,7 @@ $(function () {
     table();
     comment();
     share();
+    badge();
 });
 
 
@@ -569,5 +570,16 @@ function notify(txt, success) {
             '</div>' +
             '<a href="{3}" target="{4}" data-notify="url"></a>' +
         '</div>' 
+    });
+}
+
+function badge() {
+    $('.badge-comment').on('click', function(event) {
+        var eventId = $(this).attr('data-eventId');
+        var url = '/api/comment/cache/' + eventId;
+        var request = $.ajax({
+            type: "GET",
+            url: url,
+        });
     });
 }

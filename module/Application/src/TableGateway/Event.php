@@ -8,7 +8,7 @@ use Application\TableGateway;
 
 class Event extends AbstractTableGateway
 {
-    public function getUserEvents($userId)
+    public function getUserEvents($userId, $active = false)
     {
         $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
         $objs = $guestTable->fetchAll([

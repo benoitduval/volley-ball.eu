@@ -84,6 +84,27 @@
                         </a>
                     </li>
                 <?php else: ?>
+                    <?php if ($badges['count']): ?>
+                        <li class="dropdown">
+                            <a title="Notifications" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">notifications_none</i> Notifications <span class="badge" style="background-color: #f44336;"><?= $badges['count'] ?></span> <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <?php if (isset($badges['comments'])): ?>
+                                    <li class="dropdown-header">Commentaires</li>
+                                    <?php foreach ($badges['comments'] as $id => $values): ?>
+                                        <li><a href="/event/detail/<?= $values['id'] ?>" class="badge-comment" data-eventId="<?= $values['id'] ?>"><?= $values['label'] ?></a></li>
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                                <?php if (isset($badges['events'])): ?>
+                                    <li class="dropdown-header">Évènements sans réponse</li>
+                                    <?php foreach ($badges['events'] as $values): ?>
+                                        <li><a href="<?= $values['link'] ?>"><?= $values['label'] ?></a></li>
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                            </ul>
+                        </li>
+                    <?php endif ?>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->user->getFullname() ?> <b class="caret"></b>
                         </a>

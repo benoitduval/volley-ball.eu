@@ -21,6 +21,7 @@ class IndexController extends AbstractController
     public function indexAction()
     {
         if ($this->getUser()) {
+
             $signInForm = new SignIn();
             $signUpForm = new SignUp();
 
