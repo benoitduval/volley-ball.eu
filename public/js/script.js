@@ -575,11 +575,14 @@ function notify(txt, success) {
 
 function badge() {
     $('.badge-comment').on('click', function(event) {
+        event.preventDefault();
         var eventId = $(this).attr('data-eventId');
         var url = '/api/comment/cache/' + eventId;
         var request = $.ajax({
             type: "GET",
             url: url,
+        }).done(function(resp) {
+            window.location.href = '/event/detail/' + eventId + '#comments';
         });
     });
 }
