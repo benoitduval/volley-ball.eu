@@ -64,10 +64,10 @@ class CommentController extends AbstractController
                                 'count' => 1,
                             ];
                         }
+                        $this->get('memcached')->removeItem($key);
+                        $this->get('memcached')->setItem($key, $cachedData);
                     }
 
-                    $this->get('memcached')->removeItem($key);
-                    $this->get('memcached')->setItem($key, $cachedData);
 
                     $email = true;
                     $guest = $guestTable->fetchOne(['userId' => $user->id, 'eventId' => $event->id]);
