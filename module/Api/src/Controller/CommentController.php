@@ -51,17 +51,19 @@ class CommentController extends AbstractController
                 foreach ($users as $user) {
 
                     // Store comment Id in cache for badges
-                    $key = 'badges.comments.user.' . $user->id;
-                    $cachedData = $this->get('memcached')->getItem($key);
-                    if (isset($cachedData[$event->id])) {
-                        $cachedData[$event->id]['count'] ++;
-                    } else {
-                        $cachedData[$event->id] = [
-                            'name'  => $event->name,
-                            'id'    => $event->id,
-                            'date'  => \Application\Service\Date::toFr($eventDate->format('d F')),
-                            'count' => 1,
-                        ];
+                    if ($this->getUser()->id != $user->id) {
+                        $key = 'badges.comments.user.' . $user->id;
+                        $cachedData = $this->get('memcached')->getItem($key);
+                        if (isset($cachedData[$event->id])) {
+                            $cachedData[$event->id]['count'] ++;
+                        } else {
+                            $cachedData[$event->id] = [
+                                'name'  => $event->name,
+                                'id'    => $event->id,
+                                'date'  => \Application\Service\Date::toFr($eventDate->format('d F')),
+                                'count' => 1,
+                            ];
+                        }
                     }
 
                     $this->get('memcached')->removeItem($key);
