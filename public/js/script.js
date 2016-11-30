@@ -582,7 +582,7 @@ function badge() {
             type: "GET",
             url: url,
         }).done(function(resp) {
-            window.location.href = '/event/detail/' + eventId + '#comments';
+            window.location.href = '/event/detail/' + eventId;
         });
     });
 }
