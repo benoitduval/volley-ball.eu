@@ -93,7 +93,7 @@
                                 <?php if (isset($badges['comments'])): ?>
                                     <li class="dropdown-header">Commentaires</li>
                                     <?php foreach ($badges['comments'] as $id => $values): ?>
-                                        <li><a href="/event/detail/<?= $values['id'] ?>" class="badge-comment" data-eventId="<?= $values['id'] ?>"><?= $values['label'] ?></a></li>
+                                        <li><a href="/event/detail/<?= $values['id'] ?>#comments" class="badge-comment" data-eventId="<?= $values['id'] ?>"><?= $values['label'] ?></a></li>
                                     <?php endforeach ?>
                                 <?php endif ?>
                                 <?php if (isset($badges['events'])): ?>

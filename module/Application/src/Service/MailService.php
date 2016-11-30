@@ -429,7 +429,7 @@ class MailService
                                                                 <table border="0" cellpadding="10" cellspacing="0" ' . $this->_getCss('button') . '>
                                                                     <tr>
                                                                         <td align="center" valign="middle">
-                                                                            <a href="{baseUrl}/event/detail/{eventId}#comment" target="_blank" style="color:#FFFFFF;text-decoration:none;">Répondre</a>
+                                                                            <a href="{baseUrl}/event/detail/{eventId}?clear=1#comments" target="_blank" style="color:#FFFFFF;text-decoration:none;">Répondre</a>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

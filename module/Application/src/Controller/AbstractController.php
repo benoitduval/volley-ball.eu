@@ -67,7 +67,6 @@ class AbstractController extends AbstractActionController
             $count = 0;
             $key = 'badges.comments.user.' . $this->getUser()->id;
             $cached = $this->get('memcached')->getItem($key);
-            // \Zend\Debug\Debug::dump($cached);die;
             if ($cached = $this->get('memcached')->getItem($key)) {
                 foreach ($cached as $data) {
                     $result['count'] += $data['count'];

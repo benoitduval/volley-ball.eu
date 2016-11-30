@@ -583,3 +583,10 @@ function badge() {
         });
     });
 }
+
+$( document ).ready(function() {
+    var urlHash = window.location.href.split("#")[1];
+    if ($('#'+urlHash).length) {
+        $('html,body').animate({scrollTop:$('#'+urlHash).offset().top}, 700);
+    }
+});

@@ -135,6 +135,14 @@ class EventController extends AbstractController
     public function detailAction()
     {
         $eventId        = $this->params('id');
+        $clearCache     = $this->params()->fromQuery('clear');
+        if ($clearCache) {
+            $key = 'badges.comments.user.' . $this->getUser()->id;
+            $cached = $this->get('memcached')->getItem($key);
+            unset($cached[$eventId]);
+            $this->get('memcached')->setItem($key, $cached);
+            return $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
+        }
         $eventTable     = $this->get(TableGateway\Event::class);
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
 
