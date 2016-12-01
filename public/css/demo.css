@@ -439,3 +439,9 @@
 #notify .content {
     margin: 50px 20px;
 }
+
+.navbar .navbar-header .badge {
+    position: absolute;
+    top:-7px;
+    background-color: #f44336;
+}

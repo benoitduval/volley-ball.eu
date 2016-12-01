@@ -48,6 +48,9 @@
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
+                <?php if ($badges['count']): ?>
+                    <span class="badge"><?= $badges['count'] ?></span>
+                <?php endif ?>
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
