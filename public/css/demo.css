@@ -445,3 +445,8 @@
     top:-7px;
     background-color: #f44336;
 }
+
+#main-search input {
+    font-size:2em;
+    height: 50px;
+}
