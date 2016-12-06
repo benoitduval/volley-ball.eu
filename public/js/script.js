@@ -15,6 +15,7 @@ $(function () {
     comment();
     share();
     badge();
+    search();
 });
 
 
@@ -585,6 +586,79 @@ function badge() {
             window.location.href = '/event/detail/' + eventId;
         });
     });
+}
+
+function search() {
+    var options = {
+
+        data: {
+            "matchs": [
+                {"label": "Superman", "date": "17-12-2016", "link": "#"},
+                {"label": "Batman", "date": "17-12-2016", "link": "#"},
+                {"label": "Daredevil", "date": "17-12-2016", "link": "#"},
+                {"label": "Wonder Woman", "date": "17-12-2016", "link": "#"},
+            ],
+            "groups": [
+                {"label": "Daredevil", "date": "17-12-2016", "link": "#"},
+                {"label": "Captain America", "date": "17-12-2016", "link": "#"},
+                {"label": "Spider-Man", "date": "17-12-2016", "link": "#"},
+            ]
+        },
+
+        categories: [{
+            listLocation: "matchs",
+            maxNumberOfElements: 4,
+            header: "Matches"
+        }, {
+            listLocation: "groups",
+            maxNumberOfElements: 4,
+            header: "Groupes"
+        }],
+
+        getValue: function(element) {
+            return element.label;
+        },
+
+        template: {
+            type: "description",
+            fields: {
+                description: "date",
+            }
+        },
+
+        list: {
+            maxNumberOfElements: 8,
+            match: {
+                enabled: true
+            },
+            sort: {
+                enabled: true
+            },
+            onChooseEvent: function() {
+                var url = $("#main-search").getSelectedItemData().link;
+                document.location.href = url;
+            },
+            onClickEvent: function() {
+                var url = $("#main-search").getSelectedItemData().link;
+                document.location.href = url;
+            },
+            showAnimation: {
+                type: "fade", //normal|slide|fade
+                time: 200,
+                callback: function() {}
+            },
+
+            hideAnimation: {
+                type: "fade", //normal|slide|fade
+                time: 200,
+                callback: function() {}
+            }
+        },
+
+        theme: "square"
+
+    };
+    $("#main-search").easyAutocomplete(options);
 }
 
 $( document ).ready(function() {

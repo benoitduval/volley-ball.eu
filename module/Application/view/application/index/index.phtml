@@ -8,7 +8,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -18,12 +17,18 @@
             <div class="row">
                 <h2>Recherche</h2>
                 <h4>Recherchez un groupe ou un évènement en particulier.</h4>
-                <form id="main-search" class="col-xs-8 col-xs-offset-2" role="search" method="GET" action="/search">
-                   <div class="form-group">
-                        <input type="text" value="" class="form-control" placeholder="Recherche..." name="q">
-                        <span class="material-input"></span>
-                  </div>
-                </form>
+                <div class="form-group label-floating is-empty text-left">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">search</i>
+                        </span>
+                        <label class="control-label" for="main-search">
+                            Nom de groupe, match, évènement
+                        </label>
+                        <input type="text" id="main-search" name="main-search" class="form-control" required="required" value="" aria-required="true">
+                    </div>
+                    <span class="material-input"></span>
+                </div>
             </div>
         </div>
     </div>
