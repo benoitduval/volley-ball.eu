@@ -47,6 +47,14 @@ class SearchController extends AbstractController
                         ];
                     }
                 }
+
+                if (!isset($data['result']['matchs'])) {
+                    $data['result']['matchs'][] = [
+                        'label' => 'Aucun Résultat',
+                        'date' => '',
+                        'link' => 'javascritp:void();',
+                    ];
+                }
             }
         }
 

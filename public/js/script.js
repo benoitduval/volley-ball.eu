@@ -595,7 +595,6 @@ $( document ).ready(function() {
         url: url,
     }).done(function(resp) {
         var data = jQuery.parseJSON(resp);
-            console.log(data);
         var options = {
             data: data,
 
