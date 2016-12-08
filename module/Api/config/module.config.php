@@ -25,6 +25,16 @@ return [
                     ],
                 ],
             ],
+            'search-data' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/search/data',
+                    'defaults' => [
+                        'controller'    => Controller\SearchController::class,
+                        'action'        => 'data',
+                    ],
+                ],
+            ],
             'user-display' => [
                 'type'    => Segment::class,
                 'options' => [
