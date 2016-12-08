@@ -230,12 +230,15 @@
                         <div class="header header-primary text-center">
                             <h4>Commenter</h4>
                         </div>
-                        <div class="content">
+                        <div class="form-group label-floating is-empty col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">comment</i>
                                 </span>
-                                <?php echo $this->formElement($form->get('comment')); ?>
+                                <label class="control-label" for="comment">
+                                    Commentaire de l'évènement
+                                </label>
+                                <?= $this->formElement($form->get('comment')); ?>
                             </div>
                         </div>
                         <div class="text-center">

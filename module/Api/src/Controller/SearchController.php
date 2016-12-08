@@ -21,8 +21,8 @@ class SearchController extends AbstractController
         foreach ($groups as $group) {
             $data['result']['groups'][] = [
                 'label' => $group->name,
-                'date' => $group->id,
-                'link' => $group->getPublicLink(),
+                'description'  => $group->getPublicLink(),
+                'link'  => $group->getPublicLink(),
             ];
         }
 
@@ -34,25 +34,40 @@ class SearchController extends AbstractController
             }
 
             if (isset($groupIds)) {
+
                 $eventTable = $this->get(TableGateway\Event::class);
-                $events = $eventTable->fetchAll([
-                    'groupId' => $groupIds,
-                ]);
+                $events = $eventTable->fetchAll(['groupId' => $groupIds]);
+                $results = [];
                 foreach ($events as $event) {
-                    if ($match = $this->get(TableGateway\Match::class)->fetchOne(['eventId' => $event->id])) {
-                        $data['result']['matchs'][] = [
+                    $id = md5($event->name);
+                    if (!isset($results[$id])) {
+                        $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+                        $results[$id] = [
                             'label' => $event->name,
-                            'date' => $event->date,
+                            'description' => \Application\Service\Date::toFr($eventDate->format('d F Y')),
                             'link' => '/event/detail/' . $event->id,
+                            'count' => 1,
+                        ];
+                    } else {
+                        $count = $results[$id]['count'] + 1;
+                        $results[$id] = [
+                            'label' => $event->name,
+                            'description' => $count . ' occurences',
+                            'link' => '/search?q=' . $event->name,
+                            'count' => $count,
                         ];
                     }
                 }
 
-                if (!isset($data['result']['matchs'])) {
+                foreach ($results as $result) {
+                    $data['result']['events'][] = $result;
+                }
+
+                if (!isset($data['result']['events'])) {
                     $data['result']['matchs'][] = [
-                        'label' => 'Aucun Résultat',
-                        'date' => '',
-                        'link' => 'javascritp:void();',
+                        'label' => '',
+                        'description'  => '',
+                        'link'  => 'javascritp:void();',
                     ];
                 }
             }

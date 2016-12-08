@@ -26,7 +26,7 @@ class Comment extends Form
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'style' => 'height: 40px;',
+                'style' => 'height: 40px; width:500px;',
             ],
         ]);
 

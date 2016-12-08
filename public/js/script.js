@@ -603,9 +603,9 @@ $( document ).ready(function() {
                 maxNumberOfElements: 4,
                 header: "Groupes"
             }, {
-                listLocation: "matchs",
+                listLocation: "events",
                 maxNumberOfElements: 4,
-                header: "Matches"
+                header: "Évènements"
             }],
 
             getValue: function(element) {
@@ -615,7 +615,7 @@ $( document ).ready(function() {
             template: {
                 type: "description",
                 fields: {
-                    description: "date",
+                    description: "description",
                 }
             },
 
