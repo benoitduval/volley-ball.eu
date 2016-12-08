@@ -33,44 +33,19 @@
         </div>
     </div>
 
-    <div class="col-md-8 col-md-offset-2 text-center">
-        <h2>Vos évènements à venir</h2>
-    </div>
-
-    <?php if ($this->user->display != Application\Model\User::DISPLAY_TABLE && count($groups)): ?>
-        <div class="checkbox col-xs-12 text-center">
-            <?php foreach ($groups as $group): ?>
-                <label class="checkbox-inline">
-                    <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
-                    <?= $group->name ?>
-                </label>
-            <?php endforeach ?>
-        </div>
-    <?php endif ?>
-        <ul class="col-md-3 col-md-offset-5 nav nav-pills" role="tablist">
-            <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_LARGE) ? 'active' : ''; ?>">
-                <a href="#" class="display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_LARGE ?>">
-                    <i class="material-icons">dashboard</i>
-                    <span class="hidden-xs">Vue étendue</span>
-                </a>
-            </li>
-            <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_SMALL) ? 'active' : ''; ?>">
-                <a class="display" href="#" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_SMALL ?>">
-                    <i class="material-icons">view_module</i>
-                    <span class="hidden-xs">Vue minimal</span>
-                </a>
-            </li>
-            <li class="<?= ($this->user->display == Application\Model\User::DISPLAY_TABLE) ? 'active' : ''; ?>">
-                <a class="display" href="#" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_TABLE ?>">
-                    <i class="material-icons">border_all</i>
-                    <span class="hidden-xs">Vue tableau</span>
-                </a>
-            </li>
-        </ul>
     <?php if ($this->user->display != Application\Model\User::DISPLAY_TABLE): ?>
         <div class="section section-tabs">
             <div class="container">
                 <div class="row text-center">
+                    <h2>Vos évènements à venir</h2>
+                    <div class="checkbox col-xs-12 text-center">
+                        <?php foreach ($groups as $group): ?>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="groups" class="group-filter" data-brand="<?= $group->brand ?>" checked="checked">
+                                <?= $group->name ?>
+                            </label>
+                        <?php endforeach ?>
+                    </div>
                     <?php if ($this->user->display == Application\Model\User::DISPLAY_LARGE): ?>
                         <div class="col-xs-12">
                             <?php foreach ($events as $event): ?>
@@ -86,23 +61,27 @@
             </div>
         </div>
     <?php elseif ($this->user->display == Application\Model\User::DISPLAY_TABLE): ?>
-        <div class="section section-basic">
+        <div class="section section-tab">
             <div class="container">
-                <div class="fresh-table">
-                    <div class="toolbar"></div>
-                    <table class="ftable table">
-                        <thead>
-                            <th data-field="name" data-sortable="true">Nom</th>
-                            <th data-field="group" data-sortable="true">Groupe</th>
-                            <th data-field="date" data-sortable="true">Date</th>
-                            <th data-field="action" data-sortable="false" data-width="50px">Actions</th>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($events as $event): ?>
-                                <?php echo $this->partial('partial/events/table.phtml', $event) ?>
-                            <?php endforeach ?>
-                        </tbody>
-                    </table>
+                <div class="row text-center">
+
+                    <h2>Vos évènements à venir</h2>
+                    <div class="fresh-table">
+                        <div class="toolbar"></div>
+                        <table class="ftable table">
+                            <thead>
+                                <th data-field="name" data-sortable="true">Nom</th>
+                                <th data-field="group" data-sortable="true">Groupe</th>
+                                <th data-field="date" data-sortable="true">Date</th>
+                                <th data-field="action" data-sortable="false" data-width="50px">Actions</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($events as $event): ?>
+                                    <?php echo $this->partial('partial/events/table.phtml', $event) ?>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,6 +98,24 @@
                 <span class="mobile-fab-tip">Créer un groupe</span>
                 <a href="/group/create" class="btn-floating amber tooltipped" data-position="left" data-tooltip="Créer un groupe">
                     <i class="material-icons submenu">group_add</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Vue étendue</span>
+                <a href="javascript:void();" class="btn-floating display blue tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_LARGE ?>">
+                    <i class="material-icons submenu">dashboard</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Vue minimale</span>
+                <a href="javascript:void();" class="btn-floating display pink tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_SMALL ?>">
+                    <i class="material-icons submenu">view_module</i>
+                </a>
+            </li>
+            <li>
+                <span class="mobile-fab-tip">Vue tableau</span>
+                <a href="javascript:void();" class="btn-floating display green tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_TABLE ?>">
+                    <i class="material-icons submenu">border_all</i>
                 </a>
             </li>
         </ul>
