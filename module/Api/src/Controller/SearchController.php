@@ -64,7 +64,7 @@ class SearchController extends AbstractController
                 }
 
                 if (!isset($data['result']['events'])) {
-                    $data['result']['matchs'][] = [
+                    $data['result']['events'][] = [
                         'label' => '',
                         'description'  => '',
                         'link'  => 'javascritp:void();',
