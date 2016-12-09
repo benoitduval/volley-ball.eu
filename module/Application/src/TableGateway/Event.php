@@ -36,7 +36,7 @@ class Event extends AbstractTableGateway
         ]);
 
         $events = [];
-        $today = new \DateTime('today midnight');
+        $today  = new \DateTime('today midnight');
         if ($objs->toArray()) {
             $ids = [];
             foreach ($objs as $obj) {
