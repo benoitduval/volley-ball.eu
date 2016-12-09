@@ -49,7 +49,7 @@
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index">
-                <?php if ($badges['count']): ?>
+                <?php if (isset($badges['count'])): ?>
                     <span class="badge"><?= $badges['count'] ?></span>
                 <?php endif ?>
                 <span class="sr-only">Toggle navigation</span>
@@ -144,11 +144,6 @@
                     </li>
                 <?php endif ?>
             </ul>
-<!--              <form class="navbar-form navbar-right navbar-search-form" role="search" method="GET" action="/search">
-               <div class="form-group">
-                    <input type="text" value="" class="form-control" placeholder="Recherche..." name="q">
-               </div>
-            </form> -->
         </div>
     </div>
 </nav>
@@ -205,6 +200,7 @@
 <script src="/js/owl.carousel.js?v=<?= $this->vJs ?>"></script>
 <script src="/js/materialize-test.js?v=<?= $this->vJs ?>"></script>
 <script src="/js/script.js?v=<?= $this->vJs ?>"></script>
+<script src="/js/search.js?v=<?= $this->vJs ?>"></script>
 <script src="/js/material.min.js?v=<?= $this->vJs ?>"></script>
 <script src="/js/gmaps.js?v=<?= $this->vJs ?>"></script>
 <script src="/js/moment.js?v=<?= $this->vJs ?>"></script>

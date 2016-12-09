@@ -62,15 +62,15 @@ class SearchController extends AbstractController
                 foreach ($results as $result) {
                     $data['result']['events'][] = $result;
                 }
-
-                if (!isset($data['result']['events'])) {
-                    $data['result']['events'][] = [
-                        'label' => '',
-                        'description'  => '',
-                        'link'  => 'javascritp:void();',
-                    ];
-                }
             }
+        }
+
+        if (!isset($data['result']['events'])) {
+            $data['result']['events'][] = [
+                'label' => '',
+                'description'  => '',
+                'link'  => 'javascritp:void();',
+            ];
         }
 
         $view = new ViewModel($data);

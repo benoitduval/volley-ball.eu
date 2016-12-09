@@ -17,6 +17,8 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300,500' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300' rel='stylesheet' type='text/css'>
         <link href="/css/pe-icon-7-stroke.css" rel="stylesheet" />
+        <link href="/css/easy-autocomplete.min.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
+        <link href="/css/easy-autocomplete.themes.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
 
     </head>
     <body class="landing-page landing-page1">
@@ -62,7 +64,7 @@
                     </ul>
                      <form class="navbar-form navbar-right navbar-search-form" role="search" method="GET" action="/search">
                        <div class="form-group">
-                            <input type="text" value="" class="form-control" placeholder="Recherche..." name="q">
+                            <input type="text" id="main-search" name="main-search" class="form-control" required="required" placeholder="Recheche de groupe" value="" aria-required="true">
                        </div>
                     </form>
                 </div>
@@ -130,6 +132,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="section section-gray section-clients">
                 <div class="container text-center">
                     <h4 class="header-text">Gérez votre équipe</h4>
@@ -400,6 +403,8 @@
     </body>
     <script src="/js/jquery-2.2.4.min.js" type="text/javascript"></script>
     <script src="/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.easy-autocomplete.min.js?v=<?= $this->vJs ?>" type="text/javascript"></script>
     <script src="/js/bootstrap.js" type="text/javascript"></script>
-    <script src="/js/awesome-landing-page.js" type="text/javascript"></script>
+
+    <script src="/js/search.js" type="text/javascript"></script>
 </html>

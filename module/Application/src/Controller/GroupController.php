@@ -436,6 +436,7 @@ class GroupController extends AbstractController
             ]);
             $joinTable->delete($join);
 
+            $this->get('memcached')->removeItem('user.groups.' . $userId);
             $this->flashMessenger()->addMessage('Utilisateur ajouté.');
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');

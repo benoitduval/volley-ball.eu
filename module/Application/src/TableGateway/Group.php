@@ -9,23 +9,32 @@ use Application\Model;
 
 class Group extends AbstractTableGateway
 {
-    public function getUserGroups($userId)
+    public function getAllByUserId($userId)
     {
-        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-        $objs = $userGroupTable->fetchAll([
-            'userId' => $userId
-        ]);
+        $key = 'user.groups.' . $userId;
+        $memcached = $this->getContainer()->get('memcached');
+        if (!($groups = $memcached->getItem($key))) {
+            $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+            $objs = $userGroupTable->fetchAll([
+                'userId' => $userId
+            ]);
 
-        $groups = [];
-        if ($objs->toArray()) {
-            $ids = [];
-            foreach ($objs as $obj) {
-                $ids[] = $obj->groupId;
+            $result = [];
+            if ($objs->toArray()) {
+                $ids = [];
+                foreach ($objs as $obj) {
+                    $ids[] = $obj->groupId;
+                }
+
+                $result = $this->fetchAll([
+                    'id' => $ids
+                ]);
             }
 
-            $groups = $this->fetchAll([
-                'id' => $ids
-            ]);
+            foreach ($result as $group) {
+                $groups[$group->id] = $group;
+            }
+            $memcached->setItem($key, $groups);
         }
         return $groups;
     }

@@ -21,19 +21,16 @@ class IndexController extends AbstractController
     public function indexAction()
     {
         if ($this->getUser()) {
-
             $signInForm = new SignIn();
             $signUpForm = new SignUp();
 
             $guestTable = $this->get(TableGateway\Guest::class);
-            $groupTable = $this->get(TableGateway\Group::class);
-            $eventTable = $this->get(TableGateway\Event::class);
 
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
 
             $userId     = $this->getUser()->id;
-            $groups     = $groupTable->getUserGroups($userId);
+            $groups     = $this->getUserGroups();
             $result     = [];
             $counters   = [];
             if ($groups) {
@@ -41,13 +38,7 @@ class IndexController extends AbstractController
                     $userGroups[$group->id] = $group;
                 }
 
-                $today = new \DateTime('today midnight');
-                $events = $eventTable->fetchAll([
-                    'groupId'   => array_keys($userGroups),
-                    'date >= ?' => $today->format('Y-m-d H:i:s')
-                ], 'date ASC');
-
-                foreach ($events as $event) {
+                foreach ($this->get(TableGateway\Event::class)->getActiveByUserId($userId) as $event) {
                     $eventIds[] = $event->id;
 
                     $guest = $guestTable->fetchOne([
@@ -79,11 +70,6 @@ class IndexController extends AbstractController
         } else {
             return $this->redirect()->toRoute('welcome');
         }
-    }
-
-    public function exampleAction()
-    {
-        return new ViewModel([]);
     }
 
     public function welcomeAction()

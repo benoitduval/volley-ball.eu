@@ -68,7 +68,6 @@ class CommentController extends AbstractController
                         $this->get('memcached')->setItem($key, $cachedData);
                     }
 
-
                     $email = true;
                     $guest = $guestTable->fetchOne(['userId' => $user->id, 'eventId' => $event->id]);
                     if ($guest && $guest->response = Model\Guest::RESP_NO && !$notifTable->isAllowed(Model\Notification::COMMENT_ABSENT, $user->id)) {
