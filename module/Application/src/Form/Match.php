@@ -20,7 +20,6 @@ class Match extends Form
             'name' => 'set1Team1',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
             ],
         ]);
 
@@ -29,7 +28,6 @@ class Match extends Form
             'name' => 'set1Team2',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
             ],
         ]);
 
@@ -38,7 +36,6 @@ class Match extends Form
             'name' => 'set2Team1',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
             ],
         ]);
 
@@ -47,7 +44,6 @@ class Match extends Form
             'name' => 'set2Team2',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
             ],
         ]);
 
@@ -56,7 +52,6 @@ class Match extends Form
             'name' => 'set3Team1',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
             ],
         ]);
 
@@ -65,7 +60,6 @@ class Match extends Form
             'name' => 'set3Team2',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
             ],
         ]);
 
@@ -106,8 +100,7 @@ class Match extends Form
             'name' => 'debrief',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => 'required',
-                'style' => 'height: 40px;',
+                'style' => 'height: 40px;width:500px;',
             ],
         ]);
 
