@@ -61,30 +61,7 @@
             </div>
         </div>
     <?php elseif ($this->user->display == Application\Model\User::DISPLAY_TABLE): ?>
-        <div class="section section-tab">
-            <div class="container">
-                <div class="row text-center">
-
-                    <h2>Vos évènements à venir</h2>
-                    <div class="fresh-table">
-                        <div class="toolbar"></div>
-                        <table class="ftable table">
-                            <thead>
-                                <th data-field="name" data-sortable="true">Nom</th>
-                                <th data-field="group" data-sortable="true">Groupe</th>
-                                <th data-field="date" data-sortable="true">Date</th>
-                                <th data-field="action" data-sortable="false" data-width="50px">Actions</th>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($events as $event): ?>
-                                    <?php echo $this->partial('partial/events/table.phtml', $event) ?>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id='calendar'></div>
     <?php endif ?>
 </div>
 

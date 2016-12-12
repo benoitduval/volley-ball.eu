@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300,500' rel='stylesheet' type='text/css'>
     <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css' rel='stylesheet' type='text/css'>
-    <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.css' rel='stylesheet' type='text/css'>
+    <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.css' rel='stylesheet' media="print" type='text/css'>
 
     <!-- CSS Files -->
     <link href="/css/bootstrap.min.css?v=<?= $this->vCss ?>" rel="stylesheet" />
@@ -188,7 +188,6 @@
 
 <?php echo $this->partial('partial/modal.phtml') ?>
 <?php echo $this->partial('partial/reset.phtml') ?>
-<div id='calendar'></div>
 </body>
 <!--   Core JS Files   -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -236,9 +235,9 @@
                 },
                 {
                     title  : 'event3',
-                    start  : '2016-12-01',
-                    url    : '#',
-                    allDay : false // will make the time show
+                    start  : '2016-12-18T12:30:00',
+                    allDay : false, // will make the time show
+                    url    : '#'
                 }
             ],
             eventClick: function(event) {
@@ -246,7 +245,7 @@
                     window.open(event.url);
                     return false;
                 }
-            }
+            },
         })
 
     });
