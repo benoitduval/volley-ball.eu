@@ -234,12 +234,29 @@
                     url    : '#'
                 },
                 {
+                    title  : 'event2',
+                    start  : '2016-12-01',
+                    url    : '#'
+                },
+                {
+                    title  : 'event3',
+                    start  : '2016-12-01',
+                    url    : '#'
+                },
+                {
+                    title  : 'event4',
+                    start  : '2016-12-01',
+                    url    : '#'
+                },
+                {
                     title  : 'event3',
                     start  : '2016-12-18T12:30:00',
                     allDay : false, // will make the time show
-                    url    : '#'
-                }
+                    url    : '#',
+                    color  : '#000000'
+                },
             ],
+            height: 'auto',
             eventClick: function(event) {
                 if (event.url) {
                     window.open(event.url);
