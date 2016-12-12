@@ -319,6 +319,7 @@ class ConsoleController extends AbstractController
                 }
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
 
+                // $mail->addIcalEvent($event);
                 $mail->setTemplate(MailService::TEMPLATE_EVENT, [
                     'title'     => $event->name . ' <br /> ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
                     'subtitle'  => $group->name,

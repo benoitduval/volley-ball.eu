@@ -592,4 +592,26 @@ $( document ).ready(function() {
     if ($('#'+urlHash).length) {
         $('html,body').animate({scrollTop:$('#'+urlHash).offset().top}, 700);
     }
+
+    if ($('#calendar').length > 0) {
+        var url = '/api/event/get/all';
+        var request = $.ajax({
+            type: "GET",
+            url: url,
+        }).done(function(resp) {
+            var events = jQuery.parseJSON(resp);
+            $('#calendar').fullCalendar({
+                locale: 'fr',
+                events: events,
+                height: 'auto',
+                eventClick: function(event) {
+                    if (event.url) {
+                        window.location.href = event.url;
+                        return false;
+                    }
+                },
+            })
+        });
+
+    }
 });

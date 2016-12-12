@@ -40,24 +40,26 @@ class IndexController extends AbstractController
                     $userGroups[$group->id] = $group;
                 }
 
-                foreach ($this->get(TableGateway\Event::class)->getActiveByUserId($userId) as $event) {
-                    $eventIds[] = $event->id;
+                if ($this->getUser()->display != Model\User::DISPLAY_TABLE) {
+                    foreach ($this->get(TableGateway\Event::class)->getActiveByUserId($userId) as $event) {
+                        $eventIds[] = $event->id;
 
-                    $guest = $guestTable->fetchOne([
-                        'userId'  => $userId,
-                        'eventId' => $event->id
-                    ]);
+                        $guest = $guestTable->fetchOne([
+                            'userId'  => $userId,
+                            'eventId' => $event->id
+                        ]);
 
-                    $counters = $guestTable->getCounters($event->id);
-                    $result[$guest->id] = [
-                        'group'   => $userGroups[$guest->groupId],
-                        'event'   => $event,
-                        'guest'   => $guest,
-                        'ok'      => $counters[Model\Guest::RESP_OK],
-                        'no'      => $counters[Model\Guest::RESP_NO],
-                        'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
-                        'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
-                    ];
+                        $counters = $guestTable->getCounters($event->id);
+                        $result[$guest->id] = [
+                            'group'   => $userGroups[$guest->groupId],
+                            'event'   => $event,
+                            'guest'   => $guest,
+                            'ok'      => $counters[Model\Guest::RESP_OK],
+                            'no'      => $counters[Model\Guest::RESP_NO],
+                            'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
+                            'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
+                        ];
+                    }
                 }
             }
 

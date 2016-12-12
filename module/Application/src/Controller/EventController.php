@@ -110,7 +110,7 @@ class EventController extends AbstractController
                             'baseUrl'   => $config['baseUrl']
                         ];
 
-                        $mail->addIcalEvent($event);
+                        // $mail->addIcalEvent($event);
                         $mail->setTemplate(MailService::TEMPLATE_EVENT, $emailData);
                         try {
                             $mail->send();

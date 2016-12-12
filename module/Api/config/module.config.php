@@ -25,13 +25,23 @@ return [
                     ],
                 ],
             ],
-            'export' => [
+            'get-all-events' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/api/export/events',
                     'defaults' => [
                         'controller'    => Controller\EventController::class,
                         'action'        => 'export',
+                    ],
+                ],
+            ],
+            'export' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/event/get/all',
+                    'defaults' => [
+                        'controller'    => Controller\EventController::class,
+                        'action'        => 'get',
                     ],
                 ],
             ],

@@ -61,7 +61,13 @@
             </div>
         </div>
     <?php elseif ($this->user->display == Application\Model\User::DISPLAY_TABLE): ?>
-        <div id='calendar'></div>
+        <div class="section section-basic">
+            <div class="container">
+                <div class="row text-center">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
     <?php endif ?>
 </div>
 
@@ -80,7 +86,7 @@
             <li>
                 <span class="mobile-fab-tip">Export calendrier</span>
                 <a href="/api/export/events" class="btn-floating orange tooltipped" data-position="left" data-tooltip="Export calendrier">
-                    <i class="material-icons">file_download</i>
+                    <i class="material-icons submenu">file_download</i>
                 </a>
             </li>
             <li>
@@ -96,9 +102,9 @@
                 </a>
             </li>
             <li>
-                <span class="mobile-fab-tip">Vue tableau</span>
+                <span class="mobile-fab-tip">Vue calendrier</span>
                 <a href="javascript:void();" class="btn-floating display green tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_TABLE ?>">
-                    <i class="material-icons submenu">border_all</i>
+                    <i class="material-icons submenu">event</i>
                 </a>
             </li>
         </ul>
