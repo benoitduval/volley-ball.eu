@@ -23,6 +23,7 @@ class MailService
 
     protected $_transport;
     protected $_mail;
+    protected $_attachment = null;
 
     public function __construct($transport)
     {
@@ -35,7 +36,9 @@ class MailService
         try {
             $this->_mail->addFrom('volleyball.eu@gmail.com');
             $this->_transport->send($this->_mail);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            \Zend\Debug\Debug::dump($e->getMessage());die;
+        }
     }
 
     public function addBcc($recipients)
@@ -929,6 +932,27 @@ class MailService
 
         $body = new MimeMessage();
         $body->addPart($html);
+
+        if ($this->_attachment) $body->addPart($this->_attachment);
+
         $this->_mail->setBody($body);
+    }
+
+    public function addIcalEvent($event)
+    {
+
+        $calendar = new \Application\Service\Calendar([$event->toArray()]);
+        $ical = $calendar->generateICS();
+        $attach = new MimePart($ical);
+        $attach->type = 'text/calendar';
+        $attach->disposition = \Zend\Mime\Mime::DISPOSITION_INLINE;
+        $attach->encoding = \Zend\Mime\Mime::ENCODING_8BIT;
+        $attach->filename = $event->name . '-' . $event->date . '.ics'; 
+
+        $this->_attachment = $attach;
+    }
+
+    protected function _escapeString($string) {
+        return preg_replace('/([\,;])/','\\\$1', $string);
     }
 }

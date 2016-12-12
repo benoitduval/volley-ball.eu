@@ -25,6 +25,16 @@ return [
                     ],
                 ],
             ],
+            'export' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/export/events',
+                    'defaults' => [
+                        'controller'    => Controller\EventController::class,
+                        'action'        => 'export',
+                    ],
+                ],
+            ],
             'search-data' => [
                 'type'    => Segment::class,
                 'options' => [

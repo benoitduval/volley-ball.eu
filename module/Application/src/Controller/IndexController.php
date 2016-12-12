@@ -15,6 +15,8 @@ use Application\Service\StorageCookieService;
 use Application\Form\SignIn;
 use Application\Form\SignUp;
 use Application\Model;
+use Application\Service\MailService;
+
 
 class IndexController extends AbstractController
 {

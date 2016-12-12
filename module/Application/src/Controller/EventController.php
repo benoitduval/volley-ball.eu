@@ -91,23 +91,27 @@ class EventController extends AbstractController
                         $mail   = $this->get(MailService::class);
                         $mail->addBcc($emails);
                         $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
-
-                        $mail->setTemplate(MailService::TEMPLATE_EVENT, [
+                        $emailData = [
                             'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
                             'subtitle'  => $group->name,
                             'name'      => $event->place,
+                            'address'   => $event->address,
                             'zip'       => $event->zipCode,
                             'city'      => $event->city,
                             'eventId'   => $event->id,
                             'date'      => $date->format('l d F \à H\hi'),
                             'day'       => $date->format('d'),
                             'month'     => $date->format('F'),
+                            'eventDate' => $event->date,
                             'ok'        => Model\Guest::RESP_OK,
                             'no'        => Model\Guest::RESP_NO,
                             'perhaps'   => Model\Guest::RESP_INCERTAIN,
                             'comment'   => $data['comment'],
                             'baseUrl'   => $config['baseUrl']
-                        ]);
+                        ];
+
+                        $mail->addIcalEvent($event);
+                        $mail->setTemplate(MailService::TEMPLATE_EVENT, $emailData);
                         try {
                             $mail->send();
                         } catch (\Exception $e) {}
