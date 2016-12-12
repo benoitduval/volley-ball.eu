@@ -23,13 +23,12 @@ class Calendar
         'METHOD:PUBLISH' . "\r\n";
         foreach ($this->_events as $event) {
             $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event['date']);
-            $endDate = $eventDate->modify('+ 2 hours');
             $ical .= 'BEGIN:VEVENT' . "\r\n" .
             'LAST-MODIFIED:' . date("Ymd\TGis") . "\r\n" .
             'UID:' . $event['id'] . $eventDate->format('YmdHis') . '@' . 'volley-ball.eu' . "\r\n" .
             'DTSTAMP:' . date("Ymd\TGis") . "\r\n" .
             'DTSTART:' . $eventDate->format('Ymd\THis') . "\r\n" .
-            'DTEND:' . $endDate->format('Ymd\THis') . "\r\n" .
+            'DTEND:' . $eventDate->modify('+ 2 hours')->format('Ymd\THis') . "\r\n" .
             'SUMMARY:' . $this->_escapeString($event['name']) . "\r\n" .
             'LOCATION:' . $this->_escapeString($event['address']) . "\r\n" .
             'CLASS:PUBLIC' . "\r\n" .
