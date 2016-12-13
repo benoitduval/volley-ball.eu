@@ -63,7 +63,7 @@ class Event extends AbstractTableGateway
             $events = $this->fetchAll([
                 'id' => $ids,
                 'date >= ?' => $today->format('Y-m-d H:i:s')
-            ]);
+            ], 'date ASC');
         }
         return $events;
     }
