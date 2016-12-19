@@ -615,3 +615,11 @@ $( document ).ready(function() {
 
     }
 });
+
+$(document).click(function(e) {
+    var target = e.target;
+    if (!$(target).is('#myNavmenu') && !$(target).parents().is('#myNavmenu')) {
+         $('.row-offcanvas').removeClass('active')
+    }
+});
+
