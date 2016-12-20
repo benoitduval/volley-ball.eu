@@ -74,33 +74,26 @@
                             </a>
                         </li>
                     <?php else: ?>
-                        <?php if ($badges['count']): ?>
-                            <li class="text-center">Notifications</li>
-                            <?php if (isset($badges['comments'])): ?>
-                                <?php foreach ($badges['comments'] as $id => $values): ?>
-                                    <li><a href="/event/detail/<?= $values['id'] ?>#comments" class="badge-comment" data-eventId="<?= $values['id'] ?>"><?= $values['label'] ?></a></li>
-                                <?php endforeach ?>
-                            <?php endif ?>
-                            <?php if (isset($badges['events'])): ?>
-                                <?php foreach ($badges['events'] as $values): ?>
-                                    <li><a href="<?= $values['link'] ?>"><?= $values['label'] ?>r</a></li>
-                                <?php endforeach ?>
-                            <?php endif ?>
-                        <?php endif ?>
-                        <li class="text-center">Mon Compte</li>
+                        <li class="sidebar-title">Mon Compte</li>
                         <li>
                             <a href="/user/params">
-                            <i class="material-icons">settings</i>
-                             <p>Paramètres</p>
+                                <i class="material-icons">settings</i>
+                                <p>Paramètres</p>
                             </a>
                         </li>
-                        <li><a href="/absent"><i class="material-icons">sentiment_dissatisfied</i> Absences</a></li>
+                        <li>
+                            <a href="/absent">
+                                <i class="material-icons">sentiment_dissatisfied</i>
+                                <p>Absences</p>
+                            </a>
+                        </li>
                         <li>
                             <a title="Déconnexion" href="/auth/signout">
-                                <i class="material-icons">power_settings_new</i> Déconnexion
+                                <i class="material-icons" style="color:#F00;">power_settings_new</i> 
+                                <p>Déconnexion</p>
                             </a>
                         </li>
-                        <li class="text-center">Mes Groupes</li>
+                        <li class="sidebar-title">Mes Groupes</li>
                         <?php if ($this->groups): ?>
                             <?php foreach ($this->groups as $group): ?>
                                 <li>
@@ -115,6 +108,19 @@
                                    <i class="material-icons">group_add</i> Créer un groupe
                                 </a>
                             </li>
+                        <?php endif ?>
+                        <?php if ($badges['count']): ?>
+                            <li class="sidebar-title">Notifications</li>
+                            <?php if (isset($badges['comments'])): ?>
+                                <?php foreach ($badges['comments'] as $id => $values): ?>
+                                    <li><a href="/event/detail/<?= $values['id'] ?>#comments" class="badge-comment" data-eventId="<?= $values['id'] ?>"><?= $values['label'] ?></a></li>
+                                <?php endforeach ?>
+                            <?php endif ?>
+                            <?php if (isset($badges['events'])): ?>
+                                <?php foreach ($badges['events'] as $values): ?>
+                                    <li><a href="<?= $values['link'] ?>"><?= $values['label'] ?>r</a></li>
+                                <?php endforeach ?>
+                            <?php endif ?>
                         <?php endif ?>
                         <!-- <li><a href="/user/password">Mot de Passe</a></li> -->
                     <?php endif ?>
