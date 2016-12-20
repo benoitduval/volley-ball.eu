@@ -40,7 +40,7 @@ var searchVisible = 0;
 var transparent = true;
 
 var transparentDemo = true;
-var fixedTop = false;
+var fixedTop = true;
 
 var mobile_menu_visible = 0,
     mobile_menu_initialized = false,
@@ -103,15 +103,8 @@ md = {
     },
 
     initSidebarsCheck: function(){
-        if($(window).width() <= 991){
-            if($sidebar.length != 0){
                 md.initRightMenu();
-
-            } else {
-                md.initBootstrapNavbarMenu();
-            }
-        }
-
+                // md.initBootstrapNavbarMenu();
     },
 
     checkScrollForTransparentNavbar: debounce(function() {
