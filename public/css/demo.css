@@ -451,6 +451,10 @@
     height: 50px;
 }
 
+html, body {
+  height: 100%;
+}
+
 .navbar-toggle {
   float: left;
   margin-left: 15px;
