@@ -203,8 +203,10 @@ if (typeof jQuery === 'undefined') { throw new Error('Jasny Bootstrap\'s JavaScr
       $('body').data('offcanvas-style', $('body').attr('style') || '')
     }
       
-    $('body').css('overflow', 'hidden')
-    $('html').css('overflow', 'hidden')
+    $('body').css('overflow-x', 'hidden')
+    $('html').css('overflow-x', 'hidden')
+    $('body').css('overflow-y', 'hidden')
+    $('html').css('overflow-y', 'hidden')
 
     if ($('body').width() > bodyWidth) {
       var padding = parseInt($('body').css(prop), 10) + $('body').width() - bodyWidth
