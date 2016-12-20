@@ -451,10 +451,6 @@
     height: 50px;
 }
 
-html, body {
-  overflow-y:scroll!important;
-}
-
 .navbar-toggle {
   float: left;
   margin-left: 15px;

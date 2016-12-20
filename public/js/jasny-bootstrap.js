@@ -204,6 +204,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Jasny Bootstrap\'s JavaScr
     }
       
     $('body').css('overflow', 'hidden')
+    $('html').css('overflow', 'hidden')
 
     if ($('body').width() > bodyWidth) {
       var padding = parseInt($('body').css(prop), 10) + $('body').width() - bodyWidth
