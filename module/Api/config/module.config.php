@@ -96,6 +96,20 @@ return [
                     ],
                 ],
             ],
+            'recurent-enable' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/recurrent/enable/:id/:status',
+                    'constraints' => [
+                        'id' => '[0-9]*',
+                        'status' => '[1-2]{1}',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\RecurrentController::class,
+                        'action'        => 'enable',
+                    ],
+                ],
+            ],
             'cache-comment' => [
                 'type'    => Segment::class,
                 'options' => [

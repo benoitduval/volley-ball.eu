@@ -200,6 +200,9 @@ class EventController extends AbstractController
 
             $this->layout()->opacity = true;
             $this->layout()->user = $this->getUser();
+            $this->layout()->event = $event;
+            $this->layout()->isAdmin = $isAdmin;
+            $this->layout()->match = $match;
             return new ViewModel([
                 'match'    => $match,
                 'counters' => $counters,

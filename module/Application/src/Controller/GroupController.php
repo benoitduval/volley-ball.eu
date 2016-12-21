@@ -102,62 +102,7 @@ class GroupController extends AbstractController
         }
     }
 
-    public function detailAction()
-    {
-        if ($this->_group && $this->_isMember) {
-            $userGroupTable = $this->get(TableGateway\UserGroup::class);
-            $groupTable     = $this->get(TableGateway\Group::class);
-            $guestTable     = $this->get(TableGateway\Guest::class);
-            $eventTable     = $this->get(TableGateway\Event::class);
-            $config         = $this->get('config');
-            $baseUrl        = $config['baseUrl'];
-            $result         = [];
 
-            foreach ($userGroupTable->fetchAll(['userId' => $this->getUser()->id]) as $userGroup) {
-                $groups[$userGroup->groupId] = $groupTable->find($userGroup->groupId); 
-            }
-
-            $today = new \DateTime('today midnight');
-            $events = $eventTable->fetchAll([
-                'groupId'   => $this->_id,
-                'date >= ?' => $today->format('Y-m-d H:i:s')
-            ], 'date ASC');
-
-            $counters = [];
-            foreach ($events as $event) {
-                $eventIds[] = $event->id;
-                $userEvents[$event->id] = $event;
-
-                $guest = $guestTable->fetchOne([
-                    'userId'  => $this->getUser()->id,
-                    'eventId' => $event->id
-                ]);
-
-                $counters = $guestTable->getCounters($event->id);
-                $result[$guest->id] = [
-                    'group'   => $groups[$guest->groupId],
-                    'event'   => $event,
-                    'guest'   => $guest,
-                    'ok'      => $counters[Model\Guest::RESP_OK],
-                    'no'      => $counters[Model\Guest::RESP_NO],
-                    'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
-                    'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
-                ];
-            }
-
-            return new ViewModel([
-                'events'     => $result,
-                'user'       => $this->getUser(),
-                'groups'     => $groups,
-                'group'      => $this->_group,
-                'isAdmin'    => $this->_isAdmin,
-                // 'form'       => $form,
-            ]);
-        } else {
-            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
-            $this->redirect()->toRoute('home');
-        }
-    }
 
     public function editAction()
     {
@@ -280,14 +225,18 @@ class GroupController extends AbstractController
         }
 
         $this->layout()->opacity = true;
+        $this->layout()->group = $group;
+        $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
+        $isMember = $userGroupTable->isMember($this->getUser()->id, $group->id);
+        $this->layout()->isAdmin = $isAdmin;
         return new ViewModel([
             'user'      => $this->getUser(),
             'group'     => $group,
             'events'    => $events,
             'matches'   => $result,
             'users'     => $users,
-            'isMember'  => $userGroupTable->isMember($this->getUser()->id, $group->id),
-            'isAdmin'   => $userGroupTable->isAdmin($this->getUser()->id, $group->id),
+            'isMember'  => $isMember,
+            'isAdmin'   => $isAdmin,
             'isJoining' => $isJoining,
             'form'      => $form
         ]);

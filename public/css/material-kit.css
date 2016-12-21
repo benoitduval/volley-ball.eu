@@ -3639,15 +3639,29 @@ h2.title {
 .index-page .wrapper > .header {
   height: 80vh;
 }
-.index-page .brand {
-  margin-top: 30vh;
-  color: #FFFFFF;
-  text-align: center;
+@media (min-width: 768px) {
+  .index-page .brand {
+    margin-top: 30vh;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  .index-page .brand h1 {
+    font-size: 4.8em;
+    font-weight: 600;
+  }
 }
-.index-page .brand h1 {
-  font-size: 4.8em;
-  font-weight: 600;
+@media (max-width: 767px) {
+  .index-page .brand {
+    margin-top: 25vh;
+    color: #FFFFFF;
+    text-align: center;
+  }
+  .index-page .brand h1 {
+    font-size: 2.8em;
+    font-weight: 600;
+  }
 }
+
 .index-page .brand h3 {
   font-size: 1.5em;
   text-transform: uppercase;

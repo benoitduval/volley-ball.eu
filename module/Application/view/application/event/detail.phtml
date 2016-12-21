@@ -186,9 +186,35 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="card card-signup">
+                            <?php echo $this->form()->openTag($form); ?>
+                                <div class="header header-primary text-center">
+                                    <h4>Laisser un commentaire</h4>
+                                </div>
+                                <div class="form-group label-floating is-empty col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">comment</i>
+                                        </span>
+                                        <label class="control-label" for="comment">
+                                            Commentaire de l'évènement
+                                        </label>
+                                        <?= $this->formElement($form->get('comment')); ?>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <input id="submit-comment" data-eventId="<?= $event->id ?>" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
+                                </div>
+                            <?php echo $this->form()->closeTag(); ?>
+                        </div>
+                    </div>
+
                     <div class="title comment-title">
                         <h3 id="comments">Commentaires</h3>
                     </div>
+
                     <?php if (empty($comments)): ?>
                         <p class="no-comment">Il n'y a actuellement aucun commentaire pour cet évènement.</p>
                     <?php endif ?>
@@ -217,36 +243,4 @@
         </div>
     </div>
     <!-- End Section Tabs -->
-</div>
-
-<?php echo $this->partial('partial/fab/event.phtml') ?>
-
-<div class="modal fade" id="modale-comment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="row">
-                <div class="card card-signup">
-                    <?php echo $this->form()->openTag($form); ?>
-                        <div class="header header-primary text-center">
-                            <h4>Commenter</h4>
-                        </div>
-                        <div class="form-group label-floating is-empty col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon">
-                                    <i class="material-icons">comment</i>
-                                </span>
-                                <label class="control-label" for="comment">
-                                    Commentaire de l'évènement
-                                </label>
-                                <?= $this->formElement($form->get('comment')); ?>
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <input id="submit-comment" data-eventId="<?= $event->id ?>" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
-                        </div>
-                    <?php echo $this->form()->closeTag(); ?>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

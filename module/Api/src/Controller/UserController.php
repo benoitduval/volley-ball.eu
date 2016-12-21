@@ -41,7 +41,6 @@ class UserController extends AbstractController
 
         $notifTable = $this->get(TableGateway\Notification::class);
         $notif = $notifTable->find($notifId);
-
         $notif->status = $status;
         $notifTable->save($notif);
 

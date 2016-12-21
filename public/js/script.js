@@ -180,7 +180,7 @@ function switcher()
             } else {
                 $(this).attr("value", 1);
             }
-            var url = '/api/user/params/' + id + '/' + value;
+            var url = '/api/recurrent/enable/' + id + '/' + value;
             var request = $.ajax({
                 type: "GET",
                 url: url
