@@ -262,7 +262,6 @@ i.large {
     font-size:3.5em;
 }
 
-
 .overlay {
     display: none;
     background-color: #E1E1E1;
@@ -350,4 +349,35 @@ table th.action {
 
 .nav>li a {
   color:#000;
+}
+.navbar-fixed-bottom, .navbar-fixed-top {
+  left:-270px;
+}
+
+.nav-open .navbar-toggle {
+  border: none;
+  background: transparent !important;
+}
+.nav-open .navbar-toggle:hover {
+  background: transparent !important;
+}
+
+.nav-toggle .navbar-header .navbar-toggle {
+  padding:10px;
+}
+
+.nav-open .icon-bar {
+  width: 22px;
+  transition: all 0.2s;
+}
+.nav-open .top-bar {
+  transform: rotate(45deg);
+  transform-origin: 10% 10%;
+}
+.nav-open .middle-bar {
+  opacity: 0;
+}
+.nav-open .bottom-bar {
+  transform: rotate(-45deg);
+  transform-origin: 10% 90%;
 }
