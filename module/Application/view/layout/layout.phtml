@@ -47,7 +47,18 @@
 
 <body class="index-page">
     <div class="wrapper">
-
+        <nav class="navbar navbar-transparent navbar-absolute navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
         <div class="sidebar" data-color="purple" data-image="/img/sidebar-1.jpg">
             <div class="logo">
                 <a href="http://volley-ball.eu" class="simple-text">
@@ -128,18 +139,6 @@
             </div>
         </div>
         <div class="main-panel">
-            <nav class="navbar navbar-transparent navbar-absolute">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                </div>
-            </nav>
             <div class="wrapper">
                 <?php echo $this->content ?>
                 <footer class="footer">
@@ -152,6 +151,46 @@
             </div>
         </div>
     </div>
+    <?php if ($this->user): ?>
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+            <a class="btn-floating btn-large red">
+              <i class="large material-icons md-48">add</i>
+            </a>
+            <ul>
+                <li>
+                    <span class="mobile-fab-tip">Créer un groupe</span>
+                    <a href="/group/create" class="btn-floating amber tooltipped" data-position="left" data-tooltip="Créer un groupe">
+                        <i class="material-icons submenu">group_add</i>
+                    </a>
+                </li>
+                <li>
+                    <span class="mobile-fab-tip">Export calendrier</span>
+                    <a href="/api/export/events" class="btn-floating orange tooltipped" data-position="left" data-tooltip="Export calendrier">
+                        <i class="material-icons submenu">file_download</i>
+                    </a>
+                </li>
+                <li>
+                    <span class="mobile-fab-tip">Vue étendue</span>
+                    <a href="javascript:void();" class="btn-floating display blue tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_LARGE ?>">
+                        <i class="material-icons submenu">dashboard</i>
+                    </a>
+                </li>
+                <li>
+                    <span class="mobile-fab-tip">Vue minimale</span>
+                    <a href="javascript:void();" class="btn-floating display pink tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_SMALL ?>">
+                        <i class="material-icons submenu">view_module</i>
+                    </a>
+                </li>
+                <li>
+                    <span class="mobile-fab-tip">Vue calendrier</span>
+                    <a href="javascript:void();" class="btn-floating display green tooltipped display" data-user="<?= $this->user->id ?>" data-display="<?= Application\Model\User::DISPLAY_TABLE ?>">
+                        <i class="material-icons submenu">event</i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <?php endif ?>
+
     <?php echo $this->partial('partial/modal.phtml') ?>
     <?php echo $this->partial('partial/reset.phtml') ?>
 </body>
