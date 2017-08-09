@@ -263,10 +263,6 @@ class GroupController extends AbstractController
                 }
 
                 if ($match = $matchTable->fetchOne(['eventId' => $event->id])) {
-                    $matches[$event->id] = [
-                        'event' => $event,
-                        'result' => $match
-                    ];
                     $scoresLast[$match->sets] ++;
                 }
             }
@@ -299,7 +295,7 @@ class GroupController extends AbstractController
             'user'          => $this->getUser(),
             'group'         => $group,
             'events'        => $events,
-            'matches'       => $matches,
+            'matches'       => array_slice($matches, 0, 5),
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,

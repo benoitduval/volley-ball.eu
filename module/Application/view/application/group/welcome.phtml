@@ -184,13 +184,10 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Matchs</h4>
-                <p class="category">Derniers matchs</p>
+                <p class="category">Derniers matchs de la saison</p>
             </div>
             <div class="card-content">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div id="chart-matches" data-last-season="<?= $scoresLast ?>" data-current-season="<?= $scoresCurrent ?>"></div>
-                    </div>
                     <div class="col-md-6">
                         <div class="table-responsive">
                             <table class="table">
@@ -211,6 +208,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="chart-matches" data-last-season="<?= $scoresLast ?>" data-current-season="<?= $scoresCurrent ?>"></div>
                     </div>
                 </div>
             </div>

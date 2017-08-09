@@ -84,12 +84,12 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
-                                <tr>
-                                    <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                                <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                                    <tr>
                                         <td><?= $user->firstname ?></td>
                                         <td><?= $user->lastname ?></td>
-                                    <?php endforeach; ?>
-                                </tr>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -126,12 +126,12 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
-                                <tr>
-                                    <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                                <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                                    <tr>
                                         <td><?= $user->firstname ?></td>
                                         <td><?= $user->lastname ?></td>
-                                    <?php endforeach; ?>
-                                </tr>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -168,12 +168,12 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
-                                <tr>
-                                    <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                                <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                                    <tr>
                                         <td><?= $user->firstname ?></td>
                                         <td><?= $user->lastname ?></td>
-                                    <?php endforeach; ?>
-                                </tr>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -210,12 +210,12 @@
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
-                                <tr>
-                                    <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                                <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                                    <tr>
                                         <td><?= $user->firstname ?></td>
                                         <td><?= $user->lastname ?></td>
-                                    <?php endforeach; ?>
-                                </tr>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>

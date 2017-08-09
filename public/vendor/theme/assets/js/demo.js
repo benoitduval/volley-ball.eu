@@ -97,7 +97,10 @@ demo = {
                 axisX: {
                     showGrid: false
                 },
-                height: "245px"
+                height: "245px",
+                axisY: {
+                    onlyInteger: true,
+                }
             };
 
             var responsiveOptions = [
@@ -128,6 +131,9 @@ demo = {
                 seriesBarDistance: 10,
                 axisX: {
                     showGrid: false
+                },
+                axisY: {
+                    onlyInteger: true,
                 },
                 height: "245px"
             };
