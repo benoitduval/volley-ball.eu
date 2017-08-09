@@ -158,8 +158,6 @@ class EventController extends AbstractController
             $matchTable     = $this->get(TableGateway\Match::class);
             $notifTable     = $this->get(TableGateway\Notification::class);
 
-            $form = new Form\Comment();
-
             $match     = $matchTable->fetchOne(['eventId' => $event->id]);
             $comments  = $commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $groupTable->find($event->groupId);
@@ -171,6 +169,7 @@ class EventController extends AbstractController
 
             $counters  = $guestTable->getCounters($eventId);
             $guests    = $guestTable->fetchAll(['eventId' => $eventId]);
+            $myGuest   = $guestTable->fetchOne(['eventId' => $eventId, 'userId' => $this->getUser()->id]);
             $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
             $availability    = [
@@ -198,6 +197,76 @@ class EventController extends AbstractController
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
 
+            // User submit commment
+            $form = new Form\Comment();
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                if ($form->isValid()) {
+                    $data = $form->getData();
+                    $eventDate   = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+                    $comment = $commentTable->save([
+                        'date'    => date('Y-m-d H:i:s'),
+                        'eventId' => $eventId,
+                        'userId'  => $this->getUser()->id,
+                        'comment' => $data['comment'],
+                    ]);
+
+                    $config = $this->get('config');
+                    if ($config['mail']['allowed']) {
+                        $users = $userTable->getGroupUsers($group->id);
+                        $bcc   = [];
+                        foreach ($users as $user) {
+
+                            // Store comment Id in cache for badges
+                            if ($this->getUser()->id != $user->id) {
+                                $key = 'badges.comments.user.' . $user->id;
+                                $cachedData = $this->get('memcached')->getItem($key);
+                                if (isset($cachedData[$event->id])) {
+                                    $cachedData[$event->id]['count'] ++;
+                                } else {
+                                    $cachedData[$event->id] = [
+                                        'name'  => $event->name,
+                                        'id'    => $event->id,
+                                        'date'  => \Application\Service\Date::toFr($eventDate->format('d F')),
+                                        'count' => 1,
+                                    ];
+                                }
+                                $this->get('memcached')->removeItem($key);
+                                $this->get('memcached')->setItem($key, $cachedData);
+                            }
+
+                            $email = true;
+                            $guest = $guestTable->fetchOne(['userId' => $user->id, 'eventId' => $event->id]);
+                            if ($guest && $guest->response = Model\Guest::RESP_NO && !$notifTable->isAllowed(Model\Notification::COMMENT_ABSENT, $user->id)) {
+                                $email = false;
+                            } else if ($this->getUser()->id == $user->id && !$notifTable->isAllowed(Model\Notification::SELF_COMMENT, $user->id)) {
+                                $email = false;
+                            } else if (!$notifTable->isAllowed(Model\Notification::COMMENTS, $user->id)) {
+                                $email = false;
+                            }
+
+                            if ($email) $bcc[] = $user->email;
+                        }
+
+                        $commentDate = \DateTime::createFromFormat('U', time());
+                        $mail        = $this->get(MailService::class);
+                        $mail->addBcc($bcc);
+                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $eventDate->format('l d F \à H\hi'));
+                        $mail->setTemplate(MailService::TEMPLATE_COMMENT, array(
+                            'title'     => $event->name . '<br>' . $eventDate->format('l d F \à H\hi'),
+                            'subtitle'  => $group->name,
+                            'username'  => $this->getUser()->getFullname(),
+                            'comment'   => nl2br($comment->comment),
+                            'date'      => $commentDate->format('d\/m'),
+                            'eventId'   => $eventId,
+                            'baseUrl'   => $config['baseUrl']
+
+                        ));
+                        $mail->send();
+                    }
+                }
+            }
+
             $this->layout()->opacity = true;
             $this->layout()->user = $this->getUser();
             $this->layout()->event = $event;
@@ -215,6 +284,7 @@ class EventController extends AbstractController
                 'date'     => $eventDate,
                 'isAdmin'  => $isAdmin,
                 'isMember' => $isMember,
+                'guest'    => $myGuest,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');

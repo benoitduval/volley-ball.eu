@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="header">
+        <img src="/img/bg-<?= ($event->id % 2) + 1 ?>.jpg" />
+
+        <div class="social-line social-line-visible" data-buttons="4">
+            <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>" class="btn btn-social" <?= ($guest->response == Application\Model\Guest::RESP_OK) ? 'style="background-color:#d5e5a3"' : ''; ?>>
+                <i class="fa fa-check text-success"></i>
+            </a>
+            <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>" class="btn btn-social" <?= ($guest->response == Application\Model\Guest::RESP_NO) ? 'style="background-color:#ff8f5e"' : ''; ?>>
+                <i class="fa fa-times text-danger"></i>
+            </a>
+            <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>" class="btn btn-social" <?= ($guest->response == Application\Model\Guest::RESP_INCERTAIN) ? 'style="background-color:#d6c1ab"' : ''; ?>>
+                <i class="fa fa-question text-warning"></i>
+            </a>
+            <a href="/event/detail/<?= $event->id ?>" class="btn btn-social">
+                <i class="fa fa-search text-info"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h4 class="title text-center"><?= $event->name ?> - <?= $date->format("H\hi") ?></h4>
+        <h6 class="category text-center"><?= $group->name ?></h6>
+        <div class="tab-pane active" id="date">
+            <div class="date-icon">
+                <em><?= \Application\Service\Date::toFr($date->format("l")) ?></em>
+                <strong><?= \Application\Service\Date::toFr($date->format("F")) ?></strong>
+                <span><?= $date->format("d") ?></span>
+            </div>
+        </div>
+    </div>
+</div>

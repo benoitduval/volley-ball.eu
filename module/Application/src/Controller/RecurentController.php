@@ -14,7 +14,7 @@ class RecurentController extends AbstractController
         if ($this->_id = $this->params('id')) {
             $groupTable = $this->get(TableGateway\Group::class);
             $userGroupTable = $this->get(TableGateway\UserGroup::class);
-            if($this->_group = $groupTable->find($this->_id)) {
+            if ($this->_group = $groupTable->find($this->_id)) {
                 $this->_isAdmin  = $userGroupTable->isAdmin($this->getUser()->id, $this->_id);
                 $this->_isMember = $userGroupTable->isMember($this->getUser()->id, $this->_id);
             }

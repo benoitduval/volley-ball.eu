@@ -31,7 +31,7 @@ class GroupController extends AbstractController
         if ($this->_id = $this->params('id')) {
             $groupTable = $this->get(TableGateway\Group::class);
             $userGroupTable = $this->get(TableGateway\UserGroup::class);
-            if($this->_group = $groupTable->find($this->_id)) {
+            if ($this->_group = $groupTable->find($this->_id)) {
                 $this->_isAdmin  = $userGroupTable->isAdmin($this->getUser()->id, $this->_id);
                 $this->_isMember = $userGroupTable->isMember($this->getUser()->id, $this->_id);
             }
@@ -62,7 +62,8 @@ class GroupController extends AbstractController
                         if ($coords = $mapService->getCoordinates($data['address'])) {
                             $data = array_merge($data, $coords);
                         }
-                    } catch (\Exception $e) {}
+                    } catch (\Exception $e) {
+                    }
 
                     $group = $groupTable->save($data);
 
@@ -201,44 +202,113 @@ class GroupController extends AbstractController
             }
         }
 
-        $events = [];
-        $result = [];
-        $users  = [];
+        $events  = [];
+        $result  = [];
+        $users   = [];
+        $matches = [];
+        $disponibilityLast = [];
+        $scoresLast = $scoresCurrent = [
+            '3 / 0' => 0,
+            '3 / 1' => 0,
+            '3 / 2' => 0,
+            '0 / 3' => 0,
+            '1 / 3' => 0,
+            '2 / 3' => 0,
+        ];
+
         if ($this->getUser() && $userGroupTable->isMember($this->getUser()->id, $group->id)) {
 
             $users = $userTable->getGroupUsers($group->id);
 
+            $y = date('Y');
+            $september = strtotime($y . '-09-01');
+            if (time() < $september) {
+                $lastStart    = strtotime($y . '-09-01 -2years');
+                $lastEnd      = strtotime($y . '-08-31 -1years');
+                $currentStart = strtotime($y . '-09-01 -1years');
+                $currentEnd   = strtotime($y . '-08-31');
+            } else {
+                $lastStart    = strtotime($y . '-09-01 -1years');
+                $lastEnd      = strtotime($y . '-08-31');
+                $currentStart = strtotime($y . '-09-01');
+                $currentEnd   = strtotime($y . '-08-31  +1years');
+            }
+
+            $lastDisp = $groupTable->getGroupDisponibility($group->id, $lastStart, $lastEnd);
+            $currentDisp = $groupTable->getGroupDisponibility($group->id, $currentStart, $currentEnd);
+
             $eventTable = $this->get(TableGateway\Event::class);
-            $events = $eventTable->fetchAll([
-                'groupId' => $group->id
+            $guestTable = $this->get(TableGateway\Guest::class);
+            $eventsLast = $eventTable->fetchAll([
+                'groupId'  => $group->id,
+                'date > ?' => date('Y-m-d H:i:s', $lastStart),
+                'date < ?' => date('Y-m-d H:i:s', $lastEnd),
             ], 'date DESC');
 
-            foreach ($events as $event) {
-                $matchTable = $this->get(TableGateway\Match::class);
-                $match = $matchTable->fetchOne([
-                    'eventId' => $event->id
-                ]);
-                if ($match) {
-                    $result[$event->id]['result'] = $match->victory;
+            $eventsCurrent = $eventTable->fetchAll([
+                'groupId'  => $group->id,
+                'date > ?' => date('Y-m-d H:i:s', $currentStart),
+                'date < ?' => date('Y-m-d H:i:s', $currentEnd),
+            ], 'date DESC');
+
+            $matchTable = $this->get(TableGateway\Match::class);
+            foreach ($eventsLast as $event) {
+                $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
+
+                if (!isset($disponibilityLast[$eventDate->format('m')])) {
+                    $count = $guestTable->count([
+                        'eventId'  => $event->id,
+                        'response' => 3
+                    ]);
+                }
+
+                if ($match = $matchTable->fetchOne(['eventId' => $event->id])) {
+                    $matches[$event->id] = [
+                        'event' => $event,
+                        'result' => $match
+                    ];
+                    $scoresLast[$match->sets] ++;
+                }
+            }
+
+            foreach ($eventsCurrent as $event) {
+                $eventDate = strtotime($event->date);
+                if ($match = $matchTable->fetchOne(['eventId' => $event->id])) {
+                    $matches[$event->id] = [
+                        'event' => $event,
+                        'result' => $match
+                    ];
+                    $scoresCurrent[$match->sets] ++;
                 }
             }
         }
 
-        $this->layout()->opacity = true;
-        $this->layout()->group = $group;
+        foreach (['3 / 0', '3 / 1', '3 / 2', '2 / 3', '1 / 3', '0 / 3'] as $index) {
+            $inlineScoreLast[] = $scoresLast[$index];
+            $inlineScoreCurrent[] = $scoresCurrent[$index];
+        }
+        $inlineScoreLast    = json_encode($inlineScoreLast);
+        $inlineScoreCurrent = json_encode($inlineScoreCurrent);
+
         $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
         $isMember = $userGroupTable->isMember($this->getUser()->id, $group->id);
+        $this->layout()->group = $group;
         $this->layout()->isAdmin = $isAdmin;
+
         return new ViewModel([
-            'user'      => $this->getUser(),
-            'group'     => $group,
-            'events'    => $events,
-            'matches'   => $result,
-            'users'     => $users,
-            'isMember'  => $isMember,
-            'isAdmin'   => $isAdmin,
-            'isJoining' => $isJoining,
-            'form'      => $form
+            'user'          => $this->getUser(),
+            'group'         => $group,
+            'events'        => $events,
+            'matches'       => $matches,
+            'users'         => $users,
+            'isMember'      => $isMember,
+            'isAdmin'       => $isAdmin,
+            'isJoining'     => $isJoining,
+            'form'          => $form,
+            'scoresLast'    => $inlineScoreLast,
+            'scoresCurrent' => $inlineScoreCurrent,
+            'lastDisp'      => $lastDisp,
+            'currentDisp'   => $currentDisp,
         ]);
     }
 
@@ -408,7 +478,7 @@ class GroupController extends AbstractController
                 $groupTable     = $this->get(TableGateway\Group::class);
                 $guestTable     = $this->get(TableGateway\Guest::class);
 
-                foreach($eventTable->fetchAll(['groupId' => $this->_id]) as $event) {
+                foreach ($eventTable->fetchAll(['groupId' => $this->_id]) as $event) {
                     $eventIds[] = $event->id;
                 }
 

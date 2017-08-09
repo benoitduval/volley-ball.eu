@@ -28,7 +28,7 @@ class EventController extends AbstractController
     public function getAction($value='')
     {
         if ($this->getUser()) {
-            $events = $this->get(TableGateway\Event::class)->getActiveByUserId($this->getUser()->id);
+            $events = $this->get(TableGateway\Event::class)->getAllByUserId($this->getUser()->id);
             $guestTable = $this->get(TableGateway\Guest::class);
             $result = [];
             $config = $this->get('config');
@@ -39,21 +39,21 @@ class EventController extends AbstractController
                 ]);
 
                 if ($guest->response == Model\Guest::RESP_OK) {
-                    $color = '#8BC34A';
+                    $className = 'event-green';
                 } else if ($guest->response == Model\Guest::RESP_NO) {
-                    $color = '#F44336';
+                    $className = 'event-red';
                 } else if ($guest->response == Model\Guest::RESP_INCERTAIN) {
-                    $color = '#FFC107';
+                    $className = 'event-orange';
                 } else {
-                    $color = '#CCC';
+                    $className = 'event-default';
                 }
 
                 $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
                 $result[]  = [
                     'title' => $event->name,
-                    'start' => $eventDate->format('Y-m-d'),
+                    'start' => $eventDate->format('Y-m-d H:i'),
                     'url'   => $config['baseUrl'] . '/event/detail/' . $event->id,
-                    'color' => $color
+                    'className' => $className
                 ];
             }
 
@@ -62,5 +62,10 @@ class EventController extends AbstractController
             $view->setTemplate('api/default/json.phtml');
             return $view;
         }
+    }
+
+    public function getAllAction()
+    {
+        
     }
 }

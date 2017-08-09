@@ -242,17 +242,7 @@
 .lightbox img{
     width: 100%;
 }
-.lightbox .modal-content{
-    overflow: hidden;
-}
-.lightbox .modal-body{
-    padding: 0;
-}
-@media screen and (min-width: 991px){
-    .lightbox .modal-dialog{
-        width: 960px;
-    }
-}
+
 @media (max-width: 991px){
     .fixed-section.affix{
         position: relative;
@@ -462,4 +452,8 @@
     text-transform: uppercase;
     padding-left:25px;
     font-size: 0.8em;
+}
+
+.card-circle-chart[data-background-color="green"] .card-footer table{
+    border-color:#F00;
 }

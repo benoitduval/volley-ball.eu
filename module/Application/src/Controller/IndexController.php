@@ -12,8 +12,6 @@ use Zend\View\Model\ViewModel;
 use Application\TableGateway;
 use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
-use Application\Form\SignIn;
-use Application\Form\SignUp;
 use Application\Model;
 use Application\Service\MailService;
 
@@ -23,13 +21,8 @@ class IndexController extends AbstractController
     public function indexAction()
     {
         if ($this->getUser()) {
-            $signInForm = new SignIn();
-            $signUpForm = new SignUp();
 
             $guestTable = $this->get(TableGateway\Guest::class);
-
-            $config     = $this->get('config');
-            $baseUrl    = $config['baseUrl'];
 
             $userId     = $this->getUser()->id;
             $groups     = $this->getUserGroups();
@@ -48,16 +41,13 @@ class IndexController extends AbstractController
                             'userId'  => $userId,
                             'eventId' => $event->id
                         ]);
+                        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
-                        $counters = $guestTable->getCounters($event->id);
                         $result[$guest->id] = [
                             'group'   => $userGroups[$guest->groupId],
                             'event'   => $event,
                             'guest'   => $guest,
-                            'ok'      => $counters[Model\Guest::RESP_OK],
-                            'no'      => $counters[Model\Guest::RESP_NO],
-                            'perhaps' => $counters[Model\Guest::RESP_INCERTAIN],
-                            'date'    => \DateTime::createFromFormat('Y-m-d H:i:s', $event->date),
+                            'date'    => $date,
                         ];
                     }
                 }
@@ -65,11 +55,9 @@ class IndexController extends AbstractController
 
             $this->layout()->user = $this->getUser();
             return new ViewModel([
-                'events'     => $result,
-                'signInForm' => $signInForm,
-                'signUpForm' => $signUpForm,
-                'user'       => $this->getUser(),
-                'groups'     => $groups,
+                'events'       => $result,
+                'user'         => $this->getUser(),
+                'groups'       => $groups,
             ]);
         } else {
             return $this->redirect()->toRoute('welcome');

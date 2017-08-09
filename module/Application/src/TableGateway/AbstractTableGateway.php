@@ -37,15 +37,20 @@ class AbstractTableGateway
         });
         $result->buffer();
         return $result;
+    }
 
+    public function count($where = [])
+    {
+        $result = $this->fetchAll($where);
+        return count($result);
     }
 
     public function find($id)
     {
-        // $key = $this->getTableGateway()->getTable() . '.' . $id;
-        // if ($row = static::_get($key)) return $row;
+        $key = $this->getTableGateway()->getTable() . '.' . $id;
+        if ($row = static::_get($key)) return $row;
         $rowset = $this->getTableGateway()->select(['id' => $id]);
-        // static::_set($key, $rowset->current());
+        static::_set($key, $rowset->current());
         return $rowset->current();
     }
 

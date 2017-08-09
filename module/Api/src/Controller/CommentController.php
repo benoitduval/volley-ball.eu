@@ -27,7 +27,7 @@ class CommentController extends AbstractController
             $userTable      = $this->get(TableGateway\User::class);
             $notifTable     = $this->get(TableGateway\Notification::class);
             $guestTable     = $this->get(TableGateway\Guest::class);
-            if($group = $groupTable->find($groupId)) {
+            if ($group = $groupTable->find($groupId)) {
                 $isMember = $userGroupTable->isMember($this->getUser()->id, $groupId);
             }
         } else {

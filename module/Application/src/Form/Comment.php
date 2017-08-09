@@ -26,7 +26,8 @@ class Comment extends Form
             ],
             'attributes' => [
                 'class' => 'form-control',
-                'style' => 'height: 40px; width:100%;',
+                'required' => 'required',
+                'rows' => 5
             ],
         ]);
 
@@ -35,7 +36,7 @@ class Comment extends Form
             'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Enregistrer',
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-fill btn-info',
             ],
         ]);
     }

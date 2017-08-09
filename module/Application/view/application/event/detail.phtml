@@ -1,246 +1,280 @@
-<div id="map" class="header-map" data-lat="<?= $event->lat ?>" data-long="<?= $event->long ?>">
-</div>
-
-<div class="main main-raised">
-
-    <div class="section section-basic">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center">
-                    <h2><?= $event->name ?></h2>
+<div class="row">
+    <div class="col-lg-3 col-sm-6">
+        <?= $this->partial('partial/event.phtml'); ?>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div class="icon-big icon-success text-center">
+                            <i class="ti-map"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <h4 class="card-title"><?= $event->place ?></h4>
+                        <p class="category"><?= $event->address ?></p>
+                        <p class="category"><?= $event->zipCode ?>, <?= $event->city ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Description</h4>
+            </div>
+            <div class="card-content">
+                <p class="category">
                     <?php if ($event->comment): ?>
                         <?= $event->comment ?>
                     <?php else: ?>
-                        <h4>Aucune description n'est associée à cet évènement.</h4>
+                        Aucune Description
                     <?php endif ?>
-                </div>
+                </p>
             </div>
         </div>
     </div>
-
-    <div class="section section-basic">
-        <div class="container">
-            <div class="owl-carousel owl-theme">
-                <div class="text-center item">
-                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>"
-                        class="text-success response"
-                        data-event="<?= $event->id ?>" 
-                        data-response="<?= Application\Model\Guest::RESP_OK ?>">
-                        <p class="number" style="font-size:4em; margin-top: 20px;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_OK ?>">
-                            <?= $counters[Application\Model\Guest::RESP_OK]?>
-                        </p>
-                        <span>Présents</span>
-                    </a>
-                    <div id="list-<?= Application\Model\Guest::RESP_OK ?>" style="margin-top:30px;">
-                        <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="text-center item">
-                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>"
-                        class="text-danger response"
-                        data-event="<?= $event->id ?>" 
-                        data-response="<?= Application\Model\Guest::RESP_NO ?>">
-                        <p class="number"  style="font-size:4em; margin-top: 20px;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO ?>">
-                            <?= $counters[Application\Model\Guest::RESP_NO]?>
-                        </p>
-                        <span>Absents</span>
-                    </a>
-                    <div id="list-<?= Application\Model\Guest::RESP_NO ?>" style="margin-top:30px;">
-                        <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="text-center item">
-                    <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>"
-                        class="text-warning response"
-                        data-event="<?= $event->id ?>" 
-                        data-response="<?= Application\Model\Guest::RESP_INCERTAIN ?>">
-                            <p class="number"  style="font-size:4em; margin-top: 20px;" id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_INCERTAIN ?>">
-                                <?= $counters[Application\Model\Guest::RESP_INCERTAIN]?>
-                            </p>
-                        <span>Incertains</span>
-                    </a>
-                    <div id="list-<?= Application\Model\Guest::RESP_INCERTAIN ?>" style="margin-top:30px;">
-                        <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="text-center item">
-                    <p class="number"  style="font-size:4em; margin-top: 20px;"  id="resp-<?= $event->id ?>-<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
-                        <?= $counters[Application\Model\Guest::RESP_NO_ANSWER]?>
-                    </p>
-                    <span>Sans réponse</span>
-                    <div id="list-<?= Application\Model\Guest::RESP_NO_ANSWER ?>" style="margin-top:30px;">
-                        <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
-                            <p class="classic"><?= $user->getFullname() ?></p>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+    <div class="col-lg-5 hidden-xs">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Map</h4>
+            </div>
+            <div class="card-content">
+                <div id="regularMap" class="map"></div>
             </div>
         </div>
-        <!-- /.container -->
     </div>
+</div>
 
-    <div class="section section-signup" style="background-image: url('/img/cover_4_blur.jpg'); background-size: cover; background-position: top center; min-height: 300px;">
-        <div class="container">
-            <div class="row">
-                <?php if (!$match || !$match->set1Team1): ?>
-                    <div class="col-md-6 col-md-offset-3">
-                <?php else: ?>
-                    <div class="col-md-6">
-                <?php endif ?>
-                        <div class="card card-signup">
-                            <div class="header header-primary text-center">
-                                <h4>Description</h4>
+<?php
+    $total = array_sum($counters);
+    $okPercent = floor(($counters[Application\Model\Guest::RESP_OK] * 100) / $total);
+    $noPercent = floor(($counters[Application\Model\Guest::RESP_NO] * 100) / $total);
+    $incertainPercent = floor(($counters[Application\Model\Guest::RESP_INCERTAIN] * 100) / $total);
+    $noResponsePercent = 100 - ($okPercent + $noPercent + $incertainPercent);
+?>
+
+<div class="row">
+    <div class="col-lg-3 col-sm-6">
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_OK ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="icon-big icon-success text-center">
+                                <i class="ti-check"></i>
                             </div>
-                            <div class="content">
-                                <div class="main">
-                                    <h3 class="name"><?= $event->name ?></h3>
-                                    <p class="profession"><?= $group->name ?></p>
-                                    <h2 class="name"><?= \Application\Service\Date::toFr($date->format('l d F Y')) ?></h2>
-                                    <p class="profession">Le RDV est à <b><?= $date->format("H\hi") ?></b></p>
-                                    <p class="text-center">
-                                        <b><?= $event->place ?></b><br/>
-                                        <?= $event->address ?><br/>
-                                        <?= $event->zipCode ?>, <?= $event->city ?>
-                                    </p>
-                                    <p class="text-center"><a href="https://www.google.fr/maps/search/<?= urlencode($event->getFullAddress()) ?>"><i class="material-icons">place</i>Afficher la carte dans google maps</a></p>
-                                </div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="numbers">
+                                <p>Présents</p>
+                                <?= $counters[Application\Model\Guest::RESP_OK] ?>
                             </div>
                         </div>
                     </div>
-                <?php if ($match && $match->set1Team1): ?>
-                    <div class="col-md-6">
-                        <div class="card card-signup">
-                            <div class="header header-primary text-center">
-                                <h4>Résultats</h4>
-                            </div>
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="main">
-                                    <h3 class="name"><?= $match->victory ? 'Victoire' : 'Défaite'; ?></h3>
-                                    <p class="profession"><?= $match->sets ?></p>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td>Équipes</td>
-                                                <td>Set1</td>
-                                                <td>Set2</td>
-                                                <td>Set3</td>
-                                                <td>Set4</td>
-                                                <td>Set5</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?= $group->name ?></td>
-                                                <td><?= $match->set1Team1 ?></td>
-                                                <td><?= $match->set2Team1 ?></td>
-                                                <td><?= $match->set3Team1 ?></td>
-                                                <td><?= $match->set4Team1 ?></td>
-                                                <td><?= $match->set5Team1 ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Adv.</td>
-                                                <td><?= $match->set1Team2 ?></td>
-                                                <td><?= $match->set2Team2 ?></td>
-                                                <td><?= $match->set3Team2 ?></td>
-                                                <td><?= $match->set4Team2 ?></td>
-                                                <td><?= $match->set5Team2 ?></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif ?>
+                </div>
             </div>
-            <?php if ($match && $match->debrief): ?>
-                <div class="row debrief">
-                    <div class="col-md-12">
-                        <div class="card card-signup">
-                            <div class="header header-primary text-center">
-                                <h4>Débrief</h4>
-                            </div>
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="content">
-                                    <div class="main">
-                                        <p>
-                                            <?= nl2br($match->debrief) ?>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        </a>
+        <div class="card card-circle-chart" data-background-color="green">
+            <div class="card-content">
+                <div id="chartOrders" class="chart-circle" data-percent="<?= $okPercent ?>"><?= $okPercent ?>%</div>
+            </div>
+            <?php if ($users[Application\Model\Guest::RESP_OK]): ?>
+                <div class="card-footer">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                                        <td><?= $user->firstname ?></td>
+                                        <td><?= $user->lastname ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             <?php endif ?>
         </div>
     </div>
-
-    <div class="section section-tabs">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-
+    <div class="col-lg-3 col-sm-6">
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO ?>">
+            <div class="card">
+                <div class="card-content">
                     <div class="row">
-                        <div class="card card-signup">
-                            <?php echo $this->form()->openTag($form); ?>
-                                <div class="header header-primary text-center">
-                                    <h4>Laisser un commentaire</h4>
-                                </div>
-                                <div class="form-group label-floating is-empty col-xs-12">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i class="material-icons">comment</i>
-                                        </span>
-                                        <label class="control-label" for="comment">
-                                            Commentaire de l'évènement
-                                        </label>
-                                        <?= $this->formElement($form->get('comment')); ?>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <input id="submit-comment" data-eventId="<?= $event->id ?>" data-groupId="<?= $group->id ?>" type="submit" name="submit" class="btn btn-primary" value="Enregistrer">
-                                </div>
-                            <?php echo $this->form()->closeTag(); ?>
-                        </div>
-                    </div>
-
-                    <div class="title comment-title">
-                        <h3 id="comments">Commentaires</h3>
-                    </div>
-
-                    <?php if (empty($comments)): ?>
-                        <p class="no-comment">Il n'y a actuellement aucun commentaire pour cet évènement.</p>
-                    <?php endif ?>
-
-                    <?php foreach ($comments as $comment): ?>
-                        <div class="card card-nav-tabs">
-                            <div class="content">
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="profile">
-                                        <blockquote class="comment">
-                                            <p>
-                                                <?= nl2br($comment['comment']); ?>
-                                            </p>
-                                            <small>
-                                                <?= $comment['author']->getFullName(); ?> - <i><?= \Application\Service\Date::toFr($comment['date']); ?></i>
-                                            </small>
-                                        </blockquote>
-                                    </div>
-                                </div>
+                        <div class="col-xs-5">
+                            <div class="icon-big icon-danger text-center">
+                                <i class="ti-close"></i>
                             </div>
                         </div>
-                    <?php endforeach ?>
-                    <!-- End Tabs with icons on Card -->
+                        <div class="col-xs-7">
+                            <div class="numbers">
+                                <p>Présents</p>
+                                <?= $counters[Application\Model\Guest::RESP_NO] ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </a>
+        <div class="card card-circle-chart" data-background-color="orange">
+            <div class="card-content">
+                <div id="chartOrders" class="chart-circle" data-percent="<?= $noPercent ?>"><?= $noPercent ?>%</div>
+            </div>
+            <?php if ($users[Application\Model\Guest::RESP_NO]): ?>
+                <div class="card-footer">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                                        <td><?= $user->firstname ?></td>
+                                        <td><?= $user->lastname ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_INCERTAIN ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="icon-big icon-info text-center">
+                                <i class="ti-help"></i>
+                            </div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="numbers">
+                                <p>Présents</p>
+                                <?= $counters[Application\Model\Guest::RESP_INCERTAIN] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="card card-circle-chart" data-background-color="blue">
+            <div class="card-content">
+                <div id="chartOrders" class="chart-circle" data-percent="<?= $incertainPercent ?>"><?= $incertainPercent ?>%</div>
+            </div>
+            <?php if ($users[Application\Model\Guest::RESP_INCERTAIN]): ?>
+                <div class="card-footer">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                                        <td><?= $user->firstname ?></td>
+                                        <td><?= $user->lastname ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <a href="/guest/response/<?= $event->id ?>/<?= Application\Model\Guest::RESP_NO_ANSWER ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="icon-big icon-warning text-center">
+                                <i class="ti-na"></i>
+                            </div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="numbers">
+                                <p>Sans Réponse</p>
+                                <?= $counters[Application\Model\Guest::RESP_NO_ANSWER] ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="card card-circle-chart" data-background-color="brown">
+            <div class="card-content">
+                <div id="chartOrders" class="chart-circle" data-percent="<?= $noResponsePercent ?>"><?= $noResponsePercent ?>%</div>
+            </div>
+            <?php if ($users[Application\Model\Guest::RESP_NO_ANSWER]): ?>
+                <div class="card-footer">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                                        <td><?= $user->firstname ?></td>
+                                        <td><?= $user->lastname ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif ?>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <?= $this->form()->openTag($form); ?>
+                <div class="card-header">
+                    <h4 class="card-title">
+                        Laisser un commentaire
+                    </h4>
+                </div>
+                <div class="card-content">
+                    <?= $this->formElement($form->get('comment')); ?>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-fill btn-info">Submit</button>
+                </div>
+            <?= $this->form()->closeTag(); ?>
+        </div> <!-- end card -->
+    </div> <!--  end col-md-6  -->
+
+    <div class="col-md-7">
+        <div class="card card-timeline card-plain">
+            <div class="card-content">
+                <ul class="timeline timeline-simple">
+                    <?php if (!$comments): ?>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="timeline-body">
+                                    <p>Il n'y a actuellement aucun commentaire pour cet évènement.</p>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif ?>
+                    <?php foreach ($comments as $comment): ?>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <span class="label label-success"><?= $comment['author']->getFullName(); ?></span>
+                                </div>
+                                <div class="timeline-body">
+                                    <p><?= nl2br($comment['comment']); ?></p>
+                                </div>
+                                <h6>
+                                    <i class="ti-time"></i>
+                                    <?= \Application\Service\Date::toFr($comment['date']); ?>
+                                </h6>
+                            </div>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
             </div>
         </div>
     </div>
-    <!-- End Section Tabs -->
 </div>

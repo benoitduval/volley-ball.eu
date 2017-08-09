@@ -57,4 +57,64 @@ class Group extends AbstractTableGateway
         }
         return $users;
     }
+
+    public function getGroupDisponibility($groupId, $from, $to)
+    {
+        $from = date('Y', $from);
+        $to = date('Y', $to);
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+
+        $result = [];
+        $memcached = $this->getContainer()->get('memcached');
+
+        foreach (['09', '10', '11', '12'] as $month) {
+            $key = 'disponibility.group.'. $groupId . '.date.' . $from . '.' . $month;
+            if (!($count = $memcached->getItem($key))) {
+                $events = $eventTable->fetchAll([
+                    'groupId'  => $groupId,
+                    'date > ?' => $from . '-' . $month . '-01 00:00:00',
+                    'date < ?' => $from . '-' . $month . '-31 23:59:59',
+                ]);
+
+                $count = 0;
+                foreach ($events as $event) {
+                    $count += $guestTable->count([
+                        'eventId'  => $event->id,
+                        'response' => \Application\Model\Guest::RESP_OK,
+                    ]);
+                }
+                if ($count) {
+                    $count = floor($count / count($events));
+                }
+                $memcached->setItem($key, $count);
+            }
+            $result[] = $count;
+        }
+
+        foreach (['01', '02', '03', '04', '05', '06', '07', '08'] as $month) {
+            $key = 'disponibility.group.'. $groupId . '.date.' . $to . '.' . $month;
+            if (!($count = $memcached->getItem($key))) {
+                $events = $eventTable->fetchAll([
+                    'groupId'  => $groupId,
+                    'date > ?' => $to . '-' . $month . '-01 00:00:00',
+                    'date < ?' => $to . '-' . $month . '-31 23:59:59',
+                ]);
+
+                $count = 0;
+                foreach ($events as $event) {
+                    $count += $guestTable->count([
+                        'eventId'  => $event->id,
+                        'response' => \Application\Model\Guest::RESP_OK,
+                    ]);
+                }
+                if ($count) $count = floor($count / count($events));
+                $memcached->setItem($key, $count);
+            }
+            $result[] = $count;
+        }
+
+        return json_encode($result);
+    }
+
 }
