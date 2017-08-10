@@ -285,12 +285,12 @@ demo = {
 
             var $validator = $("#wizardForm").validate({
               rules: {
-                email: {
+                name: {
                     required: true,
                     email: true,
                     minlength: 5
                 },
-                first_name: {
+                date: {
                     required: false,
                     minlength: 5
                 },
