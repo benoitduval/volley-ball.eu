@@ -2,7 +2,14 @@
     <div class="col-lg-3 col-sm-6">
         <?= $this->partial('partial/event.phtml'); ?>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-9 hidden-xs">
+        <div class="card">
+            <div class="card-content">
+                <div id="regularMap" class="map"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
         <div class="card">
             <div class="card-content">
                 <div class="row">
@@ -19,6 +26,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Description</h4>
@@ -34,17 +43,110 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-5 hidden-xs">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Map</h4>
-            </div>
-            <div class="card-content">
-                <div id="regularMap" class="map"></div>
+</div>
+
+<?php if ($match->set1Team1): ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Résultat et Débrief</h4>
+                    <p class="category">Derniers matchs de la saison</p>
+                </div>
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Set 1
+                                            </td>
+                                            <td class="text-right">
+                                                <?php if ($match->set1Team1 > $match->set1Team2): ?>
+                                                    <i class="fa fa-check text-success"></i> 
+                                                <?php else: ?>
+                                                    <i class="fa fa-times text-danger"></i> 
+                                                <?php endif; ?>
+                                                <?= $match->set1Team1 ?> / <?= $match->set1Team2 ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Set 2
+                                            </td>
+                                            <td class="text-right">
+                                                <?php if ($match->set2Team1 > $match->set2Team2): ?>
+                                                    <i class="fa fa-check text-success"></i> 
+                                                <?php else: ?>
+                                                    <i class="fa fa-times text-danger"></i> 
+                                                <?php endif; ?>
+                                                <?= $match->set2Team1 ?> / <?= $match->set2Team2 ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Set 3
+                                            </td>
+                                            <td class="text-right">
+                                                <?php if ($match->set3Team1 > $match->set3Team2): ?>
+                                                    <i class="fa fa-check text-success"></i> 
+                                                <?php else: ?>
+                                                    <i class="fa fa-times text-danger"></i> 
+                                                <?php endif; ?>
+                                                <?= $match->set3Team1 ?> / <?= $match->set3Team2 ?>
+                                            </td>
+                                        </tr>
+                                        <?php if ($match->set4Team1): ?>
+                                            <tr>
+                                                <td>
+                                                    Set 4
+                                                </td>
+                                                <td class="text-right">
+                                                    <?php if ($match->set4Team1 > $match->set4Team2): ?>
+                                                        <i class="fa fa-check text-success"></i> 
+                                                    <?php else: ?>
+                                                        <i class="fa fa-times text-danger"></i> 
+                                                    <?php endif; ?>
+                                                    <?= $match->set4Team1 ?> / <?= $match->set4Team2 ?>
+                                                </td>
+                                            </tr>
+                                        <?php endif ?>
+                                        <?php if ($match->set5Team1): ?>
+                                            <tr>
+                                                <td>
+                                                    Set 5
+                                                </td>
+                                                <td class="text-right">
+                                                    <?php if ($match->set5Team1 > $match->set5Team2): ?>
+                                                        <i class="fa fa-check text-success"></i> 
+                                                    <?php else: ?>
+                                                        <i class="fa fa-times text-danger"></i> 
+                                                    <?php endif; ?>
+                                                    <?= $match->set5Team1 ?> / <?= $match->set5Team2 ?>
+                                                </td>
+                                            </tr>
+                                        <?php endif ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <?php if ($match->debrief): ?>
+                                <p class="category"><?= nl2br($match->debrief) ?></p>
+                            <?php else: ?>
+                                <p class="category text-center">Aucun débriefing actuellement</p>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+
+<?php endif ?>
 
 <?php
     $total = array_sum($counters);

@@ -180,7 +180,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Matchs</h4>
@@ -188,7 +188,7 @@
             </div>
             <div class="card-content">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
@@ -209,7 +209,19 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Score</h4>
+                <p class="category">Comparatif des scores avec la saison précédente</p>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-md-12">
                         <div id="chart-matches" data-last-season="<?= $scoresLast ?>" data-current-season="<?= $scoresCurrent ?>"></div>
                     </div>
                 </div>
