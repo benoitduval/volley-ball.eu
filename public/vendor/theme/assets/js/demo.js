@@ -40,7 +40,7 @@ demo = {
             // Regular Map
             var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
             var mapOptions = {
-                zoom: 8,
+                zoom: 15,
                 center: myLatlng,
                 scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
             }
@@ -53,7 +53,6 @@ demo = {
             });
 
             marker.setMap(map);
-
 
             // Custom Skin & Settings Map
             var myLatlng = new google.maps.LatLng(40.748817, -73.985428);

@@ -148,6 +148,7 @@ class GroupController extends AbstractController
         $joinTable      = $this->get(TableGateway\Join::class);
         $userTable      = $this->get(TableGateway\User::class);
         $userGroupTable = $this->get(TableGateway\UserGroup::class);
+        $eventTable     = $this->get(TableGateway\Event::class);
         $group          = $groupTable->fetchOne(['brand' => $brand]);
         $form           = new Form\Share();
 
@@ -215,6 +216,8 @@ class GroupController extends AbstractController
             '1 / 3' => 0,
             '2 / 3' => 0,
         ];
+
+        $eventsCount = $eventTable->count(['groupId' => $group->id]);
 
         if ($this->getUser() && $userGroupTable->isMember($this->getUser()->id, $group->id)) {
 
@@ -305,6 +308,7 @@ class GroupController extends AbstractController
             'scoresCurrent' => $inlineScoreCurrent,
             'lastDisp'      => $lastDisp,
             'currentDisp'   => $currentDisp,
+            'eventsCount'   => $eventsCount,
         ]);
     }
 
