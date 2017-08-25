@@ -14,32 +14,28 @@ class Event extends Form
     {
         parent::__construct('event');
 
-        $this->setAttributes(array(
+        $this->setAttributes([
             'method' => 'post',
-        ));
+            'id'     => 'wizardForm'
+        ]);
 
         $this->add([
             'type' => Element\Text::class,
             'name' => 'name',
-            'options' => [
-                'label' => 'Nom de l\'évènement',
-            ],
             'attributes' => [
-                'class' => 'form-control',
-                'required' => 'required',
+                'class'       => 'form-control',
+                'required'    => 'required',
+                'placeholder' => 'ex: Entrainement du Jeudi'
             ],
         ]);
 
         $this->add([
             'name' => 'date',
             'type' => Element\Text::class,
-            'options' => [
-                'label' => 'Date',
-            ],
             'attributes' => [
-                'required' => 'required',
-                'class' => 'form-control',
-                'id'    => 'datepicker',
+                'required'    => 'required',
+                'class'       => 'form-control datetimepicker',
+                'placeholder' => 'ex: 26/12/2017 20:00'
             ],
         ]);
 
@@ -50,32 +46,29 @@ class Event extends Form
                 'label' => 'Commentaire',
             ],
             'attributes' => [
-                'class' => 'form-control',
-                'style' => 'height: 40px;',
+                'class'       => 'form-control',
+                'rows'        => 5,
+                'placeholder' => 'ex: N\'oubliez pas les bières pour le pot!'
             ],
         ]);
 
         $this->add([
             'type' => Element\Text::class,
             'name' => 'place',
-            'options' => [
-                'label' => 'Nom du Gymnase\Lieu',
-            ],
             'attributes' => [
-                'class' => 'form-control',
-                'required' => 'required',
+                'class'       => 'form-control',
+                'required'    => 'required',
+                'placeholder' => 'Gymnase Dunois',
             ],
         ]);
 
         $this->add([
             'name' => 'address',
             'type' => Element\Text::class,
-            'options' => [
-                'label' => 'Adresse',
-            ],
             'attributes' => [
-                'required' => 'required',
-                'class' => 'form-control',
+                'required'    => 'required',
+                'class'       => 'form-control',
+                'placeholder' => '70 rue de Dunois',
             ],
         ]);
 
@@ -85,21 +78,20 @@ class Event extends Form
             'options' => [
                 'label' => 'Ville',
             ],
-            'attributes' => [
-                'required' => 'required',
-                'class' => 'form-control',
+            'attributes'    => [
+                'required'  => 'required',
+                'class'     => 'form-control',
+                'placeholder' => 'Paris',
             ],
         ]);
 
         $this->add([
             'name' => 'zipCode',
             'type' => Element\Text::class,
-            'options' => [
-                'label' => 'Code Postal',
-            ],
             'attributes' => [
                 'required' => 'required',
                 'class' => 'form-control',
+                'placeholder' => '75013',
             ],
         ]);
 
@@ -130,7 +122,7 @@ class Event extends Form
             'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Enregistrer',
-                'class' => 'btn btn-finish btn-fill btn-primary',
+                'class' => 'btn btn-info btn-fill btn-wd btn-finish pull-right',
             ],
         ]);
     }
