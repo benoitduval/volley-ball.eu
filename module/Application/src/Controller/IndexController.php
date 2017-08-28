@@ -14,7 +14,7 @@ use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
 use Application\Model;
 use Application\Service\MailService;
-
+use Application\Form\SignIn;
 
 class IndexController extends AbstractController
 {
@@ -60,27 +60,7 @@ class IndexController extends AbstractController
                 'groups'       => $groups,
             ]);
         } else {
-            return $this->redirect()->toRoute('welcome');
+            return $this->redirect()->toUrl('/auth/signin');
         }
     }
-
-    public function welcomeAction()
-    {
-        $this->layout()->setTemplate('layout/welcome.phtml');
-        if (!$this->getUser()) {
-            $signInForm = new SignIn();
-            $signUpForm = new SignUp();
-
-            $this->layout()->user = $this->getUser();
-            $this->layout()->signInForm = $signInForm;
-            $this->layout()->signUpForm = $signUpForm;
-            return new ViewModel([
-                'signInForm' => $signInForm,
-                'signUpForm' => $signUpForm,
-            ]);
-        } else {
-            return $this->redirect()->toRoute('home');
-        }
-    }
-
 }

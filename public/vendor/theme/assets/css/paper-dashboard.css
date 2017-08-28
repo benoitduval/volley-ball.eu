@@ -10991,7 +10991,7 @@ star {
   }
   .sidebar .nav-mobile-menu .open .dropdown-menu > li a,
   .off-canvas-sidebar .nav-mobile-menu .open .dropdown-menu > li a {
-    padding-left: 70px;
+    /*padding-left: 70px;*/
     margin: 0;
   }
   .sidebar .nav-mobile-menu .open .dropdown-menu > li a:hover, .sidebar .nav-mobile-menu .open .dropdown-menu > li a:active, .sidebar .nav-mobile-menu .open .dropdown-menu > li a:focus,

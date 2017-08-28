@@ -19,6 +19,7 @@ class AuthController extends AbstractController
 {
     public function signinAction()
     {
+        $this->layout()->setTemplate('layout/signin.phtml');
 
         if ($this->getRequest()->getHeader('Referer')) {
             $referer = $this->getRequest()->getHeader('Referer')->getUri();
@@ -40,6 +41,7 @@ class AuthController extends AbstractController
                         $result = $authService->authenticate();
                         if ($result->isValid()) {
                             $this->setActiveUser($authService->getIdentity());
+                            $this->redirect()->toUrl('/');
                         } else {
                             foreach ($result->getMessages() as $message) {
                                 $this->flashMessenger()->addErrorMessage($message);
@@ -48,11 +50,10 @@ class AuthController extends AbstractController
                     }
                 }
             }
-        }
-        if ($referer) {
-            $this->redirect()->toUrl($referer);
-        } else {
-            $this->redirect()->toRoute('home');
+
+            return new ViewModel([
+                'signInForm' => $signInForm
+            ]);
         }
     }
 
@@ -67,6 +68,8 @@ class AuthController extends AbstractController
 
     public function signupAction()
     {
+        $this->layout()->setTemplate('layout/signup.phtml');
+
         $referer = false;
         if ($this->getRequest()->getHeader('Referer')) {
             $referer = $this->getRequest()->getHeader('Referer')->getUri();
@@ -124,11 +127,9 @@ class AuthController extends AbstractController
             }
         }
 
-        if ($referer) {
-            $this->redirect()->toUrl($referer);
-        } else {
-            $this->redirect()->toRoute('home');
-        }
+        return new ViewModel([
+            'signUpForm' => $signUpForm
+        ]);
     }
 
     public function verifyAction()
