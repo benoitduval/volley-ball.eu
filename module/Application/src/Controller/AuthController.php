@@ -78,10 +78,10 @@ class AuthController extends AbstractController
         $signUpForm = new SignUp();
         $request    = $this->getRequest();
 
+        $token   = $this->params()->fromQuery('token');
+        $groupId = $this->params()->fromQuery('id');
+
         if ($request->isPost()) {
-            $post = $request->getPost();
-            $post['display'] = Model\User::DISPLAY_LARGE;
-            $post['status'] = Model\User::HAS_TO_CONFIRM;
             $signUpForm->setData($request->getPost());
             if ($signUpForm->isValid()) {
                 $data = $signUpForm->getData();
@@ -92,12 +92,13 @@ class AuthController extends AbstractController
                 } elseif ($data['password'] != $data['repassword']) {
                     $this->flashMessenger()->addErrorMessage('Les <b>mots de passe</b> ne correspondent pas. Merci de recommencer votre inscription.');
                 } else {
+
                     $bCrypt = new Bcrypt();
-                    $data['status']   = Model\User::HAS_TO_CONFIRM;
-                    $data['display']  = Model\User::DISPLAY_LARGE;
+                    $data['status']   = Model\User::CONFIRMED;
                     $data['password'] = $bCrypt->create(md5($data['password']));
 
                     $user = $userTable->save($data);
+
                     // create account notifications
                     $notifs = Model\Notification::$labels;
                     $notifTable = $this->get(TableGateway\Notification::class);
@@ -109,20 +110,44 @@ class AuthController extends AbstractController
                         ]);
                     }
 
-                    // Activation mail
-                    $config = $this->get('config');
-                    $mail   = $this->get(MailService::class);
-                    $salt   = $config['salt'];
-                    $mail->addTo($user->email);
-                    $mail->setSubject('[Volley-ball.eu] Confirmation de compte');
-                    $token = md5($user->email . $config['salt']);
+                    $authService = $this->get(AuthenticationService::class);
+                    $authService->getStorage()->write($user);
+                    $this->setActiveUser($user);
 
-                    $mail->setTemplate(MailService::TEMPLATE_ACCOUNT_VERIFY, array(
-                        'email' => $user->email,
-                        'url'   => $config['baseUrl'] . '/auth/verify?email=' . urlencode($user->email) . '&token=' . $token,
-                    ));
-                    $mail->send();
-                    $this->flashMessenger()->addMessage('Un email a été envoyé à l\'adresse <b>' . $user->email . '</b> afin de confirmer la création de compte');
+                    if ($groupId) {
+                        $userGroupTable = $this->get(TableGateway\UserGroup::class);
+                        $userGroup = $userGroupTable->save([
+                            'groupId' => $groupId,
+                            'userId'  => $user->id,
+                            'admin'   => Model\UserGroup::MEMBER,
+                        ]);
+
+                        $eventTable = $this->get(TableGateway\Event::class);
+                        $events = $eventTable->fetchAll([
+                            'date > NOW()',
+                            'groupId' => $groupId
+                        ]);
+
+                        $guestTable  = $this->get(TableGateway\Guest::class);
+                        $absentTable = $this->get(TableGateway\Absent::class);
+                        foreach ($events as $event) {
+                            $absent = $absentTable->fetchOne([
+                                'userId'     => $user->id,
+                                '`from` < ?' => $event->date,
+                                '`to` > ?'   => $event->date,
+                            ]);
+
+                            $response = $absent ? Model\Guest::RESP_NO : Model\Guest::RESP_NO_ANSWER;
+                            $guest = $guestTable->save([
+                                'userId'   => $user->id,
+                                'groupId'  => $groupId,
+                                'eventId'  => $event->id,
+                                'response' => $response,
+                            ]);
+                        }
+                    } 
+
+                    $this->redirect()->toRoute('home');
                 }
             }
         }
@@ -203,7 +228,7 @@ class AuthController extends AbstractController
                             $authService = $this->get(AuthenticationService::class);
                             $authService->getStorage()->write($user);
                             $this->setActiveUser($user);
-                            $this->flashMessenger()->addMessage('Votremot de passe est modifié, vous avez été automatiquement identifié.');
+                            $this->flashMessenger()->addMessage('Votre mot de passe est modifié, vous avez été automatiquement identifié.');
                             return $this->redirect()->toRoute('home');
                         }
                     }

@@ -84,38 +84,6 @@ class SignUp extends Form
         ]);
 
         $this->add([
-            'name' => 'display',
-            'type' => Element\Select::class,
-            'attributes' => [
-                'class' => 'form-control',
-                'required' => false,
-            ],
-            'options' => [
-                'value_options' => [
-                    0 => '',
-                    Model\User::DISPLAY_SMALL => 'Small',
-                    Model\User::DISPLAY_LARGE => 'Large',
-                    Model\User::DISPLAY_TABLE => 'Table',
-                ],
-            ]
-        ]);
-
-        $this->add([
-            'name' => 'status',
-            'type' => Element\Select::class,
-            'attributes' => [
-                'class' => 'form-control',
-            ],
-            'options' => [
-                'value_options' => [
-                    0 => '',
-                    Model\User::CONFIRMED => 'Confirmed',
-                    Model\User::HAS_TO_CONFIRM => 'Not Confirmed',
-                ],
-            ]
-        ]);
-
-        $this->add([
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [
