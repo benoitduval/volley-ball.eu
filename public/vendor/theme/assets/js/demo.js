@@ -433,11 +433,12 @@ demo = {
 
                 $('#fullCalendar').fullCalendar({
                     header: {
-                        left: 'title',
-                        // center: 'month,agendaWeek,agendaDay',
-                        right: 'prev,next'
+                        right: '',
+                        left: 'listMonth,month,prev,next',
+                        center: 'title'
                     },
-                    height:'auto',
+                    height:500,
+                    aspectRatio: false,
                     locale: 'fr',
                     defaultDate: new Date(),
                     views: {
@@ -447,7 +448,14 @@ demo = {
                     },
                     firstDay: 1,
                     eventLimit: true, // allow "more" link when too many events
-                    events: data
+                    events: data,
+                    eventClick:  function(event, jsEvent, view) {
+                        jsEvent.preventDefault();
+                        $('#modalTitle').html(event.title);
+                        $('#modalBody').html(event.description);
+                        $('#eventUrl').attr('href',event.url);
+                        $('#fullCalModal').modal();
+                    }
                 });
             });
         }

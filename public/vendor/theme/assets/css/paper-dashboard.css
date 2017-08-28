@@ -2124,11 +2124,11 @@ NOTE: use percentage font sizes or else old IE chokes
 .fc button {
   border-radius: 20px;
   box-sizing: border-box;
-  border-width: 2px;
+  /*border-width: 2px;*/
   background-color: transparent;
   font-size: 12px;
   font-weight: 500;
-  padding: 7px 18px;
+  /*padding: 7px 18px;*/
   border-color: #66615B;
   color: #66615B;
   -webkit-transition: all 150ms linear;
@@ -2136,6 +2136,13 @@ NOTE: use percentage font sizes or else old IE chokes
   -o-transition: all 150ms linear;
   -ms-transition: all 150ms linear;
   transition: all 150ms linear;
+}
+.fc-ltr .fc-list-heading-alt, .fc-rtl .fc-list-heading-main {
+  float:right;
+  padding:3px;
+}
+.fc-unthemed .fc-divider, .fc-unthemed .fc-list-heading td, .fc-unthemed .fc-popover .fc-header {
+  background-color: #eee;
 }
 .fc button:hover, .fc button:focus, .fc button:active, .fc button.active, .fc button:active:focus, .fc button:active:hover, .open > .fc button.dropdown-toggle, .open > .fc button.dropdown-toggle:focus, .open > .fc button.dropdown-toggle:hover {
   background-color: #66615B;
