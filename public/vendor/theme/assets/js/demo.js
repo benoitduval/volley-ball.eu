@@ -437,7 +437,7 @@ demo = {
                         left: 'listMonth,month,prev,next',
                         center: 'title'
                     },
-                    height:500,
+                    height: 600,
                     aspectRatio: false,
                     locale: 'fr',
                     defaultDate: new Date(),
@@ -449,9 +449,11 @@ demo = {
                     firstDay: 1,
                     eventLimit: true, // allow "more" link when too many events
                     events: data,
+                    timeFormat: 'H(:mm)',
                     eventClick:  function(event, jsEvent, view) {
                         jsEvent.preventDefault();
                         $('#modalTitle').html(event.title);
+                        $('#modalDate').html(event.date);
                         $('#modalBody').html(event.description);
                         $('#eventUrl').attr('href',event.url);
                         $('#fullCalModal').modal();
