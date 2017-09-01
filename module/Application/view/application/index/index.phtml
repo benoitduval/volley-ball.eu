@@ -17,15 +17,31 @@
 </div>
 
 <div id="fullCalModal" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                <h4 id="modalTitle" class="modal-title">- Dunois REM</h4>
+                <h4 id="modalTitle" class="modal-title"></h4>
             </div>
             <div id="modalBody" class="modal-body">
-                <h5 id="modalDate">Mardi 20/08/17 à 20h00</h5>
+                <div class="col-md-4">
+                    <div class="tab-pane active" id="date">
+                        <div class="date-icon">
+                            <em>Aout</em>
+                            <strong>Jeudi</strong>
+                            <span>31</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7 col-md-offset-1">
+                    <h5>Gymnase Dunois</h5>
+                    70 rue de Dunois,<br>
+                    75013, Paris
+                </div>
+                <div class="clearfix"></div>
+                <hr>
                 <p>
+                    <h5>Description</h5>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -34,22 +50,21 @@
                     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </p>
                 <hr>
-                <div class="" data-buttons="4">
-                    <a href="#" class="col-xs-4 text-center">
-                        <i class="ti ti-check text-success" style="font-size: 40px;"></i>
+                <div class="col-md-12" data-buttons="4">
+                    <a href="#" class="col-xs-3 text-center">
+                        <i class="ti ti-check text-success" style="font-size: 30px;"></i>
                     </a>
-                    <a href="#" class="col-xs-4 text-center">
-                        <i class="ti ti-close text-danger" style="font-size: 40px;"></i>
+                    <a href="#" class="col-xs-3 text-center">
+                        <i class="ti ti-close text-danger" style="font-size: 30px;"></i>
                     </a>
-                    <a href="#" class="col-xs-4 text-center">
-                        <i class="ti ti-help text-warning" style="font-size: 40px;"></i>
+                    <a href="#" class="col-xs-3 text-center">
+                        <i class="ti ti-help text-warning" style="font-size: 30px;"></i>
+                    </a>
+                    <a id="eventUrl" href="#" class="col-xs-3 text-center">
+                        <i class="ti ti-search text-info" style="font-size: 30px;"></i>
                     </a>
                 </div>
                 <div class="clearfix"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary"><a id="eventUrl">Event Page</a></button>
             </div>
         </div>
     </div>
