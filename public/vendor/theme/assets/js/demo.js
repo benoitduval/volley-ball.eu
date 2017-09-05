@@ -421,7 +421,16 @@ demo = {
         });
     },
 
-    initFullCalendar: function(){
+    initFullCalendar: function() {
+
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+        if (height > 600) {
+            height = height - 235;
+        }
 
         if ($('#fullCalendar').length > 0) {
             var url = '/api/event/get/all';
@@ -437,7 +446,7 @@ demo = {
                         left: 'listMonth,month,prev,next',
                         center: 'title'
                     },
-                    height: 600,
+                    height: height,
                     aspectRatio: false,
                     locale: 'fr',
                     defaultDate: new Date(),
@@ -449,7 +458,14 @@ demo = {
                     firstDay: 1,
                     eventLimit: true, // allow "more" link when too many events
                     events: data,
-                    timeFormat: 'H(:mm)',
+                    // events:[
+                        // {
+                        //     'title':'test2',
+                        //     'start':'2014-09-17T00:00:00',
+                        //     'end':'2014-09-18T01:00:00'
+                        // },
+                    // ],
+                    timeFormat: 'H:mm',
                     eventClick:  function(event, jsEvent, view) {
                         jsEvent.preventDefault();
                         $('#modalTitle').html(event.title);
