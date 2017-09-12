@@ -15,14 +15,25 @@ class AbstractController extends AbstractActionController
     protected $_user       = null;
     protected $_userGroups = [];
 
-    public function __construct(ContainerInterface $container, $user = false)
+    public    $userTable;
+    public    $userGroupTable;
+    public    $joinTable;
+    public    $groupTable;
+    public    $recurentTable;
+
+    public function __construct(ContainerInterface $container, $tables, $user = false)
     {
         $this->_container       = $container;
         $this->_user            = $user;
         $this->_userGroups      = $this->getUserGroups();
+
+        foreach ($tables as $name => $obj) {
+            $name .= 'Table';
+            $this->$name = $obj;
+        }
     }
 
-    public function get($name)
+    public function get($name, $options = [])
     {
         return $this->_container->get($name);
     }

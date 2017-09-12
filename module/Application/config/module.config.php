@@ -18,7 +18,6 @@ return [
             Service\AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\MailService::class           => Service\Factory\MailServiceFactory::class,
             Service\Map::class                   => Service\Factory\MapServiceFactory::class,
-            Model\User::class                    => Model\Factory\UserFactory::class,
         ],
 
         'abstract_factories' => [

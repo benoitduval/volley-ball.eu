@@ -46,7 +46,7 @@ class CommentController extends AbstractController
 
             $config = $this->get('config');
             if ($config['mail']['allowed']) {
-                $users = $userTable->getGroupUsers($groupId);
+                $users = $userTable->getUsersByGroupId($groupId);
                 $bcc   = [];
                 foreach ($users as $user) {
 

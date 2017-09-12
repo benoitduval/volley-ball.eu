@@ -64,8 +64,4 @@ class EventController extends AbstractController
         }
     }
 
-    public function getAllAction()
-    {
-        
-    }
 }

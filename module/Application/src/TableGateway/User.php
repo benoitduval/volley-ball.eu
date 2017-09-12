@@ -8,7 +8,7 @@ use Application\TableGateway;
 
 class User extends AbstractTableGateway
 {
-    public function getGroupUsers($groupId)
+    public function getUsersByGroupId($groupId)
     {
         $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
         $objs = $userGroupTable->fetchAll([

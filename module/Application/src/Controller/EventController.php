@@ -60,7 +60,7 @@ class EventController extends AbstractController
                     // Create guest for this new event
                     $emails = [];
                     // $userGroups = $userGroupTable->fetchAll(['groupId' => $group->id]);
-                    $users = $userTable->getGroupUsers($groupId);
+                    $users = $userTable->getUsersByGroupId($groupId);
                     foreach ($users as $user) {
                         $absent = $absentTable->fetchOne([
                             '`from` < ?' => $date->format('Y-m-d H:i:s'),
@@ -213,7 +213,7 @@ class EventController extends AbstractController
 
                     $config = $this->get('config');
                     if ($config['mail']['allowed']) {
-                        $users = $userTable->getGroupUsers($group->id);
+                        $users = $userTable->getUsersByGroupId($group->id);
                         $bcc   = [];
                         foreach ($users as $user) {
 

@@ -10,7 +10,7 @@ class UserFactory implements FactoryInterface
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-    	var_dump($options);die;
-        return new $requestedName($apiKey, $url);
+    	\Zend\Debug\Debug::dump([$requestedName, $options]);die;
+        // return new $requestedName($apiKey,§ $url);
     }
 }
