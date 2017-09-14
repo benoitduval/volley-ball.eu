@@ -143,7 +143,7 @@ class GroupController extends AbstractController
         $events      = $this->eventTable->getEventsByGroupId($group->id);
         $eventIds    = array_keys($events);
         $eventsCount = count($eventIds);
-        $matches     = $this->matchTable->fetchAll(['eventId' => $eventIds]);
+        $matches     = $this->matchTable->fetchAll(['eventId' => $eventIds, 'set1Team1 IS NOT NULL'], 'eventId DESC');
         $form        = new Form\Share();
 
         if ($this->getUser() && $this->userGroupTable->isMember($this->getUser()->id, $group->id)) {
