@@ -75,4 +75,35 @@ class Date
     {
         return preg_replace(array_keys(static::$toEn), array_values(static::$toEn), $str);
     }
+
+    public static function getSeasonsDates()
+    {
+        $y = date('Y');
+        $dates = [];
+        if (time() < strtotime($y . '-09-01')) {
+            $dates = [
+                'last' => [
+                    'from' => strtotime($y . '-09-01 -2years'),
+                    'to'   => strtotime($y . '-08-31 -1years'),
+                ],
+                'current' => [
+                    'from' => strtotime($y . '-09-01 -1years'),
+                    'to'   => strtotime($y . '-08-31'),
+                ],
+            ];
+        } else {
+            $dates = [
+                'last' => [
+                    'from' => strtotime($y . '-09-01 -1years'),
+                    'to'   => strtotime($y . '-08-31'),
+                ],
+                'current' => [
+                    'from' => strtotime($y . '-09-01'),
+                    'to'   => strtotime($y . '-08-31  +1years'),
+                ],
+            ];
+        }
+
+        return $dates;
+    }
 }

@@ -67,4 +67,13 @@ class Event extends AbstractTableGateway
         }
         return $events;
     }
+
+    public function getEventsByGroupId($groupId)
+    {
+        $result= [];
+        foreach ($this->fetchAll(['groupId' => $groupId], 'id DESC') as $event) {
+            $result[$event->id] = $event;
+        }
+        return $result;
+    }
 }

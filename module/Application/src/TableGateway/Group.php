@@ -6,6 +6,7 @@ use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
 use Application\TableGateway;
 use Application\Model;
+use Application\Service\Date;
 
 class Group extends AbstractTableGateway
 {
@@ -58,63 +59,93 @@ class Group extends AbstractTableGateway
         return $users;
     }
 
-    public function getGroupDisponibility($groupId, $from, $to)
+    public function getDisponibilities($groupId)
     {
-        $from = date('Y', $from);
-        $to = date('Y', $to);
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
         $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+        $memcached  = $this->getContainer()->get('memcached');
+        $result     = [];
 
-        $result = [];
-        $memcached = $this->getContainer()->get('memcached');
+        foreach (Date::getSeasonsDates() as $label => $dates) {
+            $from = date('Y', $dates['from']);
+            $to   = date('Y', $dates['to']);
 
-        foreach (['09', '10', '11', '12'] as $month) {
-            $key = 'disponibility.group.'. $groupId . '.date.' . $from . '.' . $month;
-            if (!($count = $memcached->getItem($key))) {
-                $events = $eventTable->fetchAll([
-                    'groupId'  => $groupId,
-                    'date > ?' => $from . '-' . $month . '-01 00:00:00',
-                    'date < ?' => $from . '-' . $month . '-31 23:59:59',
-                ]);
-
-                $count = 0;
-                foreach ($events as $event) {
-                    $count += $guestTable->count([
-                        'eventId'  => $event->id,
-                        'response' => \Application\Model\Guest::RESP_OK,
+            foreach (['09', '10', '11', '12'] as $month) {
+                $key = 'disponibility.group.'. $groupId . '.date.' . $from . '.' . $month;
+                if (!($count = $memcached->getItem($key))) {
+                    $events = $eventTable->fetchAll([
+                        'groupId'  => $groupId,
+                        'date > ?' => $from . '-' . $month . '-01 00:00:00',
+                        'date < ?' => $from . '-' . $month . '-31 23:59:59',
                     ]);
+
+                    $count = 0;
+                    foreach ($events as $event) {
+                        $count += $guestTable->count([
+                            'eventId'  => $event->id,
+                            'response' => \Application\Model\Guest::RESP_OK,
+                        ]);
+                    }
+                    if ($count) {
+                        $count = floor($count / count($events));
+                    }
+                    $memcached->setItem($key, $count);
                 }
-                if ($count) {
-                    $count = floor($count / count($events));
-                }
-                $memcached->setItem($key, $count);
+                $result[$label][] = $count;
             }
-            $result[] = $count;
+
+            foreach (['01', '02', '03', '04', '05', '06', '07', '08'] as $month) {
+                $key = 'disponibility.group.'. $groupId . '.date.' . $to . '.' . $month;
+                if (!($count = $memcached->getItem($key))) {
+                    $events = $eventTable->fetchAll([
+                        'groupId'  => $groupId,
+                        'date > ?' => $to . '-' . $month . '-01 00:00:00',
+                        'date < ?' => $to . '-' . $month . '-31 23:59:59',
+                    ]);
+
+                    $count = 0;
+                    foreach ($events as $event) {
+                        $count += $guestTable->count([
+                            'eventId'  => $event->id,
+                            'response' => \Application\Model\Guest::RESP_OK,
+                        ]);
+                    }
+                    if ($count) $count = floor($count / count($events));
+                    $memcached->setItem($key, $count);
+                }
+                $result[$label][] = $count;
+            }
         }
 
-        foreach (['01', '02', '03', '04', '05', '06', '07', '08'] as $month) {
-            $key = 'disponibility.group.'. $groupId . '.date.' . $to . '.' . $month;
-            if (!($count = $memcached->getItem($key))) {
-                $events = $eventTable->fetchAll([
-                    'groupId'  => $groupId,
-                    'date > ?' => $to . '-' . $month . '-01 00:00:00',
-                    'date < ?' => $to . '-' . $month . '-31 23:59:59',
-                ]);
+        return $result;
+    }
 
-                $count = 0;
-                foreach ($events as $event) {
-                    $count += $guestTable->count([
-                        'eventId'  => $event->id,
-                        'response' => \Application\Model\Guest::RESP_OK,
-                    ]);
+    public function getScoresBySeasons($groupId)
+    {
+        $scores['last'] = $scores['current'] = [
+            '3 / 0' => 0,
+            '3 / 1' => 0,
+            '3 / 2' => 0,
+            '0 / 3' => 0,
+            '1 / 3' => 0,
+            '2 / 3' => 0,
+        ];
+        $eventTable = $this->getContainer()->get(TableGateway\Event::class);
+        $matchTable = $this->getContainer()->get(TableGateway\Match::class);
+        foreach (Date::getSeasonsDates() as $label => $dates) {
+            $events = $eventTable->fetchAll([
+                'groupId'  => $groupId,
+                'date > ?' => date('Y-m-d H:i:s', $dates['from']),
+                'date < ?' => date('Y-m-d H:i:s', $dates['to']),
+            ], 'date DESC');
+
+            foreach ($events as $event) {
+                if ($match = $matchTable->fetchOne(['eventId' => $event->id])) {
+                    $scores[$label][$match->sets] ++;
                 }
-                if ($count) $count = floor($count / count($events));
-                $memcached->setItem($key, $count);
             }
-            $result[] = $count;
         }
-
-        return json_encode($result);
+        return $scores;
     }
 
 }
