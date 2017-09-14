@@ -147,5 +147,4 @@ class Group extends AbstractTableGateway
         }
         return $scores;
     }
-
 }

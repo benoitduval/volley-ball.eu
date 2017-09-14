@@ -136,10 +136,6 @@ class GroupController extends AbstractController
     {
         $brand       = $this->params('brand');
         $subscribe   = $this->params()->fromQuery('subscribe', null);
-        $events      = [];
-        $result      = [];
-        $matches     = [];
-
         $group       = $this->groupTable->fetchOne(['brand' => $brand]);
         $users       = $this->userTable->getUsersByGroupId($group->id);
         $isAdmin     = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
@@ -147,6 +143,7 @@ class GroupController extends AbstractController
         $events      = $this->eventTable->getEventsByGroupId($group->id);
         $eventIds    = array_keys($events);
         $eventsCount = count($eventIds);
+        $matches     = $this->matchTable->fetchAll(['eventId' => $eventIds]);
         $form        = new Form\Share();
 
         if ($this->getUser() && $this->userGroupTable->isMember($this->getUser()->id, $group->id)) {
@@ -161,7 +158,7 @@ class GroupController extends AbstractController
             'user'          => $this->getUser(),
             'group'         => $group,
             'events'        => $events,
-            'matches'       => array_slice($matches, 0, 5),
+            'matches'       => array_slice($matches->toArray(), 0, 5),
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,
