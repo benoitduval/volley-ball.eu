@@ -103,7 +103,7 @@ class Group extends AbstractTableGateway
                         'date < ?' => $to . '-' . $month . '-31 23:59:59',
                     ]);
 
-                    $count = 0;
+                    $count = null;
                     foreach ($events as $event) {
                         $count += $guestTable->count([
                             'eventId'  => $event->id,
