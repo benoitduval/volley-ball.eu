@@ -11517,7 +11517,7 @@ star {
   .table-responsive {
     width: 100%;
     margin-bottom: 15px;
-    border: 1px solid #cfcfca;
+    border: 0px;
     overflow-x: scroll;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;

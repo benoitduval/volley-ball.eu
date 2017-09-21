@@ -164,51 +164,35 @@ body.nude{
 }
 
 .ct-series-a .ct-slice-donut {
-    stroke: #0CC162;
+    stroke: #d5e5a3;
 }
 
 .pie-color-serie-a {
-    color:#0CC162;
+    color:#d5e5a3;
 }
 
 .ct-series-b .ct-slice-donut {
-    stroke: #28cc76;
+    stroke:#ff8f5e;
 }
 
 .pie-color-serie-b {
-    color:#28cc76;
+    color:#ff8f5e;
 }
 
 .ct-series-c .ct-slice-donut {
-    stroke: #75dea7;
+    stroke: #b8d8d8;
 }
 
 .pie-color-serie-c {
-    color:#75dea7;
-}
-
-.ct-series-f .ct-slice-donut {
-    stroke: #EB5E28;
-}
-
-.pie-color-serie-f {
-    color:#EB5E28;
-}
-
-.ct-series-e .ct-slice-donut {
-    stroke: #e6764b;
-}
-
-.pie-color-serie-e {
-    color:#e6764b;
+    color:#b8d8d8;
 }
 
 .ct-series-d .ct-slice-donut {
-    stroke: #ffa37f;
+    stroke: #d6c1ab;
 }
 
 .pie-color-serie-d {
-    color:#ffa37f;
+    color:#d6c1ab;
 }
 
 .card .map {

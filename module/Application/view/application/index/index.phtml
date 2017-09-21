@@ -13,10 +13,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                <h4 id="modalTitle" class="modal-title"></h4>
+                <h4 id="modal-title" class="modal-title"></h4>
             </div>
-            <div id="modalBody" class="modal-body">
-                <div class="col-md-2">
+            <div class="modal-body">
+                <div class="col-sm-3">
                     <div class="tab-pane active" id="date">
                         <div class="date-icon">
                             <em>Aout</em>
@@ -25,30 +25,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 col-md-offset-1">
-                    <h5>Gymnase Dunois</h5>
-                    70 rue de Dunois,<br>
-                    75013, Paris
+                <div class="col-sm-6 text-center">
+                    <h5 id="modal-place"></h5>
+                    <span id="modal-address"></span><br>
+                    <span id="modal-zipcode"></span> <span id="modal-city"></span>
+                </div>
+                <div class="col-sm-3">
+                    <h2 class="text-center text-success"><span id="modal-count"></span> <i class="ti ti-check text-success"></i></h2>
                 </div>
                 <div class="clearfix"></div>
                 <hr>
-                <p>
-                    <h5>Description</h5>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-                <hr>
-                <div class="col-md-12" data-buttons="4">
-                    <a href="#" class="col-xs-3 text-center">
+                <div class="col-sm-12" data-buttons="4">
+                    <a id="event-url-ok" href="#" class="col-xs-3 text-center">
                         <i class="ti ti-check text-success" style="font-size: 30px;"></i>
                     </a>
-                    <a href="#" class="col-xs-3 text-center">
+                    <a id="event-url-no" href="#" class="col-xs-3 text-center">
                         <i class="ti ti-close text-danger" style="font-size: 30px;"></i>
                     </a>
-                    <a href="#" class="col-xs-3 text-center">
+                    <a id="event-url-incertain" href="#" class="col-xs-3 text-center">
                         <i class="ti ti-help text-warning" style="font-size: 30px;"></i>
                     </a>
-                    <a id="eventUrl" href="#" class="col-xs-3 text-center">
+                    <a id="event-url" href="#" class="col-xs-3 text-center">
                         <i class="ti ti-search text-info" style="font-size: 30px;"></i>
                     </a>
                 </div>

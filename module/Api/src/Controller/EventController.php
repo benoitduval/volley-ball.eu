@@ -38,6 +38,11 @@ class EventController extends AbstractController
                     'eventId' => $event->id
                 ]);
 
+                $count = $guestTable->count([
+                    'eventId' => $event->id,
+                    'response' => Model\Guest::RESP_OK
+                ]);
+
                 if ($guest->response == Model\Guest::RESP_OK) {
                     $className = 'event-green';
                 } else if ($guest->response == Model\Guest::RESP_NO) {
@@ -50,10 +55,18 @@ class EventController extends AbstractController
 
                 $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
                 $result[]  = [
-                    'title' => $event->name,
-                    'start' => $eventDate->format('Y-m-d H:i'),
-                    'url'   => $config['baseUrl'] . '/event/detail/' . $event->id,
-                    'className' => $className
+                    'title'        => $event->name,
+                    'start'        => $eventDate->format('Y-m-d H:i'),
+                    'url'          => $config['baseUrl'] . '/event/detail/' . $event->id,
+                    'className'    => $className,
+                    'count'        => $count,
+                    'place'        => $event->place,
+                    'address'      => $event->address,
+                    'zipcode'      => $event->zipCode,
+                    'city'         => $event->city,
+                    'urlOk'        => $config['baseUrl'] . '/guest/response/' . $event->id . '/' . Model\Guest::RESP_OK,
+                    'urlNo'        => $config['baseUrl'] . '/guest/response/' . $event->id . '/' . Model\Guest::RESP_NO,
+                    'urlIncertain' => $config['baseUrl'] . '/guest/response/' . $event->id . '/' . Model\Guest::RESP_INCERTAIN,
                 ];
             }
 

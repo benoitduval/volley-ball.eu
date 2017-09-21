@@ -32,25 +32,6 @@ class IndexController extends AbstractController
                 foreach ($groups as $group) {
                     $userGroups[$group->id] = $group;
                 }
-
-                if ($this->getUser()->display != Model\User::DISPLAY_TABLE) {
-                    foreach ($this->get(TableGateway\Event::class)->getActiveByUserId($userId) as $event) {
-                        $eventIds[] = $event->id;
-
-                        $guest = $guestTable->fetchOne([
-                            'userId'  => $userId,
-                            'eventId' => $event->id
-                        ]);
-                        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
-
-                        $result[$guest->id] = [
-                            'group'   => $userGroups[$guest->groupId],
-                            'event'   => $event,
-                            'guest'   => $guest,
-                            'date'    => $date,
-                        ];
-                    }
-                }
             }
 
             $this->layout()->user = $this->getUser();

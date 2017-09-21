@@ -272,6 +272,7 @@ class EventController extends AbstractController
             $this->layout()->event = $event;
             $this->layout()->isAdmin = $isAdmin;
             $this->layout()->match = $match;
+
             return new ViewModel([
                 'match'    => $match,
                 'counters' => $counters,
@@ -285,6 +286,7 @@ class EventController extends AbstractController
                 'isAdmin'  => $isAdmin,
                 'isMember' => $isMember,
                 'guest'    => $myGuest,
+                'disponibilities' => json_encode(array_values($counters))
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');

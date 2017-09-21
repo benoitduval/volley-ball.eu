@@ -457,3 +457,7 @@
 .card-circle-chart[data-background-color="green"] .card-footer table{
     border-color:#F00;
 }
+
+table.table {
+    border:none;
+}

@@ -153,6 +153,59 @@
     $incertainPercent = floor(($counters[Application\Model\Guest::RESP_INCERTAIN] * 100) / $total);
     $noResponsePercent = 100 - ($okPercent + $noPercent + $incertainPercent);
 ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-title">Présences</h4>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_OK] as $user) : ?>
+                                        <tr class="text-success">
+                                            <td><?= $user->firstname ?></td>
+                                            <td><?= $user->lastname ?></td>
+                                            <td><i class="ti-check"></i></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_NO] as $user) : ?>
+                                        <tr class="text-danger">
+                                            <td><?= $user->firstname ?></td>
+                                            <td><?= $user->lastname ?></td>
+                                            <td><i class="ti-close"></i></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_INCERTAIN] as $user) : ?>
+                                        <tr class="text-info">
+                                            <td><?= $user->firstname ?></td>
+                                            <td><?= $user->lastname ?></td>
+                                            <td><i class="ti-help"></i></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php foreach ($users[Application\Model\Guest::RESP_NO_ANSWER] as $user) : ?>
+                                        <tr class="text-warning">
+                                            <td><?= $user->firstname ?></td>
+                                            <td><?= $user->lastname ?></td>
+                                            <td><i class="ti-na"></i></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-md-offset-1">
+                        <div id="chart-disponibilities" data-disponibilities="<?= $disponibilities ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-3 col-sm-6">

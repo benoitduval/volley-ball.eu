@@ -417,8 +417,25 @@ demo = {
             trackColor: 'rgba(255,255,255,.25)',
             barColor: '#FFFFFF',
             animate: ({duration: 1000, enabled: true})
-
         });
+    },
+
+    initChartDisponibilities: function () {
+        var disponibility = $("#chart-disponibilities");
+        if (disponibility.length > 0) {
+            var data = {
+              series: JSON.parse(disponibility.attr('data-disponibilities'))
+            };
+
+            new Chartist.Pie('#chart-disponibilities', data, {
+              donut: true,
+              height: 260,
+              donutWidth: 50,
+              donutSolid: true,
+              startAngle: 270,
+              showLabel: true
+            });
+        }
     },
 
     initFullCalendar: function() {
@@ -467,11 +484,21 @@ demo = {
                     // ],
                     timeFormat: 'H:mm',
                     eventClick:  function(event, jsEvent, view) {
+                        console.log(event);
                         jsEvent.preventDefault();
-                        $('#modalTitle').html(event.title);
-                        $('#modalDate').html(event.date);
-                        $('#modalBody').html(event.description);
-                        $('#eventUrl').attr('href',event.url);
+                        $('#modal-title').html(event.title);
+                        $('#modal-date').html(event.date);
+                        $('#modal-descrition').html(event.description);
+                        $('#event-url').attr('href',event.url);
+                        $('#modal-count').html(event.count);
+                        $('#modal-place').html(event.place);
+                        $('#modal-city').html(event.city);
+                        $('#modal-zipcode').html(event.zipcode);
+                        $('#modal-address').html(event.address);
+                        $('#event-url-ok').attr('href',event.urlOk);
+                        $('#event-url-no').attr('href',event.urlNo);
+                        $('#event-url-incertain').attr('href',event.urlIncertain);
+
                         $('#fullCalModal').modal();
                     }
                 });
