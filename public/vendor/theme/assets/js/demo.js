@@ -439,7 +439,6 @@ demo = {
     },
 
     initFullCalendar: function() {
-
         var body = document.body,
             html = document.documentElement;
 
@@ -455,9 +454,12 @@ demo = {
                 type: "GET",
                 url: url,
             }).done(function(resp) {
-                var data  = JSON.parse(resp);
 
+                var data  = JSON.parse(resp);
                 $('#fullCalendar').fullCalendar({
+                    eventAfterAllRender: function(view) {
+                        $('#full-calendar-loading').hide();
+                    },
                     header: {
                         right: '',
                         left: 'listMonth,month,prev,next',
@@ -475,16 +477,8 @@ demo = {
                     firstDay: 1,
                     eventLimit: true, // allow "more" link when too many events
                     events: data,
-                    // events:[
-                        // {
-                        //     'title':'test2',
-                        //     'start':'2014-09-17T00:00:00',
-                        //     'end':'2014-09-18T01:00:00'
-                        // },
-                    // ],
                     timeFormat: 'H:mm',
                     eventClick:  function(event, jsEvent, view) {
-                        console.log(event);
                         jsEvent.preventDefault();
                         $('#modal-title').html(event.title);
                         $('#modal-date').html(event.date);
@@ -498,7 +492,6 @@ demo = {
                         $('#event-url-ok').attr('href',event.urlOk);
                         $('#event-url-no').attr('href',event.urlNo);
                         $('#event-url-incertain').attr('href',event.urlIncertain);
-
                         $('#fullCalModal').modal();
                     }
                 });
