@@ -220,3 +220,8 @@ body.nude{
 .card-info {
   background-color: #b8d8d8;
 }
+
+#full-calendar-loading {
+  height:400px;
+  padding-top:120px;
+}
