@@ -461,3 +461,23 @@
 table.table {
     border:none;
 }
+
+text-disp-ok {
+    color:#;
+}
+
+text-disp-no {
+    color:#;
+}
+
+text-disp-incertain {
+    color:#;
+}
+
+text-disp-no-answer {
+    color:#d6c1ab;
+}
+
+.card .icon-medium {
+    font-size:2em;
+}
