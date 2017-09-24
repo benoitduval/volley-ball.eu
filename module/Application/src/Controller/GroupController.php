@@ -146,6 +146,13 @@ class GroupController extends AbstractController
         $matches     = $this->matchTable->fetchAll(['eventId' => $eventIds, 'set1Team1 IS NOT NULL'], 'eventId DESC');
         $form        = new Form\Share();
 
+        foreach ($matches as $match) {
+            if ($match->debrief) {
+                $debrief = $match->debrief;
+                break;
+            }
+        }
+
         if ($this->getUser() && $this->userGroupTable->isMember($this->getUser()->id, $group->id)) {
             $disponibilities = $this->groupTable->getDisponibilities($group->id);
             $scores = $this->groupTable->getScoresBySeasons($group->id);
@@ -158,11 +165,12 @@ class GroupController extends AbstractController
             'user'          => $this->getUser(),
             'group'         => $group,
             'events'        => $events,
-            'matches'       => array_slice($matches->toArray(), 0, 5),
+            'matches'       => array_slice($matches->toArray(), 0, 6),
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,
             'form'          => $form,
+            'debrief'       => $debrief,
             'scoresLast'    => json_encode(array_values($scores['last'])),
             'scoresCurrent' => json_encode(array_values($scores['current'])),
             'lastDisp'      => json_encode(array_values($disponibilities['last'])),

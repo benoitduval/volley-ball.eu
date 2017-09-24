@@ -79,8 +79,8 @@ class Group extends AbstractTableGateway
             '08' => null,
         ];
 
-        $eventByMonth = [];
         foreach (Date::getSeasonsDates() as $label => $dates) {
+            $eventByMonth = [];
 
             $events = $eventTable->fetchAll([
                 'groupId'  => $groupId,
@@ -90,13 +90,13 @@ class Group extends AbstractTableGateway
 
             foreach ($events as $event) {
                 $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
-                $year = $eventDate->format('Y');
+                $year  = $eventDate->format('Y');
                 $month = $eventDate->format('m');
-                if (!isset($eventByMonth[$year . '-' . $month])) $eventByMonth[$year . '-' . $month] = [];
-                $eventByMonth[$year . '-' . $month][] = $event->id;
+                if (!isset($eventByMonth[$month])) $eventByMonth[$month] = [];
+                $eventByMonth[$month][] = $event->id;
             }
 
-            foreach ($eventByMonth as $date => $eventIds) {
+            foreach ($eventByMonth as $month => $eventIds) {
                 $count = $guestTable->count([
                     'eventId'  => $eventIds,
                     'response' => \Application\Model\Guest::RESP_OK,
@@ -130,7 +130,7 @@ class Group extends AbstractTableGateway
 
             foreach ($events as $event) {
                 if ($match = $matchTable->fetchOne(['eventId' => $event->id, 'sets is NOT NULL'])) {
-                    $scores[$label][$match->sets] ++;
+                    if (isset($scores[$label][$match->sets])) $scores[$label][$match->sets] ++;
                 }
             }
         }
