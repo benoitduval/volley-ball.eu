@@ -129,7 +129,7 @@ class Group extends AbstractTableGateway
             ], 'date DESC');
 
             foreach ($events as $event) {
-                if ($match = $matchTable->fetchOne(['eventId' => $event->id])) {
+                if ($match = $matchTable->fetchOne(['eventId' => $event->id, 'sets is NOT NULL'])) {
                     $scores[$label][$match->sets] ++;
                 }
             }
