@@ -34,7 +34,7 @@ class EventController extends AbstractController
             $config = $this->get('config');
             foreach ($events as $event) {
                 $match = $this->matchTable->fetchOne(['eventId' => $event->id, 'set1Team1 is NOT NULL']);
-                if ($event->date < date('Y-m-d H:i:s', strtotime('last month')) && !$match) continue;
+                // if ($event->date < date('Y-m-d H:i:s', strtotime('last month')) && !$match) continue;
                 $guest = $guestTable->fetchOne([
                     'userId'  => $this->getUser()->id,
                     'eventId' => $event->id

@@ -165,8 +165,8 @@ class GroupController extends AbstractController
             'form'          => $form,
             'scoresLast'    => json_encode(array_values($scores['last'])),
             'scoresCurrent' => json_encode(array_values($scores['current'])),
-            'lastDisp'      => json_encode($disponibilities['last']),
-            'currentDisp'   => json_encode($disponibilities['current']),
+            'lastDisp'      => json_encode(array_values($disponibilities['last'])),
+            'currentDisp'   => json_encode(array_values($disponibilities['current'])),
             'eventsCount'   => $eventsCount,
         ]);
     }

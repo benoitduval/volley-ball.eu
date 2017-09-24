@@ -64,56 +64,45 @@ class Group extends AbstractTableGateway
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
         $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
         $memcached  = $this->getContainer()->get('memcached');
-        $result     = [];
+        $result['last'] = $result['current'] = [
+            '09' => null,
+            '10' => null,
+            '11' => null,
+            '12' => null,
+            '01' => null,
+            '02' => null,
+            '03' => null,
+            '04' => null,
+            '05' => null,
+            '06' => null,
+            '07' => null,
+            '08' => null,
+        ];
 
+        $eventByMonth = [];
         foreach (Date::getSeasonsDates() as $label => $dates) {
-            $from = date('Y', $dates['from']);
-            $to   = date('Y', $dates['to']);
 
-            foreach (['09', '10', '11', '12'] as $month) {
-                $key = 'disponibility.group.'. $groupId . '.date.' . $from . '.' . $month;
-                if (!($count = $memcached->getItem($key))) {
-                    $events = $eventTable->fetchAll([
-                        'groupId'  => $groupId,
-                        'date > ?' => $from . '-' . $month . '-01 00:00:00',
-                        'date < ?' => $from . '-' . $month . '-31 23:59:59',
-                    ]);
+            $events = $eventTable->fetchAll([
+                'groupId'  => $groupId,
+                'date >= ?' => date('Y-m-d H:i:s', $dates['from']),
+                'date <= ?' => date('Y-m-d H:i:s', $dates['to']),
+            ], 'date ASC');
 
-                    $count = 0;
-                    foreach ($events as $event) {
-                        $count += $guestTable->count([
-                            'eventId'  => $event->id,
-                            'response' => \Application\Model\Guest::RESP_OK,
-                        ]);
-                    }
-                    if ($count) {
-                        $count = floor($count / count($events));
-                    }
-                    $memcached->setItem($key, $count);
-                }
-                $result[$label][] = $count;
+            foreach ($events as $event) {
+                $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
+                $year = $eventDate->format('Y');
+                $month = $eventDate->format('m');
+                if (!isset($eventByMonth[$year . '-' . $month])) $eventByMonth[$year . '-' . $month] = [];
+                $eventByMonth[$year . '-' . $month][] = $event->id;
             }
 
-            foreach (['01', '02', '03', '04', '05', '06', '07', '08'] as $month) {
-                $key = 'disponibility.group.'. $groupId . '.date.' . $to . '.' . $month;
-                if (!($count = $memcached->getItem($key))) {
-                    $events = $eventTable->fetchAll([
-                        'groupId'  => $groupId,
-                        'date > ?' => $to . '-' . $month . '-01 00:00:00',
-                        'date < ?' => $to . '-' . $month . '-31 23:59:59',
-                    ]);
-
-                    $count = null;
-                    foreach ($events as $event) {
-                        $count += $guestTable->count([
-                            'eventId'  => $event->id,
-                            'response' => \Application\Model\Guest::RESP_OK,
-                        ]);
-                    }
-                    if ($count) $count = floor($count / count($events));
-                    $memcached->setItem($key, $count);
-                }
-                $result[$label][] = $count;
+            foreach ($eventByMonth as $date => $eventIds) {
+                $count = $guestTable->count([
+                    'eventId'  => $eventIds,
+                    'response' => \Application\Model\Guest::RESP_OK,
+                ]);
+                if ($count) $count = $count / count($eventIds);
+                $result[$label][$month] = $count;
             }
         }
 

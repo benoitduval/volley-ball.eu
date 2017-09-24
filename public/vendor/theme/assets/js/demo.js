@@ -36,9 +36,12 @@ demo = {
     },
 
     initSmallGoogleMaps: function(){
-        if (document.getElementById("regularMap")) {
-            // Regular Map
-            var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
+        var mapElem = $("#regularMap");
+        if ($("#regularMap")) {
+            var lat = mapElem.attr('data-lat');
+            var long = mapElem.attr('data-long');
+
+            var myLatlng = new google.maps.LatLng(lat, long);
             var mapOptions = {
                 zoom: 15,
                 center: myLatlng,
@@ -334,8 +337,7 @@ demo = {
                     navigation.find('li').css('width',$width + '%');
                 },
                 onTabClick : function(tab, navigation, index){
-                    // Disable the posibility to click on tabs
-                    return false;
+                    return true;
                 },
                 onTabShow: function(tab, navigation, index) {
                     var $total = navigation.find('li').length;
@@ -462,7 +464,7 @@ demo = {
                     },
                     header: {
                         right: '',
-                        left: 'listMonth,month,prev,next',
+                        left: 'prev,next', //listMonth,month,
                         center: 'title'
                     },
                     height: height,
