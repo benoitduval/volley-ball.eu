@@ -206,14 +206,6 @@
     </div>
 <?php endif ?>
 
-<?php
-    $total = array_sum($counters);
-    $okPercent = floor(($counters[Application\Model\Guest::RESP_OK] * 100) / $total);
-    $noPercent = floor(($counters[Application\Model\Guest::RESP_NO] * 100) / $total);
-    $incertainPercent = floor(($counters[Application\Model\Guest::RESP_INCERTAIN] * 100) / $total);
-    $noResponsePercent = 100 - ($okPercent + $noPercent + $incertainPercent);
-?>
-
 <div class="row">
     <div class="col-lg-3 col-sm-6">
         <div class="card card-circle-chart" data-background-color="green">

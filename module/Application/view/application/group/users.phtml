@@ -1,142 +1,43 @@
-<div class="header header-filter" style="background-image: url('/img/bg-recep-ori.jpg');">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="brand">
-                    <h1>Volley-ball.eu</h1>
-                    <h3>Gestion de groupes, entrainements, matchs.</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header">
+                <h4 class="card-title">Membres</h4>
+                <p class="category">Informations des membres</p>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                        <th>Licence</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($users as $user): ?>
+                                        <tr>
+                                            <td><?= $user->getFullName() ?></td>
+                                            <td><?= $user->email ?></td>
+                                            <td><?= $user->phone ?></td>
+                                            <td><?= $user->licence ?></td>
+                                            <td>
+                                                <a href="/group/delete-user/<?= $group->id ?>/<?= $user->id ?>" class="text-danger" onclick="return confirm('Êtes vous sûr ?')">
+                                                    <i class="ti-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="delete-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Êtes-vous sûr?</h4>
-            </div>
-            <div class="modal-body">
-                Voulez-vous supprimer cette personne du groupe ? 
-            </div>
-            <div class="modal-footer">
-                <a id="delete-url" href="" class="btn btn-primary" type="button"><i class="fa fa-trash-o"></i> Supprimer</a>
-                <button class="btn btn-inverse" type="button" data-dismiss="modal"><i class="icon icon-times icon-lg"></i> Annuler</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div class="main main-raised">
-    <div class="section section-basic">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center">
-                    <h2>Les Membres</h2>
-                    <h4>Ici sont listés tous les membres du groupe ainsi que les personnes voulant rejoindre le groupe.</h4>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="fresh-table">
-                <table class="table table-striped">
-                    <thead>
-                        <th data-field="firstname" data-sortable="true">Prénom</th>
-                        <th data-field="lastname" data-sortable="true">Nom</th>
-                        <th data-field="admin" style="width:100px">Admin</th>
-                        <th class="text-right" style="width:100px">Actions</th>
-                    </thead>
-                    <tbody>
-                        <?php if (count($users)): ?>
-                            <?php foreach ($users as $user): ?>
-                                <tr>
-                                    <td>
-                                        <?= $user->firstname ?>
-                                    </td>
-                                    <td>
-                                        <?= $user->lastname ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="togglebutton">
-                                            <label>
-                                                <input name="users" data-group="<?= $group->id ?>" data-user="<?= $user->id ?>" 
-                                                <?php if (in_array($user->id, $adminIds)): ?>
-                                                    checked=""
-                                                    value="0"
-                                                <?php else: ?>
-                                                    value="1"
-                                                <?php endif ?>
-                                                type="checkbox">
-                                            </label>
-                                        </span>
-                                    </td>
-                                    <td class="text-right">
-                                        <button class="open-delete-modal" data-toggle="modal" data-url="/group/delete-user/<?= $group->id; ?>/<?= $user->id; ?>" data-target="#delete-user" style="background-color: transparent;border:0;">
-                                            <i class="material-icons text-danger">delete_forever</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">Aucun résultat pour vos évènements</td>
-                            </tr>
-                        <?php endif ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center">
-                    <h2>Demande d'adhésion</h2>
-                    <h4>Les personnes ci dessous demandent à rejoindre le groupe.</h4>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="fresh-table">
-                <table class="table table-striped">
-                    <thead>
-                        <th data-field="firstname" data-sortable="true">Prénom</th>
-                        <th data-field="lastname" data-sortable="true">Nom</th>
-                        <th class="text-right" style="width:100px">Actions</th>
-                    </thead>
-                    <tbody>
-                        <?php if (count($joins)): ?>
-                            <?php foreach ($joins as $user): ?>
-                                <tr>
-                                    <td>
-                                        <?= $user->firstname ?>
-                                    </td>
-                                    <td>
-                                        <?= $user->lastname ?>
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="/group/add-user/<?= $group->id ?>/<?= $user->id?>">
-                                            <i class="material-icons text-success">done</i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="material-icons text-danger">highlight_off</i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php endforeach ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">Aucun résultat pour vos évènements</td>
-                            </tr>
-                        <?php endif ?>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 </div>
-
-<?= $this->partial('partial/fab/group.phtml') ?>

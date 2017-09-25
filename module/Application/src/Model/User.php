@@ -25,11 +25,16 @@ class User extends AbstractModel
 
     public function getFullname()
     {
-        return $this->_firstname . ' ' . $this->lastname;
+        return $this->getFirstname() . ' ' . $this->getLastname();
     }
 
-    public function getGroups()
+    public function getFirstname()
     {
-        var_dump($this->getContainer()->get(Tablegateway\UserGroup::class));
+        return ucfirst(mb_strtolower($this->_firstname));
+    }
+
+    public function getLastname()
+    {
+        return ucfirst(mb_strtolower($this->_lastname));
     }
 }

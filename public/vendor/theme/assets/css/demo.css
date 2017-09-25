@@ -225,3 +225,51 @@ body.nude{
   height:400px;
   padding-top:120px;
 }
+
+.ct-series-a .ct-bar {
+    stroke: #1ad21a;
+}
+
+.dot-serie-a {
+    color: #1ad21a;
+}
+
+.ct-series-b .ct-bar {
+    stroke: #6dc554;
+}
+
+.dot-serie-b {
+    color: #6dc554;
+}
+
+.ct-series-c .ct-bar {
+    stroke: #bbefa5;
+}
+
+.dot-serie-c {
+    color: #bbefa5;
+}
+
+.ct-series-d .ct-bar {
+    stroke: #ff9494;
+}
+
+.dot-serie-d {
+    color: #ff9494;
+}
+
+.ct-series-e .ct-bar {
+    stroke: #ff4500;
+}
+
+.dot-serie-e {
+    color: #ff4500;
+}
+
+.ct-series-f .ct-bar {
+    stroke: #F00;
+}
+
+.dot-serie-f {
+    color:#F00;
+}

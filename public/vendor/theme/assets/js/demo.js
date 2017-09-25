@@ -121,37 +121,32 @@ demo = {
 
         var match = $("#chart-matches");
         if (match.length > 0) {
-            var data = {
-              labels: ['3/0', '3/1', '3/2', '2/3', '1/3', '0/3'],
+            new Chartist.Bar('#chart-matches', {
+              labels: ['2016 2017', '2017 2018'],
               series: [
-                JSON.parse(match.attr('data-last-season')),
-                JSON.parse(match.attr('data-current-season'))
+                [8, 1],
+                [2, 4],
+                [2, 4],
+                [2, 4],
+                [2, 4],
+                [1, 2]
               ]
-            };
-
-            var options = {
-                seriesBarDistance: 10,
-                axisX: {
-                    showGrid: false
-                },
-                axisY: {
-                    onlyInteger: true,
-                },
-                height: "245px"
-            };
-
-            var responsiveOptions = [
-              ['screen and (max-width: 640px)', {
-                seriesBarDistance: 6,
-                axisX: {
-                  labelInterpolationFnc: function (value) {
-                    return value[0];
-                  }
+            }, {
+              // stackBars: true,
+              horizontalBars: true,
+              seriesBarDistance: 18,
+              height: 300,
+              axisX: {
+                    onlyInteger: true
                 }
-              }]
-            ];
-
-            Chartist.Bar('#chart-matches', data, options, responsiveOptions);
+            }).on('draw', function(data) {
+              if(data.type === 'bar') {
+                data.element.attr({
+                  style: 'stroke-width: 15px'
+                });
+              }
+            });
+            // Chartist.Bar('#chart-matches', data, options, responsiveOptions);
         }
     },
 

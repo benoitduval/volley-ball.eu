@@ -145,6 +145,7 @@ class GroupController extends AbstractController
         $eventsCount = count($eventIds);
         $matches     = $this->matchTable->fetchAll(['eventId' => $eventIds, 'set1Team1 IS NOT NULL'], 'eventId DESC');
         $form        = new Form\Share();
+        $debrief     = '';
 
         foreach ($matches as $match) {
             if ($match->debrief) {
@@ -165,7 +166,7 @@ class GroupController extends AbstractController
             'user'          => $this->getUser(),
             'group'         => $group,
             'events'        => $events,
-            'matches'       => array_slice($matches->toArray(), 0, 6),
+            'matches'       => array_slice($matches->toArray(), 0, 7),
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,
