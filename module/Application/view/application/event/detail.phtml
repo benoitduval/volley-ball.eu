@@ -337,7 +337,7 @@
                         <li class="timeline-inverted">
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
-                                    <span class="label label-success"><?= $comment['author']->getFullName(); ?></span>
+                                    <span class="label label-success"><?= isset($comment['author']) ? $comment['author']->getFullName() : 'Utilisateur supprimé'; ?></span>
                                 </div>
                                 <div class="timeline-body">
                                     <p><?= nl2br($comment['comment']); ?></p>

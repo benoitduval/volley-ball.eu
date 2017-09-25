@@ -186,9 +186,15 @@ class EventController extends AbstractController
 
             $result = [];
             foreach ($comments as $comment) {
+                if (!isset($users[$comment->userId])) {
+                    $author = $this->userTable->find($comment->userId);
+                } else {
+                    $author = $users[$comment->userId];
+                }
+
                 $date = \DateTime::createFromFormat('Y-m-d H:i:s', $comment->date);
                 $result[$comment->id]['date']    = $date->format('d F Y \à H:i');
-                $result[$comment->id]['author']  = $users[$comment->userId];
+                $result[$comment->id]['author']  = $author;
                 $result[$comment->id]['comment'] = $comment->comment;
             }
 
