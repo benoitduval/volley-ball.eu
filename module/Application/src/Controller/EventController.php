@@ -347,40 +347,37 @@ class EventController extends AbstractController
             if ($request->isPost()) {
                 $result = [];
                 $post = $request->getPost();
-                if ($form->isValid()) {
-
-                    $setFor     = 0;
-                    $setAgainst = 0;
-                    $sets  = [];
-                    $stats = [];
-                    for ($i = 1; $i <= 5; $i++) {
-                        if ($post['set'.$i.'Team1'] && $post['set'.$i.'Team2']) {
-                            if ($post['set'.$i.'Team1'] > $post['set'.$i.'Team2']) {
-                                $setFor++;
-                            } else {
-                                $setAgainst++;
-                            }
-                            $sets[]  = $post['set'.$i.'Team1'] . '-' . $post['set'.$i.'Team2'];
-                            $stats[] = [
-                                (int) $post['set' . $i . 'ServeFault'],
-                                (int) $post['set' . $i . 'RecepFault'],
-                                (int) $post['set' . $i . 'AttackFault'],
-                                (int) $post['set' . $i . 'ServePoint'],
-                                (int) $post['set' . $i . 'AttackPoint'],
-                           ];
+                $setFor     = 0;
+                $setAgainst = 0;
+                $sets  = [];
+                $stats = [];
+                for ($i = 1; $i <= 5; $i++) {
+                    if ($post['set'.$i.'Team1'] && $post['set'.$i.'Team2']) {
+                        if ($post['set'.$i.'Team1'] > $post['set'.$i.'Team2']) {
+                            $setFor++;
+                        } else {
+                            $setAgainst++;
                         }
+                        $sets[]  = $post['set'.$i.'Team1'] . '-' . $post['set'.$i.'Team2'];
+                        $stats[] = [
+                            (int) $post['set' . $i . 'ServeFault'],
+                            (int) $post['set' . $i . 'RecepFault'],
+                            (int) $post['set' . $i . 'AttackFault'],
+                            (int) $post['set' . $i . 'ServePoint'],
+                            (int) $post['set' . $i . 'AttackPoint'],
+                       ];
                     }
-                    $result['sets']    = json_encode($sets);
-                    $result['stats']   = json_encode($stats);
-                    $result['victory'] = ($setFor > $setAgainst) ? 1 : 0;
-                    $result['score']   = $setFor . ' / ' .  $setAgainst;
-                    $result['debrief'] = $post['debrief'];
-                    $event->exchangeArray($result);
-                    $this->eventTable->save($event);
-
-                    $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
-                    $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
                 }
+                $result['sets']    = json_encode($sets);
+                $result['stats']   = json_encode($stats);
+                $result['victory'] = ($setFor > $setAgainst) ? 1 : 0;
+                $result['score']   = $setFor . ' / ' .  $setAgainst;
+                $result['debrief'] = $post['debrief'];
+                $event->exchangeArray($result);
+                $this->eventTable->save($event);
+
+                $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
+                $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
             }
 
             return new ViewModel([

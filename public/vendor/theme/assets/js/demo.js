@@ -573,4 +573,10 @@ demo = {
             $(e.trigger).html('erreur');
         });
     },
+
+    initInputNumber: function() {
+        $('input[type="number"]').each(function () {
+            $(this).bootstrapNumber();
+        });
+    }
 }
