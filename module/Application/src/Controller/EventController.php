@@ -236,6 +236,8 @@ class EventController extends AbstractController
                         ));
                         $mail->send();
                     }
+                    $this->flashMessenger()->addSuccessMessage('Commentaire enregistré');
+                    $this->redirect()->toUrl('/event/detail/' . $event->id);
                 }
             }
 
