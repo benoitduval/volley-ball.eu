@@ -176,20 +176,20 @@ class ConsoleController extends AbstractController
         $this->newAdapter->query('INSERT INTO `comment` VALUES ' . $values)->execute();
     }
 
-    public function recurents()
+    public function trainings()
     {
-        $this->newAdapter->query('TRUNCATE TABLE `recurent`')->execute();
+        $this->newAdapter->query('TRUNCATE TABLE `training`')->execute();
 
         // Groups
-        $data = $this->adapter->query('SELECT * FROM `recurent`')->execute();
+        $data = $this->adapter->query('SELECT * FROM `training`')->execute();
         $values = '';
-        foreach ($data as $recurent) {
-            $values .= '("' . $recurent['id'] . '", "' . $recurent['status'] . '",  "' . $recurent['groupId'] . '",  "' . $recurent['name'] . '",  "' . $recurent['sendDay'] . '",  "' . $recurent['day'] . '",  "' . $recurent['time'] . '" ,  "' . $this->places[$recurent['placeId']]['name'] . '" ,  "' . $this->places[$recurent['placeId']]['address'] . '" ,  "' . $this->places[$recurent['placeId']]['city'] . '" ,  "' . $this->places[$recurent['placeId']]['zipCode'] . '"),';
+        foreach ($data as $training) {
+            $values .= '("' . $training['id'] . '", "' . $training['status'] . '",  "' . $training['groupId'] . '",  "' . $training['name'] . '",  "' . $training['sendDay'] . '",  "' . $training['day'] . '",  "' . $training['time'] . '" ,  "' . $this->places[$training['placeId']]['name'] . '" ,  "' . $this->places[$training['placeId']]['address'] . '" ,  "' . $this->places[$training['placeId']]['city'] . '" ,  "' . $this->places[$training['placeId']]['zipCode'] . '"),';
         }
         $values = substr($values, 0, -1);
         $values .= ';';
 
-        $this->newAdapter->query('INSERT INTO `recurent` VALUES ' . $values)->execute();
+        $this->newAdapter->query('INSERT INTO `training` VALUES ' . $values)->execute();
     }
 
     public function notifs()
@@ -213,52 +213,44 @@ class ConsoleController extends AbstractController
     {
         date_default_timezone_set('Europe/Paris');
         $console        = Console::getInstance();
-        $recurentTable  = $this->get(TableGateway\Recurent::class);
-        $groupTable     = $this->get(TableGateway\Group::class);
-        $eventTable     = $this->get(TableGateway\Event::class);
-        $guestTable     = $this->get(TableGateway\Guest::class);
-        $userGroupTable = $this->get(TableGateway\UserGroup::class);
-        $userTable      = $this->get(TableGateway\User::class);
-        $absentTable    = $this->get(TableGateway\Absent::class);
 
-        $recurents      = $recurentTable->fetchAll([
+        $trainings      = $this->trainingTable->fetchAll([
             'emailDay' => date('l'), 
-            'status'   => \Application\Model\Recurent::ACTIVE
+            'status'   => \Application\Model\Training::ACTIVE
         ]);
 
         $groups = [];
-        foreach ($recurents as $recurent) {
-            if (!isset($groups[$recurent->groupId])) {
-                $group = $groupTable->find($recurent->groupId);
-                $groups[$recurent->groupId] = $group;
+        foreach ($trainings as $training) {
+            if (!isset($groups[$training->groupId])) {
+                $group = $this->groupTable->find($training->groupId);
+                $groups[$training->groupId] = $group;
             } else {
-                $group = $groups[$recurent->groupId];
+                $group = $groups[$training->groupId];
             }
 
-            $userIds = $userGroupTable->getUserIds($group->id);
-            $users = $userTable->fetchAll([
+            $userIds = $this->userGroupTable->getUserIds($group->id);
+            $users = $this->userTable->fetchAll([
                 'id' => $userIds
             ]);
 
             $date = new \DateTime('now');
-            $date = $date->modify('next ' . strtolower($recurent->eventDay) . ' ' . $recurent->time);
+            $date = $date->modify('next ' . strtolower($training->eventDay) . ' ' . $training->time);
             $date = $date->format('Y-m-d H:i:s');
 
             // Create Event
             $params = [
                 'date'    => $date,
-                'comment' => '',
-                'name'    => $recurent->name,
-                'groupId' => $recurent->groupId,
-                'place'   => $recurent->place,
-                'address' => $recurent->address,
-                'zipCode' => $recurent->zipCode,
-                'city'    => $recurent->city,
+                'name'    => $training->name,
+                'groupId' => $training->groupId,
+                'place'   => $training->place,
+                'address' => $training->address,
+                'zipCode' => $training->zipCode,
+                'city'    => $training->city,
             ];
 
             try {
                 $mapService = $this->get(Service\Map::class);
-                $address = $recurent->address . ', ' . $recurent->zipCode . ' ' . $recurent->city . ' France';
+                $address = $training->address . ', ' . $training->zipCode . ' ' . $training->city . ' France';
 
                 if ($coords = $mapService->getCoordinates($address)) {
                     $params = array_merge($params, $coords);
@@ -267,18 +259,18 @@ class ConsoleController extends AbstractController
                 $console->writeLine($e->getMessage(), Color::RED);
             }
 
-            $event = $eventTable->save($params);
+            $event = $this->eventTable->save($params);
 
             foreach ($userIds as $id) {
-                $absent = $absentTable->fetchOne([
+                $absent = $this->holidayTable->fetchOne([
                     '`from` < ?' => $date,
                     '`to` > ?'   => $date,
                     'userId = ?' => $id
                 ]);
 
-                $response = ($absent) ? Model\Guest::RESP_NO : Model\Guest::RESP_NO_ANSWER;
+                $response = ($absent) ? Model\Disponibility::RESP_NO : Model\Disponibility::RESP_NO_ANSWER;
 
-                $guest = $guestTable->save([
+                $guest = $this->disponibilityTable->save([
                     'eventId'  => $event->id,
                     'userId'   => $id,
                     'response' => $response,
@@ -307,9 +299,9 @@ class ConsoleController extends AbstractController
                     'date'      => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
                     'day'       => \Application\Service\Date::toFr($date->format('d')),
                     'month'     => \Application\Service\Date::toFr($date->format('F')),
-                    'ok'        => Model\Guest::RESP_OK,
-                    'no'        => Model\Guest::RESP_NO,
-                    'perhaps'   => Model\Guest::RESP_INCERTAIN,
+                    'ok'        => Model\Disponibility::RESP_OK,
+                    'no'        => Model\Disponibility::RESP_NO,
+                    'perhaps'   => Model\Disponibility::RESP_INCERTAIN,
                     'comment'   => 'Aucun commentaire sur l\'évènement',
                     'baseUrl'   => $config['baseUrl']
                 ]);
