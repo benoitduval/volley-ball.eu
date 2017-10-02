@@ -61,16 +61,6 @@ return [
                     ],
                 ],
             ],
-            'welcome' => [
-                'type' => Segment::class,
-                'options' => [
-                    'route'    => '/welcome/',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'welcome',
-                    ],
-                ],
-            ],
             'event' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -85,32 +75,31 @@ return [
                     ],
                 ],
             ],
-            'guest' => [
+            'disponibility' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/guest[/:action[/:id[/:response]]]',
+                    'route'    => '/disponibility[/:action[/:id[/:response]]]',
                     'constraints' => [
                         'action'   => '[a-z][a-z_-]*',
                         'id'       => '[0-9]+',
                         'response' => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller'    => Controller\GuestController::class,
+                        'controller'    => Controller\DisponibilityController::class,
                         'action'        => 'response',
                     ],
                 ],
             ],
-            'guest-response' => [
+            'group-join' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/guest/response[/:id[/:response]]',
+                    'route'    => '/group/join[/:group]',
                     'constraints' => [
-                        'id'       => '[0-9]+',
-                        'response' => '[0-9]+',
+                        'group' => '[a-z0-9\-]*',
                     ],
                     'defaults' => [
-                        'controller'    => Controller\GuestController::class,
-                        'action'        => 'response',
+                        'controller'    => Controller\GroupController::class,
+                        'action'        => 'join',
                     ],
                 ],
             ],
@@ -129,31 +118,31 @@ return [
                     ],
                 ],
             ],
-            'recurent' => [
+            'training' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/recurent[/:action[/:id[/:recurentId]]]',
+                    'route'    => '/training[/:action[/:id[/:trainingId]]]',
                     'constraints' => [
                         'action' => '[a-z][a-z_-]*',
                         'id'     => '[0-9]+',
-                        'recurentId'     => '[0-9]+',
+                        'trainingId'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller'    => Controller\RecurentController::class,
+                        'controller'    => Controller\TrainingController::class,
                         'action'        => 'create',
                     ],
                 ],
             ],
-            'absent' => [
+            'holiday' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/absent[/:action[/:id]]',
+                    'route'    => '/holiday[/:action[/:id]]',
                     'constraints' => [
                         'action' => '[a-z][a-z_-]*',
                         'id'     => '[0-9]+',
                     ],
                     'defaults' => [
-                        'controller'    => Controller\AbsentController::class,
+                        'controller'    => Controller\HolidayController::class,
                         'action'        => 'index',
                     ],
                 ],
@@ -185,20 +174,6 @@ return [
                     ],
                 ],
             ],
-            // 'group-user-delete' => [
-            //     'type'    => Segment::class,
-            //     'options' => [
-            //         'route'    => '/group/:id/:action/:userId',
-            //         'constraints' => [
-            //             'id'     => '[0-9]+',
-            //             'userId' => '[0-9]+',
-            //         ],
-            //         'defaults' => [
-            //             'controller'    => Controller\GroupController::class,
-            //             'action'        => 'deleteUser',
-            //         ],
-            //     ],
-            // ],
             'auth' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -209,40 +184,6 @@ return [
                     'defaults' => [
                         'controller'    => Controller\AuthController::class,
                         'action'        => 'signin',
-                    ],
-                ],
-            ],
-            'match' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/match[/:action[/:id]]',
-                    'constraints' => [
-                        'action'   => '[a-z][a-z_-]*',
-                        'id'       => '[0-9]+',
-                    ],
-                    'defaults' => [
-                        'controller'    => Controller\MatchController::class,
-                        'action'        => 'create',
-                    ],
-                ],
-            ],
-            'search' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/search',
-                    'defaults' => [
-                        'controller'    => Controller\SearchController::class,
-                        'action'        => 'index',
-                    ],
-                ],
-            ],
-            'example' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route'    => '/example',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'example',
                     ],
                 ],
             ],

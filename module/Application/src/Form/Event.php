@@ -40,19 +40,6 @@ class Event extends Form
         ]);
 
         $this->add([
-            'name' => 'comment',
-            'type' => Element\Textarea::class,
-            'options' => [
-                'label' => 'Commentaire',
-            ],
-            'attributes' => [
-                'class'       => 'form-control',
-                'rows'        => 5,
-                'placeholder' => 'ex: N\'oubliez pas les bières pour le pot!'
-            ],
-        ]);
-
-        $this->add([
             'type' => Element\Text::class,
             'name' => 'place',
             'attributes' => [

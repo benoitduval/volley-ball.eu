@@ -29,8 +29,6 @@ class GroupController extends AbstractController
     public function onDispatch(\Zend\Mvc\MvcEvent $e)
     {
         if ($this->_id = $this->params('id')) {
-            $this->groupTable = $this->get(TableGateway\Group::class);
-            $this->userGroupTable = $this->get(TableGateway\UserGroup::class);
             if ($this->_group = $this->groupTable->find($this->_id)) {
                 $this->_isAdmin  = $this->userGroupTable->isAdmin($this->getUser()->id, $this->_id);
                 $this->_isMember = $this->userGroupTable->isMember($this->getUser()->id, $this->_id);
@@ -55,14 +53,6 @@ class GroupController extends AbstractController
                     $data['name']       = ucfirst($data['name']);
                     $data['brand']      = Model\Group::initBrand($data['name']);
 
-                    try {
-                        $mapService = $this->get(Service\Map::class);
-                        if ($coords = $mapService->getCoordinates($data['address'])) {
-                            $data = array_merge($data, $coords);
-                        }
-                    } catch (\Exception $e) {
-                    }
-
                     $group = $this->groupTable->save($data);
 
                     $userGroup = $this->userGroupTable->save([
@@ -71,18 +61,6 @@ class GroupController extends AbstractController
                         'admin'   => 1,
                     ]);
 
-                    $this->flashMessenger()->addMessage('
-                        Votre groupe est maintenant actif.<br/>
-                        Depuis cette page, le bouton d\'action en bas à droite vous permet de:
-                        <ul>
-                            <li>Créer un évènement ponctuel (match)</li>
-                            <li>Créer un évènement récurrent (entrainement)</li>
-                            <li>Partager votre groupe</li>
-                            <li>Gérer les informations du groupe</li>
-                            <li>Gérer les demandes pour rejoindre le groupe</li>
-                            <li>Gérer les membres ainsi que leurs permissions</li>
-                        </ul>
-                    ');
                     return $this->redirect()->toRoute('group-welcome', ['brand' => $group->brand]);
                 }
             }
@@ -111,11 +89,11 @@ class GroupController extends AbstractController
                 $form->setData($request->getPost());
                 if ($form->isValid()) {
                     $data       = $form->getData();
-
+                    $data['brand'] = $this->_group->initBrand($data['name']);
                     $this->_group->exchangeArray($data);
                     $this->groupTable->save($this->_group);
                 }
-                $this->flashMessenger()->addMessage('Votre groupe a bien été modifié.');
+                $this->flashMessenger()->addSuccessMessage('Votre groupe a bien été modifié.');
                 return $this->redirect()->toRoute('group-welcome', ['brand' => $this->_group->brand]);
 
             }
@@ -135,22 +113,28 @@ class GroupController extends AbstractController
     public function welcomeAction()
     {
         $brand       = $this->params('brand');
-        $subscribe   = $this->params()->fromQuery('subscribe', null);
         $group       = $this->groupTable->fetchOne(['brand' => $brand]);
-        $users       = $this->userTable->getUsersByGroupId($group->id);
+        if (!$this->userGroupTable->isMember($this->getUser()->id, $group->id)) $this->redirect()->toRoute('home');
+
+        $users       = $this->userTable->getAllByGroupId($group->id);
         $isAdmin     = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
         $isMember    = $this->userGroupTable->isMember($this->getUser()->id, $group->id);
         $events      = $this->eventTable->getEventsByGroupId($group->id);
+        $trainings   = $this->trainingTable->fetchAll(['groupId' =>  $group->id]);
         $eventIds    = array_keys($events);
         $eventsCount = count($eventIds);
-        $matches     = $this->matchTable->fetchAll(['eventId' => $eventIds, 'set1Team1 IS NOT NULL'], 'eventId DESC');
-        $form        = new Form\Share();
         $debrief     = '';
+        $matchs      = [];
 
-        foreach ($matches as $match) {
-            if ($match->debrief) {
-                $debrief = $match->debrief;
-                break;
+        $i = 0;
+        foreach ($events as $event) {
+            if (!$debrief && $event->debrief) {
+                $debrief = $event->debrief;
+            }
+
+            if ($event->sets && $i < 7) {
+                $matchs[] = $event;
+                $i++;
             }
         }
 
@@ -159,6 +143,9 @@ class GroupController extends AbstractController
             $scores = $this->groupTable->getScoresBySeasons($group->id);
         }
 
+        $config   = $this->get('config');
+        $shareUrl = $config['baseUrl'] . '/group/join/' . $group->brand;
+
         $this->layout()->group = $group;
         $this->layout()->isAdmin = $isAdmin;
 
@@ -166,38 +153,18 @@ class GroupController extends AbstractController
             'user'          => $this->getUser(),
             'group'         => $group,
             'events'        => $events,
-            'matches'       => array_slice($matches->toArray(), 0, 7),
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,
-            'form'          => $form,
             'debrief'       => $debrief,
-            'scoresLast'    => json_encode(array_values($scores['last'])),
-            'scoresCurrent' => json_encode(array_values($scores['current'])),
+            'scores'        => $scores,
+            'matchs'        => $matchs,
+            'trainings'     => $trainings,
+            'shareUrl'      => $shareUrl,
             'lastDisp'      => json_encode(array_values($disponibilities['last'])),
             'currentDisp'   => json_encode(array_values($disponibilities['current'])),
             'eventsCount'   => $eventsCount,
         ]);
-    }
-
-    public function historyAction()
-    {
-        if ($this->_group && $this->_isMember) {
-            $this->eventTable = $this->get(TableGateway\Event::class);
-            $events = $this->eventTable->fetchAll([
-                'groupId' => $this->_id
-            ], 'date DESC');
-
-            $this->layout()->user = $this->getUser();
-            return new ViewModel([
-                'events' => $events,
-                'group'  => $this->_group,
-                'isAdmin' => $this->_isAdmin
-            ]);
-        } else {
-            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
-            $this->redirect()->toRoute('home');
-        }
     }
 
     public function usersAction()
@@ -247,32 +214,28 @@ class GroupController extends AbstractController
     public function deleteUserAction()
     {
         $userId    = $this->params('userId');
-        $this->userTable = $this->get(TableGateway\User::class);
 
         if ($userId && $this->_group && $this->_isAdmin) {
-            $this->userGroupTable = $this->get(TableGateway\UserGroup::class);
             $userGroup = $this->userGroupTable->fetchOne([
                 'groupId' => $this->_id,
                 'userId'  => $userId
             ]);
 
-            $this->eventTable = $this->get(TableGateway\Event::class);
             $events = $this->eventTable->fetchAll([
                 'date > NOW()',
                 'groupId' => $this->_group->id
             ]);
-            $this->guestTable = $this->get(TableGateway\Guest::class);
             foreach ($events as $event) {
-                $guest = $this->guestTable->fetchOne([
+                $disponibility = $this->disponibilityTable->fetchOne([
                     'userId'  => $userId,
                     'groupId' => $this->_group->id,
                     'eventId' => $event->id,
                 ]);
-                $this->guestTable->delete($guest);
+                $this->disponibilityTable->delete($disponibility);
             }
             $this->userGroupTable->delete($userGroup);
 
-            $this->flashMessenger()->addMessage('Utilisateur supprimé.');
+            $this->flashMessenger()->addSuccessMessage('Utilisateur supprimé.');
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
         }
@@ -282,33 +245,28 @@ class GroupController extends AbstractController
     public function addUserAction()
     {
         $userId    = $this->params('userId');
-        $this->userTable = $this->get(TableGateway\User::class);
 
         if ($userId && $this->_group && $this->_isAdmin) {
-            $this->userGroupTable = $this->get(TableGateway\UserGroup::class);
             $userGroup = $this->userGroupTable->save([
                 'groupId' => $this->_group->id,
                 'userId'  => $userId,
                 'admin'   => Model\UserGroup::MEMBER,
             ]);
 
-            $this->eventTable = $this->get(TableGateway\Event::class);
             $events = $this->eventTable->fetchAll([
                 'date > NOW()',
                 'groupId' => $this->_group->id
             ]);
 
-            $this->guestTable  = $this->get(TableGateway\Guest::class);
-            $absentTable = $this->get(TableGateway\Absent::class);
             foreach ($events as $event) {
-                $absent = $absentTable->fetchOne([
+                $absent = $this->holidayTable->fetchOne([
                     'userId'     => $userId,
                     '`from` < ?' => $event->date,
                     '`to` > ?'   => $event->date,
                 ]);
 
-                $response = $absent ? Model\Guest::RESP_NO : Model\Guest::RESP_NO_ANSWER;
-                $guest = $this->guestTable->save([
+                $response = $absent ? Model\Disponibility::RESP_NO : Model\Disponibility::RESP_NO_ANSWER;
+                $disponibility = $this->disponibilityTable->save([
                     'userId'  => $userId,
                     'groupId' => $this->_group->id,
                     'eventId' => $event->id,
@@ -316,7 +274,6 @@ class GroupController extends AbstractController
                 ]);
             }
 
-            $this->joinTable = $this->get(TableGateway\Join::class);
             $join = $this->joinTable->fetchOne([
                 'userId'  => $userId,
                 'groupId' => $this->_group->id,
@@ -324,7 +281,7 @@ class GroupController extends AbstractController
             $this->joinTable->delete($join);
 
             $this->get('memcached')->removeItem('user.groups.' . $userId);
-            $this->flashMessenger()->addMessage('Utilisateur ajouté.');
+            $this->flashMessenger()->addSuccessMessage('Utilisateur ajouté.');
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
             return $this->redirect()->toRoute('home');
@@ -334,44 +291,71 @@ class GroupController extends AbstractController
 
     public function deleteAction()
     {
-        $delete = $this->params()->fromQuery('delete', false);
-
         if ($this->_group && $this->_isAdmin) {
-            if ($delete) {
-                $this->eventTable     = $this->get(TableGateway\Event::class);
-                $this->commentTable   = $this->get(TableGateway\Comment::class);
-                $this->userGroupTable = $this->get(TableGateway\UserGroup::class);
-                $this->joinTable      = $this->get(TableGateway\Join::class);
-                $this->matchTable     = $this->get(TableGateway\Match::class);
-                $this->groupTable     = $this->get(TableGateway\Group::class);
-                $this->guestTable     = $this->get(TableGateway\Guest::class);
 
-                foreach ($this->eventTable->fetchAll(['groupId' => $this->_id]) as $event) {
-                    $eventIds[] = $event->id;
-                }
-
-                if ($eventIds) {
-                    $this->commentTable->delete(['eventId' => $eventIds]);
-                    $this->matchTable->delete(['eventId' => $eventIds]);
-                    $this->guestTable->delete(['eventId' => $eventIds]);
-                }
-                $this->userGroupTable->delete(['groupId' => $this->_id]);
-                $this->eventTable->delete(['groupId' => $this->_id]);
-                $this->joinTable->delete(['groupId' => $this->_id]);
-                $this->groupTable->delete(['id' => $this->_id]);
-
-                $this->flashMessenger()->addMessage('Le groupe a bien été supprimé. Vous avez été redirigé sur la page d\accueil.');
-                return $this->redirect()->toRoute('home');
+            foreach ($this->eventTable->fetchAll(['groupId' => $this->_id]) as $event) {
+                $eventIds[] = $event->id;
             }
+
+            if ($eventIds) {
+                $this->commentTable->delete(['eventId' => $eventIds]);
+                $this->disponibilityTable->delete(['eventId' => $eventIds]);
+            }
+            $this->userGroupTable->delete(['groupId' => $this->_id]);
+            $this->eventTable->delete(['groupId' => $this->_id]);
+            $this->joinTable->delete(['groupId' => $this->_id]);
+            $this->groupTable->delete(['id' => $this->_id]);
+
+            $this->flashMessenger()->addSuccessMessage('Le groupe a bien été supprimé.');
+            return $this->redirect()->toRoute('home');
         } else {
-            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
             return $this->redirect()->toRoute('home');
         }
+    }
 
-        return new ViewModel([
-            'isAdmin' => $this->_isAdmin,
-            'group' => $this->_group,
-            'user' => $this->getUser()
-        ]);
+    public function joinAction()
+    {
+        $brand = $this->params()->fromRoute('group', null);
+        if (!$brand) $this->redirect()->toRoute('home');
+        if ($group = $this->groupTable->fetchOne(['brand' => $brand])) {
+            if (!$this->getUser()) {
+                $this->redirect()->toUrl('/auth/signin?group=' . $brand);
+            } else {
+                if ($this->userGroupTable->isMember($this->getUser()->id, $group->id)) {
+                    $this->redirect()->toRoute('home');
+                } else {
+                    $user = $this->getUser();
+                    $userGroup = $this->userGroupTable->save([
+                        'groupId' => $group->id,
+                        'userId'  => $user->id,
+                        'admin'   => Model\UserGroup::MEMBER,
+                    ]);
+
+                    $events = $this->eventTable->fetchAll([
+                        'date > NOW()',
+                        'groupId' => $group->id
+                    ]);
+
+                    foreach ($events as $event) {
+                        $holiday = $this->holidayTable->fetchOne([
+                            'userId'     => $user->id,
+                            '`from` < ?' => $event->date,
+                            '`to` > ?'   => $event->date,
+                        ]);
+
+                        $response = $holiday ? Model\Disponibility::RESP_NO : Model\Disponibility::RESP_NO_ANSWER;
+                        $disponibility = $this->disponibilityTable->save([
+                            'userId'   => $user->id,
+                            'groupId'  => $group->id,
+                            'eventId'  => $event->id,
+                            'response' => $response,
+                        ]);
+                    }
+                    $this->redirect()->toRoute('home');
+                }
+            }
+        } else {
+            $this->redirect->toRoute('home');
+        }
     }
 }

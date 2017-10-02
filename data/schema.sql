@@ -8,7 +8,8 @@ CREATE TABLE `comment` (
   `eventId` varchar(255) NOT NULL DEFAULT '',
   `comment` text,
   `date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `eventId` (`eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -19,15 +20,21 @@ CREATE TABLE `event` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL DEFAULT '',
   `date` timestamp NULL DEFAULT NULL,
-  `comment` text,
   `groupId` int(5) DEFAULT NULL,
   `place` varchar(255) NOT NULL DEFAULT '',
   `address` varchar(255) DEFAULT NULL,
   `city` varchar(48) DEFAULT NULL,
   `zipCode` int(5) DEFAULT NULL,
+  `victory` tinyint(1) DEFAULT NULL,
+  `scores` varchar(8) DEFAULT NULL,
+  `sets` varchar(60) DEFAULT NULL,
+  `stats` varchar(100) DEFAULT NULL,
+  `debrief` text,
   `lat` double DEFAULT NULL,
   `long` double DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `groupId` (`groupId`, `date`),
+  KEY `score` (`score`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -38,12 +45,6 @@ CREATE TABLE `group` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `brand` varchar(150) NOT NULL,
-  `description` text,
-  `address` text,
-  `schedule` text,
-  `gymnasium` varchar(150) NULL DEFAULT NULL,
-  `lat` double DEFAULT NULL,
-  `long` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`brand`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -64,15 +65,16 @@ CREATE TABLE `userGroup` (
 --
 -- Table structure for table `guest`
 --
-DROP TABLE IF EXISTS `guest`;
-CREATE TABLE `guest` (
+DROP TABLE IF EXISTS `disponibility`;
+CREATE TABLE `disponibility` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `eventId` int(11) unsigned NOT NULL,
   `userId` int(11) unsigned NOT NULL,
   `response` tinyint(4) NOT NULL DEFAULT '0',
   `groupId` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`userId`, `eventId`)
+  UNIQUE KEY (`userId`, `eventId`),
+  KEY `response` (`response`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -101,17 +103,15 @@ CREATE TABLE `user` (
   `licence` int(11) DEFAULT NULL,
   `password` varchar(64) DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
-  `display` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 --
--- Table structure for table `recurent`
+-- Table structure for table `training`
 --
-DROP TABLE IF EXISTS `recurent`;
-CREATE TABLE `recurent` (
+DROP TABLE IF EXISTS `training`;
+CREATE TABLE `training` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `groupId` int(5) DEFAULT NULL,
@@ -121,52 +121,17 @@ CREATE TABLE `recurent` (
   `time` varchar(5) DEFAULT NULL,
   `place` varchar(255) NOT NULL DEFAULT '',
   `address` varchar(255) DEFAULT NULL,
-  `city` varchar(48) DEFAULT NULL,
-  `zipCode` int(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `match`
---
-DROP TABLE IF EXISTS `match`;
-CREATE TABLE `match` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `eventId` int(11) unsigned NOT NULL,
-  `sets` varchar(20) NULL DEFAULT NULL,
-  `victory` tinyint(4) NULL DEFAULT NULL,
-  `set1Team1` varchar(4) NULL DEFAULT NULL,
-  `set1Team2` varchar(4) NULL DEFAULT NULL,
-  `set2Team1` varchar(4) NULL DEFAULT NULL,
-  `set2Team2` varchar(4) NULL DEFAULT NULL,
-  `set3Team1` varchar(4) NULL DEFAULT NULL,
-  `set3Team2` varchar(4) NULL DEFAULT NULL,
-  `set4Team1` varchar(4) NULL DEFAULT NULL,
-  `set4Team2` varchar(4) NULL DEFAULT NULL,
-  `set5Team1` varchar(4) NULL DEFAULT NULL,
-  `set5Team2` varchar(4) NULL DEFAULT NULL,
-  `debrief` text,
+  `city` varchar(100) DEFAULT NULL,
+  `zipCode` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`eventId`)
+  KEY `emailDay` (`emailDay`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `notification`
+-- Table structure for table `holiday`
 --
-DROP TABLE IF EXISTS `notification`;
-CREATE TABLE `notification` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) unsigned NOT NULL,
-  `status` tinyint(4) NULL DEFAULT NULL,
-  `notification` tinyint(4) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `notification`
---
-DROP TABLE IF EXISTS `absent`;
-CREATE TABLE `absent` (
+DROP TABLE IF EXISTS `holiday`;
+CREATE TABLE `holiday` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) unsigned NOT NULL,
   `from` timestamp NULL DEFAULT NULL,

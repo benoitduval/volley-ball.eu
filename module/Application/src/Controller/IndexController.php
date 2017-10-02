@@ -22,8 +22,6 @@ class IndexController extends AbstractController
     {
         if ($this->getUser()) {
 
-            $guestTable = $this->get(TableGateway\Guest::class);
-
             $userId     = $this->getUser()->id;
             $groups     = $this->getUserGroups();
             $result     = [];

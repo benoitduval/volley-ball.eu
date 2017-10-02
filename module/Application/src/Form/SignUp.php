@@ -88,7 +88,7 @@ class SignUp extends Form
             'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Enregistrer',
-                'class' => 'btn btn-primary',
+                'class' => 'btn btn-info btn-fill btn-wd btn-finish pull-right',
             ],
         ]);
     }

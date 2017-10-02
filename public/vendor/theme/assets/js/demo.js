@@ -1,6 +1,3 @@
-type = ['','info','success','warning','danger'];
-
-
 demo = {
 
     initCirclePercentage: function(){
@@ -14,30 +11,9 @@ demo = {
         });
     },
 
-    initGoogleMaps: function(){
-
-        // Satellite Map
-        var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-        var mapOptions = {
-            zoom: 3,
-            scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-            center: myLatlng,
-             mapTypeId: google.maps.MapTypeId.SATELLITE
-        }
-
-        var map = new google.maps.Map(document.getElementById("satelliteMap"), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title:"Satellite Map!"
-        });
-
-        marker.setMap(map);
-    },
-
     initSmallGoogleMaps: function(){
-        var mapElem = $("#regularMap");
-        if ($("#regularMap")) {
+        if ($("#regularMap").lenght > 0) {
+            var mapElem = $("#regularMap");
             var lat = mapElem.attr('data-lat');
             var long = mapElem.attr('data-long');
 
@@ -81,8 +57,62 @@ demo = {
 
     },
 
-    initStatsDashboard: function(){
+    initSwitchers: function () {
 
+        $('input[name="training"]').each(function () {
+            $(this).on('switchChange.bootstrapSwitch', function(event, state) {
+                var id    = $(this).attr('data-id');
+                var value = $(this).attr("value");
+                if (value == 1) {
+                    $(this).attr("value", 2);
+                } else {
+                    $(this).attr("value", 1);
+                }
+                var url = '/api/recurrent/enable/' + id + '/' + value;
+                var request = $.ajax({
+                    type: "GET",
+                    url: url
+                });
+            });
+        });
+
+        $('input[name="notification"]').each(function () {
+            $(this).on('switchChange.bootstrapSwitch', function(event, state) {
+                var id    = $(this).attr('data-id');
+                var value = $(this).attr("value");
+                if (value == 1) {
+                    $(this).attr("value", 2);
+                } else {
+                    $(this).attr("value", 1);
+                }
+                var url = '/api/user/params/' + id + '/' + value;
+                var request = $.ajax({
+                    type: "GET",
+                    url: url
+                });
+            });
+        });
+
+        $('input[name="admin"]').each(function () {
+            $(this).on('switchChange.bootstrapSwitch', function(event, state) {
+                var id    = $(this).attr('data-id');
+                var value = $(this).attr("value");
+                var groupId = $(this).attr("data-groupId");
+                if (value === 0) {
+                    $(this).attr("value", 1);
+                } else {
+                    $(this).attr("value", 0);
+                }
+                var url = '/api/user/grant/' + groupId + '/' + id + '/' + value;
+                var request = $.ajax({
+                    type: "GET",
+                    url: url
+                });
+            });
+        });
+    },
+
+    initStatsDashboard: function(){
         var disponibility = $("#chart-disponibility");
         if (disponibility.length > 0) {
 
@@ -123,14 +153,7 @@ demo = {
         if (match.length > 0) {
             new Chartist.Bar('#chart-matches', {
               labels: ['2016 2017', '2017 2018'],
-              series: [
-                [8, 1],
-                [2, 4],
-                [2, 4],
-                [2, 4],
-                [2, 4],
-                [1, 2]
-              ]
+                  series: JSON.parse(match.attr('data-scores')),
             }, {
               // stackBars: true,
               horizontalBars: true,
@@ -146,7 +169,37 @@ demo = {
                 });
               }
             });
-            // Chartist.Bar('#chart-matches', data, options, responsiveOptions);
+        }
+
+        $('.chart-stats').each(function() {
+            new Chartist.Pie(this, {
+                  series: JSON.parse($(this).attr('data-stats')),
+            }, {
+              donut: true,
+              donutWidth: 40,
+              startAngle: 270,
+              height:270,
+              showLabel: true
+            });
+        });
+
+        var stats = $("#chart-stats-full");
+        if (stats.length > 0) {
+            var sets = stats.attr('data-sets');
+            if (sets == 3) var labels = ['1er', '2nd', '3e'];
+            if (sets == 4) var labels = ['1er', '2nd', '3e', '4e'];
+            if (sets == 4) var labels = ['1er', '2nd', '3e', '4e', '5e'];
+            new Chartist.Line("#chart-stats-full", {
+              labels: labels,
+              series: JSON.parse(stats.attr('data-stats')),
+            }, {
+              fullWidth: true,
+              showPoint: true,
+              height: 300,
+              axisX: {
+                onlyInteger: true
+              }
+            });
         }
     },
 
@@ -280,43 +333,10 @@ demo = {
     initWizard: function(){
         $(document).ready(function(){
 
-            var $validator = $("#wizardForm").validate({
-              rules: {
-                name: {
-                    required: true,
-                    minlength: 5
-                },
-                date: {
-                    required: true,
-                },
-                address: {
-                    required: true,
-                },
-                city: {
-                    required: true,
-                },
-                place: {
-                    required: true,
-                },
-                zipCode: {
-                    required: true,
-                }
-              }
-            });
-
-            // you can also use the nav-pills-[blue | azure | green | orange | red] for a different color of wizard
             $('#wizardCard').bootstrapWizard({
                 tabClass: 'nav nav-pills',
                 nextSelector: '.btn-next',
                 previousSelector: '.btn-back',
-                onNext: function(tab, navigation, index) {
-                    var $valid = $('#wizardForm').valid();
-
-                    if(!$valid) {
-                        $validator.focusInvalid();
-                        return false;
-                    }
-                },
                 onInit : function(tab, navigation, index){
 
                     //check number of tabs and fill the entire row
@@ -354,12 +374,6 @@ demo = {
                 }
             });
         });
-
-        function onFinishWizard(){
-            //here you can do something, sent the form to server via ajax and show a success message with swal
-
-            swal("Good job!", "You clicked the finish button!", "success");
-        }
     },
 
     initFormExtendedSliders: function(){
@@ -392,6 +406,36 @@ demo = {
     initFormExtendedDatetimepickers: function(){
         $('.datetimepicker').datetimepicker({
             format: 'DD/MM/YYYY H:mm',    // use this format if you want the 24hours timepicker
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+         });
+
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+         });
+
+        $('.timepicker').datetimepicker({
+            format: 'H:mm',    // use this format if you want the 24hours timepicker
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",
@@ -445,11 +489,17 @@ demo = {
             height = height - 235;
         }
 
+
         if ($('#fullCalendar').length > 0) {
+            var groupId = $('#fullCalendar').attr("data-groupId");
             var url = '/api/event/get/all';
+
             var request = $.ajax({
                 type: "GET",
                 url: url,
+                data: {
+                    groupId: groupId,
+                }
             }).done(function(resp) {
 
                 var data  = JSON.parse(resp);
@@ -472,44 +522,68 @@ demo = {
                         }
                     },
                     firstDay: 1,
-                    eventLimit: true, // allow "more" link when too many events
+                    eventLimit: false, // allow "more" link when too many events
                     events: data,
                     timeFormat: 'H:mm',
                     eventClick:  function(event, jsEvent, view) {
                         jsEvent.preventDefault();
-                        $('#modal-title').html(event.title);
-                        $('#modal-date').html(event.date);
-                        $('#modal-descrition').html(event.description);
-                        $('#event-url').attr('href',event.url);
-                        $('#modal-count').html(event.count);
-                        $('#modal-place').html(event.place);
-                        $('#modal-city').html(event.city);
-                        $('#modal-zipcode').html(event.zipcode);
-                        $('#modal-address').html(event.address);
-                        $('#event-url-ok').attr('href',event.urlOk);
-                        $('#event-url-no').attr('href',event.urlNo);
-                        $('#event-url-incertain').attr('href',event.urlIncertain);
-                        $('#fullCalModal').modal();
+                        if (typeof event.url !== "undefined") {
+                            $('#modal-title').html(event.title);
+                            $('#modal-date').html(event.date);
+                            $('#event-url').attr('href',event.url);
+                            $('#modal-count').html(event.count);
+                            $('#modal-place').html(event.place);
+                            $('#modal-city').html(event.city);
+                            $('#modal-zipcode').html(event.zipcode);
+                            $('#modal-address').html(event.address);
+                            $('#modal-month').html(event.month);
+                            $('#modal-day').html(event.day);
+                            $('#modal-date').html(event.date);
+                            $('#event-url-ok').attr('href',event.urlOk);
+                            $('#event-url-no').attr('href',event.urlNo);
+                            $('#event-url-incertain').attr('href',event.urlIncertain);
+                            $('#fullCalModal').modal();
+                        }
                     }
                 });
             });
         }
     },
 
-    showNotification: function(from, align){
-        color = Math.floor((Math.random() * 4) + 1);
+    showNotification: function() {
+        if ($('#notification').length > 0) {
+            var message = $('#notification').attr('data-message');
+            var type = $('#notification').attr('data-type');
+            var icon = (type == 'success') ? 'ti-check' : 'ti-na';
+            $.notify({
+                icon: icon,
+                message: message
 
-        $.notify({
-            icon: "ti-gift",
-            message: "Welcome to <b>Paper Dashboard</b> - a beautiful dashboard for every web developer."
+            },{
+                type: type,
+                timer: 10,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                }
+            });
+        }
+    },
 
-        },{
-            type: type[color],
-            timer: 4000,
-            placement: {
-                from: from,
-                align: align
-            }
+    initClipboard: function() {
+        var clipboard = new Clipboard('.copy-to-clipboard');
+
+        clipboard.on('success', function(e) {
+            $(e.trigger).removeClass('btn-info');
+            $(e.trigger).addClass('btn-success');
+            $(e.trigger).html('copié !');
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+            $(e.trigger).removeClass('btn-info');
+            $(e.trigger).addClass('btn-error');
+            $(e.trigger).html('erreur');
         });
     },
 }

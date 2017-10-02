@@ -10,49 +10,38 @@ use Application\TableGateway;
 
 class EventController extends AbstractController
 {
-
-    public function exportAction()
+    public function getAction()
     {
         if ($this->getUser()) {
-            $events = $this->get(TableGateway\Event::class)->getActiveByUserId($this->getUser()->id);
-            $calendar = new \Application\Service\Calendar($events->toArray());
-            $ical = $calendar->generateICS();
+            if ($groupId = $this->params()->fromQuery('groupId', null)) {
+                $events = $this->eventTable->getEventsByGroupId($groupId);
+            } else {
+                $events = $this->eventTable->getAllByUserId($this->getUser()->id);
+            }
 
-            $view = new ViewModel(['ical' => $ical]);
-            $view->setTerminal(true);
-            $view->setTemplate('api/default/data.phtml');
-            return $view;
-        }
-    }
-
-    public function getAction($value='')
-    {
-        if ($this->getUser()) {
-            $events = $this->get(TableGateway\Event::class)->getAllByUserId($this->getUser()->id);
-            $guestTable = $this->get(TableGateway\Guest::class);
             $result = [];
             $config = $this->get('config');
             foreach ($events as $event) {
-                $match = $this->matchTable->fetchOne(['eventId' => $event->id, 'set1Team1 is NOT NULL']);
-                if ($event->date < date('Y-m-d H:i:s', strtotime('last month')) && !$match) continue;
-                $guest = $guestTable->fetchOne([
+                if ($event->date < date('Y-m-d H:i:s', strtotime('last month')) && !$event->score) continue;
+                $disponibility = $this->disponibilityTable->fetchOne([
                     'userId'  => $this->getUser()->id,
                     'eventId' => $event->id
                 ]);
 
-                $count = $guestTable->count([
+                $count = $this->disponibilityTable->count([
                     'eventId' => $event->id,
-                    'response' => Model\Guest::RESP_OK
+                    'response' => Model\Disponibility::RESP_OK
                 ]);
 
-                if ($guest->response == Model\Guest::RESP_OK) {
-                    $className = 'event-green';
-                } else if ($guest->response == Model\Guest::RESP_NO) {
-                    $className = 'event-red';
-                } else if ($guest->response == Model\Guest::RESP_INCERTAIN) {
-                    $className = 'event-orange';
-                } else {
-                    $className = 'event-default';
+                $className = 'event-default';
+                if ($disponibility) {
+                    if ($disponibility->response == Model\Disponibility::RESP_OK) {
+                        $className = 'event-green';
+                    } else if ($disponibility->response == Model\Disponibility::RESP_NO) {
+                        $className = 'event-red';
+                    } else if ($disponibility->response == Model\Disponibility::RESP_INCERTAIN) {
+                        $className = 'event-orange';
+                    }
                 }
 
                 $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
@@ -66,10 +55,32 @@ class EventController extends AbstractController
                     'address'      => $event->address,
                     'zipcode'      => $event->zipCode,
                     'city'         => $event->city,
-                    'urlOk'        => $config['baseUrl'] . '/guest/response/' . $event->id . '/' . Model\Guest::RESP_OK,
-                    'urlNo'        => $config['baseUrl'] . '/guest/response/' . $event->id . '/' . Model\Guest::RESP_NO,
-                    'urlIncertain' => $config['baseUrl'] . '/guest/response/' . $event->id . '/' . Model\Guest::RESP_INCERTAIN,
+                    'urlOk'        => $config['baseUrl'] . '/disponibility/response/' . $event->id . '/' . Model\Disponibility::RESP_OK,
+                    'urlNo'        => $config['baseUrl'] . '/disponibility/response/' . $event->id . '/' . Model\Disponibility::RESP_NO,
+                    'urlIncertain' => $config['baseUrl'] . '/disponibility/response/' . $event->id . '/' . Model\Disponibility::RESP_INCERTAIN,
+                    'month'        => \Application\Service\Date::toFr($eventDate->format('F')),
+                    'date'         => $eventDate->format('d'),
+                    'day'          => \Application\Service\Date::toFr($eventDate->format('D')),
                 ];
+            }
+
+            if ($groupId) {
+                $users = $this->userTable->getAllByGroupId($groupId);
+                foreach ($users as $user) {
+                    $ids[] = $user->id;
+                    $data[$user->id] = $user;
+                }
+                $holidays = $this->holidayTable->fetchAll(['userId' => $ids]);
+                foreach ($holidays as $holiday) {
+                    $from =  \Datetime::createFromFormat('Y-m-d H:i:s', $holiday->from);
+                    $to   =  \Datetime::createFromFormat('Y-m-d H:i:s', $holiday->to);
+                    $result[] = [
+                        'title' => $data[$holiday->userId]->getFullname(),
+                        'start' => $from->format('Y-m-d'),
+                        'className' => 'event-absent',
+                        'end'   => $to->modify('+ 1day')->format('Y-m-d'),
+                    ];
+                }
             }
 
             $view = new ViewModel(['result' => $result]);

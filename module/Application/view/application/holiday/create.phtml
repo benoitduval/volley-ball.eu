@@ -3,8 +3,7 @@
         <div class="card">
             <?= $this->form()->openTag($form); ?>
                 <div class="card-header text-center">
-                    <h4 class="card-title">Éditer le groupe</h4>
-                    <p class="category"></p>
+                    <h4 class="card-title">Date de Vacances</h4>
                 </div>
                 <div class="card-content">
                     <div class="tab-content">
@@ -13,9 +12,17 @@
                                 <div class="col-md-10 col-md-offset-1">
                                     <div class="form-group">
                                         <label class="control-label">
-                                            Nom du group<star>*</star>
+                                            Date de début<star>*</star>
                                         </label>
-                                        <?= $this->formElement($form->get('name')); ?>
+                                        <?= $this->formElement($form->get('from')); ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Date de fin (comprise)<star>*</star>
+                                        </label>
+                                        <?= $this->formElement($form->get('to')); ?>
                                     </div>
                                 </div>
                             </div>

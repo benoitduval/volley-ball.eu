@@ -10,8 +10,8 @@ class Event extends AbstractTableGateway
 {
     public function getAllByGroupId($groupId)
     {
-        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
-        $objs = $guestTable->fetchAll([
+        $disponibilityTable = $this->getContainer()->get(TableGateway\Disponibility::class);
+        $objs = $disponibilityTable->fetchAll([
             'groupId' => $groupId
         ]);
 
@@ -31,7 +31,7 @@ class Event extends AbstractTableGateway
 
     public function getAllByUserId($userId)
     {
-        $objs = $this->getContainer()->get(TableGateway\Guest::class)->fetchAll([
+        $objs = $this->getContainer()->get(TableGateway\Disponibility::class)->fetchAll([
             'userId' => $userId
         ]);
 
@@ -49,7 +49,7 @@ class Event extends AbstractTableGateway
 
     public function getActiveByUserId($userId)
     {
-        $objs = $this->getContainer()->get(TableGateway\Guest::class)->fetchAll([
+        $objs = $this->getContainer()->get(TableGateway\Disponibility::class)->fetchAll([
             'userId' => $userId
         ]);
 

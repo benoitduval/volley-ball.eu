@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="card card-wizard" id="wizardCard">
+            <?= $this->form()->openTag($form); ?>
+                <div class="card-header text-center">
+                    <h4 class="card-title">Résultat</h4>
+                    <p class="category">Ajouter vos résultats, stats et débrief</p>
+                </div>
+				<div class="card-content">
+				    <ul class="nav">
+						<li><a href="#tab1" data-toggle="tab">Set 1</a></li>
+						<li><a href="#tab2" data-toggle="tab">Set 2</a></li>
+                        <li><a href="#tab3" data-toggle="tab">Set 3</a></li>
+                        <li><a href="#tab4" data-toggle="tab">Set 4</a></li>
+                        <li><a href="#tab5" data-toggle="tab">Set 5</a></li>
+						<li><a href="#tab6" data-toggle="tab">Débrief</a></li>
+					</ul>
+					<div class="tab-content">
+                        <?php for ($i = 1; $i <= 5; $i++) : ?>
+                            <div class="tab-pane" id="tab<?= $i ?>">
+                                <h5 class="card-title text-center">Score Set <?= $i ?></h5>
+                                <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Votre Équipe<?= ($i < 4) ? '<star>*<star>' : '' ?>
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'Team1')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Équipe Adverse<?= ($i < 4) ? '<star>*<star>' : '' ?>
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'Team2')); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="card-title text-center">Statistiques Set <?= $i ?></h5>
+                                <div class="row">
+                                    <div class="col-md-5 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Fautes au Service
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'ServeFault')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Points au Service
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'ServePoint')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Fautes à l'Attaque
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'AttackFault')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Points à l'Attaque
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'AttackPoint')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                Fautes en Reception
+                                            </label>
+                                            <?= $this->formElement($form->get('set' . $i . 'RecepFault')); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endfor; ?>
+                        <div class="tab-pane" id="tab6">
+                            <h5 class="card-title text-center">Débriefing du match</h5>
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            Votre débrief
+                                        </label>
+                                        <?= $this->formElement($form->get('debrief')); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</div>
+				<div class="card-footer">
+                    <button type="button" class="btn btn-default btn-fill btn-wd btn-back pull-left">Précédent</button>
+                    <button type="button" class="btn btn-info btn-fill btn-wd btn-next pull-right">Suivant</button>
+                    <?= $this->formElement($form->get('submit')); ?>
+
+                    <div class="clearfix"></div>
+				</div>
+        	</form>
+    	</div>
+	</div>
+</div>

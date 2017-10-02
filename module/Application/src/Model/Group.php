@@ -10,12 +10,6 @@ class Group extends AbstractModel
     protected $_id          = null;
     protected $_name        = null;
     protected $_brand       = null;
-    protected $_description = null;
-    protected $_address     = null;
-    protected $_schedule    = null;
-    protected $_gymnasium   = null;
-    protected $_lat         = null;
-    protected $_long        = null;
 
     public static function initBrand($name)
     {

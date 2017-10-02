@@ -13,16 +13,9 @@ class EventController extends AbstractController
     public function createAction()
     {
         $groupId        = $this->params('id', null);
-        $groupTable     = $this->get(TableGateway\Group::class);
-        $userGroupTable = $this->get(TableGateway\UserGroup::class);
 
-        $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $groupId);
-        if (($group = $groupTable->find($groupId)) && $isAdmin) {
-            $eventTable     = $this->get(TableGateway\Event::class);
-            $guestTable     = $this->get(TableGateway\Guest::class);
-            $userTable      = $this->get(TableGateway\User::class);
-            $absentTable    = $this->get(TableGateway\Absent::class);
-            $notifTable     = $this->get(TableGateway\Notification::class);
+        $isAdmin = $this->userGroupTable->isAdmin($this->getUser()->id, $groupId);
+        if (($group = $this->groupTable->find($groupId)) && $isAdmin) {
             $form = new Form\Event();
             $request = $this->getRequest();
             if ($request->isPost()) {
@@ -48,36 +41,35 @@ class EventController extends AbstractController
                         }
                     } catch (\Exception $e) {}
 
-                    $event = $eventTable->save($data);
+                    $event = $this->eventTable->save($data);
 
                     if ($match) {
-                        $matchTable = $this->get(TableGateway\Match::class);
-                        $matchTable->save([
+                        $this->matchTable->save([
                             'eventId' => $event->id
                         ]);
                     }
 
-                    // Create guest for this new event
+                    // Create disponibility for this new event
                     $emails = [];
-                    // $userGroups = $userGroupTable->fetchAll(['groupId' => $group->id]);
-                    $users = $userTable->getUsersByGroupId($groupId);
+                    // $userGroups = $this->userGroupTable->fetchAll(['groupId' => $group->id]);
+                    $users = $this->userTable->getAllByGroupId($groupId);
                     foreach ($users as $user) {
-                        $absent = $absentTable->fetchOne([
+                        $absent = $this->holidayTable->fetchOne([
                             '`from` < ?' => $date->format('Y-m-d H:i:s'),
                             '`to` > ?'   => $date->format('Y-m-d H:i:s'),
                             'userId = ?' => $user->id
                         ]);
 
                         if ($absent) {
-                            $response = Model\Guest::RESP_NO;
+                            $response = Model\Disponibility::RESP_NO;
                         } else {
-                            $response = Model\Guest::RESP_NO_ANSWER;
-                            if ($notifTable->isAllowed(Model\Notification::EVENT_SIMPLE, $user->id)) {
+                            $response = Model\Disponibility::RESP_NO_ANSWER;
+                            if ($this->notifTable->isAllowed(Model\Notification::EVENT_SIMPLE, $user->id)) {
                                 $emails[] = $user->email;
                             }
                         }
 
-                        $guestTable->save([
+                        $this->disponibilityTable->save([
                             'eventId'  => $event->id,
                             'userId'   => $user->id,
                             'response' => $response,
@@ -103,9 +95,9 @@ class EventController extends AbstractController
                             'day'       => $date->format('d'),
                             'month'     => $date->format('F'),
                             'eventDate' => $event->date,
-                            'ok'        => Model\Guest::RESP_OK,
-                            'no'        => Model\Guest::RESP_NO,
-                            'perhaps'   => Model\Guest::RESP_INCERTAIN,
+                            'ok'        => Model\Disponibility::RESP_OK,
+                            'no'        => Model\Disponibility::RESP_NO,
+                            'perhaps'   => Model\Disponibility::RESP_INCERTAIN,
                             'comment'   => $data['comment'],
                             'baseUrl'   => $config['baseUrl']
                         ];
@@ -117,8 +109,7 @@ class EventController extends AbstractController
                         } catch (\Exception $e) {}
                     }
 
-                    $this->flashMessenger()->addMessage('Votre évènement a bien été créé.
-                        Les notifications ont été envoyés aux membres du groupe.');
+                    $this->flashMessenger()->addSuccessMessage('Votre évènement a bien été créé. Les notifications ont été envoyés aux membres du groupe.');
                     $this->redirect()->toRoute('home');
                 }
             }
@@ -139,49 +130,32 @@ class EventController extends AbstractController
     public function detailAction()
     {
         $eventId        = $this->params('id');
-        $clearCache     = $this->params()->fromQuery('clear');
-        if ($clearCache) {
-            $key = 'badges.comments.user.' . $this->getUser()->id;
-            $cached = $this->get('memcached')->getItem($key);
-            unset($cached[$eventId]);
-            $this->get('memcached')->setItem($key, $cached);
-            return $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
-        }
-        $eventTable     = $this->get(TableGateway\Event::class);
-        $userGroupTable = $this->get(TableGateway\UserGroup::class);
 
-        if (($event = $eventTable->find($eventId)) && $userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
-            $groupTable     = $this->get(TableGateway\Group::class);
-            $guestTable     = $this->get(TableGateway\Guest::class);
-            $userTable      = $this->get(TableGateway\User::class);
-            $commentTable   = $this->get(TableGateway\Comment::class);
-            $matchTable     = $this->get(TableGateway\Match::class);
-            $notifTable     = $this->get(TableGateway\Notification::class);
+        if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
-            $match     = $matchTable->fetchOne(['eventId' => $event->id]);
-            $comments  = $commentTable->fetchAll(['eventId' => $event->id]);
-            $group     = $groupTable->find($event->groupId);
-            $isMember  = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
+            $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
+            $group     = $this->groupTable->find($event->groupId);
+            $isMember  = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
             $isAdmin   = false;
             if ($isMember) {
-                $isAdmin = $userGroupTable->isAdmin($this->getUser()->id, $group->id);
+                $isAdmin = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
             }
 
-            $counters  = $guestTable->getCounters($eventId);
-            $guests    = $guestTable->fetchAll(['eventId' => $eventId]);
-            $myGuest   = $guestTable->fetchOne(['eventId' => $eventId, 'userId' => $this->getUser()->id]);
+            $counters  = $this->disponibilityTable->getCounters($eventId);
+            $disponibilities    = $this->disponibilityTable->fetchAll(['eventId' => $eventId]);
+            $myGuest   = $this->disponibilityTable->fetchOne(['eventId' => $eventId, 'userId' => $this->getUser()->id]);
             $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
             $availability    = [
-                Model\Guest::RESP_NO_ANSWER => [],
-                Model\Guest::RESP_OK        => [],
-                Model\Guest::RESP_NO        => [],
-                Model\Guest::RESP_INCERTAIN => [],
+                Model\Disponibility::RESP_NO_ANSWER => [],
+                Model\Disponibility::RESP_OK        => [],
+                Model\Disponibility::RESP_NO        => [],
+                Model\Disponibility::RESP_INCERTAIN => [],
             ];
 
-            foreach ($guests as $guest) {
-                $users[$guest->userId] = $userTable->find($guest->userId);
-                $availability[$guest->response][] = $users[$guest->userId];
+            foreach ($disponibilities as $disponibility) {
+                $users[$disponibility->userId] = $this->userTable->find($disponibility->userId);
+                $availability[$disponibility->response][] = $users[$disponibility->userId];
             }
 
             $result = [];
@@ -198,7 +172,7 @@ class EventController extends AbstractController
                 $result[$comment->id]['comment'] = $comment->comment;
             }
 
-            $counters = $guestTable->getCounters($eventId);
+            $counters = $this->disponibilityTable->getCounters($eventId);
 
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
@@ -210,7 +184,7 @@ class EventController extends AbstractController
                 if ($form->isValid()) {
                     $data = $form->getData();
                     $eventDate   = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
-                    $comment = $commentTable->save([
+                    $comment = $this->commentTable->save([
                         'date'    => date('Y-m-d H:i:s'),
                         'eventId' => $eventId,
                         'userId'  => $this->getUser()->id,
@@ -219,35 +193,16 @@ class EventController extends AbstractController
 
                     $config = $this->get('config');
                     if ($config['mail']['allowed']) {
-                        $users = $userTable->getUsersByGroupId($group->id);
+                        $users = $this->userTable->getAllByGroupId($group->id);
                         $bcc   = [];
                         foreach ($users as $user) {
-
-                            // Store comment Id in cache for badges
-                            if ($this->getUser()->id != $user->id) {
-                                $key = 'badges.comments.user.' . $user->id;
-                                $cachedData = $this->get('memcached')->getItem($key);
-                                if (isset($cachedData[$event->id])) {
-                                    $cachedData[$event->id]['count'] ++;
-                                } else {
-                                    $cachedData[$event->id] = [
-                                        'name'  => $event->name,
-                                        'id'    => $event->id,
-                                        'date'  => \Application\Service\Date::toFr($eventDate->format('d F')),
-                                        'count' => 1,
-                                    ];
-                                }
-                                $this->get('memcached')->removeItem($key);
-                                $this->get('memcached')->setItem($key, $cachedData);
-                            }
-
                             $email = true;
-                            $guest = $guestTable->fetchOne(['userId' => $user->id, 'eventId' => $event->id]);
-                            if ($guest && $guest->response = Model\Guest::RESP_NO && !$notifTable->isAllowed(Model\Notification::COMMENT_ABSENT, $user->id)) {
+                            $disponibility = $this->disponibilityTable->fetchOne(['userId' => $user->id, 'eventId' => $event->id]);
+                            if ($disponibility && $disponibility->response = Model\Disponibility::RESP_NO && !$this->notifTable->isAllowed(Model\Notification::COMMENT_ABSENT, $user->id)) {
                                 $email = false;
-                            } else if ($this->getUser()->id == $user->id && !$notifTable->isAllowed(Model\Notification::SELF_COMMENT, $user->id)) {
+                            } else if ($this->getUser()->id == $user->id && !$this->notifTable->isAllowed(Model\Notification::SELF_COMMENT, $user->id)) {
                                 $email = false;
-                            } else if (!$notifTable->isAllowed(Model\Notification::COMMENTS, $user->id)) {
+                            } else if (!$this->notifTable->isAllowed(Model\Notification::COMMENTS, $user->id)) {
                                 $email = false;
                             }
 
@@ -273,29 +228,21 @@ class EventController extends AbstractController
                 }
             }
 
-            $this->layout()->opacity = true;
-            $this->layout()->user = $this->getUser();
-            $this->layout()->event = $event;
-            $this->layout()->isAdmin = $isAdmin;
-            $this->layout()->match = $match;
-
             return new ViewModel([
-                'match'    => $match,
-                'counters' => $counters,
-                'comments' => $result,
-                'event'    => $event,
-                'form'     => $form,
-                'group'    => $group,
-                'users'    => $availability,
-                'user'     => $this->getUser(),
-                'date'     => $eventDate,
-                'isAdmin'  => $isAdmin,
-                'isMember' => $isMember,
-                'guest'    => $myGuest,
+                'counters'        => $counters,
+                'comments'        => $result,
+                'event'           => $event,
+                'form'            => $form,
+                'group'           => $group,
+                'users'           => $availability,
+                'user'            => $this->getUser(),
+                'date'            => $eventDate,
+                'isAdmin'         => $isAdmin,
+                'isMember'        => $isMember,
+                'myDisponibility' => $myGuest,
                 'disponibilities' => json_encode(array_values($counters))
             ]);
         } else {
-            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
             $this->redirect()->toRoute('home');
         }
     }
@@ -303,13 +250,10 @@ class EventController extends AbstractController
     public function editAction()
     {
         $eventId    = $this->params()->fromRoute('id');
-        $eventTable = $this->get(TableGateway\Event::class);
-        $userGroupTable = $this->get(TableGateway\UserGroup::class);
-        if (($event = $eventTable->find($eventId)) && $userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
+        if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
 
-            $groupTable = $this->get(TableGateway\Group::class);
-            $event = $eventTable->find($eventId);
-            $group = $groupTable->find($event->groupId);
+            $event = $this->eventTable->find($eventId);
+            $group = $this->groupTable->find($event->groupId);
 
             $form = new Form\Event();
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
@@ -329,9 +273,9 @@ class EventController extends AbstractController
                     $data['date']    = $date->format('Y-m-d H:i:s');
 
                     $event->exchangeArray($data);
-                    $eventTable->save($event);
+                    $this->eventTable->save($event);
 
-                    $this->flashMessenger()->addMessage('Votre évènement a bien été modifié.');
+                    $this->flashMessenger()->addSuccessMessage('Votre évènement a bien été modifié.');
                     $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
                 }
             }
@@ -339,6 +283,92 @@ class EventController extends AbstractController
             $this->layout()->user = $this->getUser();
             return new ViewModel([
                 'group'  => $group,
+                'form'   => $form,
+                'user'   => $this->getUser(),
+            ]);
+        } else {
+            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
+            $this->redirect()->toRoute('home');
+        }
+    }
+
+    public function deleteAction()
+    {
+        $eventId = $this->params()->fromRoute('id');
+
+        if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
+            $this->commentTable->delete(['eventId' => $event->id]);
+            $this->disponibilityTable->delete(['eventId' => $event->id]);
+            $this->eventTable->delete(['id' => $event->id]);
+            $group = $this->groupTable->find($event->groupId);
+            $this->redirect()->toUrl('/welcome-to/' . $group->brand);
+        }
+    }
+
+    public function matchAction()
+    {
+        $eventId = $this->params('id');
+        if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
+
+            $eventData = [];
+            $stats = json_decode($event->stats);
+            foreach ($event->sets as $key => $score) {
+                $i = $key + 1;
+                $set = explode('-', $score);
+                $eventData['set' . $i . 'Team1'] = $set[0];
+                $eventData['set' . $i . 'Team2'] = $set[1];
+                $eventData['set' . $i . 'ServeFault']  = $stats[$key][Model\Event::STAT_SERVE_FAULT];
+                $eventData['set' . $i . 'RecepFault']  = $stats[$key][Model\Event::STAT_RECEP_FAULT];
+                $eventData['set' . $i . 'AttackFault'] = $stats[$key][Model\Event::STAT_ATTACK_FAULT];
+                $eventData['set' . $i . 'ServePoint']  = $stats[$key][Model\Event::STAT_SERVE_POINT];
+                $eventData['set' . $i . 'AttackPoint']  = $stats[$key][Model\Event::STAT_ATTACK_POINT];
+            }
+
+            $form = new Form\Result;
+
+            $form->setData($eventData);
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $result = [];
+                $post = $request->getPost();
+                if ($form->isValid()) {
+
+                    $setFor     = 0;
+                    $setAgainst = 0;
+                    $sets  = [];
+                    $stats = [];
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($post['set'.$i.'Team1'] && $post['set'.$i.'Team2']) {
+                            if ($post['set'.$i.'Team1'] > $post['set'.$i.'Team2']) {
+                                $setFor++;
+                            } else {
+                                $setAgainst++;
+                            }
+                            $sets[]  = $post['set'.$i.'Team1'] . '-' . $post['set'.$i.'Team2'];
+                            $stats[] = [
+                                (int) $post['set' . $i . 'ServeFault'],
+                                (int) $post['set' . $i . 'RecepFault'],
+                                (int) $post['set' . $i . 'AttackFault'],
+                                (int) $post['set' . $i . 'ServePoint'],
+                                (int) $post['set' . $i . 'AttackPoint'],
+                           ];
+                        }
+                    }
+                    $result['sets']    = json_encode($sets);
+                    $result['stats']   = json_encode($stats);
+                    $result['victory'] = ($setFor > $setAgainst) ? 1 : 0;
+                    $result['score']   = $setFor . ' / ' .  $setAgainst;
+                    $result['debrief'] = $post['debrief'];
+                    $event->exchangeArray($result);
+                    $this->eventTable->save($event);
+
+                    $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
+                    $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
+                }
+            }
+
+            return new ViewModel([
+                'event'  => $event,
                 'form'   => $form,
                 'user'   => $this->getUser(),
             ]);

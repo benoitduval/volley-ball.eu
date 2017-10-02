@@ -273,3 +273,29 @@ body.nude{
 .dot-serie-f {
     color:#F00;
 }
+
+.ct-series-e .ct-line,
+.ct-series-e .ct-point {
+  stroke:#d95ce8;
+}
+
+.dot-stats-e {
+    color:#d95ce8;
+}
+
+.fc-event.event-absent {
+  background-color: #e6eaff;
+}
+
+
+.full-page {
+  color:#FFF;
+}
+
+.fc-center .card h2 {
+  margin:0;
+}
+
+.card h2 {
+  margin:10px 0 10px;
+}

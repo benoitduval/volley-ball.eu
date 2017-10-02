@@ -62,7 +62,7 @@ class Group extends AbstractTableGateway
     public function getDisponibilities($groupId)
     {
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $guestTable = $this->getContainer()->get(TableGateway\Guest::class);
+        $disponibilityTable = $this->getContainer()->get(TableGateway\Disponibility::class);
         $memcached  = $this->getContainer()->get('memcached');
         $result['last'] = $result['current'] = [
             '09' => null,
@@ -97,9 +97,9 @@ class Group extends AbstractTableGateway
             }
 
             foreach ($eventByMonth as $month => $eventIds) {
-                $count = $guestTable->count([
+                $count = $disponibilityTable->count([
                     'eventId'  => $eventIds,
-                    'response' => \Application\Model\Guest::RESP_OK,
+                    'response' => \Application\Model\Disponibility::RESP_OK,
                 ]);
                 if ($count) $count = $count / count($eventIds);
                 $result[$label][$month] = $count;
@@ -120,20 +120,27 @@ class Group extends AbstractTableGateway
             '2 / 3' => 0,
         ];
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
-        $matchTable = $this->getContainer()->get(TableGateway\Match::class);
+        $result     = [];
         foreach (Date::getSeasonsDates() as $label => $dates) {
             $events = $eventTable->fetchAll([
                 'groupId'  => $groupId,
                 'date > ?' => date('Y-m-d H:i:s', $dates['from']),
                 'date < ?' => date('Y-m-d H:i:s', $dates['to']),
+                'score IS NOT NULL'
             ], 'date DESC');
 
             foreach ($events as $event) {
-                if ($match = $matchTable->fetchOne(['eventId' => $event->id, 'sets is NOT NULL'])) {
-                    if (isset($scores[$label][$match->sets])) $scores[$label][$match->sets] ++;
-                }
+                if (isset($scores[$label][$event->score])) $scores[$label][$event->score] ++;
             }
         }
-        return $scores;
+
+        return [
+            [$scores['last']['3 / 0'], $scores['current']['3 / 0']],
+            [$scores['last']['3 / 1'], $scores['current']['3 / 1']],
+            [$scores['last']['3 / 2'], $scores['current']['3 / 2']],
+            [$scores['last']['2 / 3'], $scores['current']['2 / 3']],
+            [$scores['last']['1 / 3'], $scores['current']['1 / 3']],
+            [$scores['last']['0 / 3'], $scores['current']['0 / 3']],
+        ];
     }
 }

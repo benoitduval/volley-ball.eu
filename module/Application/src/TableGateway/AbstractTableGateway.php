@@ -95,13 +95,13 @@ class AbstractTableGateway
     public function delete($params)
     {
         if (is_array($params)) {
-            $id = $params['id'];
+            // $id = $params['id'];
             $this->getTableGateway()->delete($params);
         } else if (is_object($params)) {
             $id = $params->id;
             $this->getTableGateway()->delete(['id' => (int) $params->id]);
         }
-        static::_remove($this->getTableGateway()->getTable() . '.' . $id);
+        if (isset($id)) static::_remove($this->getTableGateway()->getTable() . '.' . $id);
     }
 
     protected static function _get($key)

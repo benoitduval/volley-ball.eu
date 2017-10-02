@@ -22,12 +22,7 @@ class ConsoleController extends AbstractController
 
     public function init()
     {
-        $this->groupTable = $this->get(TableGateway\Group::class);
-        $this->eventTable = $this->get(TableGateway\Event::class);
-        $this->guestTable = $this->get(TableGateway\Guest::class);
-        $this->userTable  = $this->get(TableGateway\User::class);
         $config = $this->get('config');
-
 
         $this->adapter = new Adapter([
             'driver'   => 'Pdo_Mysql',
@@ -55,46 +50,27 @@ class ConsoleController extends AbstractController
         $console = Console::getInstance();
 
         $this->init();
-        $console->writeLine('Working on users ...', Color::BLUE);
-        $this->users();
-        $console->writeLine('DONE', Color::GREEN);
-        $console->writeLine('Working on groups ...', Color::BLUE);
-        $this->groups();
-        $console->writeLine('DONE', Color::GREEN);
-        $console->writeLine('Working on places ...', Color::BLUE);
-        $this->places();
-        $console->writeLine('DONE', Color::GREEN);
         $console->writeLine('Working on events ...', Color::BLUE);
         $this->events();
-        $console->writeLine('DONE', Color::GREEN);
-        $console->writeLine('Working on recurent events ...', Color::BLUE);
-        $this->recurents();
-        $console->writeLine('DONE', Color::GREEN);
-        $console->writeLine('Working on guests ...', Color::BLUE);
-        $this->guests();
-        $console->writeLine('DONE', Color::GREEN);
-        $console->writeLine('Working on comments ...', Color::BLUE);
-        $this->comments();
-        $console->writeLine('DONE', Color::GREEN);
-        $console->writeLine('Working on notifications ...', Color::BLUE);
-        $this->notifs();
         $console->writeLine('DONE', Color::GREEN);
     }
 
     public function events()
     {
-        $this->newAdapter->query('TRUNCATE TABLE `event`')->execute();
 
-        // Groups
-        $data = $this->adapter->query('SELECT * FROM `event`')->execute();
-        $values = '';
-        foreach ($data as $event) {
-            $values .= '("' . $event['id'] . '", "' . $event['name'] . '",  "' . $event['date'] . '",  "' . $event['comment'] . '",  "' . $event['groupId'] . '" ,  "' . $this->places[$event['placeId']]['name'] . '" ,  "' . $this->places[$event['placeId']]['address'] . '" ,  "' . $this->places[$event['placeId']]['city'] . '" ,  "' . $this->places[$event['placeId']]['zipCode'] . '",  "' . $this->places[$event['placeId']]['lat'] . '", "' . $this->places[$event['placeId']]['long'] . '"),';
+        $matchs = $this->newAdapter->query('SELECT * FROM `match` WHERE `set1Team1` IS NOT NULL AND `debrief` IS NOT NULL')->execute();
+
+        foreach ($matchs as $match) {
+            $sets = [
+                $match['set1Team1'] . '-' . $match['set1Team2'],
+                $match['set2Team1'] . '-' . $match['set2Team2'],
+                $match['set3Team1'] . '-' . $match['set3Team2'],
+            ];
+            if ($match['set4Team1']) $sets[] = $match['set4Team1'] . '-' . $match['set4Team2'];
+            if ($match['set5Team1']) $sets[] = $match['set5Team1'] . '-' . $match['set5Team2'];
+            $sets = json_encode($sets);
+            $this->newAdapter->query('UPDATE `event` SET `sets` = \'' . $sets . '\', `victory` = "' . $match['victory'] . '", `score` = "' . $match['sets'] . '" , `debrief` = "' . addslashes($match['debrief']) . '" WHERE id = "' . $match['eventId'] . '"')->execute();
         }
-        $values = substr($values, 0, -1);
-        $values .= ';';
-
-        $this->newAdapter->query('INSERT INTO `event` VALUES ' . $values)->execute();
     }
 
     public function groups()
@@ -161,9 +137,9 @@ class ConsoleController extends AbstractController
         }
     }
 
-    public function guests()
+    public function disponibility()
     {
-        $this->newAdapter->query('TRUNCATE TABLE `guest`')->execute();
+        $this->newAdapter->query('TRUNCATE TABLE `disponibility`')->execute();
 
         $guests = $this->adapter->query('SELECT * FROM `guest`')->execute();
 
@@ -180,7 +156,7 @@ class ConsoleController extends AbstractController
         }
         $values = substr($values, 0, -1);
 
-        $this->newAdapter->query('INSERT INTO `guest` VALUES ' . $values . ' ON DUPLICATE KEY UPDATE eventId=eventId;')->execute();
+        $this->newAdapter->query('INSERT INTO `disponibility` VALUES ' . $values . ' ON DUPLICATE KEY UPDATE eventId=eventId;')->execute();
     }
 
     public function comments()

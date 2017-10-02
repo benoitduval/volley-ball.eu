@@ -17,9 +17,9 @@ class Notification extends AbstractModel
     CONST DISABLED           = 2;
 
     public static $labels = [
-        self::EVENT_SIMPLE   => 'Les évènements ponctuels.',
-        self::EVENT_RECURENT => 'Les évènements récurrents.',
-        self::EVENT_UPDATE   => 'Les modifications d\'évènement.',
+        self::EVENT_SIMPLE   => 'La création d\'évènement',
+        self::EVENT_RECURENT => 'La création d\'entrainement',
+        self::EVENT_UPDATE   => 'Les modifications d\'évènement',
         self::REMINDER       => 'Les rappels d\'évènement.',
         self::COMMENT_ABSENT => 'Les commentaires étant absent à l\'évènement.',
         self::SELF_COMMENT   => 'Mes propres commentaires.',

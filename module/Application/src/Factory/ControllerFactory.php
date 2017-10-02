@@ -18,14 +18,16 @@ class ControllerFactory implements AbstractFactoryInterface
         }
 
         $tables = [
-            'group'     => $container->get(TableGateway\Group::class),
-            'userGroup' => $container->get(TableGateway\UserGroup::class),
-            'join'      => $container->get(TableGateway\Join::class),
-            'user'      => $container->get(TableGateway\User::class),
-            'event'     => $container->get(TableGateway\Event::class),
-            'recurent'  => $container->get(TableGateway\Recurent::class),
-            'match'     => $container->get(TableGateway\Match::class),
-            'guest'     => $container->get(TableGateway\Guest::class),
+            'group'         => $container->get(TableGateway\Group::class),
+            'userGroup'     => $container->get(TableGateway\UserGroup::class),
+            'join'          => $container->get(TableGateway\Join::class),
+            'user'          => $container->get(TableGateway\User::class),
+            'event'         => $container->get(TableGateway\Event::class),
+            'training'      => $container->get(TableGateway\Training::class),
+            'disponibility' => $container->get(TableGateway\Disponibility::class),
+            'holiday'       => $container->get(TableGateway\Holiday::class),
+            'comment'       => $container->get(TableGateway\Comment::class),
+            'notif'         => $container->get(TableGateway\Notification::class),
         ];
 
         return new $requestedName($container, $tables, $user);

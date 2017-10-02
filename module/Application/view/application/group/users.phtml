@@ -16,6 +16,8 @@
                                         <th>Email</th>
                                         <th>Téléphone</th>
                                         <th>Licence</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -25,6 +27,20 @@
                                             <td><?= $user->email ?></td>
                                             <td><?= $user->phone ?></td>
                                             <td><?= $user->licence ?></td>
+                                            <td>
+                                                <div class="table-icons">
+                                                    <div class="col-md-4">
+                                                        <input type="checkbox" name="admin" data-groupId="<?= $group->id ?>" data-id="<?= $user->id ?>" class="switch"
+                                                            <?php if (in_array($user->id, $adminIds)): ?>
+                                                                checked=""
+                                                                value="0"
+                                                            <?php else: ?>
+                                                                value="1"
+                                                            <?php endif ?>
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td>
                                                 <a href="/group/delete-user/<?= $group->id ?>/<?= $user->id ?>" class="text-danger" onclick="return confirm('Êtes vous sûr ?')">
                                                     <i class="ti-trash"></i>

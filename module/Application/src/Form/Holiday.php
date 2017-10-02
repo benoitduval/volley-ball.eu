@@ -8,25 +8,33 @@ use Zend\Form\Form;
 /**
  * Class SignInForm
  */
-class Group extends Form
+class Holiday extends Form
 {
     public function __construct($name = null)
     {
-        parent::__construct('group');
+        parent::__construct('recurent');
 
         $this->setAttributes(array(
             'method' => 'post',
         ));
 
         $this->add([
+            'name' => 'from',
             'type' => Element\Text::class,
-            'name' => 'name',
-            'options' => [
-                'label' => 'Nom du groupe',
-            ],
             'attributes' => [
-                'class' => 'form-control',
-                'required' => 'required',
+                'required'    => 'required',
+                'class'       => 'form-control datepicker',
+                'placeholder' => 'ex: 26/12/2017'
+            ],
+        ]);
+
+        $this->add([
+            'name' => 'to',
+            'type' => Element\Text::class,
+            'attributes' => [
+                'required'    => 'required',
+                'class'       => 'form-control datepicker',
+                'placeholder' => 'ex: 29/12/2017'
             ],
         ]);
 

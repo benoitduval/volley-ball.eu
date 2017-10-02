@@ -8,24 +8,22 @@ use Zend\Form\Form;
 /**
  * Class SignInForm
  */
-class Group extends Form
+class Reset extends Form
 {
+
     public function __construct($name = null)
     {
-        parent::__construct('group');
-
-        $this->setAttributes(array(
-            'method' => 'post',
-        ));
+        parent::__construct('signin');
 
         $this->add([
-            'type' => Element\Text::class,
-            'name' => 'name',
+            'type' => Element\Email::class,
+            'name' => 'email',
             'options' => [
-                'label' => 'Nom du groupe',
+                'label' => 'E-mail',
             ],
             'attributes' => [
                 'class' => 'form-control',
+                'placeholder' => 'Votre E-mail',
                 'required' => 'required',
             ],
         ]);
@@ -34,9 +32,10 @@ class Group extends Form
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [
-                'value' => 'Enregistrer',
-                'class' => 'btn btn-info btn-fill btn-wd btn-finish pull-right',
+                'value' => 'Connexion',
+                'class' => 'btn btn-primary',
             ],
         ]);
     }
+
 }

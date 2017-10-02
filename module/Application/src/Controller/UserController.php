@@ -23,17 +23,15 @@ class UserController extends AbstractController
                 $post['display'] = $this->getUser()->display;
 
                 $form->setData($request->getPost());
-                $userTable = $this->get(TableGateway\User::class);
                 if ($form->isValid()) {
                     $data = $this->getUser()->toArray();
                     $data['phone'] = $post['phone'];
                     $data['licence'] = $post['licence'];
-                    $user = $userTable->save($data);
+                    $user = $this->userTable->save($data);
                     $this->_user = $user;
                 }
             }
-            $notifTable = $this->get(TableGateway\Notification::class);
-            $notifs = $notifTable->fetchAll(['userId' => $this->getUser()->id]);
+            $notifs = $this->notifTable->fetchAll(['userId' => $this->getUser()->id]);
 
             return new ViewModel([
                 'form'          => $form,

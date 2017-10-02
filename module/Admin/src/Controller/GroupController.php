@@ -18,7 +18,7 @@ class GroupController extends AbstractController
         $group      = $groupTable->find($id);
 
         $userTable = $this->get(TableGateway\User::class);
-        $users     = $userTable->getUsersByGroupId($group->id);
+        $users     = $userTable->getAllByGroupId($group->id);
 
         $eventTable = $this->get(TableGateway\Event::class);
         $events = $eventTable->getEventsByGroupId($group->id);

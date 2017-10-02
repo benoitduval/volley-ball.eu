@@ -104,6 +104,11 @@
                 </footer>
             </div>
         </div>
+        <?php if ($success = $this->flashMessenger()->getMessages('success')) :  ?>
+            <div id='notification' data-type='success' data-message="<?= current($success) ?>"></div>
+        <?php elseif ($error = $this->flashMessenger()->getMessages('error')): ?>
+            <div id='notification' data-type='danger' data-message="<?= current($error) ?>"></div>
+        <?php endif; ?>
     </body>
 
     <!--   Core JS Files. Extra: TouchPunch for touch library inside jquery-ui.min.js   -->
@@ -169,6 +174,8 @@
     <!-- Paper Dashboard PRO DEMO methods, don't include it in your project! -->
     <script src="/vendor/theme/assets/js/demo.js"></script>
 
+    <script src="/vendor/clipboard/clipboard.min.js"/></script>
+
     <script src="/vendor/cards/assets/js/hipster-cards.js"/></script>
 
     <script type="text/javascript">
@@ -179,8 +186,11 @@
             demo.initFullCalendar();
             demo.initWizard();
             demo.initFormExtendedDatetimepickers();
-            demo.initSmallGoogleMaps();
-            demo.stickElement();
+            demo.initSwitchers();
+            demo.showNotification();
+            demo.initClipboard();
+            // demo.initSmallGoogleMaps();
+            // demo.stickElement();
         });
     </script>
 
