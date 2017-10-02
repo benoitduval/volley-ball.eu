@@ -191,6 +191,7 @@ class EventController extends AbstractController
             $form = new Form\Comment();
             $request = $this->getRequest();
             if ($request->isPost()) {
+                $form->setData($request->getPost());
                 if ($form->isValid()) {
                     $data = $form->getData();
                     $eventDate   = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
