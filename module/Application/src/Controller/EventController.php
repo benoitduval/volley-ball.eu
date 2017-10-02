@@ -137,6 +137,9 @@ class EventController extends AbstractController
             $group     = $this->groupTable->find($event->groupId);
             $isMember  = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
             $isAdmin   = false;
+            $serve  = '';
+            $attack = '';
+            $recep  = '';
             if ($isMember) {
                 $isAdmin = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
             }
@@ -173,6 +176,13 @@ class EventController extends AbstractController
             }
 
             $counters = $this->disponibilityTable->getCounters($eventId);
+
+            if ($event->stats) {
+                $stats = $event->getStatsByType();
+                $serve  = [$stats[\Application\Model\Event::STAT_SERVE_FAULT], $stats[\Application\Model\Event::STAT_SERVE_POINT]];
+                $attack = [$stats[\Application\Model\Event::STAT_ATTACK_FAULT], $stats[\Application\Model\Event::STAT_ATTACK_POINT]];
+                $recep  = [$stats[\Application\Model\Event::STAT_RECEP_FAULT]];
+            }
 
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
@@ -229,6 +239,9 @@ class EventController extends AbstractController
             }
 
             return new ViewModel([
+                'serve'           => $serve,
+                'attack'          => $attack,
+                'recep'           => $recep,
                 'counters'        => $counters,
                 'comments'        => $result,
                 'event'           => $event,

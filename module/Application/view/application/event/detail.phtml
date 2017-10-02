@@ -141,14 +141,14 @@
 
 <?php if ($event->stats): ?>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-content">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="card-title">Statistiques par Set</h4>
-                            <div id="chart-stats-full" class="ct-chart"
-                                data-stats = "<?= json_encode($event->getStatsByType()); ?>"
+                            <h4 class="card-title">Services</h4>
+                            <div class="chart-stats" class="ct-chart"
+                                data-stats = "<?= json_encode($serve); ?>"
                                 data-sets  = "<?= count($event->sets) ?>"
                                 >
                             </div>
@@ -157,11 +157,54 @@
                 </div>
                 <div class="card-footer">
                     <div class=" col-md-12">
-                        <div class="col-md-2 col-md-offset-1 col-xs-12"><i class="fa fa-circle text-info"></i> Faute Service <br/></div>
-                        <div class="col-md-2 col-xs-12"><i class="fa fa-circle text-warning"></i> Faute Recep <br/></div>
-                        <div class="col-md-2 col-xs-12"><i class="fa fa-circle text-danger"></i> Faute Attaque <br/></div>
-                        <div class="col-md-2 col-xs-12"><i class="fa fa-circle text-success"></i> Point Service <br/></div>
-                        <div class="col-md-2 col-xs-12"><i class="fa fa-circle dot-stats-e"></i> Point Attaque <br/></div>
+                        <div class="col-xs-6 text-center"><i class="fa fa-circle text-info"></i> Faute</div>
+                        <div class="col-xs-6 text-center"><i class="fa fa-circle text-warning"></i> Point</div>
+                    </div>
+                        <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="card-title">Attaques</h4>
+                            <div class="chart-stats" class="ct-chart"
+                                data-stats = "<?= json_encode($attack); ?>"
+                                data-sets  = "<?= count($event->sets) ?>"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class=" col-md-12">
+                        <div class="col-xs-6 text-center"><i class="fa fa-circle text-info"></i> Faute</div>
+                        <div class="col-xs-6 text-center"><i class="fa fa-circle text-warning"></i> Point</div>
+                    </div>
+                        <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="card-title">Réception</h4>
+                            <div class="chart-stats" class="ct-chart"
+                                data-stats = "<?= json_encode($recep); ?>"
+                                data-sets  = "<?= count($event->sets) ?>"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class=" col-md-12">
+                        <div class="col-xs-6 text-center"><i class="fa fa-circle text-info"></i> Faute</div>
+                        <div class="col-xs-6 text-center"><i class="fa fa-circle text-warning"></i> Point</div>
                     </div>
                         <div class="clearfix"></div>
                 </div>

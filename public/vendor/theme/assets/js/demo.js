@@ -172,26 +172,13 @@ demo = {
         }
 
         $('.chart-stats').each(function() {
-            new Chartist.Pie(this, {
-                  series: JSON.parse($(this).attr('data-stats')),
-            }, {
-              donut: true,
-              donutWidth: 40,
-              startAngle: 270,
-              height:270,
-              showLabel: true
-            });
-        });
-
-        var stats = $("#chart-stats-full");
-        if (stats.length > 0) {
-            var sets = stats.attr('data-sets');
+            var sets = $(this).attr('data-sets');
             if (sets == 3) var labels = ['1er', '2nd', '3e'];
             if (sets == 4) var labels = ['1er', '2nd', '3e', '4e'];
-            if (sets == 4) var labels = ['1er', '2nd', '3e', '4e', '5e'];
-            new Chartist.Line("#chart-stats-full", {
-              labels: labels,
-              series: JSON.parse(stats.attr('data-stats')),
+            if (sets == 5) var labels = ['1er', '2nd', '3e', '4e', '5e'];
+            new Chartist.Line(this, {
+                  labels: labels,
+                  series: JSON.parse($(this).attr('data-stats')),
             }, {
               fullWidth: true,
               showPoint: true,
@@ -200,7 +187,7 @@ demo = {
                 onlyInteger: true
               }
             });
-        }
+        });
     },
 
     showSwal: function(type){
