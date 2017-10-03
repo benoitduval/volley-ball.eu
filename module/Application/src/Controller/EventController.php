@@ -339,6 +339,7 @@ class EventController extends AbstractController
                 $eventData['set' . $i . 'ServePoint']  = $stats[$key][Model\Event::STAT_SERVE_POINT];
                 $eventData['set' . $i . 'AttackPoint']  = $stats[$key][Model\Event::STAT_ATTACK_POINT];
             }
+            $eventData['debrief'] = $event->debrief;
 
             $form = new Form\Result;
 

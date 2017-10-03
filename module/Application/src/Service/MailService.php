@@ -598,13 +598,13 @@ class MailService
                                                                   <table border="0" cellpadding="6" cellspacing="0" width="100%">
                                                                         <tr>
                                                                             <td align="center" valign="top">
-                                                                                <a href="{baseUrl}/guest/response/{eventId}/{ok}" title="présent" ' . $this->_getCss('link') . '>Présent<br><img src="{baseUrl}/img/fa-check-square-o.png" /></a>
+                                                                                <a href="{baseUrl}/disponibility/response/{eventId}/{ok}" title="présent" ' . $this->_getCss('link') . '>Présent<br><img src="{baseUrl}/img/fa-check-square-o.png" /></a>
                                                                             </td>
                                                                             <td align="center" valign="top">
-                                                                                <a href="{baseUrl}/guest/response/{eventId}/{no}" title="Absent" ' . $this->_getCss('link') . '>Absent<br><img src="{baseUrl}/img/fa-times.png" /></a>
+                                                                                <a href="{baseUrl}/disponibility/response/{eventId}/{no}" title="Absent" ' . $this->_getCss('link') . '>Absent<br><img src="{baseUrl}/img/fa-times.png" /></a>
                                                                             </td>
                                                                             <td align="center" valign="top">
-                                                                                <a href="{baseUrl}/guest/response/{eventId}/{perhaps}" title="incertain" ' . $this->_getCss('link') . '>Incertain<br><img src="{baseUrl}/img/fa-question-circle.png" /></a>
+                                                                                <a href="{baseUrl}/disponibility/response/{eventId}/{perhaps}" title="incertain" ' . $this->_getCss('link') . '>Incertain<br><img src="{baseUrl}/img/fa-question-circle.png" /></a>
                                                                             </td>
                                                                             <td align="center" valign="top">
                                                                                 <table border="0" cellpadding="10" cellspacing="0" ' . $this->_getCss('button', 'margin-top:15px;') . '>
