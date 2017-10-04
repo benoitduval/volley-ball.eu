@@ -136,8 +136,8 @@ class Result extends Form
         $this->add([
             'type' => Element\Number::class,
             'name' => 'set4ServeFault',
-            'readonly' => true,
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
                 'required' => false,
