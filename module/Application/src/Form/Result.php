@@ -110,6 +110,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set1ServeFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -119,6 +120,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set2ServeFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -128,6 +130,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set3ServeFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -148,6 +151,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set5ServeFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -157,6 +161,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set1ServePoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -166,6 +171,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set2ServePoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -175,6 +181,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set3ServePoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -184,6 +191,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set4ServePoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -193,6 +201,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set5ServePoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -202,6 +211,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set1RecepFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -211,6 +221,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set2RecepFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -220,6 +231,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set3RecepFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -229,6 +241,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set4RecepFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -238,6 +251,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set5RecepFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -247,6 +261,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set1AttackFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -256,6 +271,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set2AttackFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -265,6 +281,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set3AttackFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -274,6 +291,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set4AttackFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -283,6 +301,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set5AttackFault',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -292,6 +311,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set1AttackPoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -301,6 +321,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set2AttackPoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -310,6 +331,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set3AttackPoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -319,6 +341,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set4AttackPoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
@@ -328,6 +351,7 @@ class Result extends Form
             'type' => Element\Number::class,
             'name' => 'set5AttackPoint',
             'attributes' => [
+                'readonly' => true,
                 'value' => 0,
                 'class' => 'form-control',
             ],
