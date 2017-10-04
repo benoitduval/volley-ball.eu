@@ -327,17 +327,19 @@ class EventController extends AbstractController
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
 
             $eventData = [];
-            $stats = json_decode($event->stats);
-            foreach ($event->sets as $key => $score) {
-                $i = $key + 1;
-                $set = explode('-', $score);
-                $eventData['set' . $i . 'Team1'] = $set[0];
-                $eventData['set' . $i . 'Team2'] = $set[1];
-                $eventData['set' . $i . 'ServeFault']  = $stats[$key][Model\Event::STAT_SERVE_FAULT];
-                $eventData['set' . $i . 'RecepFault']  = $stats[$key][Model\Event::STAT_RECEP_FAULT];
-                $eventData['set' . $i . 'AttackFault'] = $stats[$key][Model\Event::STAT_ATTACK_FAULT];
-                $eventData['set' . $i . 'ServePoint']  = $stats[$key][Model\Event::STAT_SERVE_POINT];
-                $eventData['set' . $i . 'AttackPoint']  = $stats[$key][Model\Event::STAT_ATTACK_POINT];
+            if ($event->stats) {
+                $stats = json_decode($event->stats);
+                foreach ($event->sets as $key => $score) {
+                    $i = $key + 1;
+                    $set = explode('-', $score);
+                    $eventData['set' . $i . 'Team1'] = $set[0];
+                    $eventData['set' . $i . 'Team2'] = $set[1];
+                    $eventData['set' . $i . 'ServeFault']  = $stats[$key][Model\Event::STAT_SERVE_FAULT];
+                    $eventData['set' . $i . 'RecepFault']  = $stats[$key][Model\Event::STAT_RECEP_FAULT];
+                    $eventData['set' . $i . 'AttackFault'] = $stats[$key][Model\Event::STAT_ATTACK_FAULT];
+                    $eventData['set' . $i . 'ServePoint']  = $stats[$key][Model\Event::STAT_SERVE_POINT];
+                    $eventData['set' . $i . 'AttackPoint']  = $stats[$key][Model\Event::STAT_ATTACK_POINT];
+                }
             }
             $eventData['debrief'] = $event->debrief;
 
