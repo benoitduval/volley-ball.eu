@@ -16,10 +16,9 @@ class RecurrentController extends AbstractController
         $id     = $this->params('id', null);
         $status = $this->params('status', null);
 
-        $recurrentTable = $this->get(TableGateway\Recurent::class);
-        $recurrent = $recurrentTable->find($id);
-        $recurrent->status = $status;
-        $recurrentTable->save($recurrent);
+        $training = $this->trainingTable->find($id);
+        $training->status = $status;
+        $this->trainingTable->save($training);
 
         $view = new ViewModel(array(
             'result'   => [
