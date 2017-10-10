@@ -46,6 +46,7 @@ class EventController extends AbstractController
 
                 $eventDate = \Datetime::createFromFormat('Y-m-d H:i:s', $event->date);
                 $result[]  = [
+                    'id'           => $event->id,
                     'title'        => $event->name,
                     'start'        => $eventDate->format('Y-m-d H:i'),
                     'url'          => $config['baseUrl'] . '/event/detail/' . $event->id,
@@ -55,9 +56,6 @@ class EventController extends AbstractController
                     'address'      => $event->address,
                     'zipcode'      => $event->zipCode,
                     'city'         => $event->city,
-                    'urlOk'        => $config['baseUrl'] . '/disponibility/response/' . $event->id . '/' . Model\Disponibility::RESP_OK,
-                    'urlNo'        => $config['baseUrl'] . '/disponibility/response/' . $event->id . '/' . Model\Disponibility::RESP_NO,
-                    'urlIncertain' => $config['baseUrl'] . '/disponibility/response/' . $event->id . '/' . Model\Disponibility::RESP_INCERTAIN,
                     'month'        => \Application\Service\Date::toFr($eventDate->format('F')),
                     'date'         => $eventDate->format('d'),
                     'day'          => \Application\Service\Date::toFr($eventDate->format('D')),

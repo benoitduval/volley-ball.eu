@@ -488,7 +488,8 @@ demo = {
                     groupId: groupId,
                 }
             }).done(function(resp) {
-
+                var myEvent;
+                var calendarModal = $('#fullCalModal');
                 var data  = JSON.parse(resp);
                 $('#fullCalendar').fullCalendar({
                     eventAfterAllRender: function(view) {
@@ -513,23 +514,82 @@ demo = {
                     events: data,
                     timeFormat: 'H:mm',
                     eventClick:  function(event, jsEvent, view) {
+                        myEvent = event;
                         jsEvent.preventDefault();
                         if (typeof event.url !== "undefined") {
-                            $('#modal-title').html(event.title);
-                            $('#modal-date').html(event.date);
-                            $('#event-url').attr('href',event.url);
-                            $('#modal-count').html(event.count);
-                            $('#modal-place').html(event.place);
-                            $('#modal-city').html(event.city);
-                            $('#modal-zipcode').html(event.zipcode);
-                            $('#modal-address').html(event.address);
-                            $('#modal-month').html(event.month);
-                            $('#modal-day').html(event.day);
-                            $('#modal-date').html(event.date);
-                            $('#event-url-ok').attr('href',event.urlOk);
-                            $('#event-url-no').attr('href',event.urlNo);
-                            $('#event-url-incertain').attr('href',event.urlIncertain);
-                            $('#fullCalModal').modal();
+                            $('#modal-title').html(myEvent.title);
+                            $('#modal-date').html(myEvent.date);
+                            $('#event-url').attr('href',myEvent.url);
+                            $('#modal-count').html(myEvent.count);
+                            $('#modal-place').html(myEvent.place);
+                            $('#modal-city').html(myEvent.city);
+                            $('#modal-zipcode').html(myEvent.zipcode);
+                            $('#modal-address').html(myEvent.address);
+                            $('#modal-month').html(myEvent.month);
+                            $('#modal-day').html(myEvent.day);
+                            $('#modal-date').html(myEvent.date);
+                            calendarModal.modal();
+
+                            var url = '/api/guest/response/' + myEvent.id;
+                            $('#event-url-ok').off('click').on('click', function(e, state) {
+                                url = url + '/1';
+                                var request = $.ajax({
+                                    type: "GET",
+                                    url: url
+                                }).done(function(resp) {
+                                    if (myEvent.className != 'event-green') {
+                                        myEvent.count = myEvent.count + 1;
+                                    }
+                                    myEvent.className = ['event-green'];
+                                    $('#fullCalendar').fullCalendar('updateEvent', myEvent);
+                                    calendarModal.modal('hide');
+                                });
+                                swal({
+                                  title: 'Enregistré',
+                                  type: 'success',
+                                  showConfirmButton: false
+                                });
+                            });
+
+                            $('#event-url-no').off('click').on('click', function(e, state) {
+                                url = url + '/2';
+                                var request = $.ajax({
+                                    type: "GET",
+                                    url: url
+                                }).done(function(resp) {
+                                    if (myEvent.className == 'event-green') {
+                                        myEvent.count = myEvent.count - 1;
+                                    }
+                                    myEvent.className = ['event-red'];
+                                    $('#fullCalendar').fullCalendar('updateEvent', myEvent);
+                                    calendarModal.modal('hide');
+                                });
+                                swal({
+                                  title: 'Enregistré',
+                                  type: 'success',
+                                  showConfirmButton: false
+                                });
+                            });
+
+                            $('#event-url-incertain').off('click').on('click', function(e, state) {
+                                url = url + '/3';
+                                var request = $.ajax({
+                                    type: "GET",
+                                    url: url
+                                }).done(function(resp) {
+                                    if (myEvent.className == 'event-green') {
+                                        myEvent.count = myEvent.count - 1;
+                                    }
+                                    myEvent.className = ['event-orange'];
+                                    $('#fullCalendar').fullCalendar('updateEvent', myEvent);
+                                    calendarModal.modal('hide');
+                                });
+                                swal({
+                                  title: 'Enregistré',
+                                  type: 'success',
+                                  showConfirmButton: false
+                                });
+                            });
                         }
                     }
                 });

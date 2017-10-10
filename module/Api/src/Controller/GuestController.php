@@ -16,17 +16,13 @@ class GuestController extends AbstractController
         $eventId  = $this->params('eventId', null);
         $response = $this->params('response', null);
 
-        $guestTable = $this->get(TableGateway\Guest::class);
-        if ($guest = $guestTable->fetchOne(['userId' => $this->getUser()->id, 'eventId' => $eventId])) {
+        if ($guest = $this->disponibilityTable->fetchOne(['userId' => $this->getUser()->id, 'eventId' => $eventId])) {
             $guest->response = $response;
-            $guestTable->save($guest);
+            $this->disponibilityTable->save($guest);
         }
 
-        $counts = $guestTable->getCounters($eventId);
-        $result  = $guestTable->getUserResponses($eventId);
-
         $view = new ViewModel(array(
-            'result'   => $result
+            'result'   => true
         ));
 
         $view->setTerminal(true);
