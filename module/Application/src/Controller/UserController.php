@@ -24,11 +24,15 @@ class UserController extends AbstractController
 
                 $form->setData($request->getPost());
                 if ($form->isValid()) {
-                    $data = $this->getUser()->toArray();
-                    $data['phone'] = $post['phone'];
-                    $data['licence'] = $post['licence'];
-                    $user = $this->userTable->save($data);
+                    $data['firstname']= $post['firstname'];
+                    $data['lastname'] = $post['lastname'];
+                    $data['phone']    = $post['phone'];
+                    $data['licence']  = $post['licence'] ? $post['licence'] : null;
+                    $this->_user->exchangeArray($data);
+                    $user = $this->userTable->save($this->_user);
                     $this->_user = $user;
+                    $this->flashMessenger()->addSuccessMessage('Enregistré !');
+                    $this->redirect()->toUrl('/user/params');
                 }
             }
             $notifs = $this->notifTable->fetchAll(['userId' => $this->getUser()->id]);
