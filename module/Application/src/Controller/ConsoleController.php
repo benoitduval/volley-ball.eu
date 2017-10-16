@@ -281,34 +281,31 @@ class ConsoleController extends AbstractController
             $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
             $config = $this->get('config');
             if ($config['mail']['allowed']) {
-                $mail   = $this->get(MailService::class);
+                $view       = new \Zend\View\Renderer\PhpRenderer();
+                $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                $resolver->setMap([
+                    'event' => __DIR__ . '/../../view/mail/event.phtml'
+                ]);
+                $view->setResolver($resolver);
+
+                $viewModel  = new ViewModel();
+                $viewModel->setTemplate('event')->setVariables(array(
+                    'event'     => $event,
+                    'group'     => $group,
+                    'date'      => $date,
+                    'baseUrl'   => $config['baseUrl']
+                ));
+
+                $mail = $this->get(MailService::class);
                 foreach ($users as $user) {
                     $mail->addBcc($user->email);
                 }
+                $mail->addBcc($emails);
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
-
-                // $mail->addIcalEvent($event);
-                $mail->setTemplate(MailService::TEMPLATE_EVENT, [
-                    'title'     => $event->name . ' <br /> ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
-                    'subtitle'  => $group->name,
-                    'name'      => $event->place,
-                    'zip'       => $event->zipCode,
-                    'address'   => $event->address,
-                    'city'      => $event->city,
-                    'eventId'   => $event->id,
-                    'date'      => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
-                    'day'       => \Application\Service\Date::toFr($date->format('d')),
-                    'month'     => \Application\Service\Date::toFr($date->format('F')),
-                    'ok'        => Model\Disponibility::RESP_OK,
-                    'no'        => Model\Disponibility::RESP_NO,
-                    'perhaps'   => Model\Disponibility::RESP_INCERTAIN,
-                    'comment'   => 'Aucun commentaire sur l\'évènement',
-                    'baseUrl'   => $config['baseUrl']
-                ]);
+                $mail->setBody($view->render($viewModel));
                 try {
                     $mail->send();
-                } catch (RuntimeException $e) {
-                    $console->writeLine($e->getMessage(), Color::RED);
+                } catch (\Exception $e) {
                 }
             }
         }

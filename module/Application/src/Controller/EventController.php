@@ -31,16 +31,6 @@ class EventController extends AbstractController
 
                     $data['date']    = $date->format('Y-m-d H:i:s');
                     $data['groupId'] = $groupId;
-
-                    try {
-                        $mapService = $this->get(Service\Map::class);
-                        $address = $data['address'] . ', ' . $data['zipCode'] . ' ' . $data['city'] . ' France';
-
-                        if ($coords = $mapService->getCoordinates($address)) {
-                            $data = array_merge($data, $coords);
-                        }
-                    } catch (\Exception $e) {}
-
                     $event = $this->eventTable->save($data);
 
                     if ($match) {
@@ -80,33 +70,29 @@ class EventController extends AbstractController
                     // send emails
                     $config = $this->get('config');
                     if ($config['mail']['allowed']) {
-                        $mail   = $this->get(MailService::class);
-                        $mail->addBcc($emails);
-                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $date->format('l d F \à H\hi'));
-                        $emailData = [
-                            'title'     => $event->name . ' <br /> ' . $date->format('l d F \à H\hi'),
-                            'subtitle'  => $group->name,
-                            'name'      => $event->place,
-                            'address'   => $event->address,
-                            'zip'       => $event->zipCode,
-                            'city'      => $event->city,
-                            'eventId'   => $event->id,
-                            'date'      => $date->format('l d F \à H\hi'),
-                            'day'       => $date->format('d'),
-                            'month'     => $date->format('F'),
-                            'eventDate' => $event->date,
-                            'ok'        => Model\Disponibility::RESP_OK,
-                            'no'        => Model\Disponibility::RESP_NO,
-                            'perhaps'   => Model\Disponibility::RESP_INCERTAIN,
-                            'comment'   => $data['comment'],
-                            'baseUrl'   => $config['baseUrl']
-                        ];
+                        $view       = new \Zend\View\Renderer\PhpRenderer();
+                        $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                        $resolver->setMap([
+                            'event' => __DIR__ . '/../../view/mail/event.phtml'
+                        ]);
+                        $view->setResolver($resolver);
 
-                        // $mail->addIcalEvent($event);
-                        $mail->setTemplate(MailService::TEMPLATE_EVENT, $emailData);
+                        $viewModel  = new ViewModel();
+                        $viewModel->setTemplate('event')->setVariables(array(
+                            'event'     => $event,
+                            'group'     => $group,
+                            'date'      => $date,
+                            'baseUrl'   => $config['baseUrl']
+                        ));
+
+                        $mail = $this->get(MailService::class);
+                        $mail->addBcc($emails);
+                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
+                        $mail->setBody($view->render($viewModel));
                         try {
                             $mail->send();
-                        } catch (\Exception $e) {}
+                        } catch (\Exception $e) {
+                        }
                     }
 
                     $this->flashMessenger()->addSuccessMessage('Votre évènement a bien été créé. Les notifications ont été envoyés aux membres du groupe.');
@@ -220,21 +206,37 @@ class EventController extends AbstractController
                             if ($email) $bcc[] = $user->email;
                         }
 
-                        $commentDate = \DateTime::createFromFormat('U', time());
-                        $mail        = $this->get(MailService::class);
-                        $mail->addBcc($bcc);
-                        $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . $eventDate->format('l d F \à H\hi'));
-                        $mail->setTemplate(MailService::TEMPLATE_COMMENT, array(
-                            'title'     => $event->name . '<br>' . $eventDate->format('l d F \à H\hi'),
-                            'subtitle'  => $group->name,
-                            'username'  => $this->getUser()->getFullname(),
-                            'comment'   => nl2br($comment->comment),
-                            'date'      => $commentDate->format('d\/m'),
-                            'eventId'   => $eventId,
-                            'baseUrl'   => $config['baseUrl']
+                        $config = $this->get('config');
+                        if ($config['mail']['allowed']) {
+                                $commentDate = \DateTime::createFromFormat('U', time());
+                                $date        = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+                                $view       = new \Zend\View\Renderer\PhpRenderer();
+                                $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                                $resolver->setMap([
+                                    'event' => __DIR__ . '/../../view/mail/comment.phtml'
+                                ]);
+                                $view->setResolver($resolver);
 
-                        ));
-                        $mail->send();
+                                $viewModel  = new ViewModel();
+                                $viewModel->setTemplate('event')->setVariables(array(
+                                    'event'     => $event,
+                                    'group'     => $group,
+                                    'date'      => $date,
+                                    'user'      => $this->getUser(),
+                                    'comment'   => $comment,
+                                    'commentDate' => $commentDate,
+                                    'baseUrl'   => $config['baseUrl']
+                                ));
+
+                                $mail = $this->get(MailService::class);
+                                $mail->addBcc($bcc);
+                                $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
+                                $mail->setBody($view->render($viewModel));
+                            try {
+                                $mail->send();
+                            } catch (\Exception $e) {
+                            }
+                        }
                     }
                     $this->flashMessenger()->addSuccessMessage('Commentaire enregistré');
                     $this->redirect()->toUrl('/event/detail/' . $event->id);
