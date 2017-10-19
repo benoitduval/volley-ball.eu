@@ -300,7 +300,6 @@ class ConsoleController extends AbstractController
                 foreach ($users as $user) {
                     $mail->addBcc($user->email);
                 }
-                $mail->addBcc($emails);
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
                 $mail->setBody($view->render($viewModel));
                 try {
