@@ -154,17 +154,30 @@ class AuthController extends AbstractController
             if ($email = $this->params()->fromPost('email')) {
                 if ($user = $this->userTable->fetchOne(['email' => $email])) {
                     $config = $this->get('config');
-                    $mail   = $this->get(MailService::class);
-                    $salt   = $config['salt'];
+
+                    $view       = new \Zend\View\Renderer\PhpRenderer();
+                    $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                    $resolver->setMap([
+                        'event' => __DIR__ . '/../../view/mail/password.phtml'
+                    ]);
+                    $view->setResolver($resolver);
+
+                    $viewModel  = new ViewModel();
+                    $token = md5($user->email . $config['salt']);
+                    $viewModel->setTemplate('event')->setVariables(array(
+                        'url'   => $config['baseUrl'] . '/auth/reset?email=' . urlencode($user->email) . '&token=' . $token,
+                        'baseUrl'   => $config['baseUrl']
+                    ));
+
+                    $mail = $this->get(MailService::class);
                     $mail->addTo($user->email);
                     $mail->setSubject('[Volley-ball.eu] Mot de passe oublié');
-                    $token = md5($user->email . $config['salt']);
+                    $mail->setBody($view->render($viewModel));
+                    try {
+                        $mail->send();
+                    } catch (\Exception $e) {
+                    }
 
-                    $mail->setTemplate(MailService::TEMPLATE_PASSWORD, array(
-                        'email' => $user->email,
-                        'url'   => $config['baseUrl'] . '/auth/reset?email=' . urlencode($user->email) . '&token=' . $token,
-                    ));
-                    $mail->send();
                     return $this->redirect()->toUrl('/auth/signin');
                 }
             }

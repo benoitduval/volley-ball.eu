@@ -6,7 +6,7 @@
           
           <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer" style="border-collapse:collapse;max-width:600px;border:0">
             <tbody><tr>
-              <td align="center" background="https://gallery.mailchimp.com/c294e5e6fcd7996580bb94ded/images/0145f403-eca3-4a00-abf7-904371561369.jpg" valign="top" id="templateHeader">
+              <td align="center" background="<?= $baseUrl . '/img/volley-back.jpg'?>" valign="top" id="templateHeader">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                   <tbody><tr>
                     <td align="center" valign="top">
@@ -153,7 +153,7 @@
                                                                           <tr>
                                                                             <td align="center" valign="middle" width="24" class="mcnFollowIconContent">
                                                                               <a href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_OK ?>" target="_blank">
-                                                                                <img src="https://cdn-images.mailchimp.com/icons/social-block-v2/light-facebook-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" alt="light-facebook-48.png"></a>
+                                                                                <img src="<?= $baseUrl . '/img/check.png'?>" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24"></a>
                                                                               </td>
                                                                               <td align="left" valign="middle" class="mcnFollowTextContent" style="padding-left:5px">
                                                                                 <a href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_OK ?>" style="font-family:Helvetica,sans-serif;font-size:14px;text-decoration:none;color:#64acb0;font-weight:normal;line-height:180%;text-align:left" target="_blank">Présent</a>
@@ -182,7 +182,7 @@
                                                                             <tr>
                                                                               <td align="center" valign="middle" width="24" class="mcnFollowIconContent">
                                                                                 <a href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_NO ?>" target="_blank">
-                                                                                  <img src="https://cdn-images.mailchimp.com/icons/social-block-v2/light-twitter-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" alt="light-twitter-48.png"></a>
+                                                                                  <img src="<?= $baseUrl . '/img/cross.png'?>" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24"></a>
                                                                                 </td>
                                                                                 <td align="left" valign="middle" class="mcnFollowTextContent" style="padding-left:5px">
                                                                                   <a href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_NO ?>" style="font-family:Helvetica,sans-serif;font-size:14px;text-decoration:none;color:#64acb0;font-weight:normal;line-height:180%;text-align:left" target="_blank">Absent</a>
@@ -211,7 +211,7 @@
                                                                               <tr>
                                                                                 <td align="center" valign="middle" width="24" class="mcnFollowIconContent">
                                                                                   <a href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_INCERTAIN ?>" target="_blank">
-                                                                                    <img src="https://ci4.googleusercontent.com/proxy/EdTPKl7_iK0bh0_3xZSRLGjKcjNJ5g4_q076LqwLvoTo36PV_pCmSrFbN1Kb_pmyBviArt8q_wluJJ_OfGH9kwMyOTTYzaNQ_eB-1gWbSlqfEcNtAyqwzZbHbq3fSrpCQFbi=s0-d-e1-ft#https://cdn-images.mailchimp.com/icons/social-block-v2/light-instagram-48.png" style="display:block;text-align:center;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" alt="light-instagram-48.png"></a>
+                                                                                    <img src="<?= $baseUrl . '/img/question.png'?>" style="display:block;text-align:center;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" alt="light-instagram-48.png"></a>
                                                                                   </td>
                                                                                   <td align="left" valign="middle" class="mcnFollowTextContent" style="padding-left:5px">
                                                                                     <a href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_INCERTAIN ?>" style="font-family:Helvetica,sans-serif;font-size:14px;text-decoration:none;color:#64acb0;font-weight:normal;line-height:180%;text-align:left" target="_blank">Incertain</a>
@@ -227,6 +227,35 @@
                                                                 </tr>
                                                               </tbody>
                                                             </table>
+                                                            <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                              <tbody>
+                                                                <tr>
+                                                                  <td valign="top" style="padding-right:0;padding-bottom:9px" class="mcnFollowContentItemContainer">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnFollowContentItem" style="border-collapse:collapse">
+                                                                      <tbody>
+                                                                        <tr>
+                                                                          <td align="left" valign="middle" style="padding-top:5px;padding-right:10px;padding-bottom:5px;padding-left:9px">
+                                                                            <table align="left" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                                                                              <tbody>
+                                                                                <tr>
+                                                                                  <td align="center" valign="middle" width="24" class="mcnFollowIconContent">
+                                                                                    <a href="<?= $baseUrl . '/event/detail/' . $event->id ?>" target="_blank">
+                                                                                      <img src="<?= $baseUrl . '/img/search.png'?>" style="display:block;text-align:center;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24" alt="light-instagram-48.png"></a>
+                                                                                    </td>
+                                                                                    <td align="left" valign="middle" class="mcnFollowTextContent" style="padding-left:5px">
+                                                                                      <a href="<?= $baseUrl . '/event/detail/' . $event->id ?>" style="font-family:Helvetica,sans-serif;font-size:14px;text-decoration:none;color:#64acb0;font-weight:normal;line-height:180%;text-align:left" target="_blank">Détails</a>
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                </tbody>
+                                                                              </table>
+                                                                            </td>
+                                                                          </tr>
+                                                                        </tbody>
+                                                                      </table>
+                                                                    </td>
+                                                                  </tr>
+                                                                </tbody>
+                                                              </table>
                                                           </td>
                                                         </tr>
                                                       </tbody>
@@ -264,8 +293,8 @@
                                       <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%" class="mcnTextContentContainer">
                                         <tbody>
                                           <tr>
-                                            <td valign="top" class="mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#c2c2b4;font-family:Helvetica;font-size:18px;font-style:normal;font-weight:normal;line-height:150%;letter-spacing:normal;text-align:left">
-                                              <h4 style="display:block;margin:0;padding:0;color:#c2c2b4;font-family:Helvetica;font-size:20px;font-style:normal;font-weight:bold;line-height:100%;letter-spacing:normal;text-align:left"><?= $user->getFullname() ?></h4>
+                                            <td valign="top" class="mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#c2c2b4;font-family:Helvetica;font-size:14px;font-style:normal;font-weight:normal;line-height:150%;letter-spacing:normal;text-align:left">
+                                              <h4 style="display:block;margin:0;padding:0;color:#c2c2b4;font-family:Helvetica;font-size:18px;font-style:normal;font-weight:bold;line-height:100%;letter-spacing:normal;text-align:left"><?= $user->getFullname() ?></h4>
                                               <?= nl2br($comment->comment) ?>
                                             </td>
                                           </tr>
@@ -297,9 +326,10 @@
                                       <tbody>
                                         <tr>
                                           <td valign="top" class="mcnTextContent" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#838176;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left">
-                                            <p style="margin:10px 0;padding:0;color:#838176;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left">Cet email a été envoyé automatiquement, merci de ne pas y répondre.<br><a href="#_" style="color:#838176;font-weight:normal;text-decoration:underline">Paramètres d\'email</a>
+                                            <p style="margin:10px 0;padding:0;color:#838176;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left">Cet email a été envoyé automatiquement, merci de ne pas y répondre.<br>
+                                              <!-- <a href="#_" style="color:#838176;font-weight:normal;text-decoration:underline">Paramètres d'email</a> -->
                                             </p>
-                                            contact : <a href="mailto:volley-ball.eu@gmail.com" target="_blank">volley-ball.eu@gmail.com</a> <br>
+                                            contact : <a href="mailto:volley-ball.eu@gmail.com" target="_blank" style="font-family:Helvetica,sans-serif;font-size:14px;text-decoration:none;color:#64acb0;font-weight:normal;line-height:180%;text-align:left">volley-ball.eu@gmail.com</a> <br>
                                           </td>
                                         </tr>
                                       </tbody>
