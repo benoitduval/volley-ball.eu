@@ -210,6 +210,15 @@ return [
                         ],
                     ],
                 ],
+                'reminder' => [
+                    'options' => [
+                        'route'    => 'reminder [--verbose|-v]',
+                        'defaults' => [
+                            'controller' => Controller\ConsoleController::class,
+                            'action'     => 'reminder',
+                        ],
+                    ],
+                ],
             ],
         ],
     ],
