@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file, in reverse
 chronological order by release.
 
+## 3.2.1 - 2017-17-07
+
+### Added
+
+- [#42](https://github.com/zendframework/zend-crypt/pull/42) Added the CTR mode
+  for OpenSSL.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#48](https://github.com/zendframework/zend-crypt/pull/48) Incorrect Rsa type
+  declaration in Hybrid constructor.
+
+
+## 3.2.0 - 2016-12-06
+
+### Added
+
+- [#38](https://github.com/zendframework/zend-crypt/pull/38) Support of GCM and
+  CCM encryption mode for OpenSSL with PHP 7.1+
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 3.1.0 - 2016-08-11
 
 ### Added

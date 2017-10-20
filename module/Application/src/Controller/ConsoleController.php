@@ -96,7 +96,7 @@ class ConsoleController extends AbstractController
         }
         $values = substr($values, 0, -1);
         $userValues = substr($userValues, 0, -1);
-        
+
         $values .= ';';
 
         $this->newAdapter->query('INSERT INTO `group` (`id`, `name`, `brand`, `description`) VALUES ' . $values)->execute();
@@ -215,7 +215,7 @@ class ConsoleController extends AbstractController
         $console        = Console::getInstance();
 
         $trainings      = $this->trainingTable->fetchAll([
-            'emailDay' => date('l'), 
+            'emailDay' => date('l'),
             'status'   => \Application\Model\Training::ACTIVE
         ]);
 
@@ -300,6 +300,60 @@ class ConsoleController extends AbstractController
                 foreach ($users as $user) {
                     $mail->addBcc($user->email);
                 }
+                $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
+                $mail->setBody($view->render($viewModel));
+                try {
+                    $mail->send();
+                } catch (\Exception $e) {
+                }
+            }
+        }
+    }
+
+    public function reminderAction()
+    {
+        $config = $this->get('config');
+        $date = new \DateTime('now');
+        $date->modify('+ 1 days');
+        $events = $this->eventTable->fetchAll([
+            'date > ?' => $date->modify('00:00:00')->format('Y-m-d H:i:s'),
+            'date < ?' => $date->modify('23:59:59')->format('Y-m-d H:i:s'),
+        ]);
+
+        foreach ($events as $event) {
+            $emails = [];
+            $group = $this->groupTable->find($event->groupId);
+            $disponibilities = $this->disponibilityTable->fetchAll([
+                'eventId' => $event->id,
+                'response' => [
+                    Model\Disponibility::RESP_NO_ANSWER,
+                    Model\Disponibility::RESP_INCERTAIN
+                ]
+            ]);
+
+            foreach ($disponibilities as $disponibility) {
+                $user = $this->userTable->find($disponibility->userId);
+                $emails[] = $user->email;
+            }
+
+            if ($config['mail']['allowed']) {
+                $view       = new \Zend\View\Renderer\PhpRenderer();
+                $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                $resolver->setMap([
+                    'reminder' => __DIR__ . '/../../view/mail/reminder.phtml'
+                ]);
+                $view->setResolver($resolver);
+
+                $viewModel  = new ViewModel();
+                $viewModel->setTemplate('reminder')->setVariables(array(
+                    'event'     => $event,
+                    'group'     => $group,
+                    'date'      => $date,
+                    'baseUrl'   => $config['baseUrl']
+                ));
+
+                $mail = $this->get(MailService::class);
+                $mail->addBcc($emails);
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
                 $mail->setBody($view->render($viewModel));
                 try {
