@@ -2527,19 +2527,19 @@ temporary rendered events).
   /* undo jqui's ui-widget-header bold */
 }
 .fc-event.event-azure {
-  background-color: rgba(184, 216, 216, 0.8);
+  background-color: rgba(184, 216, 216, 0.5);
 }
 .fc-event.event-green {
-  background-color: rgba(213, 229, 163, 0.8);
+  background-color: rgba(213, 229, 163, 0.5);
 }
 .fc-event.event-orange {
   background-color: rgba(243, 187, 69, 0.2);
 }
 .fc-event.event-red {
-  background-color: rgba(255, 143, 94, 0.8);
+  background-color: rgba(255, 143, 94, 0.5);
 }
 .fc-event.event-default {
-  background-color: rgba(214, 193, 171, 0.8)
+  background-color: rgba(214, 193, 171, 0.5)
 }
 
 /* overpower some of bootstrap's and jqui's styles on <a> tags */
