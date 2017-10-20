@@ -21,7 +21,7 @@
 .icon-container {
 	width: 240px;
 	padding: .7em 0;
-	float: left;
+	float: left;6
 	position: relative;
 	text-align: left;
 }
@@ -298,4 +298,20 @@ body.nude{
 
 .card h2 {
   margin:10px 0 10px;
+}
+
+.text-event-green {
+  color:#d5e5a3;
+}
+
+.text-event-red {
+  color:#ff8f5e;
+}
+
+.text-event-azure {
+  color:#b8d8d8;
+}
+
+.text-event-default {
+  color:#66615b;
 }

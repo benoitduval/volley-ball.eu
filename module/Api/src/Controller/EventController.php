@@ -40,7 +40,7 @@ class EventController extends AbstractController
                     } else if ($disponibility->response == Model\Disponibility::RESP_NO) {
                         $className = 'event-red';
                     } else if ($disponibility->response == Model\Disponibility::RESP_INCERTAIN) {
-                        $className = 'event-orange';
+                        $className = 'event-azure';
                     }
                 }
 
