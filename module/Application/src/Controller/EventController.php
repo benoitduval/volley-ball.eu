@@ -115,9 +115,18 @@ class EventController extends AbstractController
 
     public function detailAction()
     {
-        $eventId        = $this->params('id');
-
+        $eventId = $this->params('id');
+        $stats   = [];
+        $sets    = [];
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
+
+            for ($i = 1; $i <= 5; $i++) {
+                $stats[$i] = $this->statsTable->fetchAll(['eventId' => $eventId, 'set' => $i], 'id ASC');
+                foreach ($stats[$i] as $stat) {
+                    $sets[$i]['us'][] = ($stat->pointFor == Model\Stats::POINT_US) ? $stat->scoreUs: '-';
+                    $sets[$i]['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';;
+                }
+            }
 
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
@@ -244,6 +253,8 @@ class EventController extends AbstractController
             }
 
             return new ViewModel([
+                'stats'           => $stats,
+                'sets'            => $sets,
                 'serve'           => $serve,
                 'attack'          => $attack,
                 'recep'           => $recep,
@@ -328,67 +339,55 @@ class EventController extends AbstractController
         $eventId = $this->params('id');
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
 
-            $eventData = [];
-            if ($event->stats) {
-                $stats = json_decode($event->stats);
-                foreach ($event->sets as $key => $score) {
-                    $i = $key + 1;
-                    $set = explode('-', $score);
-                    $eventData['set' . $i . 'Team1'] = $set[0];
-                    $eventData['set' . $i . 'Team2'] = $set[1];
-                    $eventData['set' . $i . 'ServeFault']  = $stats[$key][Model\Event::STAT_SERVE_FAULT];
-                    $eventData['set' . $i . 'RecepFault']  = $stats[$key][Model\Event::STAT_RECEP_FAULT];
-                    $eventData['set' . $i . 'AttackFault'] = $stats[$key][Model\Event::STAT_ATTACK_FAULT];
-                    $eventData['set' . $i . 'ServePoint']  = $stats[$key][Model\Event::STAT_SERVE_POINT];
-                    $eventData['set' . $i . 'AttackPoint']  = $stats[$key][Model\Event::STAT_ATTACK_POINT];
+            $stats = $this->statsTable->fetchOne(['eventId' => $eventId], 'id DESC');
+            $scoreUs   = 0;
+            $scoreThem = 0;
+            $set       = 1;
+            if ($stats) {
+                if (($stats->scoreUs >= 25 || $stats->scoreThem >= 25) && (abs(
+                $stats->scoreThem - $stats->scoreUs) == 2)) {
+                    $set = $stats->set + 1;
+                } else {
+                    $set = $stats->set;
+                    $scoreUs   = $stats->scoreUs;
+                    $scoreThem = $stats->scoreThem;
                 }
             }
-            $eventData['debrief'] = $event->debrief;
 
             $form = new Form\Result;
 
-            $form->setData($eventData);
             $request = $this->getRequest();
             if ($request->isPost()) {
                 $result = [];
-                $post = $request->getPost();
-                $setFor     = 0;
-                $setAgainst = 0;
-                $sets  = [];
-                $stats = [];
-                for ($i = 1; $i <= 5; $i++) {
-                    if ($post['set'.$i.'Team1'] && $post['set'.$i.'Team2']) {
-                        if ($post['set'.$i.'Team1'] > $post['set'.$i.'Team2']) {
-                            $setFor++;
-                        } else {
-                            $setAgainst++;
-                        }
-                        $sets[]  = $post['set'.$i.'Team1'] . '-' . $post['set'.$i.'Team2'];
-                        $stats[] = [
-                            (int) $post['set' . $i . 'ServeFault'],
-                            (int) $post['set' . $i . 'RecepFault'],
-                            (int) $post['set' . $i . 'AttackFault'],
-                            (int) $post['set' . $i . 'ServePoint'],
-                            (int) $post['set' . $i . 'AttackPoint'],
-                       ];
-                    }
+                $post = $request->getPost()->toArray();
+                if ($post['point-for'] == Model\Stats::POINT_US) {
+                    $post['score-us']++;
+                } else {
+                    $post['score-them']++;
                 }
-                $result['sets']    = json_encode($sets);
-                $result['stats']   = json_encode($stats);
-                $result['victory'] = ($setFor > $setAgainst) ? 1 : 0;
-                $result['score']   = $setFor . ' / ' .  $setAgainst;
-                $result['debrief'] = $post['debrief'];
-                $event->exchangeArray($result);
-                $this->eventTable->save($event);
+                $data['scoreUs']     = $post['score-us'];
+                $data['scoreThem']   = $post['score-them'];
+                $data['pointFor']    = $post['point-for'];
+                $data['reason']      = $post['reason'];
+                $data['eventId']     = $eventId;
+                $data['set']         = $post['set'];
+                $data['duringPoint'] = json_encode([
+                    'us'   => isset($post['during-point-us']) ? $post['during-point-us'] : null,
+                    'them' => isset($post['during-point-them']) ? $post['during-point-them'] : null,
+                ]);
+                $stats = $this->statsTable->save($data);
 
                 $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
-                $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
+                $this->redirect()->toRoute('event', ['action' => 'match', 'id' => $eventId]);
             }
 
             return new ViewModel([
-                'event'  => $event,
-                'form'   => $form,
-                'user'   => $this->getUser(),
+                'event'     => $event,
+                'form'      => $form,
+                'user'      => $this->getUser(),
+                'scoreUs'   => $scoreUs,
+                'scoreThem' => $scoreThem,
+                'set'       => (int) $set,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');

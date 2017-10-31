@@ -94,18 +94,77 @@
     </div>
 </div>
 
-<!-- <div class="row hidden-xs">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Carte</h4>
-            </div>
-            <div class="card-content">
-                <div id="regularMap" class="map"></div>
+<?php foreach ($sets as $set => $scores) : ?>
+    <?php if ($scores): ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Set <?= $set ?></h4>
+                    </div>
+                    <div class="card-content table-responsive table-full-width">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <?php foreach ($scores['us'] as $score): ?>
+                                        <td>
+                                            <?= $score ?>
+                                        </td>
+                                    <?php endforeach ?>
+                                </tr>
+                                <tr>
+                                    <?php foreach ($scores['them'] as $score): ?>
+                                        <td>
+                                            <?= $score ?>
+                                        </td>
+                                    <?php endforeach ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-border panel-default">
+                        <a data-toggle="collapse" href="#set<?= $set ?>" class="collapsed" aria-expanded="false">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    Actions SET <?= $set ?>
+                                    <i class="ti-angle-down"></i>
+                                </h4>
+                            </div>
+                        </a>
+                        <div id="set<?= $set ?>" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                            <?php foreach ($stats[$set] as $stat): ?>
+                                <h5>15-12 - Point à l'attaque</h5>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nous</th>
+                                            <th>eux</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Défence</td>
+                                            <td><i class="fa fa-check"></i></td>
+                                            <td><i class="fa fa-times"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Block</td>
+                                            <td><i class="fa fa-times"></i></td>
+                                            <td><i class="fa fa-check"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <?php endforeach ?>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div> -->
+    <?php endif ?>
+<?php endforeach ?>
 
 <?php if ($event->victory !== null): ?>
     <div class="row">

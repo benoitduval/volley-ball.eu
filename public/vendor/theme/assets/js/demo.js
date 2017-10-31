@@ -639,5 +639,9 @@ demo = {
         $('input[type="number"]').each(function () {
             $(this).bootstrapNumber();
         });
+    },
+
+    initTooltips: function() {
+        $('[data-toggle="tooltip"]').tooltip();
     }
 }

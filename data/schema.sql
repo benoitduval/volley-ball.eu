@@ -138,3 +138,18 @@ CREATE TABLE `holiday` (
   `to` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `stats`
+--
+DROP TABLE IF EXISTS `stats`;
+CREATE TABLE `stats` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `eventId` int(11) unsigned NOT NULL,
+  `pointFor` tinyint(1) DEFAULT NULL,
+  `scoreUs` tinyint(2) DEFAULT NULL,
+  `scorethem` tinyint(2) DEFAULT NULL,
+  `stats` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `eventId` (`eventId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,109 +1,151 @@
 <div class="row">
+    <form method="POST">
     <div class="col-md-10 col-md-offset-1">
-        <div class="card card-wizard" id="wizardCard">
-            <?= $this->form()->openTag($form); ?>
-                <div class="card-header text-center">
-                    <h4 class="card-title">Résultat</h4>
-                    <p class="category">Ajouter vos résultats, stats et débrief</p>
+        <div class="card">
+            <div class="card-content">
+                <h5 style="margin-bottom:0;" class="text-center">Set</h5>
+                <div class="col-xs-12">
+                    <div class="row text-center">
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-info <?= ($set == 1) ? 'active': ''; ?>">
+                                <input type="radio" name="set" <?= ($set == 1) ? 'checked': ''; ?> value="1">
+                                1
+                            </label>
+                            <label class="btn btn-info <?= ($set == 2) ? 'active': ''; ?>">
+                                <input type="radio" name="set" <?= ($set == 2) ? 'checked': ''; ?> value="2">
+                                2
+                            </label>
+                            <label class="btn btn-info <?= ($set == 3) ? 'active': ''; ?>">
+                                <input type="radio" name="set" <?= ($set == 3) ? 'checked': ''; ?> value="3">
+                                3
+                            </label>
+                            <label class="btn btn-info <?= ($set == 4) ? 'active': ''; ?>">
+                                <input type="radio" name="set" <?= ($set == 4) ? 'checked': ''; ?> value="4">
+                                4
+                            </label>
+                            <label class="btn btn-info <?= ($set == 5) ? 'active': ''; ?>">
+                                <input type="radio" name="set" <?= ($set == 5) ? 'checked': ''; ?> value="5">
+                                5
+                            </label>
+                        </div>
+                    </div>
                 </div>
-				<div class="card-content">
-				    <ul class="nav">
-						<li><a href="#tab1" data-toggle="tab">Set 1</a></li>
-						<li><a href="#tab2" data-toggle="tab">Set 2</a></li>
-                        <li><a href="#tab3" data-toggle="tab">Set 3</a></li>
-                        <li><a href="#tab4" data-toggle="tab">Set 4</a></li>
-                        <li><a href="#tab5" data-toggle="tab">Set 5</a></li>
-						<li><a href="#tab6" data-toggle="tab">Débrief</a></li>
-					</ul>
-					<div class="tab-content">
-                        <?php for ($i = 1; $i <= 5; $i++) : ?>
-                            <div class="tab-pane" id="tab<?= $i ?>">
-                                <h5 class="card-title text-center">Score Set <?= $i ?></h5>
-                                <div class="row">
-                                    <div class="col-md-5 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Votre Équipe<?= ($i < 4) ? '<star>*<star>' : '' ?>
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'Team1')); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Équipe Adverse<?= ($i < 4) ? '<star>*<star>' : '' ?>
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'Team2')); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h5 class="card-title text-center">Statistiques Set <?= $i ?></h5>
-                                <div class="row">
-                                    <div class="col-md-5 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Fautes au Service
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'ServeFault')); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Points au Service
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'ServePoint')); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Fautes à l'Attaque
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'AttackFault')); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Points à l'Attaque
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'AttackPoint')); ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="form-group">
-                                            <label class="control-label">
-                                                Fautes en Reception
-                                            </label>
-                                            <?= $this->formElement($form->get('set' . $i . 'RecepFault')); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endfor; ?>
-                        <div class="tab-pane" id="tab6">
-                            <h5 class="card-title text-center">Débriefing du match</h5>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="form-group">
-                                        <label class="control-label">
-                                            Votre débrief
-                                        </label>
-                                        <?= $this->formElement($form->get('debrief')); ?>
-                                    </div>
-                                </div>
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+                <h5 style="margin-bottom:0;" class="text-center">Point pour</h5>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <h5 style="margin-bottom:0;" class="text-center">Nous</h5>
+                        <div class="funkyradio">
+                            <div class="funkyradio-primary">
+                                <input type="radio" name="point-for" id="point-for" value="<?= \Application\Model\Stats::POINT_US ?>"/>
+                                <label for="point-for"><?= $scoreUs ?></label>
+                                <input type="hidden" name="score-us" value="<?= $scoreUs ?>">
                             </div>
                         </div>
-					</div>
-				</div>
-				<div class="card-footer">
-                    <button type="button" class="btn btn-default btn-fill btn-back pull-left"><i class="ti-angle-left"></i></button>
-                    <button type="button" class="btn btn-info btn-fill btn-next pull-right"><i class="ti-angle-right"></i></button>
-                    <?= $this->formElement($form->get('submit')); ?>
-                    <div class="clearfix"></div>
-				</div>
-        	</form>
-    	</div>
-	</div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <h5 style="margin-bottom:0;" class="text-center">Eux</h5>
+                        <div class="funkyradio">
+                            <div class="funkyradio-primary">
+                                <input type="radio" name="point-for" id="point-against" value="<?= \Application\Model\Stats::POINT_THEM ?>"/>
+                                <label for="point-against"><?= $scoreThem ?></label>
+                                <input type="hidden" name="score-them" value="<?= $scoreThem ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+                <div class="col-xs-6">
+                    <h5 style="margin-bottom:0;" class="text-center">Point</h5>
+                    <div class="row">
+                        <div class="funkyradio">
+                            <div class="funkyradio-success">
+                                <input type="radio" name="reason" id="sercive-point" value="<?= \Application\Model\Stats::POINT_SERVE ?>" />
+                                <label for="sercive-point">Service</label>
+                            </div>
+                            <div class="funkyradio-success">
+                                <input type="radio" name="reason" id="Attack-point" value="<?= \Application\Model\Stats::POINT_ATTACK ?>"/>
+                                <label for="Attack-point">Attaque</label>
+                            </div>
+                            <div class="funkyradio-success">
+                                <input type="radio" name="reason" id="block-point" value="<?= \Application\Model\Stats::POINT_BLOCK ?>"/>
+                                <label for="block-point">Block</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <h5 style="margin-bottom:0;" class="text-center">Fautes</h5>
+                    <div class="row">
+                        <div class="funkyradio">
+                            <div class="funkyradio-danger">
+                                <input type="radio" name="reason" id="serve-fault" value="<?= \Application\Model\Stats::FAULT_SERVE ?>"/>
+                                <label for="serve-fault">Service</label>
+                            </div>
+                            <div class="funkyradio-danger">
+                                <input type="radio" name="reason" id="attack-fault" value="<?= \Application\Model\Stats::FAULT_ATTACK ?>"/>
+                                <label for="attack-fault">Attaque</label>
+                            </div>
+                            <div class="funkyradio-danger">
+                                <input type="radio" name="reason" id="defence-fault" value="<?= \Application\Model\Stats::FAULT_DEFENCE ?>"/>
+                                <label for="defence-fault">Défense</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+                <h5 style="margin-bottom:0;" class="text-center">Durant le point</h5>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <h5 style="margin-bottom:0;" class="text-center">Nous</h5>
+                        <div class="funkyradio">
+                            <div class="funkyradio-warning">
+                                <input type="checkbox" name="during-point-us[]" id="point-block-us" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
+                                <label for="point-block-us">Block</label>
+                            </div>
+                            <div class="funkyradio-warning">
+                                <input type="checkbox" name="during-point-us[]" id="point-defence-us" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
+                                <label for="point-defence-us">Défense</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <h5 style="margin-bottom:0;" class="text-center">Eux</h5>
+                        <div class="funkyradio">
+                            <div class="funkyradio-warning">
+                                <input type="checkbox" name="during-point-them[]" id="point-block-them" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
+                                <label for="point-block-them">Block</label>
+                            </div>
+                            <div class="funkyradio-warning">
+                                <input type="checkbox" name="during-point-them[]" id="point-defence-them" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
+                                <label for="point-defence-them">Défense</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-xs-12">
+                        <hr>
+                    </div>
+<!--                     <div class="col-xs-6 text-left">
+                        <input type="button" class="btn btn-default" value="Corriger">
+                    </div> -->
+                    <div class="col-xs-12 text-right">
+                        <input type="submit" class="btn btn-primary" value="Valider">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 </div>
