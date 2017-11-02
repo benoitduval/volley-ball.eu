@@ -425,9 +425,25 @@ body.nude{
   background-color: #5bc0de;
 }
 
-.table-score > thead > tr > th, .table-score > tbody > tr > td {
-  padding-top:5px;
-  padding-bottom:5px;
-  padding-right:0px;
-  padding-left:0px;
+.table-responsive.table-score {
+  overflow-x: scroll;
+}
+
+.table-responsive.table-score::-webkit-scrollbar {
+    height:5px;
+}
+ 
+/* Track */
+.table-responsive.table-score::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+/* Handle */
+.table-responsive.table-score::-webkit-scrollbar-thumb {
+    background: rgba(200,200,200,0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.table-responsive.table-score::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(200,200,200,0.4);
 }

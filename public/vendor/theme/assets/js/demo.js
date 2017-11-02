@@ -643,5 +643,67 @@ demo = {
 
     initTooltips: function() {
         $('[data-toggle="tooltip"]').tooltip();
+    },
+
+    initHighcharts: function() {
+        var categories = [
+            'Défenses', 'Blocks en jeu',
+            'Faute Défensive', 'Point Block',
+            'Fautes Attaque', 'Point Attaque',
+            'Fautes Service', 'Points Service'
+        ];
+        $(document).ready(function () {
+            $('.stats-chart').each(function () {
+                var dataUs = $(this).attr('data-stats-us');
+                var dataThem = $(this).attr('data-stats-them');
+                Highcharts.chart(this, {
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Statistiques'
+                    },
+                    xAxis: [{
+                        categories: categories,
+                        reversed: false,
+                        labels: {
+                            step: 1
+                        }
+                    }],
+                    yAxis: {
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            formatter: function () {
+                                return Math.abs(this.value);
+                            }
+                        }
+                    },
+
+                    plotOptions: {
+                        series: {
+                            stacking: 'normal'
+                        }
+                    },
+
+                    tooltip: {
+                        formatter: function () {
+                            return '<b>' + this.series.name + '</b><br/>' +
+                                this.point.category + ': ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                        }
+                    },
+
+                    series: [{
+                        name: 'Nous',
+                        data: JSON.parse(dataUs)
+                    }, {
+                        name: 'Eux',
+                        data: JSON.parse(dataThem)
+                    }]
+                });
+            });
+        });
+
     }
 }

@@ -25,7 +25,8 @@ class Result extends Form
             'name' => 'set1Team1',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => true
+                'required' => true,
+                'placeholder' => 'Set 1'
             ],
         ]);
 
@@ -34,7 +35,8 @@ class Result extends Form
             'name' => 'set1Team2',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => true
+                'required' => true,
+                'placeholder' => 'Set 1'
             ],
         ]);
 
@@ -43,7 +45,8 @@ class Result extends Form
             'name' => 'set2Team1',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => true
+                'required' => true,
+                'placeholder' => 'Set 2'
             ],
         ]);
 
@@ -52,7 +55,8 @@ class Result extends Form
             'name' => 'set2Team2',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => true
+                'required' => true,
+                'placeholder' => 'Set 2'
             ],
         ]);
 
@@ -61,7 +65,8 @@ class Result extends Form
             'name' => 'set3Team1',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => true
+                'required' => true,
+                'placeholder' => 'Set 3'
             ],
         ]);
 
@@ -70,7 +75,8 @@ class Result extends Form
             'name' => 'set3Team2',
             'attributes' => [
                 'class' => 'form-control',
-                'required' => true
+                'required' => true,
+                'placeholder' => 'Set 3'
             ],
         ]);
 
@@ -79,6 +85,7 @@ class Result extends Form
             'name' => 'set4Team1',
             'attributes' => [
                 'class' => 'form-control',
+                'placeholder' => 'Set 4'
             ],
         ]);
 
@@ -87,6 +94,7 @@ class Result extends Form
             'name' => 'set4Team2',
             'attributes' => [
                 'class' => 'form-control',
+                'placeholder' => 'Set 4'
             ],
         ]);
 
@@ -95,6 +103,7 @@ class Result extends Form
             'name' => 'set5Team1',
             'attributes' => [
                 'class' => 'form-control',
+                'placeholder' => 'Set 5'
             ],
         ]);
 
@@ -103,257 +112,7 @@ class Result extends Form
             'name' => 'set5Team2',
             'attributes' => [
                 'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set1ServeFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set2ServeFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set3ServeFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set4ServeFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-                'required' => false,
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set5ServeFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set1ServePoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set2ServePoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set3ServePoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set4ServePoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set5ServePoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set1RecepFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set2RecepFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set3RecepFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set4RecepFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set5RecepFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set1AttackFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set2AttackFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set3AttackFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set4AttackFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set5AttackFault',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set1AttackPoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set2AttackPoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set3AttackPoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set4AttackPoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'set5AttackPoint',
-            'attributes' => [
-                'readonly' => true,
-                'value' => 0,
-                'class' => 'form-control',
+                'placeholder' => 'Set 5'
             ],
         ]);
 

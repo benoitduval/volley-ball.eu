@@ -33,13 +33,13 @@
                 <div class="col-xs-12">
                     <hr>
                 </div>
-                <h5 style="margin-bottom:0;" class="text-center">Point pour</h5>
+                <h5 style="margin-bottom:0;" class="text-center">Point pour<star>*</star></h5>
                 <div class="col-xs-6">
                     <div class="row">
                         <h5 style="margin-bottom:0;" class="text-center">Nous</h5>
                         <div class="funkyradio">
                             <div class="funkyradio-primary">
-                                <input type="radio" name="point-for" id="point-for" value="<?= \Application\Model\Stats::POINT_US ?>"/>
+                                <input type="radio" name="point-for" id="point-for" value="<?= \Application\Model\Stats::POINT_US ?>" required/>
                                 <label for="point-for"><?= $scoreUs ?></label>
                                 <input type="hidden" name="score-us" value="<?= $scoreUs ?>">
                             </div>
@@ -61,12 +61,13 @@
                 <div class="col-xs-12">
                     <hr>
                 </div>
+                <h5 style="margin-bottom:0;" class="text-center">Raison<star>*</star></h5>
                 <div class="col-xs-6">
                     <h5 style="margin-bottom:0;" class="text-center">Point</h5>
                     <div class="row">
                         <div class="funkyradio">
                             <div class="funkyradio-success">
-                                <input type="radio" name="reason" id="sercive-point" value="<?= \Application\Model\Stats::POINT_SERVE ?>" />
+                                <input type="radio" name="reason" id="sercive-point" value="<?= \Application\Model\Stats::POINT_SERVE ?>" required />
                                 <label for="sercive-point">Service</label>
                             </div>
                             <div class="funkyradio-success">
@@ -94,7 +95,7 @@
                             </div>
                             <div class="funkyradio-danger">
                                 <input type="radio" name="reason" id="defence-fault" value="<?= \Application\Model\Stats::FAULT_DEFENCE ?>"/>
-                                <label for="defence-fault">Défense</label>
+                                <label for="defence-fault">Défensive</label>
                             </div>
                         </div>
                     </div>
@@ -108,11 +109,11 @@
                         <h5 style="margin-bottom:0;" class="text-center">Nous</h5>
                         <div class="funkyradio">
                             <div class="funkyradio-warning">
-                                <input type="checkbox" name="during-point-us[]" id="point-block-us" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
+                                <input type="checkbox" name="block-us" id="point-block-us" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
                                 <label for="point-block-us">Block</label>
                             </div>
                             <div class="funkyradio-warning">
-                                <input type="checkbox" name="during-point-us[]" id="point-defence-us" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
+                                <input type="checkbox" name="defence-us" id="point-defence-us" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
                                 <label for="point-defence-us">Défense</label>
                             </div>
                         </div>
@@ -123,11 +124,11 @@
                         <h5 style="margin-bottom:0;" class="text-center">Eux</h5>
                         <div class="funkyradio">
                             <div class="funkyradio-warning">
-                                <input type="checkbox" name="during-point-them[]" id="point-block-them" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
+                                <input type="checkbox" name="block-them" id="point-block-them" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
                                 <label for="point-block-them">Block</label>
                             </div>
                             <div class="funkyradio-warning">
-                                <input type="checkbox" name="during-point-them[]" id="point-defence-them" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
+                                <input type="checkbox" name="defence-them" id="point-defence-them" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
                                 <label for="point-defence-them">Défense</label>
                             </div>
                         </div>
@@ -137,10 +138,10 @@
                     <div class="col-xs-12">
                         <hr>
                     </div>
-<!--                     <div class="col-xs-6 text-left">
-                        <input type="button" class="btn btn-default" value="Corriger">
-                    </div> -->
-                    <div class="col-xs-12 text-right">
+                    <div class="col-xs-6 text-left">
+                        <a href="/event/detail/<?= $event->id ?>" type="button" class="btn btn-default" value="Évènement">Évènement</a>
+                    </div>
+                    <div class="col-xs-6 text-right">
                         <input type="submit" class="btn btn-primary" value="Valider">
                     </div>
                 </div>

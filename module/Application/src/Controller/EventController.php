@@ -116,17 +116,11 @@ class EventController extends AbstractController
     public function detailAction()
     {
         $eventId = $this->params('id');
-        $stats   = [];
-        $sets    = [];
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
-            for ($i = 1; $i <= 5; $i++) {
-                $stats[$i] = $this->statsTable->fetchAll(['eventId' => $eventId, 'set' => $i], 'id ASC');
-                foreach ($stats[$i] as $stat) {
-                    $sets[$i]['us'][] = ($stat->pointFor == Model\Stats::POINT_US) ? $stat->scoreUs: '-';
-                    $sets[$i]['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';
-                }
-            }
+            $setsHistory = $this->statsTable->getSetsHistory($eventId);
+            $setsStats = $this->statsTable->getSetsStats($eventId);
+            $setsLastScore = $this->statsTable->setsLastScore($eventId);
 
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
@@ -251,10 +245,10 @@ class EventController extends AbstractController
                     $this->redirect()->toUrl('/event/detail/' . $event->id);
                 }
             }
-
             return new ViewModel([
-                'stats'           => $stats,
-                'sets'            => $sets,
+                'setsLastScore'   => $setsLastScore,
+                'setsStats'       => $setsStats,
+                'setsHistory'     => $setsHistory,
                 'serve'           => $serve,
                 'attack'          => $attack,
                 'recep'           => $recep,
@@ -334,10 +328,68 @@ class EventController extends AbstractController
         }
     }
 
-    public function matchAction()
+    public function resultAction()
     {
         $eventId = $this->params('id');
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
+            $eventData = [];
+            $stats = json_decode($event->stats);
+            if ($event->sets) {
+                foreach ($event->sets as $key => $score) {
+                    $i = $key + 1;
+                    $set = explode('-', $score);
+                    $eventData['set' . $i . 'Team1'] = $set[0];
+                    $eventData['set' . $i . 'Team2'] = $set[1];
+                }
+            }
+            $eventData['debrief'] = $event->debrief;
+            $form = new Form\Result;
+            $form->setData($eventData);
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $result = [];
+                $post = $request->getPost();
+                if ($form->isValid()) {
+                    $setFor     = 0;
+                    $setAgainst = 0;
+                    $sets  = [];
+                    $stats = [];
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($post['set'.$i.'Team1'] && $post['set'.$i.'Team2']) {
+                            if ($post['set'.$i.'Team1'] > $post['set'.$i.'Team2']) {
+                                $setFor++;
+                            } else {
+                                $setAgainst++;
+                            }
+                            $sets[]  = $post['set'.$i.'Team1'] . '-' . $post['set'.$i.'Team2'];
+                        }
+                    }
+                    $result['sets']    = json_encode($sets);
+                    $result['victory'] = ($setFor > $setAgainst) ? 1 : 0;
+                    $result['score']   = $setFor . ' / ' .  $setAgainst;
+                    $result['debrief'] = $post['debrief'];
+                    $event->exchangeArray($result);
+                    $this->eventTable->save($event);
+                    $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
+                    $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
+                }
+            }
+            return new ViewModel([
+                'event'  => $event,
+                'form'   => $form,
+                'user'   => $this->getUser(),
+            ]);
+        } else {
+            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
+            $this->redirect()->toRoute('home');
+        }
+    }
+
+
+    public function liveStatsAction ()
+    {
+        $eventId = $this->params('id');
+        if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
             $stats = $this->statsTable->fetchOne(['eventId' => $eventId], 'id DESC');
             $scoreUs   = 0;
@@ -345,7 +397,7 @@ class EventController extends AbstractController
             $set       = 1;
             if ($stats) {
                 if (($stats->scoreUs >= 25 || $stats->scoreThem >= 25) && (abs(
-                $stats->scoreThem - $stats->scoreUs) == 2)) {
+                $stats->scoreThem - $stats->scoreUs) >= 2)) {
                     $set = $stats->set + 1;
                 } else {
                     $set = $stats->set;
@@ -353,8 +405,6 @@ class EventController extends AbstractController
                     $scoreThem = $stats->scoreThem;
                 }
             }
-
-            $form = new Form\Result;
 
             $request = $this->getRequest();
             if ($request->isPost()) {
@@ -371,19 +421,18 @@ class EventController extends AbstractController
                 $data['reason']      = $post['reason'];
                 $data['eventId']     = $eventId;
                 $data['set']         = $post['set'];
-                $data['duringPoint'] = json_encode([
-                    'us'   => isset($post['during-point-us']) ? $post['during-point-us'] : null,
-                    'them' => isset($post['during-point-them']) ? $post['during-point-them'] : null,
-                ]);
+                $data['blockUs']     = isset($post['block-us']);
+                $data['blockThem']   = isset($post['block-them']);
+                $data['defenceUs']   = isset($post['defence-us']);
+                $data['defenceThem'] = isset($post['defence-them']);
                 $stats = $this->statsTable->save($data);
 
-                $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
-                $this->redirect()->toRoute('event', ['action' => 'match', 'id' => $eventId]);
+                $this->flashMessenger()->addSuccessMessage('Point enregistré.');
+                $this->redirect()->toRoute('event', ['action' => 'live-stats', 'id' => $eventId]);
             }
 
             return new ViewModel([
                 'event'     => $event,
-                'form'      => $form,
                 'user'      => $this->getUser(),
                 'scoreUs'   => $scoreUs,
                 'scoreThem' => $scoreThem,

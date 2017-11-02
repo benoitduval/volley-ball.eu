@@ -22,6 +22,10 @@ class Stats extends AbstractModel
     protected $_scoreUs     = null;
     protected $_scoreThem   = null;
     protected $_pointFor    = null;
-    protected $_duringPoint = null;
     protected $_set         = null;
+    protected $_reason      = null;
+    protected $_blockUs     = null;
+    protected $_blockThem   = null;
+    protected $_defenceUs   = null;
+    protected $_defenceThem = null;
 }
