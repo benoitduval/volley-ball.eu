@@ -74,22 +74,24 @@
                     </div>
                 </div>
             </div>
-            <?php if ($isAdmin): ?>
+            <?php if ($isMember): ?>
                 <hr>
                 <div class="text-center">
                     <div class="row">
                         <div class="col-xs-3">
-                            <a href="/event/edit/<?= $event->id ?>"><h5><i class="ti-pencil"></i><br /><small>Éditer</small></h5></a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="/event/result/<?= $event->id ?>"><h5><i class="ti-cup"></i><br /><small>Résultat <span class="hidden-xs">& Débrief</span></small></h5></a>
-                        </div>
-                        <div class="col-xs-3">
                             <a href="/event/live-stats/<?= $event->id ?>"><h5><i class="ti-bar-chart"></i><br /><small><span class="hidden-xs">Live</span> Stats</small></h5></a>
                         </div>
-                        <div class="col-xs-3">
-                            <a href="/event/delete/<?= $event->id ?>" onclick="return confirm('Êtes vous sûr ?')"><h5><i class="ti-trash"></i><br /><small>Suppr<span class="hidden-xs">imer</span></small></h5></a>
-                        </div>
+                        <?php if ($isAdmin): ?>
+                            <div class="col-xs-3">
+                                <a href="/event/result/<?= $event->id ?>"><h5><i class="ti-cup"></i><br /><small>Résultat <span class="hidden-xs">& Débrief</span></small></h5></a>
+                            </div>
+                            <div class="col-xs-3">
+                                <a href="/event/edit/<?= $event->id ?>"><h5><i class="ti-pencil"></i><br /><small>Éditer</small></h5></a>
+                            </div>
+                            <div class="col-xs-3">
+                                <a href="/event/delete/<?= $event->id ?>" onclick="return confirm('Êtes vous sûr ?')"><h5><i class="ti-trash"></i><br /><small>Suppr<span class="hidden-xs">imer</span></small></h5></a>
+                            </div>
+                        <?php endif ?>
                     </div>
                 </div>
             <?php endif ?>
