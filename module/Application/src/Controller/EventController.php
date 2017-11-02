@@ -124,7 +124,7 @@ class EventController extends AbstractController
                 $stats[$i] = $this->statsTable->fetchAll(['eventId' => $eventId, 'set' => $i], 'id ASC');
                 foreach ($stats[$i] as $stat) {
                     $sets[$i]['us'][] = ($stat->pointFor == Model\Stats::POINT_US) ? $stat->scoreUs: '-';
-                    $sets[$i]['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';;
+                    $sets[$i]['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';
                 }
             }
 

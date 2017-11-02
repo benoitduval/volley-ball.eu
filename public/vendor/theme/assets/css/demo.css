@@ -424,3 +424,10 @@ body.nude{
   color: #fff;
   background-color: #5bc0de;
 }
+
+.table-score > thead > tr > th, .table-score > tbody > tr > td {
+  padding-top:5px;
+  padding-bottom:5px;
+  padding-right:0px;
+  padding-left:0px;
+}
