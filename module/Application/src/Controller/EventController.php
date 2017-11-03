@@ -124,7 +124,7 @@ class EventController extends AbstractController
 
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
-            $isMember  = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
+            $isMember  = $this->userGroupTable->isMember($this->getUser()->id, $group->id);
             $isAdmin   = false;
             $serve  = '';
             $attack = '';
