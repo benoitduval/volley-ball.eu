@@ -126,9 +126,6 @@ class EventController extends AbstractController
             $group     = $this->groupTable->find($event->groupId);
             $isMember  = $this->userGroupTable->isMember($this->getUser()->id, $group->id);
             $isAdmin   = false;
-            $serve  = '';
-            $attack = '';
-            $recep  = '';
             if ($isMember) {
                 $isAdmin = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
             }
@@ -165,13 +162,6 @@ class EventController extends AbstractController
             }
 
             $counters = $this->disponibilityTable->getCounters($eventId);
-
-            if ($event->stats) {
-                $stats = $event->getStatsByType();
-                $serve  = [$stats[\Application\Model\Event::STAT_SERVE_FAULT], $stats[\Application\Model\Event::STAT_SERVE_POINT]];
-                $attack = [$stats[\Application\Model\Event::STAT_ATTACK_FAULT], $stats[\Application\Model\Event::STAT_ATTACK_POINT]];
-                $recep  = [$stats[\Application\Model\Event::STAT_RECEP_FAULT]];
-            }
 
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
@@ -249,9 +239,6 @@ class EventController extends AbstractController
                 'setsLastScore'   => $setsLastScore,
                 'setsStats'       => $setsStats,
                 'setsHistory'     => $setsHistory,
-                'serve'           => $serve,
-                'attack'          => $attack,
-                'recep'           => $recep,
                 'counters'        => $counters,
                 'comments'        => $result,
                 'event'           => $event,
@@ -420,11 +407,11 @@ class EventController extends AbstractController
                 $data['pointFor']    = $post['point-for'];
                 $data['reason']      = $post['reason'];
                 $data['eventId']     = $eventId;
-                $data['set']         = $post['set'];
-                $data['blockUs']     = isset($post['block-us']);
-                $data['blockThem']   = isset($post['block-them']);
-                $data['defenceUs']   = isset($post['defence-us']);
-                $data['defenceThem'] = isset($post['defence-them']);
+                $data['set']         = $set;
+                // $data['blockUs']     = isset($post['block-us']);
+                // $data['blockThem']   = isset($post['block-them']);
+                // $data['defenceUs']   = isset($post['defence-us']);
+                // $data['defenceThem'] = isset($post['defence-them']);
                 $stats = $this->statsTable->save($data);
 
                 $this->flashMessenger()->addSuccessMessage('Point enregistré.');

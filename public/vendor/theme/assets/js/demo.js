@@ -647,7 +647,7 @@ demo = {
 
     initHighcharts: function() {
         var categories = [
-            'Défenses', 'Blocks en jeu',
+            'Total Fautes',
             'Faute Défensive', 'Point Block',
             'Fautes Attaque', 'Point Attaque',
             'Fautes Service', 'Points Service'

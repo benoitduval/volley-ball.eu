@@ -3,36 +3,6 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="card">
             <div class="card-content">
-                <h5 style="margin-bottom:0;" class="text-center">Set</h5>
-                <div class="col-xs-12">
-                    <div class="row text-center">
-                        <div class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-info <?= ($set == 1) ? 'active': ''; ?>">
-                                <input type="radio" name="set" <?= ($set == 1) ? 'checked': ''; ?> value="1">
-                                1
-                            </label>
-                            <label class="btn btn-info <?= ($set == 2) ? 'active': ''; ?>">
-                                <input type="radio" name="set" <?= ($set == 2) ? 'checked': ''; ?> value="2">
-                                2
-                            </label>
-                            <label class="btn btn-info <?= ($set == 3) ? 'active': ''; ?>">
-                                <input type="radio" name="set" <?= ($set == 3) ? 'checked': ''; ?> value="3">
-                                3
-                            </label>
-                            <label class="btn btn-info <?= ($set == 4) ? 'active': ''; ?>">
-                                <input type="radio" name="set" <?= ($set == 4) ? 'checked': ''; ?> value="4">
-                                4
-                            </label>
-                            <label class="btn btn-info <?= ($set == 5) ? 'active': ''; ?>">
-                                <input type="radio" name="set" <?= ($set == 5) ? 'checked': ''; ?> value="5">
-                                5
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <hr>
-                </div>
                 <h5 style="margin-bottom:0;" class="text-center">Point pour<star>*</star></h5>
                 <div class="col-xs-6">
                     <div class="row">
@@ -100,40 +70,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12">
-                    <hr>
-                </div>
-                <h5 style="margin-bottom:0;" class="text-center">Durant le point</h5>
-                <div class="col-xs-6">
-                    <div class="row">
-                        <h5 style="margin-bottom:0;" class="text-center">Nous</h5>
-                        <div class="funkyradio">
-                            <div class="funkyradio-warning">
-                                <input type="checkbox" name="block-us" id="point-block-us" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
-                                <label for="point-block-us">Block</label>
-                            </div>
-                            <div class="funkyradio-warning">
-                                <input type="checkbox" name="defence-us" id="point-defence-us" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
-                                <label for="point-defence-us">Défense</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="row">
-                        <h5 style="margin-bottom:0;" class="text-center">Eux</h5>
-                        <div class="funkyradio">
-                            <div class="funkyradio-warning">
-                                <input type="checkbox" name="block-them" id="point-block-them" value="<?= \Application\Model\Stats::DURING_BLOCK ?>" />
-                                <label for="point-block-them">Block</label>
-                            </div>
-                            <div class="funkyradio-warning">
-                                <input type="checkbox" name="defence-them" id="point-defence-them" value="<?= \Application\Model\Stats::DURING_DEFENCE ?>"/>
-                                <label for="point-defence-them">Défense</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>  
                 <div class="row">
                     <div class="col-xs-12">
                         <hr>

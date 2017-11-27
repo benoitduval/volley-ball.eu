@@ -45,20 +45,6 @@ class Stats extends AbstractTableGateway
             $count = $this->count([
                 'eventId' => $eventId,
                 'set' => $i,
-                'defenceUs' => 1,
-            ]);
-            $defence = $count * -1;
-
-            $count = $this->count([
-                'eventId' => $eventId,
-                'set' => $i,
-                'blockUs' => 1,
-            ]);
-            $block = $count * -1;
-
-            $count = $this->count([
-                'eventId' => $eventId,
-                'set' => $i,
                 'pointFor' => Model\Stats::POINT_THEM,
                 'reason' => Model\Stats::FAULT_DEFENCE,
             ]);
@@ -104,9 +90,10 @@ class Stats extends AbstractTableGateway
             ]);
             $servePoint = $count * -1;
 
+            $totalFaults = $defenceFault + $attackFault + $serveFault;
+
             $result[$i]['us'] = json_encode([
-                $defence,
-                $block,
+                $totalFaults,
                 $defenceFault,
                 $blockPoint,
                 $attackFault,
@@ -119,19 +106,6 @@ class Stats extends AbstractTableGateway
                 'eventId' => $eventId,
                 'set' => $i,
                 'defenceThem' => 1,
-            ]);
-
-            $block = $this->count([
-                'eventId' => $eventId,
-                'set' => $i,
-                'blockThem' => 1,
-            ]);
-
-            $defenceFault = $this->count([
-                'eventId' => $eventId,
-                'set' => $i,
-                'pointFor' => Model\Stats::POINT_US,
-                'reason' => Model\Stats::FAULT_DEFENCE,
             ]);
 
             $blockPoint = $this->count([
@@ -169,9 +143,10 @@ class Stats extends AbstractTableGateway
                 'reason' => Model\Stats::POINT_SERVE,
             ]);
 
+            $totalFaults = $defenceFault + $attackFault + $serveFault;
+
             $result[$i]['them'] = json_encode([
-                $defence,
-                $block,
+                $totalFaults,
                 $defenceFault,
                 $blockPoint,
                 $attackFault,
