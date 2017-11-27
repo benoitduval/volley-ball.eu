@@ -3,14 +3,43 @@
     <div class="col-md-10 col-md-offset-1">
         <div class="card">
             <div class="card-content">
+                <div class="col-xs-12">
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <div class="stats-score text-center">
+                                <?= $scoreUs ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <div class=" text-center">
+                                <?php if ($set == 1): ?>
+                                    <?= $set ?>er Set
+                                <?php else: ?>
+                                    <?= $set ?>ième Set
+                                <?php endif ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <div class="stats-score text-center">
+                                <?= $scoreThem ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <hr>
+                </div>
                 <h5 style="margin-bottom:0;" class="text-center">Point pour<star>*</star></h5>
                 <div class="col-xs-6">
                     <div class="row">
-                        <h5 style="margin-bottom:0;" class="text-center">Nous</h5>
                         <div class="funkyradio">
                             <div class="funkyradio-primary">
                                 <input type="radio" name="point-for" id="point-for" value="<?= \Application\Model\Stats::POINT_US ?>" required/>
-                                <label for="point-for"><?= $scoreUs ?></label>
+                                <label for="point-for">Nous</label>
                                 <input type="hidden" name="score-us" value="<?= $scoreUs ?>">
                             </div>
                         </div>
@@ -18,11 +47,10 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="row">
-                        <h5 style="margin-bottom:0;" class="text-center">Eux</h5>
                         <div class="funkyradio">
                             <div class="funkyradio-primary">
                                 <input type="radio" name="point-for" id="point-against" value="<?= \Application\Model\Stats::POINT_THEM ?>"/>
-                                <label for="point-against"><?= $scoreThem ?></label>
+                                <label for="point-against">Eux</label>
                                 <input type="hidden" name="score-them" value="<?= $scoreThem ?>">
                             </div>
                         </div>

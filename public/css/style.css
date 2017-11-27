@@ -447,3 +447,7 @@ body.nude{
 .table-responsive.table-score::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(200,200,200,0.4);
 }
+
+.card .stats-score {
+  font-size: 2em;
+}

@@ -20,7 +20,7 @@
         <!--  Paper Dashboard core CSS    -->
         <link href="/vendor/theme/assets/css/paper-dashboard.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
 
-        <link href="/vendor/theme/assets/css/demo.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
+        <link href="/css/style.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
 
         <!--  Fonts and icons     -->
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -172,13 +172,11 @@
     <script src="/vendor/theme/assets/js/paper-dashboard.js"></script>
 
     <!-- Paper Dashboard PRO DEMO methods, don't include it in your project! -->
-    <script src="/vendor/theme/assets/js/demo.js?v=<?= $this->vJs ?>"></script>
+    <script src="/js/script.js?v=<?= $this->vJs ?>"></script>
 
     <script src="/vendor/clipboard/clipboard.min.js"/></script>
 
     <script src="/vendor/cards/assets/js/hipster-cards.js"/></script>
-
-    <script src="/vendor/bootstrap-number-input.js"/></script>
 
     <script src="/vendor/Highcharts-6.0.2/code/highcharts.js"/></script>
 
@@ -193,7 +191,6 @@
             demo.initSwitchers();
             demo.showNotification();
             demo.initClipboard();
-            demo.initInputNumber();
             demo.initTooltips();
             demo.initHighcharts();
         });
