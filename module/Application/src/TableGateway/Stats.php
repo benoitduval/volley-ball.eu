@@ -102,10 +102,11 @@ class Stats extends AbstractTableGateway
                 $servePoint
             ]);
 
-            $defence = $this->count([
+            $defenceFault = $this->count([
                 'eventId' => $eventId,
                 'set' => $i,
-                'defenceThem' => 1,
+                'pointFor' => Model\Stats::POINT_US,
+                'reason' => Model\Stats::FAULT_DEFENCE,
             ]);
 
             $blockPoint = $this->count([
