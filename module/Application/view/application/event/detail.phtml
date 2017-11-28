@@ -100,42 +100,77 @@
     </div>
 </div>
 
-<div class="row">
-    <?php foreach ($setsHistory as $set => $scores) : ?>
-        <?php if ($scores): ?>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Set <?= $set ?> <span class="category">(Nous <?= $setsLastScore[$set] ?> Eux)</span></h4>
-                        </div>
-                        <div class="card-content">
-                            <div class="table-responsive table-score">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <?php foreach ($scores['us'] as $score): ?>
-                                                <td class="text-center">
-                                                    <?= $score ?>
-                                                </td>
-                                            <?php endforeach ?>
-                                        </tr>
-                                        <tr>
-                                            <?php foreach ($scores['them'] as $score): ?>
-                                                <td class="text-center">
-                                                    <?= $score ?>
-                                                </td>
-                                            <?php endforeach ?>
-                                        </tr>
-                                    </tbody>
-                                </table>
+<?php if ($setsHistory): ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="card-content text-center">
+                    <div class="col-xs-3">
+                        <i class="fa fa-hand-paper-o text-danger" aria-hidden="true"></i> / 
+                        <i class="fa fa-hand-paper-o text-success" aria-hidden="true"></i>
+                         Service
+                    </div>
+                    <div class="col-xs-3">
+                        <i class="fa fa-crosshairs text-danger" aria-hidden="true"></i> / 
+                        <i class="fa fa-crosshairs text-success" aria-hidden="true"></i> 
+                        Attaque
+                    </div>
+                    <div class="col-xs-3">
+                        <i class="fa fa-ban text-success" aria-hidden="true"></i> 
+                        Block
+                    </div>
+                    <div class="col-xs-3">
+                        <i class="fa fa-shield text-danger" aria-hidden="true"></i> défense
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <?php foreach ($setsHistory as $set => $scores) : ?>
+            <?php if ($scores): ?>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Set <?= $set ?> <span class="category">(Nous <?= $setsLastScore[$set] ?> Eux)</span></h4>
                             </div>
-                            <div class="stats-chart" style="width:100%" data-stats-us="<?= $setsStats[$set]['us'] ?>" data-stats-them="<?= $setsStats[$set]['them'] ?>"></div>
+                            <div class="card-content">
+                                <div class="table-responsive table-score">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <?php foreach ($scores['us'] as $score): ?>
+                                                    <td class="text-center">
+                                                        <?= $score ?>
+                                                    </td>
+                                                <?php endforeach ?>
+                                            </tr>
+                                            <tr>
+                                                <?php foreach ($scores['them'] as $score): ?>
+                                                    <td class="text-center">
+                                                        <?= $score ?>
+                                                    </td>
+                                                <?php endforeach ?>
+                                            </tr>
+                                            <tr>
+                                                <?php foreach ($scores['reason'] as $class): ?>
+                                                    <td class="text-center">
+                                                        <i class="fa <?= $class ?>" aria-hidden="true"></i>
+                                                    </td>
+                                                <?php endforeach ?>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="stats-chart" style="width:100%" data-stats-us="<?= $setsStats[$set]['us'] ?>" data-stats-them="<?= $setsStats[$set]['them'] ?>"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-        <?php endif ?>
-    <?php endforeach ?>
-</div>
+            <?php endif ?>
+        <?php endforeach ?>
+    </div>
+<?php endif ?>
 
 <?php if ($event->victory !== null): ?>
     <div class="row">

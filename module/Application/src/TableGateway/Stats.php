@@ -19,6 +19,26 @@ class Stats extends AbstractTableGateway
             foreach ($data as $stat) {
                 $set['us'][]   = ($stat->pointFor == Model\Stats::POINT_US) ? $stat->scoreUs: '-';
                 $set['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';
+                switch ($stat->reason) {
+                    case Model\Stats::FAULT_DEFENCE:
+                        $set['reason'][] = 'fa-shield text-danger';
+                        break;
+                    case Model\Stats::POINT_BLOCK:
+                        $set['reason'][] = 'fa-ban text-success';
+                        break;
+                    case Model\Stats::FAULT_ATTACK:
+                        $set['reason'][] = 'fa-crosshairs text-danger';
+                        break;
+                    case Model\Stats::POINT_ATTACK:
+                        $set['reason'][] = 'fa-crosshairs text-success';
+                        break;
+                    case Model\Stats::POINT_SERVE:
+                        $set['reason'][] = 'fa-hand-paper-o text-success';
+                        break;
+                    case Model\Stats::FAULT_SERVE:
+                        $set['reason'][] = 'fa-hand-paper-o text-danger';
+                        break;
+                }
             }
             $result[$i] = $set;
         }
