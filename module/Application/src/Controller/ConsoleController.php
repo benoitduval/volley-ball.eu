@@ -304,6 +304,8 @@ class ConsoleController extends AbstractController
                 $mail->setBody($view->render($viewModel));
                 try {
                     $mail->send();
+                    // reset bcc emails
+                    $mail->setBcc([]);
                 } catch (\Exception $e) {
                 }
             }
@@ -322,7 +324,6 @@ class ConsoleController extends AbstractController
 
         foreach ($events as $event) {
             $emails = [];
-            $mail   = null;
             $group  = $this->groupTable->find($event->groupId);
             $disponibilities = $this->disponibilityTable->fetchAll([
                 'eventId' => $event->id,
@@ -361,6 +362,8 @@ class ConsoleController extends AbstractController
                 $mail->setBody($view->render($viewModel));
                 try {
                     $mail->send();
+                    // reset bcc emails
+                    $mail->setBcc([]);
                 } catch (\Exception $e) {
                 }
             }
