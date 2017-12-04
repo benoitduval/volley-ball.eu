@@ -58,7 +58,7 @@ class EventController extends AbstractController
                     'city'         => $event->city,
                     'month'        => \Application\Service\Date::toFr($eventDate->format('F')),
                     'date'         => $eventDate->format('d'),
-                    'day'          => \Application\Service\Date::toFr($eventDate->format('D')),
+                    'day'          => \Application\Service\Date::toFr($eventDate->format('D')) . ' ' . $eventDate->format('H:i'),
                 ];
             }
 

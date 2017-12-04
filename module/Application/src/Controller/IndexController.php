@@ -39,7 +39,7 @@ class IndexController extends AbstractController
                 'groups'       => $groups,
             ]);
         } else {
-            return $this->redirect()->toUrl('/auth/signin');
+            return $this->redirect()->toUrl('/welcome');
         }
     }
 
