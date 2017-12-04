@@ -313,16 +313,17 @@ class ConsoleController extends AbstractController
     public function reminderAction()
     {
         $config = $this->get('config');
-        $date = new \DateTime('now');
-        $date->modify('+ 1 days');
+        $now = new \DateTime('now');
+        $now->modify('+ 1 days');
         $events = $this->eventTable->fetchAll([
-            'date > ?' => $date->modify('00:00:00')->format('Y-m-d H:i:s'),
-            'date < ?' => $date->modify('23:59:59')->format('Y-m-d H:i:s'),
+            'date > ?' => $now->modify('00:00:00')->format('Y-m-d H:i:s'),
+            'date < ?' => $now->modify('23:59:59')->format('Y-m-d H:i:s'),
         ]);
 
         foreach ($events as $event) {
             $emails = [];
-            $group = $this->groupTable->find($event->groupId);
+            $mail   = null;
+            $group  = $this->groupTable->find($event->groupId);
             $disponibilities = $this->disponibilityTable->fetchAll([
                 'eventId' => $event->id,
                 'response' => [
@@ -343,6 +344,8 @@ class ConsoleController extends AbstractController
                     'reminder' => __DIR__ . '/../../view/mail/reminder.phtml'
                 ]);
                 $view->setResolver($resolver);
+
+                $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
                 $viewModel  = new ViewModel();
                 $viewModel->setTemplate('reminder')->setVariables(array(

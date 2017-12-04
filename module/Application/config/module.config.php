@@ -61,6 +61,16 @@ return [
                     ],
                 ],
             ],
+            'welcome' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/welcome',
+                    'defaults' => [
+                        'controller'    => Controller\IndexController::class,
+                        'action'        => 'welcome',
+                    ],
+                ],
+            ],
             'event' => [
                 'type'    => Segment::class,
                 'options' => [

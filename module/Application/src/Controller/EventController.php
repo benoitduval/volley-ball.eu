@@ -320,13 +320,19 @@ class EventController extends AbstractController
         $eventId = $this->params('id');
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isAdmin($this->getUser()->id, $event->groupId)) {
             $eventData = [];
-            $stats = json_decode($event->stats);
             if ($event->sets) {
                 foreach ($event->sets as $key => $score) {
                     $i = $key + 1;
                     $set = explode('-', $score);
                     $eventData['set' . $i . 'Team1'] = $set[0];
                     $eventData['set' . $i . 'Team2'] = $set[1];
+                }
+            } else {
+                for ($i = 1; $i <= 5; $i++) { 
+                    if ($stats = $this->statsTable->fetchOne(['eventId' => $eventId, 'set' => $i], 'id DESC')) {
+                        $eventData['set' . $i . 'Team1'] = $stats->scoreUs;
+                        $eventData['set' . $i . 'Team2'] = $stats->scoreThem;
+                    }
                 }
             }
             $eventData['debrief'] = $event->debrief;
@@ -340,7 +346,6 @@ class EventController extends AbstractController
                     $setFor     = 0;
                     $setAgainst = 0;
                     $sets  = [];
-                    $stats = [];
                     for ($i = 1; $i <= 5; $i++) {
                         if ($post['set'.$i.'Team1'] && $post['set'.$i.'Team2']) {
                             if ($post['set'.$i.'Team1'] > $post['set'.$i.'Team2']) {
@@ -353,11 +358,11 @@ class EventController extends AbstractController
                     }
                     $result['sets']    = json_encode($sets);
                     $result['victory'] = ($setFor > $setAgainst) ? 1 : 0;
-                    $result['score']   = $setFor . ' / ' .  $setAgainst;
+                    $result['score']   = $setFor . ' / ' . $setAgainst;
                     $result['debrief'] = $post['debrief'];
                     $event->exchangeArray($result);
                     $this->eventTable->save($event);
-                    $this->flashMessenger()->addSuccessMessage('Votre match a bien été enregistré.');
+                    $this->flashMessenger()->addSuccessMessage('Résultat enregistré.');
                     $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
                 }
             }

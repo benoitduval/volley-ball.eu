@@ -38,6 +38,16 @@ class MailService
         $this->_mail->addTo($email);
     }
 
+    public function setBcc($emails)
+    {
+        $this->_mail->setBcc($emails);
+    }
+
+    public function getBcc()
+    {
+        return $this->_mail->getBcc();
+    }
+
     public function setSubject($subject)
     {
         $this->_mail->setSubject($subject);

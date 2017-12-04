@@ -42,4 +42,9 @@ class IndexController extends AbstractController
             return $this->redirect()->toUrl('/auth/signin');
         }
     }
+
+    public function welcomeAction()
+    {
+        $this->layout()->setTemplate('layout/landing.phtml');
+    }
 }
