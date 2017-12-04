@@ -18,14 +18,14 @@
         <!--  Fonts and icons     -->
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300' rel='stylesheet' type='text/css'>
-        <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+        <link href="/vendor/landing/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
 
     </head>
     <body class="landing-page landing-page1">
         <div class="wrapper">
             <div class="parallax filter-gradient blue" data-color="blue">
                 <div class="parallax-background">
-                    <img class="parallax-background-image" src="/vendor/landing/assets/img/template/bg3.jpg">
+                    <img class="parallax-background-image" src="/img/volley-back.jpg">
                 </div>
                 <div class= "container">
                     <div class="row">
@@ -38,35 +38,81 @@
                             <div class="description">
                                 <h2>VOLLEY-BALL.EU</h2>
                                 <br>
-                                <h5>Be amazed by the best looking bootstrap landing page on the web! Your new app deserves an amazing page to show all of its features. Clear visual, light colours and beautifully aligned elements - they all try to make the users aware of your great app features!</h5>
+                                <h5>Une gestion simple de votre groupe, de vos entrainements et matches.</h5>
                             </div>
                             <div class="buttons">
-                                <button class="btn btn-fill btn-neutral">
+                                <a href="/auth/signin" class="btn btn-fill btn-neutral">
                                     Se connecter
-                                </button>
-                                <button class="btn btn-fill btn-neutral">
+                                </a>
+                                <a href="/auth/signup" class="btn btn-fill btn-neutral">
                                     S'engegistrer
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="section section-gray section-clients">
-                <div class="container text-center">
-                    <h4 class="header-text">Friends in high places</h4>
-                    <p>
-                        Build customer confidence by listing your users! Anyone who has used your service and has been pleased with it should have a place here! From Fortune 500 to start-ups, all your app enthusiasts will be glad to be featured in this section. Moreover, users will feel confident seing someone vouching for your product!<br>
-                    </p>
-                    <div class="logos">
-                        <ul class="list-unstyled">
-                            <li ><img src="/vendor/landing/assets/img/logos/adobe.png"/></li>
-                            <li ><img src="/vendor/landing/assets/img/logos/zendesk.png"/></li>
-                            <li ><img src="/vendor/landing/assets/img/logos/ebay.png"/></i>
-                            <li ><img src="/vendor/landing/assets/img/logos/evernote.png"/></li>
-                            <li ><img src="/vendor/landing/assets/img/logos/airbnb.png"/></li>
-                            <li ><img src="/vendor/landing/assets/img/logos/zappos.png"/></li>
-                        </ul>
+
+            <div class="section section-features">
+                <div class="container">
+                    <h4 class="header-text text-center">Quelques fonctionalités</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card card-blue">
+                                <div class="icon">
+                                    <i class="pe-7s-users"></i>
+                                </div>
+                                <div class="text">
+                                    <h4>Créez et Gérez votre groupe</h4>
+                                    <p>Quelques minutes suffiront pour créer un groupe et le partager à vos joueurs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-blue">
+                                <div class="icon">
+                                    <i class="pe-7s-gym"></i>
+                                </div>
+                                <h4>Créez vos entrainements</h4>
+                                <p>Des évènements récurents avec une création automatique chaque semaine. Décidez quand les rendre inactif ou quand les activer.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-blue">
+                                <div class="icon">
+                                    <i class="pe-7s-cup"></i>
+                                </div>
+                                <h4>Créez vos matchs</h4>
+                                <p>Un nom, une addresse et une date suffisent à créer un évènement ponctuel.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-blue">
+                                <div class="icon">
+                                    <i class="pe-7s-note2"></i>
+                                </div>
+                                <h4>Toujours être au courant</h4>
+                                <p>A tout moment vous saurez quel est votre effectif pour la prochaine séance et ainsi orienter votre entrainement.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-blue">
+                                <div class="icon">
+                                    <i class="pe-7s-bell"></i>
+                                </div>
+                                <h4>Notifications simples</h4>
+                                <p>Pour chaque création d'évènement les membres du groupe seront notifiés par email et pourront, en un seul clic, donner leur disponibilité.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-blue">
+                                <div class="icon">
+                                    <i class="pe-7s-graph1"></i>
+                                </div>
+                                <h4>Statistique live des matchs</h4>
+                                <p>Prenez des statistiques de votre équipe pendant un match de façon extrèmement simple, permettant un vue en live du score et des statistiques.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -75,10 +121,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="description">
-                                <h4 class="header-text">It's beautiful</h4>
-                                <p>And your app is also probably social, awesome, easy-to-use and vital to users. This is the place to enlist all the good things that your app has to share. Focus on the benefits that the uers will receive. Try to combine imaginery with text and show meaningful printscreens from your app, that will make it clear what exactly the basic functions are. </p>
-                                <p>Try to make it very clear for the people browsing the page that this product will enrich their life and will make a nice addition to the homescreen.
-                                <p>
+                                <h4 class="header-text">Un Design Responsive</h4>
+                                <p>Cet outil a été développé pour être utilisable sur ordinateur de bureau, tablette ou smartphone.
+                                <br>
+                                <br>
+                                Où que vous soyez, vous pourrez utiliser très facilement notre site !</p>
                             </div>
                         </div>
                         <div class="col-md-5 col-md-offset-1 hidden-xs">
@@ -91,164 +138,34 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <div id="description-carousel" class="carousel fade" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="item">
-                                        <img src="/vendor/landing/assets/img/template/examples/home_33.jpg" alt="">
-                                    </div>
-                                    <div class="item active">
-                                        <img src="/vendor/landing/assets/img/template/examples/home_22.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img src="/vendor/landing/assets/img/template/examples/home_11.jpg" alt="">
-                                    </div>
-                                </div>
-                                <ol class="carousel-indicators carousel-indicators-blue">
-                                    <li data-target="#description-carousel" data-slide-to="0" class=""></li>
-                                    <li data-target="#description-carousel" data-slide-to="1" class="active"></li>
-                                    <li data-target="#description-carousel" data-slide-to="2" class=""></li>
-                                </ol>
-                            </div>
+                            <iframe width="100%" height="315px" src="https://www.youtube.com/embed/zPmDC1x5Qdc" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div class="col-md-5 col-md-offset-1">
-                            <h4 class="header-text">Easy to integrate</h4>
+                            <h4 class="header-text">Démonstration ?</h4>
                             <p>
-                                With all the apps that users love! Make it easy for users to share, like, post and tweet their favourite things from the app. Be sure to let users know they continue to remain connected while using your app!
+                                Si vous n'êtes pas encore tout à fait convaincu, voici une vidéo prouvant la simplicité et la rapidité d'utilisation du site.
                             </p>
-                            <a href="http://www.creative-tim.com/product/awesome-landing-page" id="Demo3" class="btn btn-fill btn-info" data-button="info">Get Free Demo</a>
+                            <a href="https://www.youtube.com/embed/zPmDC1x5Qdc" id="Demo3" class="btn btn-fill btn-info" data-button="info">Youtube</a>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section section-features">
-                <div class="container">
-                    <h4 class="header-text text-center">Features</h4>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-note2"></i>
-                                </div>
-                                <div class="text">
-                                    <h4>Online Customers Management</h4>
-                                    <p>All appointments sync with your Google calendar so your availability is always up to date. See your schedule at a glance from any device.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-bell"></i>
-                                </div>
-                                <h4>Smart Notifications on hands</h4>
-                                <p>Automatic text and email reminders make sure customers always remember their upcoming appointments.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-blue">
-                                <div class="icon">
-                                    <i class="pe-7s-graph1"></i>
-                                </div>
-                                <h4>Know your business better now</h4>
-                                <p>Take payments and run your business on the go, in your store and then see how it all adds up with analytics.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section section-testimonial">
-                <div class="container">
-                    <h4 class="header-text text-center">What people think</h4>
-                    <div id="carousel-example-generic" class="carousel fade" data-ride="carousel">
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item">
-                                <div class="mask">
-                                    <img src="/vendor/landing/assets/img/faces/face-4.jpg">
-                                </div>
-                                <div class="carousel-testimonial-caption">
-                                    <p>Jay Z, Producer</p>
-                                    <h3>"I absolutely love your app! It's truly amazing and looks awesome!"</h3>
-                                </div>
-                            </div>
-                            <div class="item active">
-                                <div class="mask">
-                                    <img src="/vendor/landing/assets/img/faces/face-3.jpg">
-                                </div>
-                                <div class="carousel-testimonial-caption">
-                                    <p>Drake, Artist</p>
-                                    <h3>"This is one of the most awesome apps I've ever seen! Wish you luck Creative Tim!"</h3>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="mask">
-                                    <img src="/vendor/landing/assets/img/faces/face-2.jpg">
-                                </div>
-                                <div class="carousel-testimonial-caption">
-                                    <p>Rick Ross, Musician</p>
-                                    <h3>"Loving this! Just picked it up the other day. Thank you for the work you put into this."</h3>
-                                </div>
-                            </div>
-                        </div>
-                        <ol class="carousel-indicators carousel-indicators-blue">
-                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                        </ol>
                     </div>
                 </div>
             </div>
             <div class="section section-no-padding">
                 <div class="parallax filter-gradient blue" data-color="blue">
                     <div class="parallax-background">
-                        <img class ="parallax-background-image" src="/vendor/landing/assets/img/template/bg3.jpg"/>
+                        <img class ="parallax-background-image" src="/img/volley-back.jpg"/>
                     </div>
                     <div class="info">
-                        <h1>Download this landing page for free!</h1>
-                        <p>Beautiful multipurpose bootstrap landing page.</p>
-                        <a href="http://www.creative-tim.com/product/awesome-landing-page" class="btn btn-neutral btn-lg btn-fill">DOWNLOAD</a>
+                        <h1>N'attendez plus, essayez !</h1>
+                        <a href="/auth/signin" class="btn btn-neutral btn-lg btn-fill">Se connecter</a>
+                        <a href="/auth/signup" class="btn btn-neutral btn-lg btn-fill">S'enregistrer</a>
                     </div>
                 </div>
             </div>
             <footer class="footer">
                 <div class="container">
-                    <nav class="pull-left">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                Home
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                Company
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                Portfolio
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                Blog
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="social-area pull-right">
-                        <a class="btn btn-social btn-facebook btn-simple">
-                        <i class="fa fa-facebook-square"></i>
-                        </a>
-                        <a class="btn btn-social btn-twitter btn-simple">
-                        <i class="fa fa-twitter"></i>
-                        </a>
-                        <a class="btn btn-social btn-pinterest btn-simple">
-                        <i class="fa fa-pinterest"></i>
-                        </a>
-                    </div>
                     <div class="copyright">
-                        &copy; 2017 <a href="http://www.creative-tim.com">YuCkY</a>, made with love
+                        &copy; 2017 YuCkY, made with love
                     </div>
                 </div>
             </footer>
