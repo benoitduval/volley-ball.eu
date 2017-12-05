@@ -398,6 +398,10 @@ class EventController extends AbstractController
                 }
             }
 
+            $setsStats = $this->statsTable->getSetsStats($eventId, $set);
+            $setsHistory = $this->statsTable->getSetsHistory($eventId, $set);
+            $setsLastScore = $this->statsTable->setsLastScore($eventId, $set);
+
             $request = $this->getRequest();
             if ($request->isPost()) {
                 $result = [];
@@ -413,10 +417,6 @@ class EventController extends AbstractController
                 $data['reason']      = $post['reason'];
                 $data['eventId']     = $eventId;
                 $data['set']         = $set;
-                // $data['blockUs']     = isset($post['block-us']);
-                // $data['blockThem']   = isset($post['block-them']);
-                // $data['defenceUs']   = isset($post['defence-us']);
-                // $data['defenceThem'] = isset($post['defence-them']);
                 $stats = $this->statsTable->save($data);
 
                 $this->flashMessenger()->addSuccessMessage('Point enregistré.');
@@ -424,11 +424,14 @@ class EventController extends AbstractController
             }
 
             return new ViewModel([
-                'event'     => $event,
-                'user'      => $this->getUser(),
-                'scoreUs'   => $scoreUs,
-                'scoreThem' => $scoreThem,
-                'set'       => (int) $set,
+                'setsLastScore' => $setsLastScore,
+                'setsHistory'   => $setsHistory,
+                'setsStats'     => $setsStats,
+                'event'         => $event,
+                'user'          => $this->getUser(),
+                'scoreUs'       => $scoreUs,
+                'scoreThem'     => $scoreThem,
+                'set'           => (int) $set,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
