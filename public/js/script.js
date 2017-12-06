@@ -640,61 +640,67 @@ demo = {
     },
 
     initHighcharts: function() {
-        var categories = [
-            'Total Fautes',
-            'Faute Défensive', 'Point Block',
-            'Fautes Attaque', 'Point Attaque',
-            'Fautes Service', 'Points Service'
-        ];
+
         $(document).ready(function () {
             $('.stats-chart').each(function () {
                 var dataUs = $(this).attr('data-stats-us');
                 var dataThem = $(this).attr('data-stats-them');
+
                 Highcharts.chart(this, {
                     chart: {
                         type: 'bar'
                     },
                     title: {
-                        text: 'Statistiques'
+                        text: ''
                     },
-                    xAxis: [{
-                        categories: categories,
-                        reversed: false,
-                        labels: {
-                            step: 1
-                        }
-                    }],
-                    yAxis: {
+                    xAxis: {
+                        categories: [
+                            ' <i class="fa fa-hand-paper-o text-success"></i></span> Points <br> Service',
+                            ' <i class="fa fa-crosshairs text-success"></i> Points <br> Attaque',
+                            ' <i class="fa fa-ban text-success"></i> Points <br> Block',
+                            ' <i class="fa fa-hand-paper-o text-danger"></i> Fautes <br> Service',
+                            ' <i class="fa fa-crosshairs text-danger"></i> Fautes <br> Attaque',
+                            ' <i class="fa fa-shield text-danger"></i> Fautes <br> Défensives',
+                            'Total <br> Fautes',
+                        ],
                         title: {
-                            text: null
+                            text: null,
                         },
                         labels: {
-                            formatter: function () {
-                                return Math.abs(this.value);
+                            useHTML: true,
+                            align: 'right'
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '',
+                            align: 'left'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
                             }
                         }
                     },
-
-                    plotOptions: {
-                        series: {
-                            stacking: 'normal'
-                        }
+                    credits: {
+                        enabled: false
                     },
-
-                    tooltip: {
-                        formatter: function () {
-                            return '<b>' + this.series.name + '</b><br/>' +
-                                this.point.category + ': ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
-                        }
-                    },
-
                     series: [{
                         name: 'Nous',
-                        data: JSON.parse(dataUs)
+                        data: JSON.parse(dataUs),
                     }, {
                         name: 'Eux',
-                        data: JSON.parse(dataThem)
-                    }]
+                        data: JSON.parse(dataThem),
+                    }],
+                    dataLabels: {
+                        useHTML: true
+                    }
                 });
             });
         });

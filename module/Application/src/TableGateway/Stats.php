@@ -93,64 +93,58 @@ class Stats extends AbstractTableGateway
     {
         if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return [];
 
-        $count = $this->count([
+        $defenceFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_THEM,
             'reason' => Model\Stats::FAULT_DEFENCE,
         ]);
-        $defenceFault = $count * -1;
 
-        $count = $this->count([
+        $blockPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_US,
             'reason' => Model\Stats::POINT_BLOCK,
         ]);
-        $blockPoint = $count * -1;
 
-        $count = $this->count([
+        $attackFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_THEM,
             'reason' => Model\Stats::FAULT_ATTACK,
         ]);
-        $attackFault = $count * -1;
 
-        $count = $this->count([
+        $attackPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_US,
             'reason' => Model\Stats::POINT_ATTACK,
         ]);
-        $attackPoint = $count * -1;
 
-        $count = $this->count([
+        $serveFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_THEM,
             'reason' => Model\Stats::FAULT_SERVE,
         ]);
-        $serveFault = $count * -1;
 
-        $count = $this->count([
+        $servePoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_US,
             'reason' => Model\Stats::POINT_SERVE,
         ]);
-        $servePoint = $count * -1;
 
         $totalFaults = $defenceFault + $attackFault + $serveFault;
 
         $result['us'] = json_encode([
-            $totalFaults,
-            $defenceFault,
-            $blockPoint,
-            $attackFault,
+            $servePoint,
             $attackPoint,
+            $blockPoint,
             $serveFault,
-            $servePoint
+            $attackFault,
+            $defenceFault,
+            $totalFaults,
         ]);
 
         $defenceFault = $this->count([
@@ -198,13 +192,13 @@ class Stats extends AbstractTableGateway
         $totalFaults = $defenceFault + $attackFault + $serveFault;
 
         $result['them'] = json_encode([
-            $totalFaults,
-            $defenceFault,
-            $blockPoint,
-            $attackFault,
+            $servePoint,
             $attackPoint,
+            $blockPoint,
             $serveFault,
-            $servePoint
+            $attackFault,
+            $defenceFault,
+            $totalFaults,
         ]);
 
         return $result;
