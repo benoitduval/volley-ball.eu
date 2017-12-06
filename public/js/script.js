@@ -653,6 +653,7 @@ demo = {
                     title: {
                         text: ''
                     },
+                    tooltip: { enabled: false },
                     xAxis: {
                         categories: [
                             ' <i class="fa fa-hand-paper-o text-success"></i></span> Points <br> Service',
