@@ -473,9 +473,8 @@ demo = {
         var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
         if (height > 600) {
-            height = height - 235;
+            height = Math.max(height - 235, 570);
         }
-
 
         if ($('#fullCalendar').length > 0) {
             var groupId = $('#fullCalendar').attr("data-groupId");
@@ -496,9 +495,8 @@ demo = {
                         $('#full-calendar-loading').hide();
                     },
                     header: {
-                        right: '',
+                        right: 'title',
                         left: 'prev,next', //listMonth,month,
-                        center: 'title'
                     },
                     height: height,
                     aspectRatio: false,
