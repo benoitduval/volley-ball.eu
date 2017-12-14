@@ -89,6 +89,109 @@ class Stats extends AbstractTableGateway
         return $data;
     }
 
+    public function getOverallStats($eventId)
+    {
+        if (!$this->fetchOne(['eventId' => $eventId])) return [];
+
+        $defenceFault = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_THEM,
+            'reason' => Model\Stats::FAULT_DEFENCE,
+        ]);
+
+        $blockPoint = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_US,
+            'reason' => Model\Stats::POINT_BLOCK,
+        ]);
+
+        $attackFault = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_THEM,
+            'reason' => Model\Stats::FAULT_ATTACK,
+        ]);
+
+        $attackPoint = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_US,
+            'reason' => Model\Stats::POINT_ATTACK,
+        ]);
+
+        $serveFault = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_THEM,
+            'reason' => Model\Stats::FAULT_SERVE,
+        ]);
+
+        $servePoint = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_US,
+            'reason' => Model\Stats::POINT_SERVE,
+        ]);
+
+        $totalFaults = $defenceFault + $attackFault + $serveFault;
+
+        $result['us'] = json_encode([
+            $servePoint,
+            $attackPoint,
+            $blockPoint,
+            $serveFault,
+            $attackFault,
+            $defenceFault,
+            $totalFaults,
+        ]);
+
+        $defenceFault = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_US,
+            'reason' => Model\Stats::FAULT_DEFENCE,
+        ]);
+
+        $blockPoint = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_THEM,
+            'reason' => Model\Stats::POINT_BLOCK,
+        ]);
+
+        $attackFault = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_US,
+            'reason' => Model\Stats::FAULT_ATTACK,
+        ]);
+
+        $attackPoint = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_THEM,
+            'reason' => Model\Stats::POINT_ATTACK,
+        ]);
+
+        $serveFault = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_US,
+            'reason' => Model\Stats::FAULT_SERVE,
+        ]);
+
+        $servePoint = $this->count([
+            'eventId' => $eventId,
+            'pointFor' => Model\Stats::POINT_THEM,
+            'reason' => Model\Stats::POINT_SERVE,
+        ]);
+
+        $totalFaults = $defenceFault + $attackFault + $serveFault;
+
+        $result['them'] = json_encode([
+            $servePoint,
+            $attackPoint,
+            $blockPoint,
+            $serveFault,
+            $attackFault,
+            $defenceFault,
+            $totalFaults,
+        ]);
+
+        return $result;
+    }
+
     private function _getStats($eventId, $set)
     {
         if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return [];

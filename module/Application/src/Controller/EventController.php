@@ -118,8 +118,9 @@ class EventController extends AbstractController
         $eventId = $this->params('id');
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
-            $setsHistory = $this->statsTable->getSetsHistory($eventId);
-            $setsStats = $this->statsTable->getSetsStats($eventId);
+            $setsHistory   = $this->statsTable->getSetsHistory($eventId);
+            $setsStats     = $this->statsTable->getSetsStats($eventId);
+            $overallStats  = $this->statsTable->getOverallStats($eventId);
             $setsLastScore = $this->statsTable->setsLastScore($eventId);
 
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
@@ -236,6 +237,7 @@ class EventController extends AbstractController
                 }
             }
             return new ViewModel([
+                'overallStats'    => $overallStats,
                 'setsLastScore'   => $setsLastScore,
                 'setsStats'       => $setsStats,
                 'setsHistory'     => $setsHistory,

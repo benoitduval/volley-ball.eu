@@ -11,52 +11,6 @@ demo = {
         });
     },
 
-    initSmallGoogleMaps: function(){
-        if ($("#regularMap").lenght > 0) {
-            var mapElem = $("#regularMap");
-            var lat = mapElem.attr('data-lat');
-            var long = mapElem.attr('data-long');
-
-            var myLatlng = new google.maps.LatLng(lat, long);
-            var mapOptions = {
-                zoom: 15,
-                center: myLatlng,
-                scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-            }
-
-            var map = new google.maps.Map(document.getElementById("regularMap"), mapOptions);
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                title:"Regular Map!"
-            });
-
-            marker.setMap(map);
-
-            // Custom Skin & Settings Map
-            var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-            var mapOptions = {
-                zoom: 13,
-                center: myLatlng,
-                scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-                disableD6efaultUI: true, // a way to quickly hide all controls
-                zoomControl: true,
-                styles: [{"featureType":"water","stylers":[{"saturation":43},{"lightness":-11},{"hue":"#0088ff"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"hue":"#ff0000"},{"saturation":-100},{"lightness":99}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#808080"},{"lightness":54}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ece2d9"}]},{"featureType":"poi.park","elementType":"geometry.fill","stylers":[{"color":"#ccdca1"}]},{"featureType":"road","elementType":"labels.text.fill","stylers":[{"color":"#767676"}]},{"featureType":"road","elementType":"labels.text.stroke","stylers":[{"color":"#ffffff"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#b8cb93"}]},{"featureType":"poi.park","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","stylers":[{"visibility":"on"}]},{"featureType":"poi.medical","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","stylers":[{"visibility":"simplified"}]}]
-
-            }
-
-            var map = new google.maps.Map(document.getElementById("customSkinMap"), mapOptions);
-
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                title:"Custom Skin & Settings Map!"
-            });
-
-            marker.setMap(map);
-        }
-
-    },
-
     initSwitchers: function () {
 
         $('input[name="training"]').each(function () {
@@ -198,7 +152,7 @@ demo = {
                 confirmButtonClass: "btn btn-success btn-fill"
             });
 
-        }else if(type == 'title-and-text'){
+        } else if(type == 'title-and-text'){
             swal({
                 title: "Here's a message!",
                 text: "It's pretty, isn't it?",
@@ -206,7 +160,7 @@ demo = {
                 confirmButtonClass: "btn btn-info btn-fill"
             });
 
-        }else if(type == 'success-message'){
+        } else if(type == 'success-message'){
             swal({
                 title: "Good job!",
                 text: "You clicked the button!",
@@ -215,7 +169,7 @@ demo = {
                 type: "success"
             });
 
-        }else if(type == 'warning-message-and-confirmation'){
+        } else if(type == 'warning-message-and-confirmation'){
             swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -234,7 +188,7 @@ demo = {
                     buttonsStyling: false
                     })
                 });
-        }else if(type == 'warning-message-and-cancel'){
+        } else if(type == 'warning-message-and-cancel'){
             swal({
                     title: 'Are you sure?',
                     text: 'You will not be able to recover this imaginary file!',
@@ -266,7 +220,7 @@ demo = {
                   }
                 })
 
-        }else if(type == 'custom-html'){
+        } else if(type == 'custom-html'){
             swal({
                 title: 'HTML example',
                 buttonsStyling: false,
@@ -277,7 +231,7 @@ demo = {
                         'and other HTML tags'
                 });
 
-        }else if(type == 'auto-close'){
+        } else if(type == 'auto-close'){
             swal({ title: "Auto close alert!",
                    text: "I will close in 2 seconds.",
                    timer: 2000,
@@ -285,27 +239,27 @@ demo = {
                 });
         } else if(type == 'input-field'){
             swal({
-                    title: 'Input something',
-                    html: '<div class="form-group">' +
-                              '<input id="input-field" type="text" class="form-control" />' +
-                          '</div>',
-                    showCancelButton: true,
+                title: 'Input something',
+                html: '<div class="form-group">' +
+                          '<input id="input-field" type="text" class="form-control" />' +
+                      '</div>',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success btn-fill',
+                cancelButtonClass: 'btn btn-danger btn-fill',
+                buttonsStyling: false
+            }).then(function(result) {
+                swal({
+                    type: 'success',
+                    html: 'You entered: <strong>' +
+                            $('#input-field').val() +
+                          '</strong>',
                     confirmButtonClass: 'btn btn-success btn-fill',
-                    cancelButtonClass: 'btn btn-danger btn-fill',
                     buttonsStyling: false
-                }).then(function(result) {
-                    swal({
-                        type: 'success',
-                        html: 'You entered: <strong>' +
-                                $('#input-field').val() +
-                              '</strong>',
-                        confirmButtonClass: 'btn btn-success btn-fill',
-                        buttonsStyling: false
 
-                    })
-                }).catch(swal.noop)
-            }
-        },
+                })
+            }).catch(swal.noop)
+        }
+    },
 
     checkFullPageBackgroundImage: function(){
         $page = $('.full-page');
@@ -316,79 +270,6 @@ demo = {
             $page.append(image_container);
         }
     },
-
-    initWizard: function(){
-        $(document).ready(function(){
-
-            $('#wizardCard').bootstrapWizard({
-                tabClass: 'nav nav-pills',
-                nextSelector: '.btn-next',
-                previousSelector: '.btn-back',
-                onInit : function(tab, navigation, index){
-
-                    //check number of tabs and fill the entire row
-                    var $total = navigation.find('li').length;
-                    $width = 100/$total;
-
-                    $display_width = $(document).width();
-
-                    if($display_width < 600 && $total > 3){
-                       $width = 50;
-                    }
-
-                    navigation.find('li').css('width',$width + '%');
-                },
-                onTabClick : function(tab, navigation, index){
-                    return true;
-                },
-                onTabShow: function(tab, navigation, index) {
-                    var $total = navigation.find('li').length;
-                    var $current = index+1;
-
-                    var wizard = navigation.closest('.card-wizard');
-
-                    // If it's the last tab then hide the last button and show the finish instead
-                    if($current >= $total) {
-                        $(wizard).find('.btn-next').hide();
-                        $(wizard).find('.btn-finish').show();
-                    } else if($current == 1){
-                        $(wizard).find('.btn-back').hide();
-                    } else {
-                        $(wizard).find('.btn-back').show();
-                        $(wizard).find('.btn-next').show();
-                        $(wizard).find('.btn-finish').hide();
-                    }
-                }
-            });
-        });
-    },
-
-    initFormExtendedSliders: function(){
-        // Sliders for demo purpose in refine cards section
-        var slider = document.getElementById('sliderRegular');
-
-        noUiSlider.create(slider, {
-            start: 40,
-            connect: [true,false],
-            range: {
-                min: 0,
-                max: 100
-            }
-        });
-
-        var slider2 = document.getElementById('sliderDouble');
-
-        noUiSlider.create(slider2, {
-            start: [ 20, 60 ],
-            connect: true,
-            range: {
-                min:  0,
-                max:  100
-            }
-        });
-    },
-
-
 
     initFormExtendedDatetimepickers: function(){
         $('.datetimepicker').datetimepicker({
@@ -702,7 +583,91 @@ demo = {
                     }
                 });
             });
-        });
 
+            $('.overall-stats-chart').each(function () {
+                var dataUs = $(this).attr('data-stats-us');
+                var dataThem = $(this).attr('data-stats-them');
+
+                Highcharts.chart(this, {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: ''
+                    },
+                    tooltip: { enabled: false },
+                    xAxis: {
+                        categories: [
+                            ' <i class="fa fa-hand-paper-o text-success"></i></span> Points <br> Service',
+                            ' <i class="fa fa-crosshairs text-success"></i> Points <br> Attaque',
+                            ' <i class="fa fa-ban text-success"></i> Points <br> Block',
+                            ' <i class="fa fa-hand-paper-o text-danger"></i> Fautes <br> Service',
+                            ' <i class="fa fa-crosshairs text-danger"></i> Fautes <br> Attaque',
+                            ' <i class="fa fa-shield text-danger"></i> Fautes <br> Défensives',
+                            'Total <br> Fautes',
+                        ],
+                        title: {
+                            text: null,
+                        },
+                        labels: {
+                            useHTML: true,
+                            align: 'right'
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '',
+                            align: 'left'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Nous',
+                        data: JSON.parse(dataUs),
+                        dataLabels: {
+                            enabled: true,
+                            // rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'center',
+                            y: 25, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
+                    }, {
+                        name: 'Eux',
+                        data: JSON.parse(dataThem),
+                        dataLabels: {
+                            enabled: true,
+                            // rotation: -90,
+                            color: '#FFFFFF',
+                            align: 'center',
+                            y: 25, // 10 pixels down from the top
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
+                    }],
+                    dataLabels: {
+                        useHTML: true
+                    }
+                });
+            });
+        });
     }
 }
