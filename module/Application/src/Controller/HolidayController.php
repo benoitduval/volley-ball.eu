@@ -55,7 +55,8 @@ class holidayController extends AbstractController
                 }
 
                 $this->_updateEvents($from, $to);
-                $this->redirect()->toRoute('holiday', ['action' => 'index']);
+                $this->flashMessenger()->addSuccessMessage('Enregistré');
+                $this->redirect()->toRoute('holiday', ['action' => 'create']);
             }
 
             return new ViewModel([
@@ -133,12 +134,12 @@ class holidayController extends AbstractController
                 $disponibility = $this->disponibilityTable->fetchOne([
                     'userId'  => $this->getUser()->id,
                     'eventId' => $event->id,
-                    'response <> ?' => Model\Disponibility::RESP_NO 
+                    'response <> ?' => Model\Disponibility::RESP_NO
                 ]);
 
                 if ($disponibility) {
                     $disponibility->response = Model\Disponibility::RESP_NO;
-                    $guestTable->save($disponibility);
+                    $this->disponibilityTable->save($disponibility);
                 }
             }
         }
