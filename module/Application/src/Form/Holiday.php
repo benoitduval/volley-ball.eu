@@ -20,20 +20,20 @@ class Holiday extends Form
 
         $this->add([
             'name' => 'from',
-            'type' => Element\Text::class,
+            'type' => Element\Hidden::class,
             'attributes' => [
                 'required'    => 'required',
-                'class'       => 'form-control datepicker',
+                'class'       => 'form-control holiday-from-input',
                 'placeholder' => 'ex: 26/12/2017'
             ],
         ]);
 
         $this->add([
             'name' => 'to',
-            'type' => Element\Text::class,
+            'type' => Element\Hidden::class,
             'attributes' => [
                 'required'    => 'required',
-                'class'       => 'form-control datepicker',
+                'class'       => 'form-control holiday-to-input',
                 'placeholder' => 'ex: 29/12/2017'
             ],
         ]);
@@ -42,7 +42,7 @@ class Holiday extends Form
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [
-                'value' => 'Enregistrer',
+                'value' => 'Ajouter',
                 'class' => 'btn btn-info btn-fill btn-wd btn-finish pull-right',
             ],
         ]);

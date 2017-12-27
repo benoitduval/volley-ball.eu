@@ -6,23 +6,8 @@ use Application\Form;
 use Application\Model;
 use Application\Service;
 
-class holidayController extends AbstractController
+class HolidayController extends AbstractController
 {
-
-    public function indexAction()
-    {
-        if ($this->getUser()) {
-            $holidays = $this->holidayTable->fetchAll(['userId' => $this->getUser()->id]);
-
-            return new ViewModel(array(
-                'holidays' => $holidays,
-                'user'     => $this->getUser(),
-            ));
-        } else {
-            $this->redirect()->toRoute('home');
-        }
-    }
-
     public function deleteAction()
     {
         if ($this->getUser()) {
@@ -35,9 +20,14 @@ class holidayController extends AbstractController
         }
     }
 
-    public function createAction()
+    public function indexAction()
     {
-        if ($this->getUser()) {
+        if ($user = $this->getUser()) {
+
+            $holidays = $this->holidayTable->fetchAll([
+                'userId' => $user->id,
+                '`to` > ?' => date('Y-m-d H:i:s', time())
+            ]);
 
             $form = new Form\Holiday;
             $request = $this->getRequest();
@@ -56,12 +46,13 @@ class holidayController extends AbstractController
 
                 $this->_updateEvents($from, $to);
                 $this->flashMessenger()->addSuccessMessage('Enregistré');
-                $this->redirect()->toRoute('holiday', ['action' => 'create']);
+                $this->redirect()->toRoute('holiday', ['action' => 'index']);
             }
 
             return new ViewModel([
-                'form'   => $form,
-                'user'   => $this->getUser(),
+                'form'     => $form,
+                'holidays' => $holidays,
+                'user'     => $this->getUser(),
             ]);
 
         } else {
@@ -75,7 +66,7 @@ class holidayController extends AbstractController
         if ($this->getUser()) {
             $holiday = $this->holidayTable->find($holidayId);
 
-            $form = new Form\Absent;
+            $form = new Form\Holiday;
             $from = \DateTime::createFromFormat('Y-m-d H:i:s', $holiday->from);
             $to   = \DateTime::createFromFormat('Y-m-d H:i:s', $holiday->to);
             $data = [

@@ -287,7 +287,7 @@ demo = {
             }
          });
 
-        $('.datepicker').datetimepicker({
+        $('.datepicker-from').datetimepicker({
             format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
             icons: {
                 time: "fa fa-clock-o",
@@ -299,8 +299,63 @@ demo = {
                 today: 'fa fa-screenshot',
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
-            }
-         });
+            },
+        });
+        $('.datepicker-to').datetimepicker({
+            format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            },
+            useCurrent: false
+        });
+
+        $('#holiday-from').datetimepicker({
+            inline: true,
+            format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            },
+        });
+
+        $('#holiday-to').datetimepicker({
+            inline: true,
+            format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            },
+        });
+        $("#holiday-from").on("dp.change", function (e) {
+            $('#holiday-to').data("DateTimePicker").minDate(e.date);
+            $('.holiday-from-input').attr("value", e.date.format('DD/MM/YYYY'));
+        });
+        $("#holiday-to").on("dp.change", function (e) {
+            $('#holiday-from').data("DateTimePicker").maxDate(e.date);
+            $('.holiday-to-input').attr("value", e.date.format('DD/MM/YYYY'));
+        });
 
         $('.timepicker').datetimepicker({
             format: 'H:mm',    // use this format if you want the 24hours timepicker
@@ -516,6 +571,14 @@ demo = {
 
     initTooltips: function() {
         $('[data-toggle="tooltip"]').tooltip();
+    },
+
+    initSubmitButton: function () {
+        $('input[type="submit"]').each(function () {
+            $(this).on('click', function() {
+                $(this).attr('value', '<i class="fa fa-spinner fa-spin"></i>');
+            });
+        });
     },
 
     initHighcharts: function() {

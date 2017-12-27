@@ -464,3 +464,7 @@ body.nude{
 .card-calendar .fc-toolbar{
   padding: 0;
 }
+
+.bootstrap-datetimepicker-widget table td.day > div {
+  z-index: 10;
+}
