@@ -229,6 +229,15 @@ return [
                         ],
                     ],
                 ],
+                'reminder' => [
+                    'options' => [
+                        'route'    => 'do-not-forget [--verbose|-v]',
+                        'defaults' => [
+                            'controller' => Controller\ConsoleController::class,
+                            'action'     => 'doNotForget',
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

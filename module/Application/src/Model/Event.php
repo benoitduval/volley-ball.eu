@@ -26,6 +26,7 @@ class Event extends AbstractModel
     protected $_score    = null;
     protected $_victory  = null;
     protected $_debrief  = null;
+    protected $_reminder = null;
 
     public function getFullAddress()
     {

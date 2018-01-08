@@ -83,6 +83,19 @@ class Event extends Form
         ]);
 
         $this->add([
+            'name' => 'reminder',
+            'type' => Element\Checkbox::class,
+            'attributes' => [
+                'class' => 'form-check',
+                'id' => 'reminder'
+            ],
+            'options' => [
+                'label' => 'Envoyer une notification de rappel 3 jours avant l\'évènement',
+                'for' => 'reminder',
+            ],
+        ]);
+
+        $this->add([
             'name' => 'long',
             'type' => Element\Text::class,
             'options' => [

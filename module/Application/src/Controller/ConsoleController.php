@@ -369,4 +369,59 @@ class ConsoleController extends AbstractController
             }
         }
     }
+
+    public function doNotForgetAction()
+    {
+        $config = $this->get('config');
+        $now = new \DateTime('now');
+        $now->modify('+ 3 days');
+        $events = $this->eventTable->fetchAll([
+            'date > ?' => $now->modify('00:00:00')->format('Y-m-d H:i:s'),
+            'date < ?' => $now->modify('23:59:59')->format('Y-m-d H:i:s'),
+            'reminder' => 1,
+        ]);
+
+        foreach ($events as $event) {
+            $emails = [];
+            $group  = $this->groupTable->find($event->groupId);
+            $disponibilities = $this->disponibilityTable->fetchAll([
+                'eventId' => $event->id,
+            ]);
+
+            foreach ($disponibilities as $disponibility) {
+                $user = $this->userTable->find($disponibility->userId);
+                $emails[] = $user->email;
+            }
+
+            if ($config['mail']['allowed']) {
+                $view       = new \Zend\View\Renderer\PhpRenderer();
+                $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                $resolver->setMap([
+                    'reminder' => __DIR__ . '/../../view/mail/do-not-forget.phtml'
+                ]);
+                $view->setResolver($resolver);
+
+                $date = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
+
+                $viewModel  = new ViewModel();
+                $viewModel->setTemplate('reminder')->setVariables(array(
+                    'event'     => $event,
+                    'group'     => $group,
+                    'date'      => $date,
+                    'baseUrl'   => $config['baseUrl']
+                ));
+
+                $mail = $this->get(MailService::class);
+                $mail->addBcc($emails);
+                $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
+                $mail->setBody($view->render($viewModel));
+                try {
+                    $mail->send();
+                    // reset bcc emails
+                    $mail->setBcc([]);
+                } catch (\Exception $e) {
+                }
+            }
+        }
+    }
 }
