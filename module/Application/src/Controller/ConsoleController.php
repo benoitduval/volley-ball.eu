@@ -297,6 +297,8 @@ class ConsoleController extends AbstractController
                 ));
 
                 $mail = $this->get(MailService::class);
+                $mail->addIcalEvent($event);
+
                 foreach ($users as $user) {
                     $mail->addBcc($user->email);
                 }

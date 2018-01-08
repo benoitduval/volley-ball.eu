@@ -70,6 +70,7 @@ class EventController extends AbstractController
                     // send emails
                     $config = $this->get('config');
                     if ($config['mail']['allowed']) {
+
                         $view       = new \Zend\View\Renderer\PhpRenderer();
                         $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
                         $resolver->setMap([
@@ -86,6 +87,7 @@ class EventController extends AbstractController
                         ));
 
                         $mail = $this->get(MailService::class);
+                        $mail->addIcalEvent($event);
                         $mail->addBcc($emails);
                         $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
                         $mail->setBody($view->render($viewModel));

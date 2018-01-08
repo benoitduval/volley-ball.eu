@@ -61,6 +61,21 @@ class MailService
         $body = new MimeMessage();
         $body->addPart($html);
 
+        if ($this->_attachment) $body->addPart($this->_attachment);
+
         $this->_mail->setBody($body);
+    }
+
+    public function addIcalEvent($event)
+    {
+        $calendar = new \Application\Service\Calendar([$event->toArray()]);
+        $ical = $calendar->generateICS();
+        $attach = new MimePart($ical);
+        $attach->type = 'text/calendar';
+        $attach->disposition = \Zend\Mime\Mime::DISPOSITION_INLINE;
+        $attach->encoding = \Zend\Mime\Mime::ENCODING_8BIT;
+        $attach->filename = $event->name . '-' . $event->date . '.ics';
+
+        $this->_attachment = $attach;
     }
 }
