@@ -11,6 +11,19 @@ use Application\TableGateway;
 class GroupController extends AbstractController
 {
 
+    public function indexAction()
+    {
+        // to do : change this to a super admin account
+        if ($this->getUser()->id == 1) {
+            $groups  = $this->groupTable->fetchAll();
+
+            $this->layout()->setTemplate('admin/layout/layout.phtml');
+            return new ViewModel([
+                'groups' => $groups,
+            ]);
+        }
+    }
+
     public function detailAction()
     {
         $id         = $this->params('id', null);

@@ -12,6 +12,19 @@ use Application\TableGateway;
 class UserController extends AbstractController
 {
 
+    public function indexAction()
+    {
+        // to do : change this to a super admin account
+        if ($this->getUser()->id == 1) {
+            $users  = $this->userTable->fetchAll();
+
+            $this->layout()->setTemplate('admin/layout/layout.phtml');
+            return new ViewModel([
+                'users' => $users,
+            ]);
+        }
+    }
+
     public function detailAction()
     {
         $id         = $this->params('id', null);

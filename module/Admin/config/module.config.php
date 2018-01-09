@@ -34,7 +34,7 @@ return [
                     ],
                     'defaults' => [
                         'controller'    => Controller\EventController::class,
-                        'action'        => 'detail',
+                        'action'        => 'index',
                     ],
                 ],
             ],

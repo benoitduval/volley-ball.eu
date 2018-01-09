@@ -2,7 +2,7 @@
     <div class="col-xs-12">
         <div class="card">
             <div class="card-header text-center">
-                <h4 class="card-title">Users</h4>
+                <h4 class="card-title">Events</h4>
             </div>
             <div class="card-content">
                 <div class="tab-content">
@@ -11,21 +11,17 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Email</th>
                                 <th>Name</th>
-                                <th>Licence</th>
-                                <th>Phone</th>
+                                <th>Date</th>
                                 <th class="disabled-sorting">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($users as $user): ?>
+                            <?php foreach ($events as $event): ?>
                                 <tr>
-                                    <td><?= $user->id ?></td>
-                                    <td><?= $user->email ?></td>
-                                    <td><?= $user->getFullName() ?></td>
-                                    <td><?= $user->licence ?></td>
-                                    <td><?= $user->phone ?></td>
+                                    <td><?= $event->id ?></td>
+                                    <td><?= $event->name ?></td>
+                                    <td><?= $event->date ?></td>
                                     <td>
                                         <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="ti-heart"></i></a>
                                         <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="ti-pencil-alt"></i></a>

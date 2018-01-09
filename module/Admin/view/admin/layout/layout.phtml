@@ -20,7 +20,7 @@
         <!--  Paper Dashboard core CSS    -->
         <link href="/vendor/theme/assets/css/paper-dashboard.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
 
-        <link href="/vendor/theme/assets/css/demo.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
+        <link href="/css/style.css?v=<?= $this->vCss ?>" rel="stylesheet"/>
 
         <!--  Fonts and icons     -->
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -32,14 +32,47 @@
         <div class="wrapper">
             <div class="sidebar" data-background-color="brown" data-active-color="info">
                 <div class="logo">
-                    <a href="/" class="simple-text logo-mini">
+                    <a href="/admin" class="simple-text logo-mini">
                         VB
                     </a>
-                    <a href="/" class="simple-text logo-normal">
-                        Volley-ball.eu
+                    <a href="/admin" class="simple-text logo-normal">
+                        ADMIN
                     </a>
                 </div>
-                <?= $this->partial('partial/sidebar.phtml') ?>
+                <div class="sidebar-wrapper">
+                    <ul class="nav">
+                        <li>
+                            <a href="/admin/user">
+                                <i>Us</i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/group">
+                                <i>Gr</i>
+                                <p>Groups</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/event">
+                                <i>Ev</i>
+                                <p>Events</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/training">
+                                <i>Tr</i>
+                                <p>Trainings</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/holiday">
+                                <i>Ho</i>
+                                <p>Holidays</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="main-panel">
@@ -125,6 +158,7 @@
 
     <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
     <script src="/vendor/theme/assets/js/moment.min.js"></script>
+    <script src="/vendor/theme/assets/js/locale/fr.js"></script>
 
     <!--  Date Time Picker Plugin is included in this js file -->
     <script src="/vendor/theme/assets/js/bootstrap-datetimepicker.js"></script>
@@ -172,13 +206,11 @@
     <script src="/vendor/theme/assets/js/paper-dashboard.js"></script>
 
     <!-- Paper Dashboard PRO DEMO methods, don't include it in your project! -->
-    <script src="/vendor/theme/assets/js/demo.js?v=<?= $this->vJs ?>"></script>
+    <script src="/js/script.js?v=<?= $this->vJs ?>"></script>
 
     <script src="/vendor/clipboard/clipboard.min.js"/></script>
 
     <script src="/vendor/cards/assets/js/hipster-cards.js"/></script>
-
-    <script src="/vendor/bootstrap-number-input.js"/></script>
 
     <script src="/vendor/Highcharts-6.0.2/code/highcharts.js"/></script>
 
@@ -188,14 +220,50 @@
             demo.initCirclePercentage();
             demo.initChartDisponibilities();
             demo.initFullCalendar();
-            demo.initWizard();
             demo.initFormExtendedDatetimepickers();
             demo.initSwitchers();
             demo.showNotification();
             demo.initClipboard();
-            demo.initInputNumber();
-            demo.initTooltips();
             demo.initHighcharts();
+            // demo.initSubmitButton();
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#datatables').DataTable({
+                "pagingType": "full_numbers",
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true,
+                language: {
+                search: "_INPUT_",
+                    searchPlaceholder: "Search records",
+                }
+            });
+
+
+            var table = $('#datatables').DataTable();
+             // Edit record
+             table.on( 'click', '.edit', function () {
+                $tr = $(this).closest('tr');
+
+                var data = table.row($tr).data();
+                alert( 'You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.' );
+             } );
+
+             // Delete a record
+             table.on( 'click', '.remove', function (e) {
+                $tr = $(this).closest('tr');
+                table.row($tr).remove().draw();
+                e.preventDefault();
+             } );
+
+            //Like record
+            table.on( 'click', '.like', function () {
+                alert('You clicked on Like button');
+             });
+
         });
     </script>
 
