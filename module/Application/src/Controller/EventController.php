@@ -87,7 +87,7 @@ class EventController extends AbstractController
                         ));
 
                         $mail = $this->get(MailService::class);
-                        $mail->addIcalEvent($event);
+                        // $mail->addIcalEvent($event);
                         $mail->addBcc($emails);
                         $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
                         $mail->setBody($view->render($viewModel));
