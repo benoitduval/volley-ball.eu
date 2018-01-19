@@ -388,9 +388,10 @@ demo = {
         }
 
         $('#fullCalendar').fullCalendar({
-
+            lazyFetching: true,
             events: {
                 url: '/api/event/get/all',
+                cache: true,
                 type: 'GET',
                 data: function() { // a function that returns an object
                     return {
@@ -398,9 +399,9 @@ demo = {
                     };
                 }
             },
-            eventAfterAllRender: function(view) {
-                $('#full-calendar-loading').hide();
-            },
+            // eventAfterAllRender: function(view) {
+            //     $('#full-calendar-loading').hide();
+            // },
             header: {
                 right: 'title',
                 left: 'prev,next,today', //listMonth,month,
