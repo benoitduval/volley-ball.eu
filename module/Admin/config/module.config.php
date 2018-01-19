@@ -10,7 +10,7 @@ use Admin\Controller;
 return [
     'router' => [
         'routes' => [
-            'user' => [
+            'admin-user' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin/user[/:action[/:id]]',
@@ -24,7 +24,7 @@ return [
                     ],
                 ],
             ],
-            'event' => [
+            'admin-event' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin/event[/:action[/:id]]',
@@ -38,7 +38,7 @@ return [
                     ],
                 ],
             ],
-            'group' => [
+            'admin-group' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin/group[/:action[/:id]]',
@@ -52,7 +52,7 @@ return [
                     ],
                 ],
             ],
-            'index' => [
+            'admin-index' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin',
