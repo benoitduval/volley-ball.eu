@@ -24,12 +24,9 @@ class EventController extends AbstractController
                 $events = $this->eventTable->getAllByUserId($this->getUser()->id, $start, $end);
             }
 
-            // error_log(print_r($events->toArray(), true));die;
-
             $result = [];
             $config = $this->get('config');
             foreach ($events as $event) {
-                if ($event->date < date('Y-m-d H:i:s', strtotime('last month')) && !$event->score) continue;
                 $disponibility = $this->disponibilityTable->fetchOne([
                     'userId'  => $this->getUser()->id,
                     'eventId' => $event->id
