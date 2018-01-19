@@ -31,7 +31,7 @@ class Event extends Form
 
         $this->add([
             'name' => 'date',
-            'type' => Element\Text::class,
+            'type' => Element\Hidden::class,
             'attributes' => [
                 'required'    => 'required',
                 'class'       => 'form-control datetimepicker',

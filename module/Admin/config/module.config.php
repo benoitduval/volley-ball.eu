@@ -10,7 +10,7 @@ use Admin\Controller;
 return [
     'router' => [
         'routes' => [
-            'admin-user' => [
+            'user' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin/user[/:action[/:id]]',
@@ -24,7 +24,7 @@ return [
                     ],
                 ],
             ],
-            'admin-event' => [
+            'event' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin/event[/:action[/:id]]',
@@ -38,7 +38,7 @@ return [
                     ],
                 ],
             ],
-            'admin-group' => [
+            'group' => [
                 'type'    => Segment::class,
                 'options' => [
                     'route'    => '/admin/group[/:action[/:id]]',
@@ -73,7 +73,6 @@ return [
         'exception_template'       => 'error/index',
         'template_map' => [
             'admin/layout/layout'           => __DIR__ . '/../view/admin/layout/layout.phtml',
-            // 'admin/layout/layout'     => __DIR__ . '/../view/admin/layout/layout.phtml',
             'admin/index/index'       => __DIR__ . '/../view/admin/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/admin/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/admin/error/index.phtml',

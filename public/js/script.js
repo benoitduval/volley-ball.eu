@@ -272,7 +272,9 @@ demo = {
     },
 
     initFormExtendedDatetimepickers: function(){
-        $('.datetimepicker').datetimepicker({
+        $('#event-date').datetimepicker({
+            inline: true,
+            sideBySide: true,
             format: 'DD/MM/YYYY H:mm',    // use this format if you want the 24hours timepicker
             icons: {
                 time: "fa fa-clock-o",
@@ -285,36 +287,9 @@ demo = {
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
             }
-         });
-
-        $('.datepicker-from').datetimepicker({
-            format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            },
         });
-        $('.datepicker-to').datetimepicker({
-            format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
-            icons: {
-                time: "fa fa-clock-o",
-                date: "fa fa-calendar",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            },
-            useCurrent: false
+        $("#event-date").on("dp.change", function (e) {
+            $('.datetimepicker').attr("value", e.date.format('DD/MM/YYYY HH:mm'));
         });
 
         $('#holiday-from').datetimepicker({
@@ -412,124 +387,119 @@ demo = {
             height = Math.max(height - 235, 570);
         }
 
-        if ($('#fullCalendar').length > 0) {
-            var groupId = $('#fullCalendar').attr("data-groupId");
-            var url = '/api/event/get/all';
+        $('#fullCalendar').fullCalendar({
 
-            var request = $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    groupId: groupId,
+            events: {
+                url: '/api/event/get/all',
+                type: 'GET',
+                data: function() { // a function that returns an object
+                    return {
+                        dynamic_value: Math.random()
+                    };
                 }
-            }).done(function(resp) {
-                var myEvent;
+            },
+            eventAfterAllRender: function(view) {
+                $('#full-calendar-loading').hide();
+            },
+            header: {
+                right: 'title',
+                left: 'prev,next,today', //listMonth,month,
+            },
+            height: height,
+            aspectRatio: false,
+            locale: 'fr',
+            defaultDate: new Date(),
+            views: {
+                month: { // name of view
+                    titleFormat: 'MMM YYYY'
+                }
+            },
+            firstDay: 1,
+            eventLimit: false, // allow "more" link when too many events
+            timeFormat: 'H:mm',
+            eventClick:  function(event, jsEvent, view) {
                 var calendarModal = $('#fullCalModal');
-                var data  = JSON.parse(resp);
-                $('#fullCalendar').fullCalendar({
-                    eventAfterAllRender: function(view) {
-                        $('#full-calendar-loading').hide();
-                    },
-                    header: {
-                        right: 'title',
-                        left: 'prev,next', //listMonth,month,
-                    },
-                    height: height,
-                    aspectRatio: false,
-                    locale: 'fr',
-                    defaultDate: new Date(),
-                    views: {
-                        month: { // name of view
-                            titleFormat: 'MMM YYYY'
-                        }
-                    },
-                    firstDay: 1,
-                    eventLimit: false, // allow "more" link when too many events
-                    events: data,
-                    timeFormat: 'H:mm',
-                    eventClick:  function(event, jsEvent, view) {
-                        myEvent = event;
-                        jsEvent.preventDefault();
-                        if (typeof event.url !== "undefined") {
-                            $('#modal-title').html(myEvent.title);
-                            $('#modal-date').html(myEvent.date);
-                            $('.event-url').attr('href', myEvent.url);
-                            $('#modal-count').html(myEvent.count);
-                            $('#modal-place').html(myEvent.place);
-                            $('#modal-city').html(myEvent.city);
-                            $('#modal-zipcode').html(myEvent.zipcode);
-                            $('#modal-address').html(myEvent.address);
-                            $('#modal-month').html(myEvent.month);
-                            $('#modal-day').html(myEvent.day);
-                            $('#modal-date').html(myEvent.date);
-                            $('#event-place-url').attr('href', 'https://maps.google.com/?q=' + myEvent.address + '+' + myEvent.city + '+' + myEvent.zipcode);
-                            calendarModal.modal();
+                var myEvent = event;
+                jsEvent.preventDefault();
+                if (typeof event.url !== "undefined") {
+                    $('#modal-title').html(myEvent.title);
+                    $('#modal-date').html(myEvent.date);
+                    $('.event-url').attr('href', myEvent.url);
+                    $('#modal-count').html(myEvent.count);
+                    $('#modal-place').html(myEvent.place);
+                    $('#modal-city').html(myEvent.city);
+                    $('#modal-zipcode').html(myEvent.zipcode);
+                    $('#modal-address').html(myEvent.address);
+                    $('#modal-month').html(myEvent.month);
+                    $('#modal-day').html(myEvent.day);
+                    $('#modal-date').html(myEvent.date);
+                    $('#event-place-url').attr('href', 'https://maps.google.com/?q=' + myEvent.address + '+' + myEvent.city + '+' + myEvent.zipcode);
+                    calendarModal.modal();
 
-                            var url = '/api/guest/response/' + myEvent.id;
-                            $('#event-url-ok').off('click').on('click', function(e, state) {
-                                url = url + '/1';
-                                var request = $.ajax({
-                                    type: "GET",
-                                    url: url
-                                }).done(function(resp) {
-                                    if (myEvent.className != 'event-green') {
-                                        myEvent.count = myEvent.count + 1;
-                                    }
-                                    myEvent.className = ['event-green'];
-                                    $('#fullCalendar').fullCalendar('updateEvent', myEvent);
-                                    calendarModal.modal('hide');
-                                });
-                                swal({
-                                  title: 'Enregistré',
-                                  type: 'success',
-                                  showConfirmButton: false
-                                });
-                            });
+                    var url = '/api/guest/response/' + myEvent.id;
+                    $('#event-url-ok').off('click').on('click', function(e, state) {
+                        url = url + '/1';
+                        var request = $.ajax({
+                            type: "GET",
+                            url: url
+                        }).done(function(resp) {
+                            if (myEvent.className != 'event-green') {
+                                myEvent.count = myEvent.count + 1;
+                            }
+                            myEvent.className = ['event-green'];
+                            $('#fullCalendar').fullCalendar('updateEvent', myEvent);
+                            calendarModal.modal('hide');
+                        });
+                        swal({
+                          title: 'Enregistré',
+                          type: 'success',
+                          showConfirmButton: false
+                        });
+                    });
 
-                            $('#event-url-no').off('click').on('click', function(e, state) {
-                                url = url + '/2';
-                                var request = $.ajax({
-                                    type: "GET",
-                                    url: url
-                                }).done(function(resp) {
-                                    if (myEvent.className == 'event-green') {
-                                        myEvent.count = myEvent.count - 1;
-                                    }
-                                    myEvent.className = ['event-red'];
-                                    $('#fullCalendar').fullCalendar('updateEvent', myEvent);
-                                    calendarModal.modal('hide');
-                                });
-                                swal({
-                                  title: 'Enregistré',
-                                  type: 'success',
-                                  showConfirmButton: false
-                                });
-                            });
+                    $('#event-url-no').off('click').on('click', function(e, state) {
+                        url = url + '/2';
+                        var request = $.ajax({
+                            type: "GET",
+                            url: url
+                        }).done(function(resp) {
+                            if (myEvent.className == 'event-green') {
+                                myEvent.count = myEvent.count - 1;
+                            }
+                            myEvent.className = ['event-red'];
+                            $('#fullCalendar').fullCalendar('updateEvent', myEvent);
+                            calendarModal.modal('hide');
+                        });
+                        swal({
+                          title: 'Enregistré',
+                          type: 'success',
+                          showConfirmButton: false
+                        });
+                    });
 
-                            $('#event-url-incertain').off('click').on('click', function(e, state) {
-                                url = url + '/3';
-                                var request = $.ajax({
-                                    type: "GET",
-                                    url: url
-                                }).done(function(resp) {
-                                    if (myEvent.className == 'event-green') {
-                                        myEvent.count = myEvent.count - 1;
-                                    }
-                                    myEvent.className = ['event-orange'];
-                                    $('#fullCalendar').fullCalendar('updateEvent', myEvent);
-                                    calendarModal.modal('hide');
-                                });
-                                swal({
-                                  title: 'Enregistré',
-                                  type: 'success',
-                                  showConfirmButton: false
-                                });
-                            });
-                        }
-                    }
-                });
-            });
-        }
+                    $('#event-url-incertain').off('click').on('click', function(e, state) {
+                        url = url + '/3';
+                        var request = $.ajax({
+                            type: "GET",
+                            url: url
+                        }).done(function(resp) {
+                            if (myEvent.className == 'event-green') {
+                                myEvent.count = myEvent.count - 1;
+                            }
+                            myEvent.className = ['event-orange'];
+                            $('#fullCalendar').fullCalendar('updateEvent', myEvent);
+                            calendarModal.modal('hide');
+                        });
+                        swal({
+                          title: 'Enregistré',
+                          type: 'success',
+                          showConfirmButton: false
+                        });
+                    });
+                }
+            }
+
+        });
     },
 
     showNotification: function() {

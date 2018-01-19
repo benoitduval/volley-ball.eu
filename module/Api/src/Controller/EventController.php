@@ -13,11 +13,18 @@ class EventController extends AbstractController
     public function getAction()
     {
         if ($this->getUser()) {
+            $start = $this->params()->fromQuery('start', null);
+            $start .= ' 00:00:00';
+            $end = $this->params()->fromQuery('end', null);
+            $end .= ' 23:59:59';
+
             if ($groupId = $this->params()->fromQuery('groupId', null)) {
-                $events = $this->eventTable->getEventsByGroupId($groupId);
+                $events = $this->eventTable->getEventsByGroupId($groupId, $start, $end);
             } else {
-                $events = $this->eventTable->getAllByUserId($this->getUser()->id);
+                $events = $this->eventTable->getAllByUserId($this->getUser()->id, $start, $end);
             }
+
+            // error_log(print_r($events->toArray(), true));die;
 
             $result = [];
             $config = $this->get('config');

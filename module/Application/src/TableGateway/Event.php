@@ -29,20 +29,23 @@ class Event extends AbstractTableGateway
         return $events;
     }
 
-    public function getAllByUserId($userId)
+    public function getAllByUserId($userId, $start, $end)
     {
         $objs = $this->getContainer()->get(TableGateway\Disponibility::class)->fetchAll([
             'userId' => $userId
         ]);
 
         $events = [];
-        $today  = new \DateTime('today midnight');
         if ($objs->toArray()) {
             $ids = [];
             foreach ($objs as $obj) {
                 $ids[] = $obj->eventId;
             }
-            $events = $this->fetchAll(['id' => $ids]);
+            $events = $this->fetchAll([
+                'id' => $ids,
+                'date >= ?' => $start,
+                'date <= ?' => $end,
+            ]);
         }
         return $events;
     }
@@ -68,10 +71,15 @@ class Event extends AbstractTableGateway
         return $events;
     }
 
-    public function getEventsByGroupId($groupId)
+    public function getEventsByGroupId($groupId, $start, $end)
     {
         $result= [];
-        foreach ($this->fetchAll(['groupId' => $groupId], 'id DESC') as $event) {
+        $events = $this->fetchAll([
+            'groupId' => $groupId,
+            'date >= ?' => $start,
+            'date <= ?' => $end,
+        ]);
+        foreach ($events as $event) {
             $result[$event->id] = $event;
         }
         return $result;

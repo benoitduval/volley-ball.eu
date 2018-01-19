@@ -25,48 +25,73 @@ class EventController extends AbstractController
         }
     }
 
-    // public function detailAction()
-    // {
-    //     $id         = $this->params('id', null);
+    public function detailAction()
+    {
+        $eventId = $this->params('id');
+        if (($event = $this->eventTable->find($eventId)) && $this->getUser()->id == 1) {
 
-    //     $eventTable = $this->get(TableGateway\Event::class);
-    //     $event      = $eventTable->find($id);
+            $setsHistory   = $this->statsTable->getSetsHistory($eventId);
+            $setsStats     = $this->statsTable->getSetsStats($eventId);
+            $overallStats  = $this->statsTable->getOverallStats($eventId);
+            $setsLastScore = $this->statsTable->setsLastScore($eventId);
 
-    //     $groupTable = $this->get(TableGateway\Group::class);
-    //     $group      = $groupTable->find($event->groupId);
+            $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
+            $group     = $this->groupTable->find($event->groupId);
 
-    //     $guestTable = $this->get(TableGateway\Guest::class);
-    //     $guests     = $guestTable->fetchAll(['eventId' => $event->id]);
+            $counters  = $this->disponibilityTable->getCounters($eventId);
+            $disponibilities    = $this->disponibilityTable->fetchAll(['eventId' => $eventId]);
+            $myGuest   = $this->disponibilityTable->fetchOne(['eventId' => $eventId, 'userId' => $this->getUser()->id]);
+            $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
-    //     $userTable  = $this->get(TableGateway\User::class);
-    //     foreach ($guests as $guest) {
-    //         $users[$guest->userId] = $userTable->find($guest->userId);
-    //     }
+            $availability    = [
+                Model\Disponibility::RESP_NO_ANSWER => [],
+                Model\Disponibility::RESP_OK        => [],
+                Model\Disponibility::RESP_NO        => [],
+                Model\Disponibility::RESP_INCERTAIN => [],
+            ];
 
-    //     $form = new Form\Event;
-    //     $form->setData($event->toArray());
-    //     $request = $this->getRequest();
-    //     if ($request->isPost()) {
-    //         $data = $request->getPost();
-    //         $data['email'] = $user->email;
-    //         $form->setData($request->getPost());
-    //         if ($form->isValid()) {
-    //             $data = $form->getData();
-    //             foreach ($data as $key => $value) {
-    //                 if (!$value) unset($data[$key]);
-    //             }
-    //             $data['id'] = $user->id;
-    //             $userTable->save($data);
-    //         }
-    //     }
+            foreach ($disponibilities as $disponibility) {
+                $users[$disponibility->userId] = $this->userTable->find($disponibility->userId);
+                $availability[$disponibility->response][] = $users[$disponibility->userId];
+            }
 
-    //     $this->layout()->setTemplate('admin/layout/layout.phtml');
-    //     return new ViewModel([
-    //         'event'  => $event,
-    //         'group'  => $group,
-    //         'guests' => $guests,
-    //         'users'  => $users,
-    //         'form'   => $form,
-    //     ]);
-    // }
+            $result = [];
+            foreach ($comments as $comment) {
+                if (!isset($users[$comment->userId])) {
+                    $author = $this->userTable->find($comment->userId);
+                } else {
+                    $author = $users[$comment->userId];
+                }
+
+                $date = \DateTime::createFromFormat('Y-m-d H:i:s', $comment->date);
+                $result[$comment->id]['date']    = $date->format('d F Y \à H:i');
+                $result[$comment->id]['author']  = $author;
+                $result[$comment->id]['comment'] = $comment->comment;
+            }
+
+            $counters = $this->disponibilityTable->getCounters($eventId);
+
+            $config     = $this->get('config');
+            $baseUrl    = $config['baseUrl'];
+
+            $this->layout()->setTemplate('admin/layout/layout.phtml');
+            return new ViewModel([
+                'overallStats'    => $overallStats,
+                'setsLastScore'   => $setsLastScore,
+                'setsStats'       => $setsStats,
+                'setsHistory'     => $setsHistory,
+                'counters'        => $counters,
+                'comments'        => $result,
+                'event'           => $event,
+                'group'           => $group,
+                'users'           => $availability,
+                'user'            => $this->getUser(),
+                'date'            => $eventDate,
+                'myDisponibility' => $myGuest,
+                'disponibilities' => json_encode(array_values($counters))
+            ]);
+        } else {
+            $this->redirect()->toRoute('home');
+        }
+    }
 }
