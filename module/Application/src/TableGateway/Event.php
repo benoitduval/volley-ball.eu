@@ -75,8 +75,8 @@ class Event extends AbstractTableGateway
     {
         $result= [];
         $data['groupId'] = $groupId;
-        if ($start) $data['start'] = $start;
-        if ($end) $data['end'] = $end;
+        if ($start) $data['date >= ?'] = $start;
+        if ($end) $data['date <= ?'] = $end;
         $events = $this->fetchAll($data);
         foreach ($events as $event) {
             $result[$event->id] = $event;

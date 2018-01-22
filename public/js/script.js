@@ -387,21 +387,22 @@ demo = {
             height = Math.max(height - 235, 570);
         }
 
+        var calendar = $('#fullCalendar');
+        var groupId = calendar.attr('data-groupId');
+
         $('#fullCalendar').fullCalendar({
             lazyFetching: true,
             events: {
                 url: '/api/event/get/all',
-                cache: true,
+                // cache: true,
                 type: 'GET',
                 data: function() { // a function that returns an object
                     return {
-                        dynamic_value: Math.random()
+                        dynamic_value: Math.random(),
+                        groupId: groupId
                     };
                 }
             },
-            // eventAfterAllRender: function(view) {
-            //     $('#full-calendar-loading').hide();
-            // },
             header: {
                 right: 'title',
                 left: 'prev,next,today', //listMonth,month,

@@ -119,24 +119,8 @@ class GroupController extends AbstractController
         $users       = $this->userTable->getAllByGroupId($group->id);
         $isAdmin     = $this->userGroupTable->isAdmin($this->getUser()->id, $group->id);
         $isMember    = $this->userGroupTable->isMember($this->getUser()->id, $group->id);
-        $events      = $this->eventTable->getEventsByGroupId($group->id);
         $trainings   = $this->trainingTable->fetchAll(['groupId' =>  $group->id]);
-        $eventIds    = array_keys($events);
-        $eventsCount = count($eventIds);
-        $debrief     = '';
-        $matchs      = [];
-
-        $i = 0;
-        foreach ($events as $event) {
-            if (!$debrief && $event->debrief) {
-                $debrief = $event->debrief;
-            }
-
-            if ($event->sets && $i < 7) {
-                $matchs[] = $event;
-                $i++;
-            }
-        }
+        $eventsCount = $this->eventTable->count(['groupId' =>  $group->id]);
 
         if ($this->getUser() && $this->userGroupTable->isMember($this->getUser()->id, $group->id)) {
             $disponibilities = $this->groupTable->getDisponibilities($group->id);
@@ -152,13 +136,10 @@ class GroupController extends AbstractController
         return new ViewModel([
             'user'          => $this->getUser(),
             'group'         => $group,
-            'events'        => $events,
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,
-            'debrief'       => $debrief,
             'scores'        => $scores,
-            'matchs'        => $matchs,
             'trainings'     => $trainings,
             'shareUrl'      => $shareUrl,
             'lastDisp'      => json_encode(array_values($disponibilities['last'])),
