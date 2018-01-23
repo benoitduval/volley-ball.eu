@@ -332,7 +332,7 @@ class EventController extends AbstractController
                     $eventData['set' . $i . 'Team2'] = $set[1];
                 }
             } else {
-                for ($i = 1; $i <= 5; $i++) { 
+                for ($i = 1; $i <= 5; $i++) {
                     if ($stats = $this->statsTable->fetchOne(['eventId' => $eventId, 'set' => $i], 'id DESC')) {
                         $eventData['set' . $i . 'Team1'] = $stats->scoreUs;
                         $eventData['set' . $i . 'Team2'] = $stats->scoreThem;
@@ -382,15 +382,29 @@ class EventController extends AbstractController
     }
 
 
-    public function liveStatsAction ()
+    public function deleteStatsAction()
+    {
+        $statsId = $this->params('id', null);
+        $stats = $this->statsTable->find($this->params('id'));
+        if ($stats && ($event = $this->eventTable->find($stats->eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
+            $eventId = $stats->eventId;
+            $this->statsTable->delete(['id' => $statsId]);
+            $this->flashMessenger()->addSuccessMessage('Point supprimé.');
+        }
+        $this->redirect()->toUrl('/event/live-stats/' . $eventId);
+    }
+
+    public function liveStatsAction()
     {
         $eventId = $this->params('id');
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
-            $stats = $this->statsTable->fetchOne(['eventId' => $eventId], 'id DESC');
-            $scoreUs   = 0;
-            $scoreThem = 0;
-            $set       = 1;
+            $config     = $this->get('config');
+            $stats      = $this->statsTable->fetchOne(['eventId' => $eventId], 'id DESC');
+            $scoreUs    = 0;
+            $scoreThem  = 0;
+            $set        = 1;
+            $deleteLink = null;
             if ($stats) {
                 if (($stats->scoreUs >= 25 || $stats->scoreThem >= 25) && (abs(
                 $stats->scoreThem - $stats->scoreUs) >= 2)) {
@@ -400,6 +414,7 @@ class EventController extends AbstractController
                     $scoreUs   = $stats->scoreUs;
                     $scoreThem = $stats->scoreThem;
                 }
+                $deleteLink = $config['baseUrl'] . '/event/delete-stats/' . $stats->id;
             }
 
             $setsStats = $this->statsTable->getSetsStats($eventId, $set);
@@ -428,6 +443,7 @@ class EventController extends AbstractController
             }
 
             return new ViewModel([
+                'deleteLink'    => $deleteLink,
                 'setsLastScore' => $setsLastScore,
                 'setsHistory'   => $setsHistory,
                 'setsStats'     => $setsStats,
