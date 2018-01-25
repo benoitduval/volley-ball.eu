@@ -144,7 +144,7 @@ demo = {
         });
     },
 
-    showSwal: function(type, redirectUrl = null){
+    showSwal: function(type, redirectUrl){
         if(type == 'warning-message-and-confirmation'){
             swal({
                 title: 'Êtes vous sûr?',
