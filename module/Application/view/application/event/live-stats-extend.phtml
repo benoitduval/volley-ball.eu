@@ -1,0 +1,127 @@
+<div class="row">
+  <div class="col-xs-4 text-center">
+      <div class="card">
+          <div class="card-content">
+              <div class="row">
+                  <div class="col-xs-12">
+                      <div class="numbers-center">
+                          <p>Nous</p>
+                          20
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-xs-4">
+      <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <div class="numbers-center">
+                            <p>Sets</p>
+                            2-0
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <div class="numbers-center">
+                            <p>Eux</p>
+                            20
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <form method="POST">
+        <div class="<?= (!$setsStats[$set]) ? 'col-md-8 col-md-offset-2' : 'col-md-8' ; ?>">
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <h5>Service</h5>
+                        </div>
+                        <div class="btn-group col-md-8"  style="float:right;">
+                           <button type="button" class="btn btn-danger btn-sm">Erreur</button>
+                           <button type="button" class="btn btn-primary btn-sm">Fac</button>
+                           <button type="button" class="btn btn-primary btn-sm">Diff</button>
+                           <button type="button" class="btn btn-success btn-sm">Ace</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <h5>Réception</h5>
+                        </div>
+                        <div class="btn-group col-md-8"  style="float:right;">
+                           <button type="button" class="btn btn-danger btn-sm">Ace</button>
+                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" class="btn btn-success btn-sm">Facile</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <h5>Passe</h5>
+                        </div>
+                        <div class="btn-group col-md-8"  style="float:right;">
+                           <button type="button" class="btn btn-danger btn-sm">Error</button>
+                           <button type="button" class="btn btn-primary btn-sm">4</button>
+                           <button type="button" class="btn btn-primary btn-sm">Fix</button>
+                           <button type="button" class="btn btn-primary btn-sm">2</button>
+                           <button type="button" class="btn btn-primary btn-sm">3m</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <h5>Attaque</h5>
+                        </div>
+                        <div class="btn-group col-md-8" style="float:right;">
+                           <button type="button" class="btn btn-danger btn-sm">Erreur</button>
+                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" class="btn btn-success btn-sm">Point</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <h5>Défence</h5>
+                        </div>
+                        <div class="btn-group col-md-8 " style="float:right;">
+                           <button type="button" class="btn btn-danger btn-sm">Erreur</button>
+                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" class="btn btn-success btn-sm">Facile</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <h5>Block</h5>
+                        </div>
+                        <div class="btn-group col-md-8" style="float:right;">
+                           <button type="button" class="btn btn-danger btn-sm">Out</button>
+                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" class="btn btn-success btn-sm">Point</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="btn-group col-md-4">
+                            <button type="button" class="btn btn-danger" onclick="demo.showSwal('warning-message-and-confirmation', '<?= $deleteLink ?>')"><i class="fa fa-undo" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="btn-group col-md-8" style="float:right;">
+                           <button type="button" class="btn btn-danger btn-fill">Faute Adverse</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

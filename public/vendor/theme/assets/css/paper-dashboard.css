@@ -7830,11 +7830,22 @@ star {
 .card .icon-big {
   font-size: 3em;
 }
+
+.card .numbers-left {
+  text-align: left;
+  font-size: 2em;
+}
+.card .numbers-center {
+  text-align: center;
+  font-size: 2em;
+}
 .card .numbers {
   text-align: right;
   font-size: 2em;
 }
-.card .numbers p {
+.card .numbers p,
+.card .numbers-center p,
+.card .numbers-left p {
   margin: 0;
 }
 .card .pull-right .label {

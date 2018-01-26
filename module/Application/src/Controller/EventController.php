@@ -458,4 +458,70 @@ class EventController extends AbstractController
             $this->redirect()->toRoute('home');
         }
     }
+
+
+    public function liveStatsExtendAction()
+    {
+        $eventId = $this->params('id');
+        if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
+
+            $config     = $this->get('config');
+            $stats      = $this->statsTable->fetchOne(['eventId' => $eventId], 'id DESC');
+            $scoreUs    = 0;
+            $scoreThem  = 0;
+            $set        = 1;
+            $deleteLink = null;
+            if ($stats) {
+                if (($stats->scoreUs >= 25 || $stats->scoreThem >= 25) && (abs(
+                $stats->scoreThem - $stats->scoreUs) >= 2)) {
+                    $set = $stats->set + 1;
+                } else {
+                    $set = $stats->set;
+                    $scoreUs   = $stats->scoreUs;
+                    $scoreThem = $stats->scoreThem;
+                }
+                $deleteLink = $config['baseUrl'] . '/event/delete-stats/' . $stats->id;
+            }
+
+            $setsStats = $this->statsTable->getSetsStats($eventId, $set);
+            $setsHistory = $this->statsTable->getSetsHistory($eventId, $set);
+            $setsLastScore = $this->statsTable->setsLastScore($eventId, $set);
+
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                $result = [];
+                $post = $request->getPost()->toArray();
+                if ($post['point-for'] == Model\Stats::POINT_US) {
+                    $post['score-us']++;
+                } else {
+                    $post['score-them']++;
+                }
+                $data['scoreUs']     = $post['score-us'];
+                $data['scoreThem']   = $post['score-them'];
+                $data['pointFor']    = $post['point-for'];
+                $data['reason']      = $post['reason'];
+                $data['eventId']     = $eventId;
+                $data['set']         = $set;
+                $stats = $this->statsTable->save($data);
+
+                $this->flashMessenger()->addSuccessMessage('Point enregistré.');
+                $this->redirect()->toRoute('event', ['action' => 'live-stats', 'id' => $eventId]);
+            }
+
+            return new ViewModel([
+                'deleteLink'    => $deleteLink,
+                'setsLastScore' => $setsLastScore,
+                'setsHistory'   => $setsHistory,
+                'setsStats'     => $setsStats,
+                'event'         => $event,
+                'user'          => $this->getUser(),
+                'scoreUs'       => $scoreUs,
+                'scoreThem'     => $scoreThem,
+                'set'           => (int) $set,
+            ]);
+        } else {
+            $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');
+            $this->redirect()->toRoute('home');
+        }
+    }
 }
