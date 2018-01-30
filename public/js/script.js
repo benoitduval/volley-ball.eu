@@ -162,6 +162,18 @@ demo = {
         }
     },
 
+    initStatsBtns: function() {
+        $('.stats-btn').on('click', function(e, state) {
+            var value = $(this).attr('data-stats-value');
+            var request = $.ajax({
+                type: "GET",
+                url: '/api/stats/save'
+            }).done(function(resp) {
+                
+            });
+        });
+    },
+
     checkFullPageBackgroundImage: function(){
         $page = $('.full-page');
         image_src = $page.data('image');

@@ -53,10 +53,10 @@
                             <h5>Service</h5>
                         </div>
                         <div class="btn-group col-md-8"  style="float:right;">
-                           <button type="button" class="btn btn-danger btn-sm">Erreur</button>
-                           <button type="button" class="btn btn-primary btn-sm">Fac</button>
-                           <button type="button" class="btn btn-primary btn-sm">Diff</button>
-                           <button type="button" class="btn btn-success btn-sm">Ace</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SERVE_ERROR ?>" class="stats-btn btn btn-danger btn-sm">Erreur</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SERVE_EASY ?>" class="stats-btn btn btn-primary btn-sm">Fac</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SERVE_HARD ?>" class="stats-btn btn btn-primary btn-sm">Diff</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SERVE_POINT ?>" class="stats-btn btn btn-success btn-sm">Ace</button>
                         </div>
                     </div>
                     <div class="row">
@@ -64,9 +64,9 @@
                             <h5>Réception</h5>
                         </div>
                         <div class="btn-group col-md-8"  style="float:right;">
-                           <button type="button" class="btn btn-danger btn-sm">Ace</button>
-                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
-                           <button type="button" class="btn btn-success btn-sm">Facile</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::RECEP_ACE ?>" class="stats-btn btn btn-danger btn-sm">Ace</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::RECEP_PLAY ?>" class="stats-btn btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::RECEP_EASY ?>" class="stats-btn btn btn-success btn-sm">Facile</button>
                         </div>
                     </div>
                     <div class="row">
@@ -74,11 +74,11 @@
                             <h5>Passe</h5>
                         </div>
                         <div class="btn-group col-md-8"  style="float:right;">
-                           <button type="button" class="btn btn-danger btn-sm">Error</button>
-                           <button type="button" class="btn btn-primary btn-sm">4</button>
-                           <button type="button" class="btn btn-primary btn-sm">Fix</button>
-                           <button type="button" class="btn btn-primary btn-sm">2</button>
-                           <button type="button" class="btn btn-primary btn-sm">3m</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SET_ERROR ?>" class="stats-btn btn btn-danger btn-sm">Error</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SET_4 ?>" class="stats-btn btn btn-primary btn-sm">4</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SET_CENTER ?>" class="stats-btn btn btn-primary btn-sm">Fix</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SET_2 ?>" class="stats-btn btn btn-primary btn-sm">2</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::SET_3M ?>" class="stats-btn btn btn-primary btn-sm">3m</button>
                         </div>
                     </div>
                     <div class="row">
@@ -86,9 +86,9 @@
                             <h5>Attaque</h5>
                         </div>
                         <div class="btn-group col-md-8" style="float:right;">
-                           <button type="button" class="btn btn-danger btn-sm">Erreur</button>
-                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
-                           <button type="button" class="btn btn-success btn-sm">Point</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::ATTACK_ERROR ?>" class="stats-btn btn btn-danger btn-sm">Erreur</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::ATTACK_PLAY ?>" class="stats-btn btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::ATTACK_POINT ?>" class="stats-btn btn btn-success btn-sm">Point</button>
                         </div>
                     </div>
                     <div class="row">
@@ -96,9 +96,9 @@
                             <h5>Défence</h5>
                         </div>
                         <div class="btn-group col-md-8 " style="float:right;">
-                           <button type="button" class="btn btn-danger btn-sm">Erreur</button>
-                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
-                           <button type="button" class="btn btn-success btn-sm">Facile</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::DEF_ERROR ?>" class="stats-btn btn btn-danger btn-sm">Erreur</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::DEF_PLAY ?>" class="stats-btn btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::DEF_EASY ?>" class="stats-btn btn btn-success btn-sm">Facile</button>
                         </div>
                     </div>
                     <div class="row">
@@ -106,9 +106,9 @@
                             <h5>Block</h5>
                         </div>
                         <div class="btn-group col-md-8" style="float:right;">
-                           <button type="button" class="btn btn-danger btn-sm">Out</button>
-                           <button type="button" class="btn btn-primary btn-sm">Jouable</button>
-                           <button type="button" class="btn btn-success btn-sm">Point</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::BLOCK_OUT ?>" class="stats-btn btn btn-danger btn-sm">Out</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::BLOCK_PLAY ?>" class="stats-btn btn btn-primary btn-sm">Jouable</button>
+                           <button type="button" data-stats-value="<?= \Application\Model\Stats::BLOCK_POINT ?>" class="stats-btn btn btn-success btn-sm">Point</button>
                         </div>
                     </div>
                     <hr>

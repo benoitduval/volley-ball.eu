@@ -35,6 +35,16 @@ return [
                     ],
                 ],
             ],
+            'api-save-stats' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/stats/save',
+                    'defaults' => [
+                        'controller'    => Controller\StatsController::class,
+                        'action'        => 'save',
+                    ],
+                ],
+            ],
             'export' => [
                 'type'    => Segment::class,
                 'options' => [

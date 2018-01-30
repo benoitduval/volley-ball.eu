@@ -85,6 +85,19 @@ return [
                     ],
                 ],
             ],
+            'live-event' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/live/:name/:id',
+                    'constraints' => [
+                        'id'     => '[0-9]+',
+                    ],
+                    'defaults' => [
+                        'controller'    => Controller\EventController::class,
+                        'action'        => 'live',
+                    ],
+                ],
+            ],
             'disponibility' => [
                 'type'    => Segment::class,
                 'options' => [

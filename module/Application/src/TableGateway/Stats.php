@@ -53,7 +53,7 @@ class Stats extends AbstractTableGateway
     {
         $score = [];
         if (!($stat = $this->fetchOne(['eventId' => $eventId, 'set' => $set]))) return $score;
-        return $stat->scoreUs . ' - ' . $stat->scoreThem;
+        return [$stat->scoreUs, $stat->scoreThem];
     }
 
     private function _getSetsHistory($eventId, $set)

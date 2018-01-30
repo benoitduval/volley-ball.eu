@@ -381,7 +381,6 @@ class EventController extends AbstractController
         }
     }
 
-
     public function deleteStatsAction()
     {
         $statsId = $this->params('id', null);
@@ -459,6 +458,32 @@ class EventController extends AbstractController
         }
     }
 
+    public function liveAction()
+    {
+        $eventId   = $this->params('id');
+        $eventName = $this->params('name');
+        $event     = $this->eventTable->find($eventId);
+        if ($event && Service\Strings::toSlug($event->name) == $eventName) {
+
+            $setsHistory   = $this->statsTable->getSetsHistory($eventId);
+            $setsStats     = $this->statsTable->getSetsStats($eventId);
+            $overallStats  = $this->statsTable->getOverallStats($eventId);
+            $setsLastScore = $this->statsTable->setsLastScore($eventId);
+
+            $config     = $this->get('config');
+            $baseUrl    = $config['baseUrl'];
+
+            return new ViewModel([
+                'overallStats'    => $overallStats,
+                'setsLastScore'   => $setsLastScore,
+                'setsStats'       => $setsStats,
+                'setsHistory'     => $setsHistory,
+                'event'           => $event,
+            ]);
+        } else {
+            $this->redirect()->toRoute('home');
+        }
+    }
 
     public function liveStatsExtendAction()
     {

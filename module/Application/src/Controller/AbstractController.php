@@ -63,58 +63,6 @@ class AbstractController extends AbstractActionController
         $this->layout()->vJs    = $config['version']['js'];
         $this->layout()->user   = $this->getUser();
         $this->layout()->groups = $this->getUserGroups();
-        $this->layout()->badges = $this->_getBadges();
         return parent::onDispatch($e);
-    }
-
-    protected function _getBadges()
-    {
-        $result['count'] = 0;
-        if ($this->getUser()) {
-            $key = 'badges.comments.user.' . $this->getUser()->id;
-            $cached = $this->get('memcached')->getItem($key);
-            if ($cached = $this->get('memcached')->getItem($key)) {
-                foreach ($cached as $data) {
-                    $result['count'] += $data['count'];
-                    $result['comments'][] = [
-                        'label' => '<span class="badge">' . $data['count'] . '</span> ' . $data['name'] . ' (' . $data['date'].')',
-                        'link' => '#',
-                        'id' => $data['id']
-                    ];
-                }
-            }
-
-            // $userGroups = [];
-            // foreach ($this->getUserGroups() as $group) {
-            //     $userGroups[$group->id] = $group;
-            // }
-
-            // if ($userGroups) {
-            //     $today = new \DateTime('today midnight');
-            //     $eventTable = $this->get(TableGateway\Event::class);
-            //     $guestTable = $this->get(TableGateway\Guest::class);
-            //     $events = $eventTable->fetchAll([
-            //         'groupId'   => array_keys($userGroups),
-            //         'date >= ?' => $today->format('Y-m-d H:i:s')
-            //     ], 'date ASC');
-
-            //     foreach ($events as $key => $event) {
-            //         $guest = $guestTable->fetchOne([
-            //             'userId'  => $this->getUser()->id,
-            //             'eventId' => $event->id
-            //         ]);
-
-            //         if ($guest->response == Model\Guest::RESP_INCERTAIN || $guest->response == Model\Guest::RESP_NO_ANSWER) {
-            //             $result['count'] ++;
-            //             $result['events'][] = [
-            //                 'label' => $event->name,
-            //                 'link'  => '/event/detail/' . $event->id,
-            //                 'id'    => $event->id
-            //             ];
-            //         }
-            //     }
-            // }
-        }
-        return $result;
     }
 }
