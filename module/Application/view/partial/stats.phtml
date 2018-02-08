@@ -1,8 +1,9 @@
 <?php if ($setsHistory): ?>
     <div class="row">
         <?php foreach ($setsHistory as $set => $scores) : ?>
+            <?php $size = isset($size) ? $size : 6; ?>
             <?php if ($scores): ?>
-                    <div class="col-md-4">
+                    <div class="col-md-<?= $size ?>">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Set <?= $set ?> <span class="category">(Nous <?= $setsLastScore[$set][0] ?> - <?= $setsLastScore[$set][1] ?> Eux)</span></h4>

@@ -171,6 +171,9 @@
     <!-- Paper Dashboard PRO Core javascript and methods for Demo purpose -->
     <script src="/vendor/theme/assets/js/paper-dashboard.js"></script>
 
+    <!-- Wizard Plugin    -->
+    <script src="/vendor/theme/assets/js/jquery.bootstrap.wizard.min.js"></script>
+
     <!-- Paper Dashboard PRO DEMO methods, don't include it in your project! -->
     <script src="/js/script.js?v=<?= $this->vJs ?>"></script>
 
@@ -189,10 +192,11 @@
             demo.initFormExtendedDatetimepickers();
             demo.initSwitchers();
             demo.showNotification();
-            demo.initClipboard();
             demo.initHighcharts();
-            demo.initStatsBtns();
-            // demo.initSubmitButton();
+            // demo.initStatsBtns();
+            demo.initWizard();
+            demo.initSubmitButton();
+            demo.initClipboard();
         });
     </script>
 
