@@ -621,7 +621,7 @@ demo = {
         });
     },
 
-    initWizard: function(){
+    initWizard: function() {
         $(document).ready(function(){
 
             var $validator = $("#wizardForm").validate();
@@ -667,6 +667,19 @@ demo = {
                         $(wizard).find('.btn-finish').hide();
                     }
                 }
+            });
+        });
+    },
+
+    initCounterButton: function() {
+        $('.btn-counter').each(function () {
+            $(this).on('click', function() {
+                var input = $(this).find('input');
+                var value = input.val();
+                value = parseInt(value) + 1;
+                input.val(value);
+                var counter = $(this).find('.counter');
+                counter.html(value);
             });
         });
     }

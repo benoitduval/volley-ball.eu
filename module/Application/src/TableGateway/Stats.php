@@ -76,6 +76,31 @@ class Stats extends AbstractTableGateway
                     $data['reason'][] = 'fa-crosshairs text-danger';
                     break;
                 case Model\Stats::POINT_ATTACK:
+                case Model\Stats::POST_4 . Model\Stats::LINE:
+                case Model\Stats::POST_4 . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POST_4 . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POST_4 . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POST_4 . Model\Stats::BIDOUILLE:
+                case Model\Stats::POST_2 . Model\Stats::LINE:
+                case Model\Stats::POST_2 . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POST_2 . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POST_2 . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POST_2 . Model\Stats::BIDOUILLE:
+                case Model\Stats::POST_FIX . Model\Stats::LINE:
+                case Model\Stats::POST_FIX . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POST_FIX . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POST_FIX . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POST_FIX . Model\Stats::BIDOUILLE:
+                case Model\Stats::POST_SETTER . Model\Stats::LINE:
+                case Model\Stats::POST_SETTER . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POST_SETTER . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POST_SETTER . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE:
+                case Model\Stats::POST_3M . Model\Stats::LINE:
+                case Model\Stats::POST_3M . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POST_3M . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POST_3M . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POST_3M . Model\Stats::BIDOUILLE:
                     $data['reason'][] = 'fa-crosshairs text-success';
                     break;
                 case Model\Stats::POINT_SERVE:
@@ -114,7 +139,34 @@ class Stats extends AbstractTableGateway
         $attackPoint = $this->count([
             'eventId' => $eventId,
             'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::POINT_ATTACK,
+            'reason' => [
+                Model\Stats::POINT_ATTACK,
+                Model\Stats::POST_4 . Model\Stats::LINE,
+                Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_2 . Model\Stats::LINE,
+                Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_FIX . Model\Stats::LINE,
+                Model\Stats::POST_FIX . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_FIX . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_FIX . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_FIX . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_SETTER . Model\Stats::LINE,
+                Model\Stats::POST_SETTER . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_SETTER . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_SETTER . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_3M . Model\Stats::LINE,
+                Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
+            ],
         ]);
 
         $serveFault = $this->count([
@@ -221,7 +273,34 @@ class Stats extends AbstractTableGateway
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::POINT_ATTACK,
+            'reason' => [
+                Model\Stats::POINT_ATTACK,
+                Model\Stats::POST_4 . Model\Stats::LINE,
+                Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_2 . Model\Stats::LINE,
+                Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_FIX . Model\Stats::LINE,
+                Model\Stats::POST_FIX . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_FIX . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_FIX . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_FIX . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_SETTER . Model\Stats::LINE,
+                Model\Stats::POST_SETTER . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_SETTER . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_SETTER . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_3M . Model\Stats::LINE,
+                Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
+                Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
+                Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
+            ],
         ]);
 
         $serveFault = $this->count([

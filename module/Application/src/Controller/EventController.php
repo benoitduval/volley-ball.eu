@@ -516,21 +516,31 @@ class EventController extends AbstractController
             if ($request->isPost()) {
                 $result = [];
                 $post = $request->getPost()->toArray();
+                if (isset($post['post']) && isset($post['post'])) {
+                    $reason = $post['post'] . $post['zone'];
+                } else {
+                    $reason = $post['reason'];
+                }
                 if ($post['point-for'] == Model\Stats::POINT_US) {
                     $post['score-us']++;
                 } else {
                     $post['score-them']++;
                 }
+
                 $data['scoreUs']     = $post['score-us'];
                 $data['scoreThem']   = $post['score-them'];
                 $data['pointFor']    = $post['point-for'];
-                $data['reason']      = $post['reason'];
+                $data['reason']      = $reason;
                 $data['eventId']     = $eventId;
                 $data['set']         = $set;
+                $data['blockUs']     = isset($post['block-us']) ? $post['block-us'] : 0;
+                $data['blockThem']   = isset($post['block-them']) ? $post['block-them'] : 0;
+                $data['defenceUs']   = isset($post['defence-us']) ? $post['defence-us'] : 0;
+                $data['defenceThem'] = isset($post['defence-them']) ? $post['defence-them'] : 0;
                 $stats = $this->statsTable->save($data);
 
                 $this->flashMessenger()->addSuccessMessage('Point enregistré.');
-                $this->redirect()->toRoute('event', ['action' => 'live-stats', 'id' => $eventId]);
+                $this->redirect()->toRoute('event', ['action' => 'live-stats-extend', 'id' => $eventId]);
             }
 
             return new ViewModel([
