@@ -45,7 +45,7 @@ demo = {
                     url: url
                 });
             });
-        });
+        });6
 
         $('input[name="admin"]').each(function () {
             $(this).on('switchChange.bootstrapSwitch', function(event, state) {
@@ -622,7 +622,7 @@ demo = {
     },
 
     initWizard: function() {
-        $(document).ready(function(){
+        $(document).ready(function() {
 
             $('#point-them').on('click', function() {
                 $('#attack-us').addClass('hidden');
@@ -632,6 +632,25 @@ demo = {
             $('#point-us').on('click', function() {
                 $('#attack-us').removeClass('hidden');
                 $('#attack-them').addClass('hidden');
+            });
+
+            $('.attack-line').on('click', function() {
+                $('#4-2-3m').removeClass('hidden');
+                $('#fix').addClass('hidden');
+                $('#setter').addClass('hidden');
+                $('input[name="zone"]').prop('checked', false);
+            });
+
+            $('.setter').on('click', function() {
+                $('#4-2-3m').addClass('hidden');
+                $('#fix').addClass('hidden');
+                $('#setter').removeClass('hidden');
+            });
+
+            $('.fix').on('click', function() {
+                $('#4-2-3m').addClass('hidden');
+                $('#fix').removeClass('hidden');
+                $('#setter').addClass('hidden');
             });
 
             var button = $('#validation').prop('disabled', true);

@@ -86,16 +86,11 @@ class Stats extends AbstractTableGateway
                 case Model\Stats::POST_2 . Model\Stats::LARGE_DIAG:
                 case Model\Stats::POST_2 . Model\Stats::BLOCK_OUT:
                 case Model\Stats::POST_2 . Model\Stats::BIDOUILLE:
-                case Model\Stats::POST_FIX . Model\Stats::LINE:
-                case Model\Stats::POST_FIX . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POST_FIX . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POST_FIX . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POST_FIX . Model\Stats::BIDOUILLE:
-                case Model\Stats::POST_SETTER . Model\Stats::LINE:
-                case Model\Stats::POST_SETTER . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POST_SETTER . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POST_SETTER . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POST_FIX . Model\Stats::FIX:
+                case Model\Stats::POST_FIX . Model\Stats::DECA:
+                case Model\Stats::POST_FIX . Model\Stats::BEHIND:
                 case Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE:
+                case Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK:
                 case Model\Stats::POST_3M . Model\Stats::LINE:
                 case Model\Stats::POST_3M . Model\Stats::SMALL_DIAG:
                 case Model\Stats::POST_3M . Model\Stats::LARGE_DIAG:
@@ -151,16 +146,11 @@ class Stats extends AbstractTableGateway
                 Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
                 Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
                 Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_FIX . Model\Stats::LINE,
-                Model\Stats::POST_FIX . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_FIX . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_FIX . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_FIX . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_SETTER . Model\Stats::LINE,
-                Model\Stats::POST_SETTER . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_SETTER . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_SETTER . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_FIX . Model\Stats::FIX,
+                Model\Stats::POST_FIX . Model\Stats::DECA,
+                Model\Stats::POST_FIX . Model\Stats::BEHIND,
                 Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
                 Model\Stats::POST_3M . Model\Stats::LINE,
                 Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
                 Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
@@ -285,16 +275,11 @@ class Stats extends AbstractTableGateway
                 Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
                 Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
                 Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_FIX . Model\Stats::LINE,
-                Model\Stats::POST_FIX . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_FIX . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_FIX . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_FIX . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_SETTER . Model\Stats::LINE,
-                Model\Stats::POST_SETTER . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_SETTER . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_SETTER . Model\Stats::BLOCK_OUT,
+                Model\Stats::POST_FIX . Model\Stats::FIX,
+                Model\Stats::POST_FIX . Model\Stats::DECA,
+                Model\Stats::POST_FIX . Model\Stats::BEHIND,
                 Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
+                Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
                 Model\Stats::POST_3M . Model\Stats::LINE,
                 Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
                 Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,

@@ -28,6 +28,10 @@ class Stats extends AbstractModel
     const BLOCK_OUT           = 3;
     const BIDOUILLE           = 4;
     const LINE                = 5;
+    const DECA                = 6;
+    const FIX                 = 7;
+    const BEHIND              = 8;
+    const SET_ATTACK          = 9;
 
     protected $_id            = null;
     protected $_eventId       = null;
