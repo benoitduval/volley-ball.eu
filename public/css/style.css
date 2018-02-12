@@ -468,3 +468,7 @@ body.nude{
 .bootstrap-datetimepicker-widget table td.day > div {
   z-index: 10;
 }
+
+.btn-xlg {
+  min-height:80px;
+}

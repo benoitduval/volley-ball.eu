@@ -67,13 +67,13 @@ class Stats extends AbstractTableGateway
             $data['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';
             switch ($stat->reason) {
                 case Model\Stats::FAULT_DEFENCE:
-                    $data['reason'][] = 'fa-shield text-danger';
+                    $data['reason'][] = 'fas fa-shield-alt text-danger';
                     break;
                 case Model\Stats::POINT_BLOCK:
-                    $data['reason'][] = 'fa-ban text-success';
+                    $data['reason'][] = 'fas fa-ban text-success';
                     break;
                 case Model\Stats::FAULT_ATTACK:
-                    $data['reason'][] = 'fa-crosshairs text-danger';
+                    $data['reason'][] = 'fa fa-crosshairs text-danger';
                     break;
                 case Model\Stats::POINT_ATTACK:
                 case Model\Stats::POST_4 . Model\Stats::LINE:
@@ -101,13 +101,13 @@ class Stats extends AbstractTableGateway
                 case Model\Stats::POST_3M . Model\Stats::LARGE_DIAG:
                 case Model\Stats::POST_3M . Model\Stats::BLOCK_OUT:
                 case Model\Stats::POST_3M . Model\Stats::BIDOUILLE:
-                    $data['reason'][] = 'fa-crosshairs text-success';
+                    $data['reason'][] = 'fa fa-crosshairs text-success';
                     break;
                 case Model\Stats::POINT_SERVE:
-                    $data['reason'][] = 'fa-hand-paper-o text-success';
+                    $data['reason'][] = 'far fa-hand-paper text-success';
                     break;
                 case Model\Stats::FAULT_SERVE:
-                    $data['reason'][] = 'fa-hand-paper-o text-danger';
+                    $data['reason'][] = 'far fa-hand-paper text-danger';
                     break;
             }
         }

@@ -485,12 +485,12 @@ demo = {
                     tooltip: { enabled: false },
                     xAxis: {
                         categories: [
-                            ' <i class="fa fa-hand-paper-o text-success"></i></span> Points <br> Service',
+                            ' <i class="far fa-hand-paper text-success"></i></span> Points <br> Service',
                             ' <i class="fa fa-crosshairs text-success"></i> Points <br> Attaque',
-                            ' <i class="fa fa-ban text-success"></i> Points <br> Block',
-                            ' <i class="fa fa-hand-paper-o text-danger"></i> Fautes <br> Service',
+                            ' <i class="fas fa-ban text-success"></i> Points <br> Block',
+                            ' <i class="far fa-hand-paper text-danger"></i> Fautes <br> Service',
                             ' <i class="fa fa-crosshairs text-danger"></i> Fautes <br> Attaque',
-                            ' <i class="fa fa-shield text-danger"></i> Fautes <br> Défensives',
+                            ' <i class="fas fa-shield-alt text-danger"></i> Fautes <br> Défensives',
                             'Total <br> Fautes',
                         ],
                         title: {
@@ -624,6 +624,36 @@ demo = {
     initWizard: function() {
         $(document).ready(function(){
 
+            $('#point-them').on('click', function() {
+                $('#attack-us').addClass('hidden');
+                $('#attack-them').removeClass('hidden');
+            });
+
+            $('#point-us').on('click', function() {
+                $('#attack-us').removeClass('hidden');
+                $('#attack-them').addClass('hidden');
+            });
+
+            var button = $('#validation').prop('disabled', true);
+            var radios = $('input[type="radio"]');
+            var arr    = $.map(radios, function(el) { 
+                return el.name; 
+            });
+
+            var groups = $.grep(arr, function(v, k) {
+                return $.inArray(v ,arr) === k;
+            }).length;
+
+            radios.on('change', function () {
+                if (radios.filter(':checked').length == groups) {}
+                button.prop('disabled', radios.filter(':checked').length < groups);
+            });
+
+            button.on('click', function() {
+                button.prop('disabled', true);
+                $('form').submit();
+            });
+
             var $validator = $("#wizardForm").validate();
 
             // you can also use the nav-pills-[blue | azure | green | orange | red] for a different color of wizard
@@ -647,7 +677,7 @@ demo = {
                 },
                 onTabClick : function(tab, navigation, index){
                     // Disable the posibility to click on tabs
-                    return true;
+                    return false;
                 },
                 onTabShow: function(tab, navigation, index) {
                     var $total = navigation.find('li').length;

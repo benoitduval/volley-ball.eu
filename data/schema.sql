@@ -152,10 +152,10 @@ CREATE TABLE `stats` (
   `scoreThem` tinyint(2) DEFAULT NULL,
   `set` tinyint(1) DEFAULT NULL,
   `reason` tinyint(1) DEFAULT NULL,
-  `blockUs` tinyint(1) DEFAULT NULL,
-  `blockThem` tinyint(1) DEFAULT NULL,
-  `defenceUs` tinyint(1) DEFAULT NULL,
-  `defenceThem` tinyint(1) DEFAULT NULL,
+  `blockUs` tinyint(2) DEFAULT NULL,
+  `blockThem` tinyint(2) DEFAULT NULL,
+  `defenceUs` tinyint(2) DEFAULT NULL,
+  `defenceThem` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `eventId` (`eventId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
