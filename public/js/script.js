@@ -485,13 +485,13 @@ demo = {
                     tooltip: { enabled: false },
                     xAxis: {
                         categories: [
-                            ' <i class="far fa-hand-paper text-success"></i></span> Points <br> Service',
-                            ' <i class="fa fa-crosshairs text-success"></i> Points <br> Attaque',
-                            ' <i class="fas fa-ban text-success"></i> Points <br> Block',
-                            ' <i class="far fa-hand-paper text-danger"></i> Fautes <br> Service',
-                            ' <i class="fa fa-crosshairs text-danger"></i> Fautes <br> Attaque',
-                            ' <i class="fas fa-shield-alt text-danger"></i> Fautes <br> Défensives',
-                            'Total <br> Fautes',
+                            ' <i class="fa fa-hand-paper-o text-success"></i></span> P<span class="hidden-xs">oints</span> Service',
+                            ' <i class="fa fa-crosshairs text-success"></i> P<span class="hidden-xs">oints</span> Attaque',
+                            ' <i class="fa fa-ban text-success"></i> P<span class="hidden-xs">oints</span> Block',
+                            ' <i class="fa fa-hand-paper-o text-danger"></i> F<span class="hidden-xs">autes</span> Service',
+                            ' <i class="fa fa-crosshairs text-danger"></i> F<span class="hidden-xs">autes</span> Attaque',
+                            ' <i class="fa fa-shield text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
+                            'Total F<span class="hidden-xs">autes</span>',
                         ],
                         title: {
                             text: null,
@@ -548,13 +548,13 @@ demo = {
                     tooltip: { enabled: false },
                     xAxis: {
                         categories: [
-                            ' <i class="fa fa-hand-paper-o text-success"></i></span> Points <br> Service',
-                            ' <i class="fa fa-crosshairs text-success"></i> Points <br> Attaque',
-                            ' <i class="fa fa-ban text-success"></i> Points <br> Block',
-                            ' <i class="fa fa-hand-paper-o text-danger"></i> Fautes <br> Service',
-                            ' <i class="fa fa-crosshairs text-danger"></i> Fautes <br> Attaque',
-                            ' <i class="fa fa-shield text-danger"></i> Fautes <br> Défensives',
-                            'Total <br> Fautes',
+                            ' <i class="fa fa-hand-paper-o text-success"></i></span> P<span class="hidden-xs">oints</span> Service',
+                            ' <i class="fa fa-crosshairs text-success"></i> P<span class="hidden-xs">oints</span> Attaque',
+                            ' <i class="fa fa-ban text-success"></i> P<span class="hidden-xs">oints</span> Block',
+                            ' <i class="fa fa-hand-paper-o text-danger"></i> F<span class="hidden-xs">autes</span> Service',
+                            ' <i class="fa fa-crosshairs text-danger"></i> F<span class="hidden-xs">autes</span> Attaque',
+                            ' <i class="fa fa-shield text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
+                            'Total F<span class="hidden-xs">autes</span>',
                         ],
                         title: {
                             text: null,
@@ -617,6 +617,387 @@ demo = {
                         useHTML: true
                     }
                 });
+            });
+        });
+
+        $('.post-attack-chart').each(function () {
+            Highcharts.chart(this, {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Répartition des Points'
+                },
+                subtitle: {
+                    text: 'Cliquez sur une colone pour voir les détails'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Nombre de points'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+                },
+
+                series: [{
+                    name: 'Points',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Recep 4',
+                        y: 56.33,
+                        drilldown: 'Recep 4'
+                    }, {
+                        name: 'Pointe',
+                        y: 24.03,
+                        drilldown: 'Pointe'
+                    }, {
+                        name: 'Centre',
+                        y: 10.38,
+                        drilldown: 'Centre'
+                    }, {
+                        name: '3 mètres',
+                        y: 4.77,
+                        drilldown: '3 mètres'
+                    }, {
+                        name: 'Passeur',
+                        y: 0.91,
+                        drilldown: 'Passeur'
+                    }]
+                }],
+                credits: {
+                    enabled: false
+                },
+                drilldown: {
+                    series: [{
+                        name: 'Recep 4',
+                        id: 'Recep 4',
+                        data: [
+                            [
+                                'Ligne',
+                                13
+                            ],
+                            [
+                                'Grande Diag.',
+                                17
+                            ],
+                            [
+                                'Petite Diag.',
+                                8
+                            ],
+                            [
+                                'Block Out',
+                                5
+                            ],
+                            [
+                                'Bidouille',
+                                1
+                            ]
+                        ]
+                    }, {
+                        name: 'Pointe',
+                        id: 'Pointe',
+                        data: [
+                            [
+                                'Ligne',
+                                13
+                            ],
+                            [
+                                'Grande Diag.',
+                                17
+                            ],
+                            [
+                                'Petite Diag.',
+                                8
+                            ],
+                            [
+                                'Block Out',
+                                5
+                            ],
+                            [
+                                'Bidouille',
+                                1
+                            ]
+                        ]
+                    }, {
+                        name: 'Centre',
+                        id: 'Centre',
+                        data: [
+                            [
+                                'Fixe',
+                                2.76
+                            ],
+                            [
+                                'Arrière',
+                                2.32
+                            ],
+                            [
+                                'Décalée',
+                                2.31
+                            ]
+                        ]
+                    }, {
+                        name: '3 mètres',
+                        id: '3 mètres',
+                        data: [
+                            [
+                                'Ligne',
+                                13
+                            ],
+                            [
+                                'Grande Diag.',
+                                17
+                            ],
+                            [
+                                'Petite Diag.',
+                                8
+                            ],
+                            [
+                                'Block Out',
+                                5
+                            ],
+                            [
+                                'Bidouille',
+                                1
+                            ]
+                        ]
+                    }, {
+                        name: 'Passeur',
+                        id: 'Passeur',
+                        data: [
+                            [
+                                'Attaque',
+                                3
+                            ],
+                            [
+                                'Bidouille',
+                                2
+                            ]
+                        ]
+                    }]
+                }
+            });
+        });
+
+        $('.zone-attack-chart').each(function () {
+            Highcharts.chart(this, {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Répartition des Points'
+                },
+                subtitle: {
+                    text: 'Cliquez sur une colone pour voir les détails'
+                },
+                xAxis: {
+                    type: 'category'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Nombre de points'
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+                },
+
+                series: [{
+                    name: 'Points',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Ligne',
+                        y: 9,
+                        drilldown: 'Ligne'
+                    }, {
+                        name: 'Grande Diag.',
+                        y: 3,
+                        drilldown: 'Grande Diag.'
+                    }, {
+                        name: 'Petite Diag.',
+                        y: 8,
+                        drilldown: 'Petite Diag.'
+                    }, {
+                        name: 'Balle Placée',
+                        y: 7,
+                        drilldown: 'Balle Placée'
+                    }, {
+                        name: 'Block Out',
+                        y: 1,
+                        drilldown: 'Block Out'
+                    }]
+                }],
+                credits: {
+                    enabled: false
+                },
+                drilldown: {
+                    series: [{
+                        name: 'Ligne',
+                        id: 'Ligne',
+                        data: [
+                            [
+                                'Recep 4',
+                                13
+                            ],
+                            [
+                                'Pointe',
+                                17
+                            ],
+                            [
+                                '3 mètres',
+                                8
+                            ]
+                        ]
+                    }, {
+                        name: 'Grande Diag.',
+                        id: 'Grande Diag.',
+                        data: [
+                            [
+                                'Recep 4',
+                                13
+                            ],
+                            [
+                                'Pointe',
+                                17
+                            ],
+                            [
+                                '3 mètres',
+                                8
+                            ]
+                        ]
+                    }, {
+                        name: 'Petite Diag.',
+                        id: 'Petite Diag.',
+                        data: [
+                            [
+                                'Recep 4',
+                                13
+                            ],
+                            [
+                                'Pointe',
+                                17
+                            ],
+                            [
+                                '3 mètres',
+                                8
+                            ]
+                        ]
+                    }, {
+                        name: 'Block Out',
+                        id: 'Block Out',
+                        data: [
+                            [
+                                'Recep 4',
+                                24
+                            ],
+                            [
+                                'Pointe',
+                                17
+                            ],
+                            [
+                                '3 mètres',
+                                8
+                            ]
+                        ]
+                    }, {
+                        name: 'Bidouille',
+                        id: 'Bidouille',
+                        data: [
+                            [
+                                'Recep 4',
+                                24
+                            ],
+                            [
+                                'Pointe',
+                                17
+                            ],
+                            [
+                                '3 mètres',
+                                8
+                            ],
+                            [
+                                'Passeur',
+                                8
+                            ]
+                        ]
+                    }]
+                }
+            });
+        });
+
+        $('.center-attack-chart').each(function () {
+            Highcharts.chart(this, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Jeu Défensif'
+                },
+                subtitle: {
+                    text: 'Ne concluant pas le point'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
+                },
+                series: [{
+                    type: 'pie',
+                    innerSize: '50%',
+                    data: [{
+                        name: 'Blocks',
+                        y: 40,
+                        color: '#54B172'
+                    },
+                    {
+                        name: 'Défenses',
+                        y: 15,
+                        color: '#FDBB7A'
+                    },
+                    {
+                        name: 'Blocks',
+                        y: 50,
+                        color: '#FD8F63'
+                    },
+                    {
+                        name: 'Défenses',
+                        y: 10,
+                        color: '#7BB320'
+                    }]
+                }]
             });
         });
     },

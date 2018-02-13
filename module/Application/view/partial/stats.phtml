@@ -1,9 +1,9 @@
 <?php if ($setsHistory): ?>
     <div class="row">
         <?php foreach ($setsHistory as $set => $scores) : ?>
-            <?php $size = isset($size) ? $size : 6; ?>
+            <?php $size = isset($size) ? $size : 4; ?>
             <?php if ($scores): ?>
-                    <div class="col-md-<?= $size ?>">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Set <?= $set ?> <span class="category">(Nous <?= $setsLastScore[$set][0] ?> - <?= $setsLastScore[$set][1] ?> Eux)</span></h4>
@@ -36,7 +36,34 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-content">
                                 <div class="stats-chart" style="width:100%" data-stats-us="<?= $setsStats[$set]['us'] ?>" data-stats-them="<?= $setsStats[$set]['them'] ?>"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="center-attack-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="post-attack-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="zone-attack-chart"></div>
                             </div>
                         </div>
                     </div>
