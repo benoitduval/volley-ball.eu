@@ -91,7 +91,8 @@
                                             </div>
                                             <div class='col-xs-6 text-center'>
                                                 <h5>Faute</h5>
-                                                <button value="<?= \Application\Model\Stats::FAULT_ATTACK ?>" name="reason" class="btn btn-danger col-xs-12 btn-xlg" data-toggle="modal" data-target="#attaque">Attaque</button>
+                                                <button id="attack-fault-them" value="<?= \Application\Model\Stats::FAULT_ATTACK ?>" name="reason" class="btn btn-danger col-xs-12 btn-xlg" data-toggle="modal" data-target="#attaque">Attaque</button>
+                                                <button id="attack-fault-us" type="button" id="attack-us" class="btn btn-danger btn-xlg btn-next col-xs-12 hidden">Attaque</button>
                                                 <div class="col-xs-12" style="height: 10px;"></div>
                                                 <button value="<?= \Application\Model\Stats::FAULT_SERVE ?>" name="reason" class="btn btn-danger col-xs-12 btn-xlg">Service</button>
                                                 <div class="col-xs-12" style="height: 10px;"></div>
@@ -102,82 +103,71 @@
                                     </div>
                                     <div class="tab-pane" id="tab3">
                                         <div class="row">
-                                            <div class='col-xs-12 text-center'>
-                                                <h5>Poste Attaque</h5>
-                                                <div class="" data-toggle="buttons">
-                                                    <label class="btn btn-primary btn-lg col-xs-6 attack-line">
-                                                        <input type="radio" name="post" value="<?= \Application\Model\Stats::POST_4 ?>"> 4
-                                                    </label>
-                                                    <label class="btn btn-primary btn-lg col-xs-6 attack-line">
-                                                        <input type="radio" name="post" value="<?= \Application\Model\Stats::POST_2 ?>"> 2
-                                                    </label>
-                                                    <div class="col-xs-12" style="height: 10px"></div>
-                                                    <label class="btn btn-primary btn-lg col-xs-6 attack-line fix">
-                                                        <input type="radio" name="post" value="<?= \Application\Model\Stats::POST_FIX ?>"> Centre
-                                                    </label>
-                                                    <label class="btn btn-primary btn-lg col-xs-6 attack-line">
-                                                        <input type="radio" name="post" value="<?= \Application\Model\Stats::POST_3M ?>"> 3m
-                                                    </label>
-                                                    <div class="col-xs-12" style="height: 10px"></div>
-                                                    <label class="btn btn-primary btn-lg col-xs-6 col-xs-offset-3 setter">
-                                                        <input type="radio" name="post" value="<?= \Application\Model\Stats::POST_SETTER ?>"> Passeur
-                                                    </label>
-                                                </div>
+                                            <div id="attack-fault-detail" class='col-xs-12 text-center hidden'>
+                                                <h5>Faute au Poste</h5>
+                                                <button value="<?= \Application\Model\Stats::FAULT_ATTACK . \Application\Model\Stats::POST_4 ?>" name="reason" class="btn btn-danger col-xs-5 btn-xlg">4</button>
+                                                <button value="<?= \Application\Model\Stats::FAULT_ATTACK . \Application\Model\Stats::POST_2 ?>" name="reason" class="btn btn-danger col-xs-5 col-xs-offset-2 btn-xlg">2</button>
+                                                <div class="col-xs-12" style="height: 10px;"></div>
+                                                <button value="<?= \Application\Model\Stats::FAULT_ATTACK . \Application\Model\Stats::POST_FIX ?>" name="reason" class="btn btn-danger col-xs-5 btn-xlg">Centre</button>
+                                                <button value="<?= \Application\Model\Stats::FAULT_ATTACK . \Application\Model\Stats::POST_3M ?>" name="reason" class="btn btn-danger col-xs-5 col-xs-offset-2 btn-xlg">3m</button>
+                                                <div class="col-xs-12" style="height: 10px;"></div>
+                                                <button value="<?= \Application\Model\Stats::FAULT_ATTACK . \Application\Model\Stats::POST_SETTER ?>" name="reason" class="btn btn-danger col-xs-6 col-xs-offset-3 btn-xlg">Passeur</button>
                                             </div>
-                                            <div class='col-xs-12 text-center'>
-                                                <h5>Zone</h5>
-                                                <div id="4-2-3m" class="hidden" data-toggle="buttons">
-                                                    <label class="btn btn-primary btn-lg col-xs-6 col-xs-offset-3">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::LINE ?>"> Ligne
-                                                    </label>
-                                                    <div class="col-xs-12" style="height: 10px"></div>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::LARGE_DIAG ?>"> Grande Diag.
-                                                    </label>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::SMALL_DIAG ?>"> Petite Diag.
-                                                    </label>
-                                                    <div class="col-xs-12" style="height: 10px"></div>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::BLOCK_OUT ?>"> Block Out
-                                                    </label>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::BIDOUILLE ?>"> Bidouille
-                                                    </label>
+                                            <div id="attack-point-detail" class='col-xs-12 text-center'>
+                                                <h5>Ailliers</h5>
+                                                <div class="row">
+                                                    <div class="col-xs-5 text-center">Ligne</div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_4 . \Application\Model\Stats::LINE ?>" name="reason">4</button></div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_2 . \Application\Model\Stats::LINE ?>" name="reason">2</button></div>
+                                                    <div class="col-xs-3 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_3M . \Application\Model\Stats::LINE ?>" name="reason">3m</button></div>
                                                 </div>
-                                                <div id="fix" class="hidden" data-toggle="buttons">
-                                                    <label class="btn btn-primary btn-lg col-xs-6 col-xs-offset-3">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::FIX ?>"> Fix
-                                                    </label>
-                                                    <div class="col-xs-12" style="height: 10px"></div>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::DECA ?>"> Décalée
-                                                    </label>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::BEHIND ?>"> Arrière
-                                                    </label>
+                                                <div class="col-xs-12" style="height: 10px;"></div>
+                                                <div class="row">
+                                                    <div class="col-xs-5 text-center">Grande Diag.</div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_4 . \Application\Model\Stats::LARGE_DIAG ?>" name="reason">4</button></div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_2 . \Application\Model\Stats::LARGE_DIAG ?>" name="reason">2</button></div>
+                                                    <div class="col-xs-3 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_3M . \Application\Model\Stats::LARGE_DIAG ?>" name="reason">3m</button></div>
                                                 </div>
-                                                <div id="setter" class="hidden" data-toggle="buttons">
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::SET_ATTACK ?>"> Attaque
-                                                    </label>
-                                                    <label class="btn btn-primary btn-lg col-xs-6">
-                                                        <input type="radio" name="zone" value="<?= \Application\Model\Stats::BIDOUILLE ?>"> Bidouille
-                                                    </label>
+                                                <div class="col-xs-12" style="height: 10px;"></div>
+                                                <div class="row">
+                                                    <div class="col-xs-5 text-center">Petite Diag.</div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_4 . \Application\Model\Stats::SMALL_DIAG ?>" name="reason">4</button></div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_2 . \Application\Model\Stats::SMALL_DIAG ?>" name="reason">2</button></div>
+                                                    <div class="col-xs-3 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_3M . \Application\Model\Stats::SMALL_DIAG ?>" name="reason">3m</button></div>
+                                                </div>
+                                                <div class="col-xs-12" style="height: 10px;"></div>
+                                                <div class="row">
+                                                    <div class="col-xs-5 text-center">Block Out</div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_4 . \Application\Model\Stats::BLOCK_OUT ?>" name="reason">4</button></div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_2 . \Application\Model\Stats::BLOCK_OUT ?>" name="reason">2</button></div>
+                                                    <div class="col-xs-3 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_3M . \Application\Model\Stats::BLOCK_OUT ?>" name="reason">3m</button></div>
+                                                </div>
+                                                <div class="col-xs-12" style="height: 10px;"></div>
+                                                <div class="row">
+                                                    <div class="col-xs-5 text-center">Bidouille</div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_4 . \Application\Model\Stats::BIDOUILLE ?>" name="reason">4</button></div>
+                                                    <div class="col-xs-2 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_2 . \Application\Model\Stats::BIDOUILLE ?>" name="reason">2</button></div>
+                                                    <div class="col-xs-3 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_3M . \Application\Model\Stats::BIDOUILLE ?>" name="reason">3m</button></div>
+                                                </div>
+                                                <h5>Centre</h5>
+                                                <div class="row">
+                                                    <div class="col-xs-4 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_FIX . \Application\Model\Stats::FIX ?>" name="reason">Fixe</button></div>
+                                                    <div class="col-xs-4 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_FIX . \Application\Model\Stats::DECA ?>" name="reason">Déca</button></div>
+                                                    <div class="col-xs-4 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_FIX . \Application\Model\Stats::BEHIND ?>" name="reason">Arrière</button></div>
+                                                </div>
+                                                <h5>Passeur</h5>
+                                                <div class="row">
+                                                    <div class="col-xs-6 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_SETTER . \Application\Model\Stats::BIDOUILLE ?>" name="reason">Bidouille</button></div>
+                                                    <div class="col-xs-6 text-center"><button class="btn btn-primary col-xs-12" value="<?= \Application\Model\Stats::POINT_ATTACK . \Application\Model\Stats::POST_SETTER . \Application\Model\Stats::SET_ATTACK ?>" name="reason">Attaque</button></div>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr>
                                     </div>
-                                    <div class="tab-pane" id="tab4">
-                                        <div class="row">
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <button type="button" class="btn btn-default btn-fill btn-back pull-left"><i class="fa fa-arrow-left"></i></button>
-                                <button class="btn btn-success btn-fill btn-wd btn-finish pull-right" id="validation">Valider</button>
                                 <div class="clearfix"></div>
                             </div>
                         </form>

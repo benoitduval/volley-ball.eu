@@ -73,29 +73,34 @@ class Stats extends AbstractTableGateway
                     $data['reason'][] = 'fas fa-ban text-success';
                     break;
                 case Model\Stats::FAULT_ATTACK:
+                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_4:
+                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_2:
+                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_FIX:
+                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_SETTER:
+                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_3M:
                     $data['reason'][] = 'fa fa-crosshairs text-danger';
                     break;
                 case Model\Stats::POINT_ATTACK:
-                case Model\Stats::POST_4 . Model\Stats::LINE:
-                case Model\Stats::POST_4 . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POST_4 . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POST_4 . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POST_4 . Model\Stats::BIDOUILLE:
-                case Model\Stats::POST_2 . Model\Stats::LINE:
-                case Model\Stats::POST_2 . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POST_2 . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POST_2 . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POST_2 . Model\Stats::BIDOUILLE:
-                case Model\Stats::POST_FIX . Model\Stats::FIX:
-                case Model\Stats::POST_FIX . Model\Stats::DECA:
-                case Model\Stats::POST_FIX . Model\Stats::BEHIND:
-                case Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE:
-                case Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK:
-                case Model\Stats::POST_3M . Model\Stats::LINE:
-                case Model\Stats::POST_3M . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POST_3M . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POST_3M . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POST_3M . Model\Stats::BIDOUILLE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LINE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BIDOUILLE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LINE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BIDOUILLE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::FIX:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::DECA:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::BEHIND:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LINE:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::SMALL_DIAG:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LARGE_DIAG:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BLOCK_OUT:
+                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BIDOUILLE:
                     $data['reason'][] = 'fa fa-crosshairs text-success';
                     break;
                 case Model\Stats::POINT_SERVE:
@@ -128,7 +133,14 @@ class Stats extends AbstractTableGateway
         $attackFault = $this->count([
             'eventId' => $eventId,
             'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::FAULT_ATTACK,
+            'reason' => [
+                Model\Stats::FAULT_ATTACK,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_4,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_2,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_FIX,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_SETTER,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_3M,
+            ]
         ]);
 
         $attackPoint = $this->count([
@@ -136,26 +148,26 @@ class Stats extends AbstractTableGateway
             'pointFor' => Model\Stats::POINT_US,
             'reason' => [
                 Model\Stats::POINT_ATTACK,
-                Model\Stats::POST_4 . Model\Stats::LINE,
-                Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_2 . Model\Stats::LINE,
-                Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_FIX . Model\Stats::FIX,
-                Model\Stats::POST_FIX . Model\Stats::DECA,
-                Model\Stats::POST_FIX . Model\Stats::BEHIND,
-                Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
-                Model\Stats::POST_3M . Model\Stats::LINE,
-                Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LINE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LINE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::FIX,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::DECA,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::BEHIND,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LINE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
             ],
         ]);
 
@@ -256,7 +268,14 @@ class Stats extends AbstractTableGateway
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::FAULT_ATTACK,
+            'reason' => [
+                Model\Stats::FAULT_ATTACK,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_4,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_2,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_FIX,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_SETTER,
+                Model\Stats::FAULT_ATTACK . Model\Stats::POST_3M,
+            ]
         ]);
 
         $attackPoint = $this->count([
@@ -265,26 +284,27 @@ class Stats extends AbstractTableGateway
             'pointFor' => Model\Stats::POINT_US,
             'reason' => [
                 Model\Stats::POINT_ATTACK,
-                Model\Stats::POST_4 . Model\Stats::LINE,
-                Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_2 . Model\Stats::LINE,
-                Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_FIX . Model\Stats::FIX,
-                Model\Stats::POST_FIX . Model\Stats::DECA,
-                Model\Stats::POST_FIX . Model\Stats::BEHIND,
-                Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
-                Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
-                Model\Stats::POST_3M . Model\Stats::LINE,
-                Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
-                Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
-                Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
-                Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LINE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LINE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::FIX,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::DECA,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::BEHIND,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LINE,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
+                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
+
             ],
         ]);
 

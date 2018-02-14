@@ -485,12 +485,12 @@ demo = {
                     tooltip: { enabled: false },
                     xAxis: {
                         categories: [
-                            ' <i class="fa fa-hand-paper-o text-success"></i></span> P<span class="hidden-xs">oints</span> Service',
+                            ' <i class="far fa-hand-paper text-success"></i></span> P<span class="hidden-xs">oints</span> Service',
                             ' <i class="fa fa-crosshairs text-success"></i> P<span class="hidden-xs">oints</span> Attaque',
-                            ' <i class="fa fa-ban text-success"></i> P<span class="hidden-xs">oints</span> Block',
-                            ' <i class="fa fa-hand-paper-o text-danger"></i> F<span class="hidden-xs">autes</span> Service',
+                            ' <i class="fas fa-ban text-success"></i> P<span class="hidden-xs">oints</span> Block',
+                            ' <i class="far fa-hand-paper text-danger"></i> F<span class="hidden-xs">autes</span> Service',
                             ' <i class="fa fa-crosshairs text-danger"></i> F<span class="hidden-xs">autes</span> Attaque',
-                            ' <i class="fa fa-shield text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
+                            ' <i class="fas fa-shield-alt text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
                             'Total F<span class="hidden-xs">autes</span>',
                         ],
                         title: {
@@ -524,9 +524,11 @@ demo = {
                     series: [{
                         name: 'Nous',
                         data: JSON.parse(dataUs),
+                        color: '#66E2A4'
                     }, {
                         name: 'Eux',
                         data: JSON.parse(dataThem),
+                        color: '#FD8F63'
                     }],
                     dataLabels: {
                         useHTML: true
@@ -548,12 +550,12 @@ demo = {
                     tooltip: { enabled: false },
                     xAxis: {
                         categories: [
-                            ' <i class="fa fa-hand-paper-o text-success"></i></span> P<span class="hidden-xs">oints</span> Service',
+                            ' <i class="far fa-hand-paper text-success"></i></span> P<span class="hidden-xs">oints</span> Service',
                             ' <i class="fa fa-crosshairs text-success"></i> P<span class="hidden-xs">oints</span> Attaque',
-                            ' <i class="fa fa-ban text-success"></i> P<span class="hidden-xs">oints</span> Block',
-                            ' <i class="fa fa-hand-paper-o text-danger"></i> F<span class="hidden-xs">autes</span> Service',
+                            ' <i class="fas fa-ban text-success"></i> P<span class="hidden-xs">oints</span> Block',
+                            ' <i class="far fa-hand-paper text-danger"></i> F<span class="hidden-xs">autes</span> Service',
                             ' <i class="fa fa-crosshairs text-danger"></i> F<span class="hidden-xs">autes</span> Attaque',
-                            ' <i class="fa fa-shield text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
+                            ' <i class="fas fa-shield-alt text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
                             'Total F<span class="hidden-xs">autes</span>',
                         ],
                         title: {
@@ -587,6 +589,7 @@ demo = {
                     series: [{
                         name: 'Nous',
                         data: JSON.parse(dataUs),
+                        color: '#66E2A4',
                         dataLabels: {
                             enabled: true,
                             // rotation: -90,
@@ -601,6 +604,7 @@ demo = {
                     }, {
                         name: 'Eux',
                         data: JSON.parse(dataThem),
+                        color: '#FD8F63',
                         dataLabels: {
                             enabled: true,
                             // rotation: -90,
@@ -1008,50 +1012,25 @@ demo = {
             $('#point-them').on('click', function() {
                 $('#attack-us').addClass('hidden');
                 $('#attack-them').removeClass('hidden');
+                $('#attack-fault-them').addClass('hidden');
+                $('#attack-fault-us').removeClass('hidden');
             });
 
             $('#point-us').on('click', function() {
                 $('#attack-us').removeClass('hidden');
                 $('#attack-them').addClass('hidden');
+                $('#attack-fault-us').addClass('hidden');
+                $('#attack-fault-them').removeClass('hidden');
             });
 
-            $('.attack-line').on('click', function() {
-                $('#4-2-3m').removeClass('hidden');
-                $('#fix').addClass('hidden');
-                $('#setter').addClass('hidden');
-                $('input[name="zone"]').prop('checked', false);
+            $('#attack-fault-us').on('click', function() {
+                $('#attack-point-detail').addClass('hidden');
+                $('#attack-fault-detail').removeClass('hidden');
             });
 
-            $('.setter').on('click', function() {
-                $('#4-2-3m').addClass('hidden');
-                $('#fix').addClass('hidden');
-                $('#setter').removeClass('hidden');
-            });
-
-            $('.fix').on('click', function() {
-                $('#4-2-3m').addClass('hidden');
-                $('#fix').removeClass('hidden');
-                $('#setter').addClass('hidden');
-            });
-
-            var button = $('#validation').prop('disabled', true);
-            var radios = $('input[type="radio"]');
-            var arr    = $.map(radios, function(el) { 
-                return el.name; 
-            });
-
-            var groups = $.grep(arr, function(v, k) {
-                return $.inArray(v ,arr) === k;
-            }).length;
-
-            radios.on('change', function () {
-                if (radios.filter(':checked').length == groups) {}
-                button.prop('disabled', radios.filter(':checked').length < groups);
-            });
-
-            button.on('click', function() {
-                button.prop('disabled', true);
-                $('form').submit();
+            $('#attack-us').on('click', function() {
+                $('#attack-point-detail').removeClass('hidden');
+                $('#attack-fault-detail').addClass('hidden');
             });
 
             var $validator = $("#wizardForm").validate();
