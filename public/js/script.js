@@ -630,7 +630,7 @@ demo = {
                     type: 'column'
                 },
                 title: {
-                    text: 'Répartition des Points'
+                    text: 'Répartition des Points Par Poste'
                 },
                 subtitle: {
                     text: 'Cliquez sur une colone pour voir les détails'
@@ -667,23 +667,23 @@ demo = {
                     colorByPoint: true,
                     data: [{
                         name: 'Recep 4',
-                        y: 56.33,
+                        y: 33,
                         drilldown: 'Recep 4'
                     }, {
                         name: 'Pointe',
-                        y: 24.03,
+                        y: 24,
                         drilldown: 'Pointe'
                     }, {
                         name: 'Centre',
-                        y: 10.38,
+                        y: 10,
                         drilldown: 'Centre'
                     }, {
                         name: '3 mètres',
-                        y: 4.77,
+                        y: 7,
                         drilldown: '3 mètres'
                     }, {
                         name: 'Passeur',
-                        y: 0.91,
+                        y: 9,
                         drilldown: 'Passeur'
                     }]
                 }],
@@ -807,7 +807,7 @@ demo = {
                     type: 'column'
                 },
                 title: {
-                    text: 'Répartition des Points'
+                    text: 'Répartition des Points Par Zone'
                 },
                 subtitle: {
                     text: 'Cliquez sur une colone pour voir les détails'
@@ -962,7 +962,7 @@ demo = {
             });
         });
 
-        $('.center-attack-chart').each(function () {
+        $('.defensive-chart').each(function () {
             Highcharts.chart(this, {
                 chart: {
                     plotBackgroundColor: null,
@@ -1000,6 +1000,101 @@ demo = {
                         name: 'Défenses',
                         y: 10,
                         color: '#7BB320'
+                    }]
+                }]
+            });
+        });
+
+        $('.efficiency-chart').each(function () {
+            Highcharts.chart(this, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Efficacité à L\'attaque'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.percentage:.1f}%',
+                            distance: -50
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Attaques - Fautes',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Faute Attaque (nous)',
+                        y: 4.77
+                    }, {
+                        name: 'Défense (eux)',
+                        y: 24.03,
+                    }, {
+                        name: 'Point attaque (nous)',
+                        y: 56.33
+                    }, {
+                        name: 'Blocks défensifs (eux)',
+                        y: 10.38
+                    }]
+                }]
+            });
+        });
+
+        $('.fault-repartition-chart').each(function () {
+            Highcharts.chart(this, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Répartition Des Fautes'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.percentage:.1f}%',
+                            distance: -50
+                        },
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    name: 'Fault Repartition',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Recep 4',
+                        y: 56.33
+                    }, {
+                        name: 'Pointe',
+                        y: 4.77
+                    }, {
+                        name: 'Centre',
+                        y: 24.03,
+                    }, {
+                        name: '3 mètres',
+                        y: 10.38
+                    }, {
+                        name: 'Passe',
+                        y: 10.38
                     }]
                 }]
             });
