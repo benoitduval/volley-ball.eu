@@ -120,10 +120,13 @@ class EventController extends AbstractController
         $eventId = $this->params('id');
         if (($event = $this->eventTable->find($eventId)) && $this->userGroupTable->isMember($this->getUser()->id, $event->groupId)) {
 
-            $setsHistory   = $this->statsTable->getSetsHistory($eventId);
-            $setsStats     = $this->statsTable->getSetsStats($eventId);
-            $overallStats  = $this->statsTable->getOverallStats($eventId);
-            $setsLastScore = $this->statsTable->setsLastScore($eventId);
+            $setsHistory     = $this->statsTable->getSetsHistory($eventId);
+            $setsStats       = $this->statsTable->getSetsStats($eventId);
+            $overallStats    = $this->statsTable->getOverallStats($eventId);
+            $setsLastScore   = $this->statsTable->setsLastScore($eventId);
+            $efficiencyStats = $this->statsTable->getEfficiencyStats($eventId);
+            $faultStats      = $this->statsTable->getFaultStats($eventId);
+            $defenceStats    = $this->statsTable->getDefenceStats($eventId);
 
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
@@ -238,10 +241,14 @@ class EventController extends AbstractController
                     $this->redirect()->toUrl('/event/detail/' . $event->id);
                 }
             }
+
             return new ViewModel([
                 'overallStats'    => $overallStats,
                 'setsLastScore'   => $setsLastScore,
+                'defenceStats'    => $defenceStats,
                 'setsStats'       => $setsStats,
+                'faultStats'      => $faultStats,
+                'efficiencyStats' => $efficiencyStats,
                 'setsHistory'     => $setsHistory,
                 'counters'        => $counters,
                 'comments'        => $result,

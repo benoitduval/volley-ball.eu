@@ -5,10 +5,44 @@ namespace Application\TableGateway;
 use RuntimeException;
 use Zend\Db\TableGateway\TableGatewayInterface;
 use Application\TableGateway;
-use Application\Model;
+use Application\Model\Stats as Statistics;
 
 class Stats extends AbstractTableGateway
 {
+
+    protected $_attackUs = [
+        Statistics::POINT_ATTACK,
+        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LINE,
+        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::SMALL_DIAG,
+        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LARGE_DIAG,
+        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BLOCK_OUT,
+        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BIDOUILLE,
+        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LINE,
+        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::SMALL_DIAG,
+        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LARGE_DIAG,
+        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BLOCK_OUT,
+        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BIDOUILLE,
+        Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::FIX,
+        Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::DECA,
+        Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::BEHIND,
+        Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::BIDOUILLE,
+        Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::SET_ATTACK,
+        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LINE,
+        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::SMALL_DIAG,
+        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LARGE_DIAG,
+        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BLOCK_OUT,
+        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BIDOUILLE,
+    ];
+
+    protected $_faultUs = [
+        Statistics::FAULT_ATTACK,
+        Statistics::FAULT_ATTACK . Statistics::POST_4,
+        Statistics::FAULT_ATTACK . Statistics::POST_2,
+        Statistics::FAULT_ATTACK . Statistics::POST_FIX,
+        Statistics::FAULT_ATTACK . Statistics::POST_SETTER,
+        Statistics::FAULT_ATTACK . Statistics::POST_3M,
+    ];
+
     public function getSetsStats($eventId, $set = null)
     {
         $result = [];
@@ -17,6 +51,45 @@ class Stats extends AbstractTableGateway
         } else {
             for ($i = 1; $i <= 5; $i++) {
                 $result[$i] = $this->_getStats($eventId, $i);
+            }
+        }
+        return $result;
+    }
+
+    public function getEfficiencyStats($eventId, $set = null)
+    {
+        $result = [];
+        if ($set) {
+            $result[$set] = $this->_getEfficiencyStats($eventId, $set);
+        } else {
+            for ($i = 1; $i <= 5; $i++) {
+                $result[$i] = $this->_getEfficiencyStats($eventId, $i);
+            }
+        }
+        return $result;
+    }
+
+    public function getDefenceStats($eventId, $set = null)
+    {
+        $result = [];
+        if ($set) {
+            $result[$set] = $this->_getDefenceStats($eventId, $set);
+        } else {
+            for ($i = 1; $i <= 5; $i++) {
+                $result[$i] = $this->_getDefenceStats($eventId, $i);
+            }
+        }
+        return $result;
+    }
+
+    public function getFaultStats($eventId, $set = null)
+    {
+        $result = [];
+        if ($set) {
+            $result[$set] = $this->_getFaultStats($eventId, $set);
+        } else {
+            for ($i = 1; $i <= 5; $i++) {
+                $result[$i] = $this->_getFaultStats($eventId, $i);
             }
         }
         return $result;
@@ -63,50 +136,50 @@ class Stats extends AbstractTableGateway
         $stats = $this->fetchAll(['eventId' => $eventId, 'set' => $set], 'id ASC');
         $data  = [];
         foreach ($stats as $stat) {
-            $data['us'][]   = ($stat->pointFor == Model\Stats::POINT_US) ? $stat->scoreUs: '-';
-            $data['them'][] = ($stat->pointFor == Model\Stats::POINT_THEM) ? $stat->scoreThem: '-';
+            $data['us'][]   = ($stat->pointFor == Statistics::POINT_US) ? $stat->scoreUs: '-';
+            $data['them'][] = ($stat->pointFor == Statistics::POINT_THEM) ? $stat->scoreThem: '-';
             switch ($stat->reason) {
-                case Model\Stats::FAULT_DEFENCE:
+                case Statistics::FAULT_DEFENCE:
                     $data['reason'][] = 'fas fa-shield-alt text-danger';
                     break;
-                case Model\Stats::POINT_BLOCK:
+                case Statistics::POINT_BLOCK:
                     $data['reason'][] = 'fas fa-ban text-success';
                     break;
-                case Model\Stats::FAULT_ATTACK:
-                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_4:
-                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_2:
-                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_FIX:
-                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_SETTER:
-                case Model\Stats::FAULT_ATTACK . Model\Stats::POST_3M:
+                case Statistics::FAULT_ATTACK:
+                case Statistics::FAULT_ATTACK . Statistics::POST_4:
+                case Statistics::FAULT_ATTACK . Statistics::POST_2:
+                case Statistics::FAULT_ATTACK . Statistics::POST_FIX:
+                case Statistics::FAULT_ATTACK . Statistics::POST_SETTER:
+                case Statistics::FAULT_ATTACK . Statistics::POST_3M:
                     $data['reason'][] = 'fa fa-crosshairs text-danger';
                     break;
-                case Model\Stats::POINT_ATTACK:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LINE:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BIDOUILLE:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LINE:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BIDOUILLE:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::FIX:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::DECA:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::BEHIND:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LINE:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::SMALL_DIAG:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LARGE_DIAG:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BLOCK_OUT:
-                case Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BIDOUILLE:
+                case Statistics::POINT_ATTACK:
+                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LINE:
+                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::SMALL_DIAG:
+                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LARGE_DIAG:
+                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BLOCK_OUT:
+                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BIDOUILLE:
+                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LINE:
+                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::SMALL_DIAG:
+                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LARGE_DIAG:
+                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BLOCK_OUT:
+                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BIDOUILLE:
+                case Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::FIX:
+                case Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::DECA:
+                case Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::BEHIND:
+                case Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::BIDOUILLE:
+                case Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::SET_ATTACK:
+                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LINE:
+                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::SMALL_DIAG:
+                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LARGE_DIAG:
+                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BLOCK_OUT:
+                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BIDOUILLE:
                     $data['reason'][] = 'fa fa-crosshairs text-success';
                     break;
-                case Model\Stats::POINT_SERVE:
+                case Statistics::POINT_SERVE:
                     $data['reason'][] = 'far fa-hand-paper text-success';
                     break;
-                case Model\Stats::FAULT_SERVE:
+                case Statistics::FAULT_SERVE:
                     $data['reason'][] = 'far fa-hand-paper text-danger';
                     break;
             }
@@ -120,67 +193,45 @@ class Stats extends AbstractTableGateway
 
         $defenceFault = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::FAULT_DEFENCE,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::FAULT_DEFENCE,
         ]);
 
         $blockPoint = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::POINT_BLOCK,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::POINT_BLOCK,
         ]);
 
         $attackFault = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_THEM,
+            'pointFor' => Statistics::POINT_THEM,
             'reason' => [
-                Model\Stats::FAULT_ATTACK,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_4,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_2,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_FIX,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_SETTER,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_3M,
+                Statistics::FAULT_ATTACK,
+                Statistics::FAULT_ATTACK . Statistics::POST_4,
+                Statistics::FAULT_ATTACK . Statistics::POST_2,
+                Statistics::FAULT_ATTACK . Statistics::POST_FIX,
+                Statistics::FAULT_ATTACK . Statistics::POST_SETTER,
+                Statistics::FAULT_ATTACK . Statistics::POST_3M,
             ]
         ]);
 
         $attackPoint = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => [
-                Model\Stats::POINT_ATTACK,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LINE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LINE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::FIX,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::DECA,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::BEHIND,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LINE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
-            ],
+            'pointFor' => Statistics::POINT_US,
+            'reason' => $this->_attackUs,
         ]);
 
         $serveFault = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::FAULT_SERVE,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::FAULT_SERVE,
         ]);
 
         $servePoint = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::POINT_SERVE,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::POINT_SERVE,
         ]);
 
         $totalFaults = $defenceFault + $attackFault + $serveFault;
@@ -197,38 +248,38 @@ class Stats extends AbstractTableGateway
 
         $defenceFault = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::FAULT_DEFENCE,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::FAULT_DEFENCE,
         ]);
 
         $blockPoint = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::POINT_BLOCK,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::POINT_BLOCK,
         ]);
 
         $attackFault = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::FAULT_ATTACK,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::FAULT_ATTACK,
         ]);
 
         $attackPoint = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::POINT_ATTACK,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::POINT_ATTACK,
         ]);
 
         $serveFault = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::FAULT_SERVE,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::FAULT_SERVE,
         ]);
 
         $servePoint = $this->count([
             'eventId' => $eventId,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::POINT_SERVE,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::POINT_SERVE,
         ]);
 
         $totalFaults = $defenceFault + $attackFault + $serveFault;
@@ -253,73 +304,43 @@ class Stats extends AbstractTableGateway
         $defenceFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::FAULT_DEFENCE,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::FAULT_DEFENCE,
         ]);
 
         $blockPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::POINT_BLOCK,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::POINT_BLOCK,
         ]);
 
         $attackFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => [
-                Model\Stats::FAULT_ATTACK,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_4,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_2,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_FIX,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_SETTER,
-                Model\Stats::FAULT_ATTACK . Model\Stats::POST_3M,
-            ]
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => $this->_faultUs
         ]);
 
         $attackPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => [
-                Model\Stats::POINT_ATTACK,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LINE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_4 . Model\Stats::BIDOUILLE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LINE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::SMALL_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::LARGE_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BLOCK_OUT,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_2 . Model\Stats::BIDOUILLE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::FIX,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::DECA,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_FIX . Model\Stats::BEHIND,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::BIDOUILLE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_SETTER . Model\Stats::SET_ATTACK,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LINE,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::SMALL_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::LARGE_DIAG,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BLOCK_OUT,
-                Model\Stats::POINT_ATTACK . Model\Stats::POST_3M . Model\Stats::BIDOUILLE,
-
-            ],
+            'pointFor' => Statistics::POINT_US,
+            'reason' => $this->_attackUs,
         ]);
 
         $serveFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::FAULT_SERVE,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::FAULT_SERVE,
         ]);
 
         $servePoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::POINT_SERVE,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::POINT_SERVE,
         ]);
 
         $totalFaults = $defenceFault + $attackFault + $serveFault;
@@ -337,43 +358,43 @@ class Stats extends AbstractTableGateway
         $defenceFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::FAULT_DEFENCE,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::FAULT_DEFENCE,
         ]);
 
         $blockPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::POINT_BLOCK,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::POINT_BLOCK,
         ]);
 
         $attackFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::FAULT_ATTACK,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::FAULT_ATTACK,
         ]);
 
         $attackPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::POINT_ATTACK,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::POINT_ATTACK,
         ]);
 
         $serveFault = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_US,
-            'reason' => Model\Stats::FAULT_SERVE,
+            'pointFor' => Statistics::POINT_US,
+            'reason' => Statistics::FAULT_SERVE,
         ]);
 
         $servePoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
-            'pointFor' => Model\Stats::POINT_THEM,
-            'reason' => Model\Stats::POINT_SERVE,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason' => Statistics::POINT_SERVE,
         ]);
 
         $totalFaults = $defenceFault + $attackFault + $serveFault;
@@ -387,6 +408,134 @@ class Stats extends AbstractTableGateway
             $defenceFault,
             $totalFaults,
         ]);
+
+        return $result;
+    }
+
+    private function _getEfficiencyStats($eventId, $set)
+    {
+        if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return [];
+
+        $attackFault = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason'   => $this->_faultUs
+        ]);
+
+        $attackPoint = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => $this->_attackUs,
+        ]);
+
+        $blockThem = $this->sum('blockThem', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'blockThem > ?' => 0,
+        ]);
+
+        $defenceThem = $this->sum('defenceThem', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'defenceThem > ?' => 0,
+        ]);
+
+        $result = [
+            'fault' => $attackFault,
+            'point' => $attackPoint,
+            'block' => $blockThem,
+            'defence' => $defenceThem,
+        ];
+
+        return $result;
+    }
+
+    private function _getFaultStats($eventId, $set)
+    {
+        if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return [];
+
+        $post4Fault = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason'   => Statistics::FAULT_ATTACK . Statistics::POST_4,
+        ]);
+
+        $post2Fault = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason'   => Statistics::FAULT_ATTACK . Statistics::POST_2,
+        ]);
+
+        $postCenterFault = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason'   => Statistics::FAULT_ATTACK . Statistics::POST_FIX,
+        ]);
+
+        $postSetFault = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason'   => Statistics::FAULT_ATTACK . Statistics::POST_SETTER,
+        ]);
+
+        $post3mFault = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_THEM,
+            'reason'   => Statistics::FAULT_ATTACK . Statistics::POST_3M,
+        ]);
+
+        $result = [
+            '4' => $post4Fault,
+            '2' => $post2Fault,
+            'center' => $postCenterFault,
+            '3m' => $post3mFault,
+            'setter' => $postSetFault,
+        ];
+
+        return $result;
+    }
+
+    private function _getDefenceStats($eventId, $set)
+    {
+        if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return [];
+
+        $blockThem = $this->sum('blockThem', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'blockThem > ?' => 0,
+        ]);
+
+        $blockUs = $this->sum('blockUs', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'blockUs > ?' => 0,
+        ]);
+
+        $defenceThem = $this->sum('defenceThem', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'defenceThem > ?' => 0,
+        ]);
+
+        $defenceUs = $this->sum('defenceUs', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'defenceUs > ?' => 0,
+        ]);
+
+        $result = [
+            'blockUs'   => $blockUs,
+            'blockThem' => $blockThem,
+            'defenceUs' => $defenceUs,
+            'defenceThem' => $defenceThem,
+        ];
 
         return $result;
     }

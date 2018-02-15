@@ -1,11 +1,12 @@
 <?php if ($setsHistory): ?>
+    <h1>Statistiques</h1>
     <div class="nav-tabs-navigation">
         <div class="nav-tabs-wrapper">
             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                 <!-- <li class="active"><a href="#global" data-toggle="tab" aria-expanded="false">Global</a></li> -->
                 <?php foreach ($setsHistory as $set => $scores) : ?>
                     <?php if ($scores): ?>
-                        <li class="<?= $set == 1 ? 'active' : ''; ?>"><a href="#pills-set-<?= $set ?>" class="btn btn-primary" data-toggle="tab" aria-expanded="false">Set <?= $set ?></a></li>
+                        <li class="<?= $set == 1 ? 'active' : ''; ?>"><a href="#pills-set-<?= $set ?>" data-toggle="tab" aria-expanded="false">Set <?= $set ?></a></li>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
@@ -61,21 +62,22 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-content">
-                                    <div class="stats-chart" style="width:100%" data-stats-us="<?= $setsStats[$set]['us'] ?>" data-stats-them="<?= $setsStats[$set]['them'] ?>"></div>
+                                    <div class="stats-chart" style="width:100%" 
+                                        data-stats-us="<?= $setsStats[$set]['us'] ?>"
+                                        data-stats-them="<?= $setsStats[$set]['them'] ?>
+                                    "></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-content">
-                                    <div class="efficiency-chart"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-content">
-                                    <div class="fault-repartition-chart"></div>
+                                    <div class="efficiency-chart"
+                                        data-stats-point="<?= $efficiencyStats[$set]['point'] ?>"
+                                        data-stats-fault="<?= $efficiencyStats[$set]['fault'] ?>"
+                                        data-stats-defence="<?= $efficiencyStats[$set]['defence'] ?>"
+                                        data-stats-block="<?= $efficiencyStats[$set]['block'] ?>"
+                                        ></div>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +98,25 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-content">
-                                    <div class="defensive-chart"></div>
+                                    <div class="fault-repartition-chart"
+                                        data-stats-fault-4="<?= $faultStats[$set]['4'] ?>"
+                                        data-stats-fault-2="<?= $faultStats[$set]['2'] ?>"
+                                        data-stats-fault-center="<?= $faultStats[$set]['center'] ?>"
+                                        data-stats-fault-3m="<?= $faultStats[$set]['3m'] ?>"
+                                        data-stats-fault-setter="<?= $faultStats[$set]['setter'] ?>"
+                                        ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <div class="defensive-chart"
+                                        data-stats-block-us="<?= $defenceStats[$set]['blockUs'] ?>"
+                                        data-stats-defence-us="<?= $defenceStats[$set]['defenceUs'] ?>"
+                                        data-stats-block-them="<?= $defenceStats[$set]['blockThem'] ?>"
+                                        data-stats-defence-them="<?= $defenceStats[$set]['defenceThem'] ?>"
+                                        ></div>
                                 </div>
                             </div>
                         </div>

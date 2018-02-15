@@ -855,9 +855,9 @@ demo = {
                         y: 8,
                         drilldown: 'Petite Diag.'
                     }, {
-                        name: 'Balle Placée',
+                        name: 'Bidouille',
                         y: 7,
-                        drilldown: 'Balle Placée'
+                        drilldown: 'Bidouille'
                     }, {
                         name: 'Block Out',
                         y: 1,
@@ -954,7 +954,7 @@ demo = {
                             ],
                             [
                                 'Passeur',
-                                8
+                                0
                             ]
                         ]
                     }]
@@ -963,6 +963,11 @@ demo = {
         });
 
         $('.defensive-chart').each(function () {
+            var blockUs     = $(this).attr('data-stats-block-us');
+            var blockThem   = $(this).attr('data-stats-block-them');
+            var defenceUs   = $(this).attr('data-stats-defence-us');
+            var defenceThem = $(this).attr('data-stats-defence-them');
+
             Highcharts.chart(this, {
                 chart: {
                     plotBackgroundColor: null,
@@ -976,36 +981,55 @@ demo = {
                     text: 'Ne concluant pas le point'
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.y}</b>'
+                    pointFormat: '<b>{point.y}</b>'
+                },
+                credits: {
+                    enabled: false
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}',
+                            distance: -50
+                        },
+                        showInLegend: true
+                    }
                 },
                 series: [{
                     type: 'pie',
-                    innerSize: '50%',
+                    // innerSize: '50%',
                     data: [{
-                        name: 'Blocks',
-                        y: 40,
+                        name: 'Blocks (nous)',
+                        y: parseInt(blockUs),
                         color: '#54B172'
                     },
                     {
-                        name: 'Défenses',
-                        y: 15,
-                        color: '#FDBB7A'
+                        name: 'Défenses (nous)',
+                        y: parseInt(defenceUs),
+                        color: '#7BB320'
                     },
                     {
-                        name: 'Blocks',
-                        y: 50,
+                        name: 'Blocks (eux)',
+                        y: parseInt(blockThem),
                         color: '#FD8F63'
                     },
                     {
-                        name: 'Défenses',
-                        y: 10,
-                        color: '#7BB320'
+                        name: 'Défenses (eux)',
+                        y: parseInt(defenceThem),
+                        color: '#FDBB7A'
                     }]
                 }]
             });
         });
 
         $('.efficiency-chart').each(function () {
+            var fault   = $(this).attr('data-stats-fault');
+            var point   = $(this).attr('data-stats-point');
+            var defence = $(this).attr('data-stats-defence');
+            var block   = $(this).attr('data-stats-block');
             Highcharts.chart(this, {
                 chart: {
                     plotBackgroundColor: null,
@@ -1017,7 +1041,7 @@ demo = {
                     text: 'Efficacité à L\'attaque'
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br/> Nombre: {point.y}'
                 },
                 plotOptions: {
                     pie: {
@@ -1031,27 +1055,39 @@ demo = {
                         showInLegend: true
                     }
                 },
+                credits: {
+                    enabled: false
+                },
                 series: [{
-                    name: 'Attaques - Fautes',
+                    name: 'Efficacité',
                     colorByPoint: true,
                     data: [{
-                        name: 'Faute Attaque (nous)',
-                        y: 4.77
-                    }, {
-                        name: 'Défense (eux)',
-                        y: 24.03,
-                    }, {
-                        name: 'Point attaque (nous)',
-                        y: 56.33
-                    }, {
-                        name: 'Blocks défensifs (eux)',
-                        y: 10.38
-                    }]
+                            name:'Fautes Attaque (nous)',
+                            y: parseInt(fault)
+                        },
+                        {
+                            name:'Défense (eux)',
+                            y: parseInt(defence)
+                        },{
+                            name:'Points Attaque (nous)',
+                            y: parseInt(point),
+                            sliced: true
+                        },
+                        {
+                            name:'Block défensifs (eux)',
+                            y: parseInt(block)
+                        }
+                    ]
                 }]
             });
         });
 
         $('.fault-repartition-chart').each(function () {
+            var post4      = $(this).attr('data-stats-fault-4');
+            var post2      = $(this).attr('data-stats-fault-2');
+            var post3m     = $(this).attr('data-stats-fault-3m');
+            var postSetter = $(this).attr('data-stats-fault-setter');
+            var postCenter = $(this).attr('data-stats-fault-center');
             Highcharts.chart(this, {
                 chart: {
                     plotBackgroundColor: null,
@@ -1063,7 +1099,10 @@ demo = {
                     text: 'Répartition Des Fautes'
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br/>Nombre: {point.y}'
+                },
+                credits: {
+                    enabled: false
                 },
                 plotOptions: {
                     pie: {
@@ -1082,19 +1121,19 @@ demo = {
                     colorByPoint: true,
                     data: [{
                         name: 'Recep 4',
-                        y: 56.33
+                        y: parseInt(post4)
                     }, {
                         name: 'Pointe',
-                        y: 4.77
+                        y: parseInt(post2)
                     }, {
                         name: 'Centre',
-                        y: 24.03,
+                        y: parseInt(postCenter),
                     }, {
                         name: '3 mètres',
-                        y: 10.38
+                        y: parseInt(post3m)
                     }, {
                         name: 'Passe',
-                        y: 10.38
+                        y: parseInt(postSetter)
                     }]
                 }]
             });

@@ -45,6 +45,16 @@ class AbstractTableGateway
         return count($result);
     }
 
+    public function sum($column, $where = [])
+    {
+        $result = $this->fetchAll($where);
+        $sum = 0;
+        foreach ($result as $row) {
+            $sum += $row->$column;
+        }
+        return $sum;
+    }
+
     public function find($id)
     {
         $key = $this->getTableGateway()->getTable() . '.' . $id;
