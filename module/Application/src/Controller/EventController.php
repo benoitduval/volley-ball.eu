@@ -127,6 +127,7 @@ class EventController extends AbstractController
             $efficiencyStats = $this->statsTable->getEfficiencyStats($eventId);
             $faultStats      = $this->statsTable->getFaultStats($eventId);
             $defenceStats    = $this->statsTable->getDefenceStats($eventId);
+            $zoneRepartitionStats = $this->statsTable->getZoneRepartitionStats($eventId);
 
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
@@ -246,6 +247,7 @@ class EventController extends AbstractController
                 'overallStats'    => $overallStats,
                 'setsLastScore'   => $setsLastScore,
                 'defenceStats'    => $defenceStats,
+                'zoneRepartitionStats' => $zoneRepartitionStats,
                 'setsStats'       => $setsStats,
                 'faultStats'      => $faultStats,
                 'efficiencyStats' => $efficiencyStats,

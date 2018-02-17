@@ -625,6 +625,31 @@ demo = {
         });
 
         $('.post-attack-chart').each(function () {
+            var post4        = $(this).attr('data-stats-post-post4');
+            var post2        = $(this).attr('data-stats-post-post2');
+            var post3m       = $(this).attr('data-stats-post-post3m');
+            var line4        = $(this).attr('data-stats-post-line4');
+            var center       = $(this).attr('data-stats-post-center');
+            var set          = $(this).attr('data-stats-post-set');
+            var largeDiag4   = $(this).attr('data-stats-post-largeDiag4');
+            var smallDiag4   = $(this).attr('data-stats-post-smallDiag4');
+            var bidouille4   = $(this).attr('data-stats-post-bidouille4');
+            var blockOut4    = $(this).attr('data-stats-post-blockOut4');
+            var largeDiag2   = $(this).attr('data-stats-post-largeDiag2');
+            var line2        = $(this).attr('data-stats-post-line2');
+            var smallDiag2   = $(this).attr('data-stats-post-smallDiag2');
+            var bidouille2   = $(this).attr('data-stats-post-bidouille2');
+            var blockOut2    = $(this).attr('data-stats-post-blockOut2');
+            var largeDiag3m  = $(this).attr('data-stats-post-largeDiag3m');
+            var line3m       = $(this).attr('data-stats-post-line3m');
+            var smallDiag3m  = $(this).attr('data-stats-post-smallDiag3m');
+            var bidouille3m  = $(this).attr('data-stats-post-bidouille3m');
+            var blockOut3m   = $(this).attr('data-stats-post-blockOut3m');
+            var decaCenter   = $(this).attr('data-stats-post-decaCenter');
+            var fixCenter    = $(this).attr('data-stats-post-fixCenter');
+            var behindCenter = $(this).attr('data-stats-post-behindCenter');
+            var setBidouille = $(this).attr('data-stats-post-setBidouille');
+            var setAttack    = $(this).attr('data-stats-post-setAttack');
             Highcharts.chart(this, {
                 chart: {
                     type: 'column'
@@ -667,23 +692,23 @@ demo = {
                     colorByPoint: true,
                     data: [{
                         name: 'Recep 4',
-                        y: 33,
+                        y: parseInt(post4),
                         drilldown: 'Recep 4'
                     }, {
                         name: 'Pointe',
-                        y: 24,
+                        y: parseInt(post2),
                         drilldown: 'Pointe'
                     }, {
                         name: 'Centre',
-                        y: 10,
+                        y: parseInt(center),
                         drilldown: 'Centre'
                     }, {
                         name: '3 mètres',
-                        y: 7,
+                        y: parseInt(post3m),
                         drilldown: '3 mètres'
                     }, {
                         name: 'Passeur',
-                        y: 9,
+                        y: parseInt(set),
                         drilldown: 'Passeur'
                     }]
                 }],
@@ -697,23 +722,23 @@ demo = {
                         data: [
                             [
                                 'Ligne',
-                                13
+                                parseInt(line4)
                             ],
                             [
                                 'Grande Diag.',
-                                17
+                                parseInt(largeDiag4)
                             ],
                             [
                                 'Petite Diag.',
-                                8
+                                parseInt(smallDiag4)
                             ],
                             [
                                 'Block Out',
-                                5
+                                parseInt(blockOut4)
                             ],
                             [
                                 'Bidouille',
-                                1
+                                parseInt(bidouille4)
                             ]
                         ]
                     }, {
@@ -722,23 +747,23 @@ demo = {
                         data: [
                             [
                                 'Ligne',
-                                13
+                                parseInt(line2)
                             ],
                             [
                                 'Grande Diag.',
-                                17
+                                parseInt(largeDiag2)
                             ],
                             [
                                 'Petite Diag.',
-                                8
+                                parseInt(smallDiag2)
                             ],
                             [
                                 'Block Out',
-                                5
+                                parseInt(blockOut2)
                             ],
                             [
                                 'Bidouille',
-                                1
+                                parseInt(bidouille2)
                             ]
                         ]
                     }, {
@@ -747,15 +772,15 @@ demo = {
                         data: [
                             [
                                 'Fixe',
-                                2.76
+                                parseInt(fixCenter)
                             ],
                             [
                                 'Arrière',
-                                2.32
+                                parseInt(behindCenter)
                             ],
                             [
                                 'Décalée',
-                                2.31
+                                parseInt(decaCenter)
                             ]
                         ]
                     }, {
@@ -764,23 +789,23 @@ demo = {
                         data: [
                             [
                                 'Ligne',
-                                13
+                                parseInt(line3m)
                             ],
                             [
                                 'Grande Diag.',
-                                17
+                                parseInt(largeDiag3m)
                             ],
                             [
                                 'Petite Diag.',
-                                8
+                                parseInt(smallDiag3m)
                             ],
                             [
                                 'Block Out',
-                                5
+                                parseInt(blockOut3m)
                             ],
                             [
                                 'Bidouille',
-                                1
+                                parseInt(bidouille3m)
                             ]
                         ]
                     }, {
@@ -789,11 +814,11 @@ demo = {
                         data: [
                             [
                                 'Attaque',
-                                3
+                                parseInt(setAttack)
                             ],
                             [
                                 'Bidouille',
-                                2
+                                parseInt(setBidouille)
                             ]
                         ]
                     }]
@@ -802,6 +827,32 @@ demo = {
         });
 
         $('.zone-attack-chart').each(function () {
+            var line         = $(this).attr('data-stats-zone-line');
+            var line4        = $(this).attr('data-stats-zone-line4');
+            var line3m       = $(this).attr('data-stats-zone-line3m');
+            var line2        = $(this).attr('data-stats-zone-line2');
+            var largeDiag    = $(this).attr('data-stats-zone-largeDiag');
+            var largeDiag2   = $(this).attr('data-stats-zone-largeDiag2');
+            var largeDiag4   = $(this).attr('data-stats-zone-largeDiag4');
+            var largeDiag3m  = $(this).attr('data-stats-zone-largeDiag3m');
+            var smallDiag    = $(this).attr('data-stats-zone-smallDiag');
+            var smallDiag2   = $(this).attr('data-stats-zone-smallDiag2');
+            var smallDiag4   = $(this).attr('data-stats-zone-smallDiag4');
+            var smallDiag3m  = $(this).attr('data-stats-zone-smallDiag3m');
+            var bidouille    = $(this).attr('data-stats-zone-bidouille');
+            var bidouille2   = $(this).attr('data-stats-zone-bidouille2');
+            var bidouille4   = $(this).attr('data-stats-zone-bidouille4');
+            var bidouille3m  = $(this).attr('data-stats-zone-bidouille3m');
+            var blockOut     = $(this).attr('data-stats-zone-blockOut');
+            var blockOut2    = $(this).attr('data-stats-zone-blockOut2');
+            var blockOut4    = $(this).attr('data-stats-zone-blockOut4');
+            var blockOut3m   = $(this).attr('data-stats-zone-blockOut3m');
+            var center       = $(this).attr('data-stats-zone-center');
+            var decaCenter   = $(this).attr('data-stats-zone-decaCenter');
+            var fixCenter    = $(this).attr('data-stats-zone-fixCenter');
+            var behindCenter = $(this).attr('data-stats-zone-behindCenter');
+            var set          = $(this).attr('data-stats-zone-set');
+            var setBidouille = $(this).attr('data-stats-zone-setBidouille');
             Highcharts.chart(this, {
                 chart: {
                     type: 'column'
@@ -844,23 +895,23 @@ demo = {
                     colorByPoint: true,
                     data: [{
                         name: 'Ligne',
-                        y: 9,
+                        y: parseInt(line),
                         drilldown: 'Ligne'
                     }, {
                         name: 'Grande Diag.',
-                        y: 3,
+                        y: parseInt(largeDiag),
                         drilldown: 'Grande Diag.'
                     }, {
                         name: 'Petite Diag.',
-                        y: 8,
+                        y: parseInt(smallDiag),
                         drilldown: 'Petite Diag.'
                     }, {
                         name: 'Bidouille',
-                        y: 7,
+                        y: parseInt(bidouille),
                         drilldown: 'Bidouille'
                     }, {
                         name: 'Block Out',
-                        y: 1,
+                        y: parseInt(blockOut),
                         drilldown: 'Block Out'
                     }]
                 }],
@@ -874,15 +925,15 @@ demo = {
                         data: [
                             [
                                 'Recep 4',
-                                13
+                                parseInt(line4)
                             ],
                             [
                                 'Pointe',
-                                17
+                                parseInt(line2)
                             ],
                             [
                                 '3 mètres',
-                                8
+                                parseInt(line3m)
                             ]
                         ]
                     }, {
@@ -891,15 +942,15 @@ demo = {
                         data: [
                             [
                                 'Recep 4',
-                                13
+                                parseInt(largeDiag4)
                             ],
                             [
                                 'Pointe',
-                                17
+                                parseInt(largeDiag2)
                             ],
                             [
                                 '3 mètres',
-                                8
+                                parseInt(largeDiag3m)
                             ]
                         ]
                     }, {
@@ -908,15 +959,15 @@ demo = {
                         data: [
                             [
                                 'Recep 4',
-                                13
+                                parseInt(smallDiag4)
                             ],
                             [
                                 'Pointe',
-                                17
+                                parseInt(smallDiag2)
                             ],
                             [
                                 '3 mètres',
-                                8
+                                parseInt(smallDiag3m)
                             ]
                         ]
                     }, {
@@ -925,15 +976,15 @@ demo = {
                         data: [
                             [
                                 'Recep 4',
-                                24
+                                parseInt(blockOut4)
                             ],
                             [
                                 'Pointe',
-                                17
+                                parseInt(blockOut2)
                             ],
                             [
                                 '3 mètres',
-                                8
+                                parseInt(blockOut3m)
                             ]
                         ]
                     }, {
@@ -942,19 +993,19 @@ demo = {
                         data: [
                             [
                                 'Recep 4',
-                                24
+                                parseInt(bidouille4)
                             ],
                             [
                                 'Pointe',
-                                17
+                                parseInt(bidouille2)
                             ],
                             [
                                 '3 mètres',
-                                8
+                                parseInt(bidouille3m)
                             ],
                             [
                                 'Passeur',
-                                0
+                                parseInt(setBidouille)
                             ]
                         ]
                     }]

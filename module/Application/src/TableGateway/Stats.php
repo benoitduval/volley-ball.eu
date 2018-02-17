@@ -69,6 +69,19 @@ class Stats extends AbstractTableGateway
         return $result;
     }
 
+    public function getZoneRepartitionStats($eventId, $set = null)
+    {
+        $result = [];
+        if ($set) {
+            $result[$set] = $this->_getZoneRepartitionStats($eventId, $set);
+        } else {
+            for ($i = 1; $i <= 5; $i++) {
+                $result[$i] = $this->_getZoneRepartitionStats($eventId, $i);
+            }
+        }
+        return $result;
+    }
+
     public function getDefenceStats($eventId, $set = null)
     {
         $result = [];
@@ -497,6 +510,199 @@ class Stats extends AbstractTableGateway
             'center' => $postCenterFault,
             '3m' => $post3mFault,
             'setter' => $postSetFault,
+        ];
+
+        return $result;
+    }
+
+
+    private function _getZoneRepartitionStats($eventId, $set)
+    {
+        if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return [];
+
+        $line4 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LINE,
+        ]);
+
+        $line2 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LINE,
+        ]);
+
+        $line3m = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LINE,
+        ]);
+
+        $bidouille4 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BIDOUILLE,
+        ]);
+
+        $bidouille2 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BIDOUILLE,
+        ]);
+
+        $bidouille3m = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BIDOUILLE,
+        ]);
+
+        $blockOut4 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BLOCK_OUT,
+        ]);
+
+        $blockOut2 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BLOCK_OUT,
+        ]);
+
+        $blockOut3m = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BLOCK_OUT,
+        ]);
+
+        $largeDiag4 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LARGE_DIAG,
+        ]);
+
+        $largeDiag2 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LARGE_DIAG,
+        ]);
+
+        $largeDiag3m = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LARGE_DIAG,
+        ]);
+
+        $smallDiag4 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::SMALL_DIAG,
+        ]);
+
+        $smallDiag2 = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::SMALL_DIAG,
+        ]);
+
+        $smallDiag3m = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::SMALL_DIAG,
+        ]);
+
+        $fixCenter = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::FIX,
+        ]);
+
+        $decaCenter = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::DECA,
+        ]);
+
+        $behindCenter = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::BEHIND,
+        ]);
+
+        $setAttack = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::SET_ATTACK,
+        ]);
+
+        $setBidouille = $this->count([
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'pointFor' => Statistics::POINT_US,
+            'reason'   => Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::BIDOUILLE,
+        ]);
+
+        $line = $line2 + $line4 + $line3m;
+        $largeDiag = $largeDiag3m + $largeDiag2 + $largeDiag4;
+        $smallDiag = $smallDiag3m + $smallDiag2 + $smallDiag4;
+        $blockOut = $blockOut3m + $blockOut2 + $blockOut4;
+        $bidouille = $bidouille3m + $bidouille2 + $bidouille4 + $setBidouille;
+
+        $set = $setAttack + $setBidouille;
+        $center = $decaCenter + $fixCenter + $behindCenter;
+        $post4 = $largeDiag4 + $smallDiag4 + $line4 + $bidouille4 + $blockOut4;
+        $post2 = $largeDiag2 + $smallDiag2 + $line2 + $bidouille2 + $blockOut2;
+        $post3m = $largeDiag3m + $smallDiag3m + $line3m + $bidouille3m + $blockOut3m;
+
+        $result = [
+            'line'         => $line,
+            'line4'        => $line4,
+            'line3m'       => $line3m,
+            'line2'        => $line2,
+            'largeDiag'    => $largeDiag,
+            'largeDiag2'   => $largeDiag2,
+            'largeDiag4'   => $largeDiag4,
+            'largeDiag3m'  => $largeDiag3m,
+            'smallDiag'    => $smallDiag,
+            'smallDiag2'   => $smallDiag2,
+            'smallDiag4'   => $smallDiag4,
+            'smallDiag3m'  => $smallDiag3m,
+            'bidouille'    => $bidouille,
+            'bidouille2'   => $bidouille2,
+            'bidouille4'   => $bidouille4,
+            'bidouille3m'  => $bidouille3m,
+            'blockOut'     => $blockOut,
+            'blockOut2'    => $blockOut2,
+            'blockOut4'    => $blockOut4,
+            'blockOut3m'   => $blockOut3m,
+            'center'       => $center,
+            'decaCenter'   => $decaCenter,
+            'fixCenter'    => $fixCenter,
+            'behindCenter' => $behindCenter,
+            'set'          => $set,
+            'setAttack'    => $setAttack,
+            'setBidouille' => $setBidouille,
+            'post4'        => $post4,
+            'post2'        => $post2,
+            'post3m'       => $post3m,
         ];
 
         return $result;
