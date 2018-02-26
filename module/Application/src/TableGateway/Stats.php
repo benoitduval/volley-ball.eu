@@ -30,6 +30,13 @@ class Stats extends AbstractTableGateway
         } else {
             for ($i = 1; $i <= 5; $i++) {
                 $result[$i] = $this->_getEfficiencyStats($eventId, $i);
+                if ($i == 1) {
+                    $result['all'] = $result[$i];
+                } else {
+                    foreach ($result[$i] as $key => $value) {
+                        $result['all'][$key] += $value;
+                    }
+                }
             }
         }
         return $result;
@@ -43,6 +50,13 @@ class Stats extends AbstractTableGateway
         } else {
             for ($i = 1; $i <= 5; $i++) {
                 $result[$i] = $this->_getZoneRepartitionStats($eventId, $i);
+                if ($i == 1) {
+                    $result['all'] = $result[$i];
+                } else {
+                    foreach ($result[$i] as $key => $value) {
+                        $result['all'][$key] += $value;
+                    }
+                }
             }
         }
         return $result;
@@ -56,6 +70,13 @@ class Stats extends AbstractTableGateway
         } else {
             for ($i = 1; $i <= 5; $i++) {
                 $result[$i] = $this->_getDefenceStats($eventId, $i);
+                if ($i == 1) {
+                    $result['all'] = $result[$i];
+                } else {
+                    foreach ($result[$i] as $key => $value) {
+                        $result['all'][$key] += $value;
+                    }
+                }
             }
         }
         return $result;
@@ -69,6 +90,13 @@ class Stats extends AbstractTableGateway
         } else {
             for ($i = 1; $i <= 5; $i++) {
                 $result[$i] = $this->_getFaultStats($eventId, $i);
+                if ($i == 1) {
+                    $result['all'] = $result[$i];
+                } else {
+                    foreach ($result[$i] as $key => $value) {
+                        $result['all'][$key] += $value;
+                    }
+                }
             }
         }
         return $result;
@@ -82,6 +110,13 @@ class Stats extends AbstractTableGateway
         } else {
             for ($i = 1; $i <= 5; $i++) {
                 $result[$i] = $this->_setsLastScore($eventId, $i);
+                if ($i == 1) {
+                    $result['all'] = $result[$i];
+                } else {
+                    foreach ($result[$i] as $key => $value) {
+                        $result['all'][$key] += $value;
+                    }
+                }
             }
         }
         return $result;
