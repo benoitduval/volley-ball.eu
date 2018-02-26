@@ -169,6 +169,17 @@ class Stats extends AbstractTableGateway
             'reason' => Statistics::POINT_SERVE,
         ]);
 
+        $blockUs = $this->sum('blockUs', [
+            'eventId'  => $eventId,
+            'blockUs > ?' => 0,
+        ]);
+
+        $defenceUs = $this->sum('defenceUs', [
+            'eventId'  => $eventId,
+            'defenceUs > ?' => 0,
+        ]);
+
+
         $totalFaults = $defenceFault + $attackFault + $serveFault;
 
         $result['us'] = json_encode([
@@ -178,6 +189,8 @@ class Stats extends AbstractTableGateway
             $serveFault,
             $attackFault,
             $defenceFault,
+            $blockUs,
+            $defenceUs,
             $totalFaults,
         ]);
 
@@ -217,6 +230,16 @@ class Stats extends AbstractTableGateway
             'reason' => Statistics::POINT_SERVE,
         ]);
 
+        $blockThem = $this->sum('blockThem', [
+            'eventId'  => $eventId,
+            'blockThem > ?' => 0,
+        ]);
+
+        $defenceThem = $this->sum('defenceThem', [
+            'eventId'  => $eventId,
+            'defenceThem > ?' => 0,
+        ]);
+
         $totalFaults = $defenceFault + $attackFault + $serveFault;
 
         $result['them'] = json_encode([
@@ -226,6 +249,8 @@ class Stats extends AbstractTableGateway
             $serveFault,
             $attackFault,
             $defenceFault,
+            $blockThem,
+            $defenceThem,
             $totalFaults,
         ]);
 
@@ -278,6 +303,18 @@ class Stats extends AbstractTableGateway
             'reason' => Statistics::POINT_SERVE,
         ]);
 
+        $blockUs = $this->sum('blockUs', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'blockUs > ?' => 0,
+        ]);
+
+        $defenceUs = $this->sum('defenceUs', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'defenceUs > ?' => 0,
+        ]);
+
         $totalFaults = $defenceFault + $attackFault + $serveFault;
 
         $result['us'] = json_encode([
@@ -287,6 +324,8 @@ class Stats extends AbstractTableGateway
             $serveFault,
             $attackFault,
             $defenceFault,
+            $blockUs,
+            $defenceUs,
             $totalFaults,
         ]);
 
@@ -332,6 +371,18 @@ class Stats extends AbstractTableGateway
             'reason' => Statistics::POINT_SERVE,
         ]);
 
+        $blockThem = $this->sum('blockThem', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'blockThem > ?' => 0,
+        ]);
+
+        $defenceThem = $this->sum('defenceThem', [
+            'eventId'  => $eventId,
+            'set'      => $set,
+            'defenceThem > ?' => 0,
+        ]);
+
         $totalFaults = $defenceFault + $attackFault + $serveFault;
 
         $result['them'] = json_encode([
@@ -341,6 +392,8 @@ class Stats extends AbstractTableGateway
             $serveFault,
             $attackFault,
             $defenceFault,
+            $blockThem,
+            $defenceThem,
             $totalFaults,
         ]);
 

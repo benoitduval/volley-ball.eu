@@ -491,6 +491,8 @@ demo = {
                             ' <i class="far fa-hand-paper text-danger"></i> F<span class="hidden-xs">autes</span> Service',
                             ' <i class="fa fa-crosshairs text-danger"></i> F<span class="hidden-xs">autes</span> Attaque',
                             ' <i class="fas fa-shield-alt text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
+                            ' Blocks Déf<span class="hidden-xs">ensifs</span>',
+                            ' Défenses',
                             'Total F<span class="hidden-xs">autes</span>',
                         ],
                         title: {
@@ -556,6 +558,8 @@ demo = {
                             ' <i class="far fa-hand-paper text-danger"></i> F<span class="hidden-xs">autes</span> Service',
                             ' <i class="fa fa-crosshairs text-danger"></i> F<span class="hidden-xs">autes</span> Attaque',
                             ' <i class="fas fa-shield-alt text-danger"></i> F<span class="hidden-xs">autes</span> Défensives',
+                            ' Blocks Déf<span class="hidden-xs">ensifs</span>',
+                            ' Défenses',
                             'Total F<span class="hidden-xs">autes</span>',
                         ],
                         title: {
