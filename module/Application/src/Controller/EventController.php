@@ -129,8 +129,6 @@ class EventController extends AbstractController
             $defenceStats    = $this->statsTable->getDefenceStats($eventId);
             $zoneRepartitionStats = $this->statsTable->getZoneRepartitionStats($eventId);
 
-            \Zend\Debug\Debug::dump($efficiencyStats);die;
-
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
             $isMember  = $this->userGroupTable->isMember($this->getUser()->id, $group->id);
