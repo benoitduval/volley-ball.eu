@@ -455,9 +455,7 @@ body.nude{
   min-height:80px;
 }
 
-@media (max-width: 768px){
-  .table-responsive.table-score {
+.table-responsive .table {
     overflow-y: scroll;
     max-height: 346px;
-  }
 }
