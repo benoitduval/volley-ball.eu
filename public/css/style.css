@@ -454,3 +454,10 @@ body.nude{
 .btn-xlg {
   min-height:80px;
 }
+
+@media (max-width: 768px){
+  .table-responsive.table-score {
+    overflow-y: scroll;
+    max-height: 346px;
+  }
+}
