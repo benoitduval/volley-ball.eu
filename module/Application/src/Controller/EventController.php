@@ -129,6 +129,8 @@ class EventController extends AbstractController
             $defenceStats    = $this->statsTable->getDefenceStats($eventId);
             $zoneRepartitionStats = $this->statsTable->getZoneRepartitionStats($eventId);
 
+            \Zend\Debug\Debug::dump($efficiencyStats);die;
+
             $comments  = $this->commentTable->fetchAll(['eventId' => $event->id]);
             $group     = $this->groupTable->find($event->groupId);
             $isMember  = $this->userGroupTable->isMember($this->getUser()->id, $group->id);
@@ -142,7 +144,7 @@ class EventController extends AbstractController
             $myGuest   = $this->disponibilityTable->fetchOne(['eventId' => $eventId, 'userId' => $this->getUser()->id]);
             $eventDate = \DateTime::createFromFormat('Y-m-d H:i:s', $event->date);
 
-            $availability    = [
+            $availability = [
                 Model\Disponibility::RESP_NO_ANSWER => [],
                 Model\Disponibility::RESP_OK        => [],
                 Model\Disponibility::RESP_NO        => [],
@@ -425,9 +427,14 @@ class EventController extends AbstractController
                 $deleteLink = $config['baseUrl'] . '/event/delete-stats/' . $stats->id;
             }
 
-            $setsStats = $this->statsTable->getSetsStats($eventId, $set);
-            $setsHistory = $this->statsTable->getSetsHistory($eventId, $set);
-            $setsLastScore = $this->statsTable->setsLastScore($eventId, $set);
+            $setsHistory     = $this->statsTable->getSetsHistory($eventId);
+            $setsStats       = $this->statsTable->getSetsStats($eventId);
+            $overallStats    = $this->statsTable->getOverallStats($eventId);
+            $setsLastScore   = $this->statsTable->setsLastScore($eventId);
+            $efficiencyStats = $this->statsTable->getEfficiencyStats($eventId);
+            $faultStats      = $this->statsTable->getFaultStats($eventId);
+            $defenceStats    = $this->statsTable->getDefenceStats($eventId);
+            $zoneRepartitionStats = $this->statsTable->getZoneRepartitionStats($eventId);
 
             $request = $this->getRequest();
             if ($request->isPost()) {
@@ -470,7 +477,12 @@ class EventController extends AbstractController
                 'scoreUs'       => $scoreUs,
                 'scoreThem'     => $scoreThem,
                 'set'           => (int) $set,
-                'size'          => 6
+                'size'          => 6,
+                'setsLastScore'   => $setsLastScore,
+                'defenceStats'    => $defenceStats,
+                'zoneRepartitionStats' => $zoneRepartitionStats,
+                'faultStats'      => $faultStats,
+                'efficiencyStats' => $efficiencyStats,
             ]);
         } else {
             $this->flashMessenger()->addErrorMessage('Vous ne pouvez pas accéder à cette page, vous avez été redirigé sur votre page d\'accueil');

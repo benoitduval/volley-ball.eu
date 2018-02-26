@@ -23,36 +23,51 @@
             <?php if ($scores): ?>
                 <div class="tab-pane <?= $set == 1 ? 'active' : ''; ?>" id="pills-set-<?= $set ?>">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">Set <?= $set ?> <span class="category">(Nous <?= $setsLastScore[$set][0] ?> - <?= $setsLastScore[$set][1] ?> Eux)</span></h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="table-responsive table-score">
-                                        <table class="table">
+                                        <table class="table table-condensed table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2">Nous</th>
+                                                    <th rowspan="2">Eux</th>
+                                                    <th rowspan="2">Raison</th>
+                                                    <th colspan="2">Block Défensif</th>
+                                                    <th colspan="2">Défenses</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Nous</th>
+                                                    <th>Eux</th>
+                                                    <th>Nous</th>
+                                                    <th>Eux</th>
+                                                </tr>
+                                            </thead>
                                             <tbody>
-                                                <tr>
-                                                    <?php foreach ($scores['us'] as $score): ?>
-                                                        <td class="text-center">
-                                                            <?= $score ?>
+                                                <?php foreach ($scores as $score): ?>
+                                                    <tr>
+                                                        <td class="<?= $score['pointFor'] == \Application\Model\Stats::POINT_US ? 'success' : ''; ?>"><?= $score['us'] ?></td>
+                                                        <td class="<?= $score['pointFor'] == \Application\Model\Stats::POINT_US ? '' : 'danger'; ?>"><?= $score['them'] ?></td>
+                                                        <td>
+                                                            <b><?= \Application\Model\Stats::$reason[$score['reason']] ?></b>
                                                         </td>
-                                                    <?php endforeach ?>
-                                                </tr>
-                                                <tr>
-                                                    <?php foreach ($scores['them'] as $score): ?>
-                                                        <td class="text-center">
-                                                            <?= $score ?>
+                                                        <td>
+                                                            <?= $score['blockUs'] ? $score['blockUs'] : '-'; ?>
                                                         </td>
-                                                    <?php endforeach ?>
-                                                </tr>
-                                                <tr>
-                                                    <?php foreach ($scores['reason'] as $class): ?>
-                                                        <td class="text-center">
-                                                            <i class="<?= $class ?>" aria-hidden="true"></i>
+                                                        <td>
+                                                            <?= $score['blockThem'] ? $score['blockThem'] : '-'; ?>
                                                         </td>
-                                                    <?php endforeach ?>
-                                                </tr>
+                                                        <td>
+                                                            <?= $score['defenceUs'] ? $score['defenceUs'] : '-'; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?= $score['defenceThem'] ? $score['defenceThem'] : '-'; ?>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach ?>
                                             </tbody>
                                         </table>
                                     </div>

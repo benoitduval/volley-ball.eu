@@ -9,40 +9,6 @@ use Application\Model\Stats as Statistics;
 
 class Stats extends AbstractTableGateway
 {
-
-    protected $_attackUs = [
-        Statistics::POINT_ATTACK,
-        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LINE,
-        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::SMALL_DIAG,
-        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LARGE_DIAG,
-        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BLOCK_OUT,
-        Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BIDOUILLE,
-        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LINE,
-        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::SMALL_DIAG,
-        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LARGE_DIAG,
-        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BLOCK_OUT,
-        Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BIDOUILLE,
-        Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::FIX,
-        Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::DECA,
-        Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::BEHIND,
-        Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::BIDOUILLE,
-        Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::SET_ATTACK,
-        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LINE,
-        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::SMALL_DIAG,
-        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LARGE_DIAG,
-        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BLOCK_OUT,
-        Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BIDOUILLE,
-    ];
-
-    protected $_faultUs = [
-        Statistics::FAULT_ATTACK,
-        Statistics::FAULT_ATTACK . Statistics::POST_4,
-        Statistics::FAULT_ATTACK . Statistics::POST_2,
-        Statistics::FAULT_ATTACK . Statistics::POST_FIX,
-        Statistics::FAULT_ATTACK . Statistics::POST_SETTER,
-        Statistics::FAULT_ATTACK . Statistics::POST_3M,
-    ];
-
     public function getSetsStats($eventId, $set = null)
     {
         $result = [];
@@ -146,56 +112,19 @@ class Stats extends AbstractTableGateway
     {
         $result = [];
         if (!$this->fetchOne(['eventId' => $eventId, 'set' => $set])) return $result;
-        $stats = $this->fetchAll(['eventId' => $eventId, 'set' => $set], 'id ASC');
+        $stats = $this->fetchAll(['eventId' => $eventId, 'set' => $set], 'id DESC');
         $data  = [];
         foreach ($stats as $stat) {
-            $data['us'][]   = ($stat->pointFor == Statistics::POINT_US) ? $stat->scoreUs: '-';
-            $data['them'][] = ($stat->pointFor == Statistics::POINT_THEM) ? $stat->scoreThem: '-';
-            switch ($stat->reason) {
-                case Statistics::FAULT_DEFENCE:
-                    $data['reason'][] = 'fas fa-shield-alt text-danger';
-                    break;
-                case Statistics::POINT_BLOCK:
-                    $data['reason'][] = 'fas fa-ban text-success';
-                    break;
-                case Statistics::FAULT_ATTACK:
-                case Statistics::FAULT_ATTACK . Statistics::POST_4:
-                case Statistics::FAULT_ATTACK . Statistics::POST_2:
-                case Statistics::FAULT_ATTACK . Statistics::POST_FIX:
-                case Statistics::FAULT_ATTACK . Statistics::POST_SETTER:
-                case Statistics::FAULT_ATTACK . Statistics::POST_3M:
-                    $data['reason'][] = 'fa fa-crosshairs text-danger';
-                    break;
-                case Statistics::POINT_ATTACK:
-                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LINE:
-                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::SMALL_DIAG:
-                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::LARGE_DIAG:
-                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BLOCK_OUT:
-                case Statistics::POINT_ATTACK . Statistics::POST_4 . Statistics::BIDOUILLE:
-                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LINE:
-                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::SMALL_DIAG:
-                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::LARGE_DIAG:
-                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BLOCK_OUT:
-                case Statistics::POINT_ATTACK . Statistics::POST_2 . Statistics::BIDOUILLE:
-                case Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::FIX:
-                case Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::DECA:
-                case Statistics::POINT_ATTACK . Statistics::POST_FIX . Statistics::BEHIND:
-                case Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::BIDOUILLE:
-                case Statistics::POINT_ATTACK . Statistics::POST_SETTER . Statistics::SET_ATTACK:
-                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LINE:
-                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::SMALL_DIAG:
-                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::LARGE_DIAG:
-                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BLOCK_OUT:
-                case Statistics::POINT_ATTACK . Statistics::POST_3M . Statistics::BIDOUILLE:
-                    $data['reason'][] = 'fa fa-crosshairs text-success';
-                    break;
-                case Statistics::POINT_SERVE:
-                    $data['reason'][] = 'far fa-hand-paper text-success';
-                    break;
-                case Statistics::FAULT_SERVE:
-                    $data['reason'][] = 'far fa-hand-paper text-danger';
-                    break;
-            }
+            $data[] = [
+                'us' => $stat->scoreUs,
+                'them' => $stat->scoreThem,
+                'blockUs' => $stat->blockUs,
+                'defenceUs' => $stat->defenceUs,
+                'blockThem' => $stat->blockThem,
+                'defenceThem' => $stat->defenceThem,
+                'reason' => $stat->reason,
+                'pointFor' => $stat->pointFor,
+            ];
         }
         return $data;
     }
@@ -219,20 +148,13 @@ class Stats extends AbstractTableGateway
         $attackFault = $this->count([
             'eventId' => $eventId,
             'pointFor' => Statistics::POINT_THEM,
-            'reason' => [
-                Statistics::FAULT_ATTACK,
-                Statistics::FAULT_ATTACK . Statistics::POST_4,
-                Statistics::FAULT_ATTACK . Statistics::POST_2,
-                Statistics::FAULT_ATTACK . Statistics::POST_FIX,
-                Statistics::FAULT_ATTACK . Statistics::POST_SETTER,
-                Statistics::FAULT_ATTACK . Statistics::POST_3M,
-            ]
+            'reason' => Statistics::$faultUs
         ]);
 
         $attackPoint = $this->count([
             'eventId' => $eventId,
             'pointFor' => Statistics::POINT_US,
-            'reason' => $this->_attackUs,
+            'reason' => Statistics::$attackUs,
         ]);
 
         $serveFault = $this->count([
@@ -332,14 +254,14 @@ class Stats extends AbstractTableGateway
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Statistics::POINT_THEM,
-            'reason' => $this->_faultUs
+            'reason' => Statistics::$faultUs
         ]);
 
         $attackPoint = $this->count([
             'eventId' => $eventId,
             'set' => $set,
             'pointFor' => Statistics::POINT_US,
-            'reason' => $this->_attackUs,
+            'reason' => Statistics::$attackUs,
         ]);
 
         $serveFault = $this->count([
@@ -433,14 +355,14 @@ class Stats extends AbstractTableGateway
             'eventId'  => $eventId,
             'set'      => $set,
             'pointFor' => Statistics::POINT_THEM,
-            'reason'   => $this->_faultUs
+            'reason'   => Statistics::$faultUs
         ]);
 
         $attackPoint = $this->count([
             'eventId'  => $eventId,
             'set'      => $set,
             'pointFor' => Statistics::POINT_US,
-            'reason'   => $this->_attackUs,
+            'reason'   => Statistics::$attackUs,
         ]);
 
         $blockThem = $this->sum('blockThem', [
