@@ -456,12 +456,12 @@ body.nude{
 }
 
 @media (max-width: 767px) {
-  .table-responsive.table-score>.table>tbody>tr>td,
-  .table-responsive.table-score>.table>tbody>tr>th,
-  .table-responsive.table-score>.table>tfoot>tr>td,
-  .table-responsive.table-score>.table>tfoot>tr>th,
-  .table-responsive.table-score>.table>thead>tr>td,
-  .table-responsive.table-score>.table>thead>tr>th {
+  .table-score>.table.table-responsive>tbody>tr>td,
+  .table-score>.table.table-responsive>tbody>tr>th,
+  .table-score>.table.table-responsive>tfoot>tr>td,
+  .table-score>.table.table-responsive>tfoot>tr>th,
+  .table-score>.table.table-responsive>thead>tr>td,
+  .table-score>.table.table-responsive>thead>tr>th {
     white-space: normal;
     font-size:8px !important;
   }
