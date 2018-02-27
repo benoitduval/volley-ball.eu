@@ -31,8 +31,9 @@ class Event extends Form
 
         $this->add([
             'name' => 'date',
-            'type' => Element\Hidden::class,
+            'type' => Element\Text::class,
             'attributes' => [
+                'id' => 'event-date',
                 'required'    => 'required',
                 'class'       => 'form-control datetimepicker',
                 'placeholder' => 'ex: 26/12/2017 20:00'

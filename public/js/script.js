@@ -186,8 +186,8 @@ demo = {
 
     initFormExtendedDatetimepickers: function(){
         $('#event-date').datetimepicker({
-            inline: true,
-            sideBySide: true,
+            // inline: true,
+            // sideBySide: true,
             format: 'DD/MM/YYYY H:mm',    // use this format if you want the 24hours timepicker
             icons: {
                 time: "fa fa-clock-o",
@@ -201,9 +201,9 @@ demo = {
                 close: 'fa fa-remove'
             }
         });
-        $("#event-date").on("dp.change", function (e) {
-            $('.datetimepicker').attr("value", e.date.format('DD/MM/YYYY HH:mm'));
-        });
+        // $("#event-date").on("dp.change", function (e) {
+        //     $('.datetimepicker').attr("value", e.date.format('DD/MM/YYYY HH:mm'));
+        // });
 
         $('#holiday-from').datetimepicker({
             inline: true,
