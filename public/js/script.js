@@ -190,7 +190,7 @@ demo = {
             // sideBySide: true,
             format: 'DD/MM/YYYY H:mm',    // use this format if you want the 24hours timepicker
             icons: {
-                time: "fa fa-clock-o",
+                time: "far fa-clock",
                 date: "fa fa-calendar",
                 up: "fa fa-chevron-up",
                 down: "fa fa-chevron-down",
@@ -209,7 +209,7 @@ demo = {
             inline: true,
             format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
             icons: {
-                time: "fa fa-clock-o",
+                time: "far fa-clock",
                 date: "fa fa-calendar",
                 up: "fa fa-chevron-up",
                 down: "fa fa-chevron-down",
@@ -225,7 +225,7 @@ demo = {
             inline: true,
             format: 'DD/MM/YYYY',    // use this format if you want the 24hours timepicker
             icons: {
-                time: "fa fa-clock-o",
+                time: "far fa-clock",
                 date: "fa fa-calendar",
                 up: "fa fa-chevron-up",
                 down: "fa fa-chevron-down",
@@ -248,7 +248,7 @@ demo = {
         $('.timepicker').datetimepicker({
             format: 'H:mm',    // use this format if you want the 24hours timepicker
             icons: {
-                time: "fa fa-clock-o",
+                time: "far fa-clock",
                 date: "fa fa-calendar",
                 up: "fa fa-chevron-up",
                 down: "fa fa-chevron-down",
