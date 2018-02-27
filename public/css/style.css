@@ -456,7 +456,12 @@ body.nude{
 }
 
 @media screen and (max-width: 767px) {
-  .table-responsive>.table>tbody>tr>td, .table-responsive>.table>tbody>tr>th, .table-responsive>.table>tfoot>tr>td, .table-responsive>.table>tfoot>tr>th, .table-responsive>.table>thead>tr>td, .table-responsive>.table>thead>tr>th {
+  .table-score>.table>tbody>tr>td,
+  .table-score>.table>tbody>tr>th,
+  .table-score>.table>tfoot>tr>td,
+  .table-score>.table>tfoot>tr>th,
+  .table-score>.table>thead>tr>td,
+  .table-score>.table>thead>tr>th {
     white-space: normal;
     font-size:0.5em;
   }
