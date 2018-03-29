@@ -10678,14 +10678,14 @@ star {
 
 .chart-circle {
   display: inline-block;
-  font-size: 2em;
-  height: 160px;
-  line-height: 160px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  font-size: 1.5em;
+  height: 60px;
+  line-height: 60px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   position: relative;
   text-align: center;
-  width: 160px;
+  width: 60px;
 }
 .chart-circle canvas {
   position: absolute;

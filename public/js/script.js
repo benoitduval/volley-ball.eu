@@ -1,16 +1,4 @@
 demo = {
-
-    initCirclePercentage: function(){
-        $('#chartDashboard, #chartOrders, #chartNewVisitors, #chartSubscriptions, #chartDashboardDoc, #chartOrdersDoc').easyPieChart({
-            lineWidth: 6,
-            size: 160,
-            scaleColor: false,
-            trackColor: 'rgba(255,255,255,.25)',
-            barColor: '#FFFFFF',
-            animate: ({duration: 1000, enabled: true})
-        });
-    },
-
     initSwitchers: function () {
 
         $('input[name="training"]').each(function () {
@@ -263,8 +251,8 @@ demo = {
 
     initCirclePercentage: function(){
         $('#chartDashboard, #chartOrders, #chartNewVisitors, #chartSubscriptions, #chartDashboardDoc, #chartOrdersDoc').easyPieChart({
-            lineWidth: 6,
-            size: 160,
+            lineWidth: 3,
+            size: 60,
             scaleColor: false,
             trackColor: 'rgba(255,255,255,.25)',
             barColor: '#FFFFFF',
