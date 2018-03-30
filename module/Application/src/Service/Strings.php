@@ -4,16 +4,30 @@ namespace Application\Service;
 
 class Strings
 {
-    public static function toSlug($name)
+    public static function toSlug($text)
     {
-        $str = strtolower($name);
-        $str = preg_replace('/ /', '-', $str);
-        $str = preg_replace('/', '-', $str);
-        $str = preg_replace('\\', '-', $str);
-        $str = htmlentities($str, ENT_NOQUOTES, 'utf-8');
-        $str = preg_replace('#&([A-za-z])(?:acute|cedil|caron|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // pour les ligatures e.g. '&oelig;'
-        $str = preg_replace('#&[^;]+;#', '', $str); // supprime les autres caractères
-        return $str;
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+          return 'n-a';
+        }
+
+        return $text;
     }
 }

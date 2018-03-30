@@ -144,8 +144,9 @@
                 <a href="#" data-toggle="modal" data-target="#ok">
                     <div class="card card-circle-chart" data-background-color="green">
                         <div class="card-content">
+                            <i class="ti-check"></i><br>
                             <div data-percent="<?= ($counters[Application\Model\Disponibility::RESP_OK] / array_sum($counters) * 100) ?>"><?= $counters[Application\Model\Disponibility::RESP_OK] ?>
-                                <i class="ti-check"></i></div>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -154,8 +155,9 @@
                 <a href="#" data-toggle="modal" data-target="#no">
                     <div class="card card-circle-chart" data-background-color="orange">
                         <div class="card-content">
+                            <i class="ti-close"></i><br>
                             <div data-percent="<?= ($counters[Application\Model\Disponibility::RESP_NO] / array_sum($counters) * 100) ?>"><?= $counters[Application\Model\Disponibility::RESP_NO] ?>
-                                <i class="ti-close"></i></div>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -164,8 +166,9 @@
                 <a href="#" data-toggle="modal" data-target="#incertain">
                     <div class="card card-circle-chart" data-background-color="blue">
                         <div class="card-content">
+                            <i class="ti-help"></i><br>
                             <div data-percent="<?= ($counters[Application\Model\Disponibility::RESP_INCERTAIN] / array_sum($counters) * 100) ?>"><?= $counters[Application\Model\Disponibility::RESP_INCERTAIN] ?>
-                                <i class="ti-help"></i></div>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -174,8 +177,9 @@
                 <a href="#" data-toggle="modal" data-target="#no-answer">
                     <div class="card card-circle-chart" data-background-color="brown">
                         <div class="card-content">
+                            <i class="ti-na"></i><br>
                             <div data-percent="<?= ($counters[Application\Model\Disponibility::RESP_NO_ANSWER] / array_sum($counters) * 100) ?>"><?= $counters[Application\Model\Disponibility::RESP_NO_ANSWER] ?>
-                                <i class="ti-na"></i></div>
+                                </div>
                         </div>
                     </div>
                 </a>

@@ -496,18 +496,14 @@ class EventController extends AbstractController
         if ($event && Service\Strings::toSlug($event->name) == $eventName) {
 
             $setsHistory   = $this->statsTable->getSetsHistory($eventId);
-            $setsStats     = $this->statsTable->getSetsStats($eventId);
-            $overallStats  = $this->statsTable->getOverallStats($eventId);
             $setsLastScore = $this->statsTable->setsLastScore($eventId);
 
             $config     = $this->get('config');
             $baseUrl    = $config['baseUrl'];
 
             return new ViewModel([
-                'overallStats'    => $overallStats,
-                'setsLastScore'   => $setsLastScore,
-                'setsStats'       => $setsStats,
                 'setsHistory'     => $setsHistory,
+                'setsLastScore'     => $setsLastScore,
                 'event'           => $event,
             ]);
         } else {
