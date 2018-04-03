@@ -1441,5 +1441,54 @@ demo = {
                 counter.html(value);
             });
         });
+    },
+
+    initLiveScore: function() {
+        $(document).ready(function () {
+            var table = $("#history");
+            if (table.length > 0) {
+                var id = table.attr('data-event-id');
+                window.setInterval(function() {
+                    var set  = table.attr('data-set');
+                    var last = table.attr('data-last-id');
+                    var url  = '/api/event/live/' + id + '/' + set + '/' + last;
+                    var request = $.ajax({
+                        type: "GET",
+                        url: url
+                    }).done(function(resp) {
+                        response = JSON.parse(resp);
+                        if (response == "reload") {
+                            location.reload();
+                        } else {
+                            if (response.length > 0) {
+                                $.each(response, function (index,value) {
+                                    var classUs = '';
+                                    var classThem = '';
+                                    if (value.pointFor == "1") {
+                                        classUs = 'success';
+                                        $('.score-us').html(value.us);
+                                    } else {
+                                        classThem = 'danger';
+                                        $('.score-them').html(value.them);
+                                    }
+
+                                    $('#history tr:first').before('<tr>'
+                                        + '<td class="' + classUs + '">' + value.us + '</td>'
+                                        + '<td class="' + classThem + '">' + value.them + '</td>'
+                                        + '<td><b>' + value.reason + '</b></td>'
+                                        + '<td>' + value.blockUs + '</td>'
+                                        + '<td>' + value.blockThem + '</td>'
+                                        + '<td>' + value.defenceUs + '</td>'
+                                        + '<td>' + value.defenceThem + '</td>'
+                                        + '</tr>');
+                                    $('#history tr:first').effect("highlight", {}, 700);
+                                    $('#history').attr('data-last-id', value.id);
+                                });
+                            }
+                        }
+                    });
+                }, 5000);
+            }
+        });
     }
 }

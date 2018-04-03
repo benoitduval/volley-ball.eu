@@ -60,6 +60,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
                             <li><a href="/event/live-stats/<?= $event->id ?>"><i class="far fa-chart-bar"></i> Live Stats</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#share"><i class="far fa-chart-bar"></i> Live Score</a></li>
                             <?php if ($isAdmin): ?>
                                 <li><a href="/event/result/<?= $event->id ?>"><i class="far fa-file-alt"></i> Débrief</a></li>
                                 <li><a href="/event/edit/<?= $event->id ?>"><i class="far fa-edit"></i> Éditer</a></li>
@@ -406,6 +407,37 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="share" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 class="modal-title">Partagez le Live Score</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <p class="category">
+                        Partagez ce lien ci-dessous pour inviter des personnes à suivre le score en temps réel
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input type="text" id="to-copy" name="name" class="form-control" value="<?= $liveScoreUrl ?>">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-info btn-fill btn-wd btn-finish pull-right copy-to-clipboard" data-clipboard-target="#to-copy">copier</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a href="<?= $liveScoreUrl ?>" type="button" class="btn btn-primary">S'y rendre</a>
             </div>
         </div>
     </div>

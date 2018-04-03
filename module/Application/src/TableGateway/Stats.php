@@ -133,7 +133,7 @@ class Stats extends AbstractTableGateway
                 $result[$i] = $this->_getSetsHistory($eventId, $i);
             }
         }
-        return $result;
+        return array_reverse($result, true);
     }
 
     private function _setsLastScore($eventId, $set)
@@ -151,13 +151,14 @@ class Stats extends AbstractTableGateway
         $data  = [];
         foreach ($stats as $stat) {
             $data[] = [
+                'id' => $stat->id,
                 'us' => $stat->scoreUs,
                 'them' => $stat->scoreThem,
-                'blockUs' => $stat->blockUs,
-                'defenceUs' => $stat->defenceUs,
-                'blockThem' => $stat->blockThem,
-                'defenceThem' => $stat->defenceThem,
-                'reason' => $stat->reason,
+                'blockUs' => $stat->blockUs ? $stat->blockUs : '-',
+                'defenceUs' => $stat->defenceUs ? $stat->defenceUs : '-',
+                'blockThem' => $stat->blockThem ? $stat->blockThem : '-',
+                'defenceThem' => $stat->defenceThem ? $stat->defenceThem : '-',
+                'reason' => Statistics::$reason[$stat->reason],
                 'pointFor' => $stat->pointFor,
             ];
         }

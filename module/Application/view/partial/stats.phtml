@@ -57,19 +57,19 @@
                                                         <td class="<?= $score['pointFor'] == \Application\Model\Stats::POINT_US ? 'success' : ''; ?>"><?= $score['us'] ?></td>
                                                         <td class="<?= $score['pointFor'] == \Application\Model\Stats::POINT_US ? '' : 'danger'; ?>"><?= $score['them'] ?></td>
                                                         <td>
-                                                            <b><?= \Application\Model\Stats::$reason[$score['reason']] ?></b>
+                                                            <b><?= $score['reason'] ?></b>
                                                         </td>
                                                         <td>
-                                                            <?= $score['blockUs'] ? $score['blockUs'] : '-'; ?>
+                                                            <?= $score['blockUs']; ?>
                                                         </td>
                                                         <td>
-                                                            <?= $score['blockThem'] ? $score['blockThem'] : '-'; ?>
+                                                            <?= $score['blockThem']; ?>
                                                         </td>
                                                         <td>
-                                                            <?= $score['defenceUs'] ? $score['defenceUs'] : '-'; ?>
+                                                            <?= $score['defenceUs']; ?>
                                                         </td>
                                                         <td>
-                                                            <?= $score['defenceThem'] ? $score['defenceThem'] : '-'; ?>
+                                                            <?= $score['defenceThem']; ?>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach ?>

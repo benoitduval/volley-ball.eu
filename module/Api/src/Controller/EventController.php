@@ -7,6 +7,7 @@ use Zend\View\Model\ViewModel;
 use Application\Controller\AbstractController;
 use Application\Model;
 use Application\TableGateway;
+use Application\Model\Stats as Statistics;
 
 class EventController extends AbstractController
 {
@@ -90,6 +91,42 @@ class EventController extends AbstractController
             $view->setTemplate('api/default/json.phtml');
             return $view;
         }
+    }
+
+    public function liveAction()
+    {
+        $id     = $this->params('id', null);
+        $set    = $this->params('set', null);
+        $last   = $this->params('last', 1);
+        $points = $this->statsTable->fetchAll(['eventId' => $id, 'id > ?' => $last], 'id DESC');
+        $result = [];
+        foreach ($points as $stat) {
+            if ($stat->set != $set) {
+                $view = new ViewModel(['result' => 'reload']);
+                $view->setTerminal(true);
+                $view->setTemplate('api/default/json.phtml');
+                return $view;
+                break;
+            } else {
+                $result[] = [
+                    'id' => $stat->id,
+                    'us' => $stat->scoreUs,
+                    'them' => $stat->scoreThem,
+                    'blockUs' => $stat->blockUs ? $stat->blockUs : '-',
+                    'defenceUs' => $stat->defenceUs ? $stat->defenceUs : '-',
+                    'blockThem' => $stat->blockThem ? $stat->blockThem : '-',
+                    'defenceThem' => $stat->defenceThem ? $stat->defenceThem : '-',
+                    'reason' => Statistics::$reason[$stat->reason],
+                    'pointFor' => $stat->pointFor,
+                ];
+            }
+            $result = array_reverse($result);
+        }
+
+        $view = new ViewModel(['result' => $result]);
+        $view->setTerminal(true);
+        $view->setTemplate('api/default/json.phtml');
+        return $view;
     }
 
 }

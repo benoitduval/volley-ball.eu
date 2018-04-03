@@ -35,6 +35,16 @@ return [
                     ],
                 ],
             ],
+            'event-live' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/event/live/:id/:set/:last',
+                    'defaults' => [
+                        'controller'    => Controller\EventController::class,
+                        'action'        => 'live',
+                    ],
+                ],
+            ],
             'api-save-stats' => [
                 'type'    => Segment::class,
                 'options' => [

@@ -263,7 +263,8 @@ class EventController extends AbstractController
                 'isAdmin'         => $isAdmin,
                 'isMember'        => $isMember,
                 'myDisponibility' => $myGuest,
-                'disponibilities' => json_encode(array_values($counters))
+                'disponibilities' => json_encode(array_values($counters)),
+                'liveScoreUrl'    => $baseUrl . '/live/' . $event->id . '/' . \Application\Service\Strings::toSlug($event->name)
             ]);
         } else {
             $this->redirect()->toRoute('home');
@@ -502,9 +503,9 @@ class EventController extends AbstractController
             $baseUrl    = $config['baseUrl'];
 
             return new ViewModel([
-                'setsHistory'     => $setsHistory,
-                'setsLastScore'     => $setsLastScore,
-                'event'           => $event,
+                'setsHistory'   => $setsHistory,
+                'setsLastScore' => $setsLastScore,
+                'event'         => $event,
             ]);
         } else {
             $this->redirect()->toRoute('home');
