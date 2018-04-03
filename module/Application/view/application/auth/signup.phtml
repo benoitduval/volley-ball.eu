@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="footer text-center">
-                    <a href="/auth/signin">Se connecter</a> | 
+                    <a href="/auth/signin<?= $group ? '?group=' . $group : ''; ?>">Se connecter</a> | 
                     <a href="/auth/email">Mot de passe oublié</a> | 
                     <button type="submit" class="btn btn-fill btn-danger btn-wd">Créer mon compte</button>
                 </div>

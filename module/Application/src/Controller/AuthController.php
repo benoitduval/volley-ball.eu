@@ -55,6 +55,7 @@ class AuthController extends AbstractController
         $this->layout()->setTemplate('layout/auth.phtml');
         $this->layout()->group = $group;
         return new ViewModel([
+            'group'      => $group,
             'signInForm' => $signInForm
         ]);
     }
@@ -119,6 +120,7 @@ class AuthController extends AbstractController
         $this->layout()->setTemplate('layout/auth.phtml');
         $this->layout()->group = $group;
         return new ViewModel([
+            'group'      => $group,
             'signUpForm' => $signUpForm
         ]);
     }
