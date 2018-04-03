@@ -59,8 +59,8 @@
                             <i class="ti-settings"></i> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li><a href="/event/live-stats/<?= $event->id ?>"><i class="far fa-chart-bar"></i> Live Stats</a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#share"><i class="far fa-chart-bar"></i> Live Score</a></li>
+                            <li><a href="/event/live-stats/<?= $event->id ?>"><i class="far fa-chart-bar"></i> Take Stats</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#share"><i class="fas fa-play"></i> Live Score</a></li>
                             <?php if ($isAdmin): ?>
                                 <li><a href="/event/result/<?= $event->id ?>"><i class="far fa-file-alt"></i> Débrief</a></li>
                                 <li><a href="/event/edit/<?= $event->id ?>"><i class="far fa-edit"></i> Éditer</a></li>
@@ -87,8 +87,8 @@
                         <h4 class="card-title"><?= $event->name ?></h4>
                         <h4><?= $event->place ?></h4>
                         <a href="https://maps.google.com/?q=<?= $event->address ?>+<?= $event->zipCode ?>+<?= $event->city ?>">
-                            <p class="category"><?= $event->address ?></p>
-                            <p class="category"><?= $event->zipCode ?>, <?= $event->city ?></p>
+                            <p class="category" style="z-index: 1;"><?= $event->address ?></p>
+                            <p class="category" style="z-index: 1;"><?= $event->zipCode ?>, <?= $event->city ?></p>
                         </a>
                     </div>
                 </div>
