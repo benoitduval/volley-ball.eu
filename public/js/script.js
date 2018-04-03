@@ -389,7 +389,7 @@ demo = {
                             if (myEvent.className == 'event-green') {
                                 myEvent.count = myEvent.count - 1;
                             }
-                            myEvent.className = ['event-orange'];
+                            myEvent.className = ['event-azure'];
                             $('#fullCalendar').fullCalendar('updateEvent', myEvent);
                             calendarModal.modal('hide');
                         });
