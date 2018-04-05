@@ -28,7 +28,8 @@
         "zendframework/zend-session": "^2.7.1",
         "zendframework/zend-servicemanager-di": "^1.0",
         "zendframework/zend-crypt": "^3.0",
-        "zendframework/zend-mail": "^2.7"
+        "zendframework/zend-mail": "^2.7",
+        "dropfan/onesignal-server-api": "^0.2.1"
     },
     "autoload": {
         "psr-4": {

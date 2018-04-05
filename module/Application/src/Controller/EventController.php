@@ -7,6 +7,7 @@ use Application\Model;
 use Application\Service;
 use Application\TableGateway;
 use Application\Service\MailService;
+use Application\Service\OneSignalService;
 
 class EventController extends AbstractController
 {
@@ -69,6 +70,17 @@ class EventController extends AbstractController
 
                     // send emails
                     $config = $this->get('config');
+                    $oneSignal = $this->get(OneSignalService::class);
+                    $oneSignal->setData([
+                        'header'   => 'Nouvel événement !',
+                        'content'  => $event->name,
+                        'subtitle' => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
+                        'url'      => $config['baseUrl'] . '/event/detail/' . $event->id,
+                    ]);
+                    foreach ($emails as $email) {
+                        $oneSignal->sendTo($email);
+                    }
+
                     if ($config['mail']['allowed']) {
 
                         $view       = new \Zend\View\Renderer\PhpRenderer();

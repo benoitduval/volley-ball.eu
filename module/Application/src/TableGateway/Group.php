@@ -12,31 +12,31 @@ class Group extends AbstractTableGateway
 {
     public function getAllByUserId($userId)
     {
-        $key = 'user.groups.' . $userId;
-        $memcached = $this->getContainer()->get('memcached');
-        if (!($groups = $memcached->getItem($key))) {
-            $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
-            $objs = $userGroupTable->fetchAll([
-                'userId' => $userId
+        // $key = 'user.groups.' . $userId;
+        // $memcached = $this->getContainer()->get('memcached');
+        // if (!($groups = $memcached->getItem($key))) {
+        $userGroupTable = $this->getContainer()->get(TableGateway\UserGroup::class);
+        $objs = $userGroupTable->fetchAll([
+            'userId' => $userId
+        ]);
+
+        $result = [];
+        if ($objs->toArray()) {
+            $ids = [];
+            foreach ($objs as $obj) {
+                $ids[] = $obj->groupId;
+            }
+
+            $result = $this->fetchAll([
+                'id' => $ids
             ]);
-
-            $result = [];
-            if ($objs->toArray()) {
-                $ids = [];
-                foreach ($objs as $obj) {
-                    $ids[] = $obj->groupId;
-                }
-
-                $result = $this->fetchAll([
-                    'id' => $ids
-                ]);
-            }
-
-            foreach ($result as $group) {
-                $groups[$group->id] = $group;
-            }
-            $memcached->setItem($key, $groups);
         }
+
+        foreach ($result as $group) {
+            $groups[$group->id] = $group;
+        }
+            // $memcached->setItem($key, $groups);
+        // }
         return $groups;
     }
 
@@ -63,7 +63,6 @@ class Group extends AbstractTableGateway
     {
         $eventTable = $this->getContainer()->get(TableGateway\Event::class);
         $disponibilityTable = $this->getContainer()->get(TableGateway\Disponibility::class);
-        $memcached  = $this->getContainer()->get('memcached');
         $result['last'] = $result['current'] = [
             '09' => null,
             '10' => null,

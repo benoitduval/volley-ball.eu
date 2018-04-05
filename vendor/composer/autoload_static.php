@@ -77,6 +77,10 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
+        'O' => 
+        array (
+            'OneSignalApi\\' => 13,
+        ),
         'I' => 
         array (
             'Interop\\Container\\' => 18,
@@ -99,8 +103,8 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'Zend\\View\\' => 
         array (
@@ -305,6 +309,10 @@ class ComposerStaticInit98835a211e127b185e749ade290e70aa
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'OneSignalApi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dropfan/onesignal-server-api/src',
         ),
         'Interop\\Container\\' => 
         array (

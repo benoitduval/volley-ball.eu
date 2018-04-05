@@ -13,7 +13,6 @@ use Application\TableGateway;
 use Application\Service\AuthenticationService;
 use Application\Service\StorageCookieService;
 use Application\Model;
-use Application\Service\MailService;
 use Application\Form\SignIn;
 
 class IndexController extends AbstractController

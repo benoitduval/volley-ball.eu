@@ -178,7 +178,23 @@
 
     <script src="/vendor/fontawesome/fontawesome-all.min.js"/></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"/></script>
-
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script>
+          var email = '<?= $user->email ?>';
+          var OneSignal = window.OneSignal || [];
+          OneSignal.push(function() {
+            OneSignal.init({
+              appId: "c4d58564-1405-407d-a462-a0019ceffda7",
+              autoRegister: false,
+              notifyButton: {
+                enable: true,
+              }
+            });
+            OneSignal.sendTags({
+                email: email,
+            });
+          });
+        </script>
 
     <script type="text/javascript">
         $(document).ready(function(){

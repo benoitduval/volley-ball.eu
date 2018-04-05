@@ -31,7 +31,7 @@ class AuthenticationService extends \Zend\Authentication\AuthenticationService
         return $user;
     }
 
-    public function Authenticate()
+    public function authenticate($adapter = null)
     {
         $result = $this->getAdapter()->authenticate();
 

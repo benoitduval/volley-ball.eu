@@ -42,11 +42,16 @@ return [
         'googlemaps' => [
             'url' => '',
             'key' => '',
+        ],
+        'oneSignal' => [
+            'userkey' => '',
+            'appid'   => '',
+            'appkey'  => '',
         ]
     ],
     'version' => [
-        'css' => ,
-        'js'  => ,
+        'css' => '',
+        'js'  => '',
     ],
     'salt'    => '',
     'baseUrl' => '',
