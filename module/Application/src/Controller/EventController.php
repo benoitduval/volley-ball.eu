@@ -311,6 +311,19 @@ class EventController extends AbstractController
                     $event->exchangeArray($data);
                     $this->eventTable->save($event);
 
+                    // send emails
+                    $config = $this->get('config');
+                    $oneSignal = $this->get(OneSignalService::class);
+                    $oneSignal->setData([
+                        'header'   => 'Événement modifié',
+                        'content'  => $event->name,
+                        'subtitle' => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
+                        'url'      => $config['baseUrl'] . '/event/detail/' . $event->id,
+                    ]);
+                    $users = $this->userTable->getAllByGroupId($group->id);
+                    foreach ($users as $user) {
+                        $oneSignal->sendTo($user->email);
+                    }
                     $this->flashMessenger()->addSuccessMessage('Votre évènement a bien été modifié.');
                     $this->redirect()->toRoute('event', ['action' => 'detail', 'id' => $eventId]);
                 }

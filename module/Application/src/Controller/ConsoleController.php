@@ -15,6 +15,7 @@ use Zend\Console\Console;
 use Zend\Console\Exception\RuntimeException as ConsoleException;
 use Zend\Console\ColorInterface as Color;
 use Application\Service\MailService;
+use Application\Service\OneSignalService;
 
 class ConsoleController extends AbstractController
 {
@@ -299,7 +300,17 @@ class ConsoleController extends AbstractController
                 $mail = $this->get(MailService::class);
                 // $mail->addIcalEvent($event);
 
+                $oneSignal = $this->get(OneSignalService::class);
+                $oneSignal->setData([
+                    'header'   => 'Nouvel entrainement',
+                    'content'  => $event->name,
+                    'subtitle' => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
+                    'url'      => $config['baseUrl'] . '/event/detail/' . $event->id,
+                ]);
+
+                // send emails
                 foreach ($users as $user) {
+                    $oneSignal->sendTo($user->email);
                     $mail->addBcc($user->email);
                 }
                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
