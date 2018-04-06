@@ -240,6 +240,17 @@ class EventController extends AbstractController
                                     'baseUrl'   => $config['baseUrl']
                                 ));
 
+                                $oneSignal = $this->get(OneSignalService::class);
+                                $oneSignal->setData([
+                                    'header'   => 'Nouvel Commentaire !',
+                                    'content'  => $event->name,
+                                    'subtitle' => \Application\Service\Date::toFr($date->format('l d F \à H\hi')),
+                                    'url'      => $config['baseUrl'] . '/event/detail/' . $event->id,
+                                ]);
+                                foreach ($users as $user) {
+                                    $oneSignal->sendTo($user->email);
+                                }
+
                                 $mail = $this->get(MailService::class);
                                 $mail->addBcc($bcc);
                                 $mail->setSubject('[' . $group->name . '] ' . $event->name . ' - ' . \Application\Service\Date::toFr($date->format('l d F \à H\hi')));
