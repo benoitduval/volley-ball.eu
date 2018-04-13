@@ -32,6 +32,7 @@ class Group extends AbstractTableGateway
             ]);
         }
 
+        $groups = [];
         foreach ($result as $group) {
             $groups[$group->id] = $group;
         }

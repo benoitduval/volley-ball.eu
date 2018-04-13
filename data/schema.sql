@@ -129,6 +129,18 @@ CREATE TABLE `training` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `notification`
+--
+DROP TABLE IF EXISTS `notification`;
+CREATE TABLE `notification` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `userId` int(11) unsigned NOT NULL,
+  `status` tinyint(4) NULL DEFAULT NULL,
+  `notification` tinyint(4) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `holiday`
 --
 DROP TABLE IF EXISTS `holiday`;

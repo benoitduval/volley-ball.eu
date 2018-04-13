@@ -47,6 +47,7 @@ class AuthController extends AbstractController
                         foreach ($result->getMessages() as $message) {
                             $this->flashMessenger()->addErrorMessage($message);
                         }
+                        $this->redirect()->toRoute('auth', ['action' => 'signin']);
                     }
                 }
             }
@@ -83,11 +84,12 @@ class AuthController extends AbstractController
                 $data = $signUpForm->getData();
 
                 if ($this->userTable->fetchOne(['email' => $data['email']])) {
-                    $this->flashMessenger()->addErrorMessage('Il est impossible de créer un compte avec l\'adresse <b>' . $data['email'] . '</b> Cette adresse email est déjà utilisée. Merci de recommencer en changeant votre adresse.');
+                    $this->flashMessenger()->addErrorMessage('Cette adresse Email existe déjà.');
+                    $this->redirect()->toRoute('auth', ['action' => 'signup']);
                 } elseif ($data['password'] != $data['repassword']) {
-                    $this->flashMessenger()->addErrorMessage('Les <b>mots de passe</b> ne correspondent pas. Merci de recommencer votre inscription.');
+                    $this->flashMessenger()->addErrorMessage('Les mots de passe ne correspondent pas.');
+                    $this->redirect()->toRoute('auth', ['action' => 'signup']);
                 } else {
-
                     $bCrypt = new Bcrypt();
                     $data['status']   = Model\User::CONFIRMED;
                     $data['password'] = $bCrypt->create(md5($data['password']));
