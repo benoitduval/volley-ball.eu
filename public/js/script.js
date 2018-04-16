@@ -1490,5 +1490,13 @@ demo = {
                 }, 5000);
             }
         });
+    },
+
+    initClone: function() {
+        var regex = /^(.+?)(\d+)$/i;
+        var cloneIndex = $(".clonedInput").length;
+        $("a.clone").on("click", function clone() {
+            $("#toClone").clone().appendTo($('#cloneTarget')).on('click', 'a.clone', clone)
+        });
     }
 }
