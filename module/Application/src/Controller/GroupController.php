@@ -48,7 +48,7 @@ class GroupController extends AbstractController
 
                 $groupForm->setData($request->getPost());
                 if ($groupForm->isValid()) {
-
+                    \Zend\Debug\Debug::dump($groupForm->getData());die;
                     $data               = $groupForm->getData();
                     $data['name']       = ucfirst($data['name']);
                     $data['brand']      = Model\Group::initBrand($data['name']);

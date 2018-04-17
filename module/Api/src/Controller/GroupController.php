@@ -55,4 +55,17 @@ class GroupController extends AbstractController
         $view->setTemplate('api/default/json.phtml');
         return $view;
     }
+
+    public function nameAction()
+    {
+        $name = $this->params('name', null);
+        $name    = \Application\Service\Strings::toSlug($name);
+        $groupExist = is_null($this->groupTable->fetchOne(['brand' => $name]));
+        $data = ['result' => ['success' => $groupExist]];
+        $view = new ViewModel($data);
+
+        $view->setTerminal(true);
+        $view->setTemplate('api/default/json.phtml');
+        return $view;
+    }
 }

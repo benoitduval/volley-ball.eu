@@ -25,7 +25,7 @@ class Group extends Form
                 'label' => 'Nom du groupe',
             ],
             'attributes' => [
-                'class' => 'form-control',
+                'class' => 'form-control groupName',
                 'required' => 'required',
             ],
         ]);

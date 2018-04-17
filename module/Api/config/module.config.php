@@ -45,6 +45,16 @@ return [
                     ],
                 ],
             ],
+            'group-event' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/api/group/name/:name',
+                    'defaults' => [
+                        'controller'    => Controller\GroupController::class,
+                        'action'        => 'name',
+                    ],
+                ],
+            ],
             'api-save-stats' => [
                 'type'    => Segment::class,
                 'options' => [

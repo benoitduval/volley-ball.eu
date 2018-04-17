@@ -1252,6 +1252,25 @@ demo = {
                         $(wizard).find('.btn-next').show();
                         $(wizard).find('.btn-finish').hide();
                     }
+                },
+                onNext: function(tab, navigation, index) {
+                    var groupName = $('.groupName');
+                    if (groupName.length) {
+                        var url  = '/api/group/name/' + groupName.val();
+                        var request = $.ajax({
+                            type: "GET",
+                            url: url
+                        }).done(function(resp) {
+                            response = JSON.parse(resp);
+                            console.log(response.success);
+                            if (response.success) {
+                                var valid = true;
+                            } else {
+                                var valid = false;
+                            }
+                        });
+                        return valid;
+                    }
                 }
             });
         });
