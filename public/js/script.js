@@ -1210,7 +1210,15 @@ demo = {
                 $('#attack-fault-detail').addClass('hidden');
             });
 
-            var $validator = $("#wizardForm").validate();
+            // var $validator = $("#wizardForm").validate();
+            // var $validator = $("#wizardForm").validate({
+            //   rules: {
+            //     groupName: {
+            //         required: true,
+            //         minlength: 3
+            //     }
+            //   }
+            // });
 
             // you can also use the nav-pills-[blue | azure | green | orange | red] for a different color of wizard
             $('#wizardCard').bootstrapWizard({
@@ -1254,22 +1262,28 @@ demo = {
                     }
                 },
                 onNext: function(tab, navigation, index) {
-                    var groupName = $('.groupName');
-                    if (groupName.length) {
-                        var url  = '/api/group/name/' + groupName.val();
-                        var request = $.ajax({
-                            type: "GET",
-                            url: url
-                        }).done(function(resp) {
-                            response = JSON.parse(resp);
-                            console.log(response.success);
-                            if (response.success) {
-                                var valid = true;
-                            } else {
-                                var valid = false;
-                            }
-                        });
-                        return valid;
+                    var $valid = $('#wizardForm').valid();
+
+                    if(!$valid) {
+                        return false;
+                    }
+                    if (index == 1) {
+                        var groupName = $('.groupName');
+                        var flag = 0;
+                        if (groupName.length > 0) {
+                            var url  = '/api/group/name/' + groupName.val();
+                            var request = $.ajax({
+                                type: "GET",
+                                url: url,
+                                async: false
+                            }).done(function(resp) {
+                                response = JSON.parse(resp);
+                                if (response.success) { flag = 1; }
+                            });
+                        }
+                        if (flag == 0) {
+                            return false;
+                        }
                     }
                 }
             });

@@ -66,6 +66,11 @@ class MailService
         $this->_mail->setBody($body);
     }
 
+    public function toString()
+    {
+        return $this->_mail->toString();
+    }
+
     public function addIcalEvent($event)
     {
         $calendar = new \Application\Service\Calendar([$event->toArray()]);

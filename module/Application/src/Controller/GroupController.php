@@ -39,19 +39,46 @@ class GroupController extends AbstractController
 
     public function createAction()
     {
+            $config         = $this->get('config');
+            $group = $this->groupTable->find(23);
+        $view       = new \Zend\View\Renderer\PhpRenderer();
+        $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+        $resolver->setMap([
+            'invitation' => __DIR__ . '/../../view/mail/invitation.phtml'
+        ]);
+        $view->setResolver($resolver);
+
+        $viewModel  = new ViewModel();
+        $viewModel->setTemplate('invitation')->setVariables([
+            'group'     => $group,
+            'fullname'  => $this->getUser()->getFullName(),
+            'shareUrl'  => $config['baseUrl'] . '/group/join/' . $group->brand,
+            'baseUrl'   => $config['baseUrl']
+        ]);
+
+        $mail = $this->get(MailService::class);
+        // $mail->addBcc($emails);
+        $mail->setSubject('[' . $group->name . '] Rejoignez le groupe !');
+        $mail->setBody($view->render($viewModel));
+        echo $mail->toString();die;;
+
+
+
         if ($this->getUser()) {
             $groupForm      = new Form\Group;
             $config         = $this->get('config');
 
+            // bypass validation on fields
+            $groupForm->getInputFilter()->get('eventDay[]')->setRequired(false);
             $request = $this->getRequest();
             if ($request->isPost()) {
 
-                $groupForm->setData($request->getPost());
+                $data = $request->getPost();
+                $groupForm->setData($data);
                 if ($groupForm->isValid()) {
-                    \Zend\Debug\Debug::dump($groupForm->getData());die;
                     $data               = $groupForm->getData();
                     $data['name']       = ucfirst($data['name']);
-                    $data['brand']      = Model\Group::initBrand($data['name']);
+                    $data['brand']      = Service\Strings::toSlug($data['name']);
 
                     $group = $this->groupTable->save($data);
 
@@ -60,6 +87,69 @@ class GroupController extends AbstractController
                         'groupId' => $group->id,
                         'admin'   => 1,
                     ]);
+
+                    $data = $request->getPost();
+                    foreach ($data['place'] as $key => $value) {
+                        if (!($data['address'][$key])
+                            || !($data['address'][$key])
+                            || !($data['zipCode'][$key])
+                            || !($data['city'][$key])
+                            || !($data['eventDay'][$key])
+                            || !($data['time'][$key])) {
+                                continue;
+                        }
+                        $training = [
+                            'groupId' => $group->id,
+                            'status'  => Model\Training::ACTIVE,
+                            'address' => $data['place'][$key],
+                            'zipCode' => $data['zipCode'][$key],
+                            'city' => $data['city'][$key],
+                            'eventDay' => $data['eventDay'][$key],
+                            'emailDay' => $data['eventDay'][$key],
+                            'time' => $data['time'][$key],
+                            'name' => 'Entrainement ' . Service\Date::toFr($data['eventDay'][$key]),
+                        ];
+                        $this->trainingTable->save($training);
+                    }
+
+                    // send emails
+                    if ($config['mail']['allowed']) {
+                        if ($data['emails']) {
+                            $bcc = [];
+                            $emails = explode(',', $data['emails']);
+                            foreach ($emails as $email) {
+                                $email = trim($email);
+                                $validator = new \Zend\Validator\EmailAddress();
+                                if ($validator->isValid($email)) {
+                                    $bcc[] = $email;
+                                }
+                            }
+
+                            $view       = new \Zend\View\Renderer\PhpRenderer();
+                            $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
+                            $resolver->setMap([
+                                'invitation' => __DIR__ . '/../../view/mail/invitation.phtml'
+                            ]);
+                            $view->setResolver($resolver);
+
+                            $viewModel  = new ViewModel();
+                            $viewModel->setTemplate('invitation')->setVariables([
+                                'group'     => $group,
+                                'fullname'  => $this->getUser()->getFullName(),
+                                'shareUrl'  => $config['baseUrl'] . '/group/join/' . $group->brand,
+                                'baseUrl'   => $config['baseUrl']
+                            ]);
+
+                            $mail = $this->get(MailService::class);
+                            $mail->addBcc($emails);
+                            $mail->setSubject('[' . $group->name . '] Rejoignez le groupe !');
+                            $mail->setBody($view->render($viewModel));
+                            try {
+                                $mail->send();
+                            } catch (\Exception $e) {
+                            }
+                        }
+                    }
 
                     return $this->redirect()->toRoute('group-welcome', ['brand' => $group->brand]);
                 }
@@ -124,7 +214,6 @@ class GroupController extends AbstractController
 
         if ($this->getUser() && $this->userGroupTable->isMember($this->getUser()->id, $group->id)) {
             $disponibilities = $this->groupTable->getDisponibilities($group->id);
-            $scores = $this->groupTable->getScoresBySeasons($group->id);
         }
 
         $config   = $this->get('config');
@@ -139,7 +228,6 @@ class GroupController extends AbstractController
             'users'         => $users,
             'isMember'      => $isMember,
             'isAdmin'       => $isAdmin,
-            'scores'        => $scores,
             'trainings'     => $trainings,
             'shareUrl'      => $shareUrl,
             'lastDisp'      => json_encode(array_values($disponibilities['last'])),
@@ -272,6 +360,7 @@ class GroupController extends AbstractController
     public function deleteAction()
     {
         if ($this->_group && $this->_isAdmin) {
+            $eventIds = [];
 
             foreach ($this->eventTable->fetchAll(['groupId' => $this->_id]) as $event) {
                 $eventIds[] = $event->id;
