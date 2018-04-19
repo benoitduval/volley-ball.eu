@@ -64,7 +64,7 @@
                                   <tbody>
                                     <tr>
                                       <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:20px">
-                                        <a title="Aller au site" href="<?= $baseUrl ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Aller au site</a>
+                                        <a title="Aller au site" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Aller au site</a>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -107,12 +107,12 @@
                                             <tr>
                                               <td valign="top" style="word-break:break-word;color:#202020;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
                                                 <h3 style="text-align:center;display:block;margin:0;padding:0;color:#393939;font-family:Helvetica;font-size:20px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:normal">
-                                                  <u><?= $user->getFullname() ?></u>
+                                                  <u>Benoit Duval</u>
                                                 </h3>
                                                 <div style="text-align:center">
                                                   <br>
                                                   <span style="color:#696969">
-                                                    <em><?= nl2br($comment->comment) ?></em>
+                                                    <em>Input caption text here. Use the block's Settings tab to change the caption position and set other styles.</em>
                                                   </span>
                                                 </div>
                                               </td>
@@ -148,26 +148,22 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
                           <tbody>
                             <tr>
-                              <td>
-                                <a href="https://maps.google.com/?q=Dunois+%0D%0A+70+rue+de+Dunois+%0D%0A75013+Paris">
-                                </a>
-                              </td>
                               <td valign="top" style="padding-top:9px">
                                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:390px;border-collapse:collapse" width="100%">
                                   <tbody>
                                     <tr>
                                       <td valign="top" style="padding:0px 18px 9px;color:#323232;word-break:break-word;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
                                         <h2 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Helvetica;font-size:30px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">
-                                          <a href="http://volley-ball.eu" style="color:#68b3c8;font-size:24px;text-decoration:none;font-family:arial,helvetica neue,helvetica,sans-serif;font-weight:normal" target="_blank"><?= $event->name ?></a>
+                                          <a href="http://volley-ball.eu" style="color:#68b3c8;font-size:24px;text-decoration:none;font-family:arial,helvetica neue,helvetica,sans-serif;font-weight:normal" target="_blank">MATCH DUNOIS / LOGNES 2 </a>
                                         </h2>
                                         <p style="color:#323232;margin:10px 0;padding:0;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
                                           <br>
                                           <strong style="color:#808080;font-weight:900">
-                                            <?= $event->place ?>
+                                            Gymnase Dunois
                                           </strong>
                                           <br>
-                                          <a href="https://maps.google.com/?q=<?= $event->address . '+' . $event->city . '+' . $event->zipCode ?>" style="color:#000000;font-weight:normal;text-decoration:underline" target="_blank"><?= $event->address ?><br>
-                                          <?= $event->zipCode ?> <?= $event->city ?></a>
+                                          <a href="http://google.com" style="color:#000000;font-weight:normal;text-decoration:underline" target="_blank">70 rue de Dunois<br>
+                                          75013 Paris </a>
                                         </p>
                                       </td>
                                     </tr>
@@ -184,16 +180,16 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                                                   <tbody>
                                                     <tr>
-                                                      <td align="center" style="background-color:#fd9f1b;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;padding-top:10px;padding-bottom:10px;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('F')) ?></td>
+                                                      <td align="center" style="background-color:#fd9f1b;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;padding-top:10px;padding-bottom:10px;text-align:center" valign="top">September</td>
                                                     </tr>
                                                     <tr>
-                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('l')) ?></td>
+                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top">Lundi</td>
                                                     </tr>
                                                     <tr>
-                                                      <td align="center" style="color:#fd9f1b;font-family:Helvetica,Arial,sans-serif;font-size:60px;font-weight:bold;line-height:100%;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('d')) ?></td>
+                                                      <td align="center" style="color:#fd9f1b;font-family:Helvetica,Arial,sans-serif;font-size:60px;font-weight:bold;line-height:100%;text-align:center" valign="top">16</td>
                                                     </tr>
                                                     <tr>
-                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('H\:i')) ?></td>
+                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top">20:00</td>
                                                     </tr>
                                                   </tbody>
                                                 </table>
@@ -268,7 +264,7 @@
                                           <tbody>
                                             <tr>
                                               <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:15px">
-                                                <a title="Présent" "<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_OK ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Présent</a>
+                                                <a title="Présent" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Présent</a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -293,7 +289,7 @@
                                           <tbody>
                                             <tr>
                                               <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:15px">
-                                                <a title="Absent" "<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_NO ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Absent</a>
+                                                <a title="Absent" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Absent</a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -318,7 +314,7 @@
                                           <tbody>
                                             <tr>
                                               <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:15px">
-                                                <a title="Incertain" "<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_INCERTAIN ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Incertain</a>
+                                                <a title="Incertain" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Incertain</a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -449,7 +445,8 @@
                                                               </td>
                                                             </tr>
                                                           </tbody>
-                                                        </table><table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                        </table>
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
                                                           <tbody>
                                                             <tr>
                                                               <td valign="top" style="padding-right:0;padding-bottom:9px">
