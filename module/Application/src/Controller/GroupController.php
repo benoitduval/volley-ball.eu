@@ -39,31 +39,6 @@ class GroupController extends AbstractController
 
     public function createAction()
     {
-            $config         = $this->get('config');
-            $group = $this->groupTable->find(23);
-        $view       = new \Zend\View\Renderer\PhpRenderer();
-        $resolver   = new \Zend\View\Resolver\TemplateMapResolver();
-        $resolver->setMap([
-            'invitation' => __DIR__ . '/../../view/mail/invitation.phtml'
-        ]);
-        $view->setResolver($resolver);
-
-        $viewModel  = new ViewModel();
-        $viewModel->setTemplate('invitation')->setVariables([
-            'group'     => $group,
-            'fullname'  => $this->getUser()->getFullName(),
-            'shareUrl'  => $config['baseUrl'] . '/group/join/' . $group->brand,
-            'baseUrl'   => $config['baseUrl']
-        ]);
-
-        $mail = $this->get(MailService::class);
-        // $mail->addBcc($emails);
-        $mail->setSubject('[' . $group->name . '] Rejoignez le groupe !');
-        $mail->setBody($view->render($viewModel));
-        echo $mail->toString();die;;
-
-
-
         if ($this->getUser()) {
             $groupForm      = new Form\Group;
             $config         = $this->get('config');
@@ -135,7 +110,7 @@ class GroupController extends AbstractController
                             $viewModel  = new ViewModel();
                             $viewModel->setTemplate('invitation')->setVariables([
                                 'group'     => $group,
-                                'fullname'  => $this->getUser()->getFullName(),
+                                'user'      => $this->getUser(),
                                 'shareUrl'  => $config['baseUrl'] . '/group/join/' . $group->brand,
                                 'baseUrl'   => $config['baseUrl']
                             ]);

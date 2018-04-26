@@ -64,7 +64,7 @@
                                   <tbody>
                                     <tr>
                                       <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:20px">
-                                        <a title="Aller au site" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Aller au site</a>
+                                        <a title="Aller au site" href="<?= $baseUrl ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Aller au site</a>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -89,7 +89,7 @@
                           <tbody>
                             <tr>
                               <td valign="top" style="padding:9px">
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background:#ffffff">
                                   <tbody>
                                     <tr>
                                       <td valign="top" style="padding:0 9px">
@@ -107,12 +107,12 @@
                                             <tr>
                                               <td valign="top" style="word-break:break-word;color:#202020;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
                                                 <h3 style="text-align:center;display:block;margin:0;padding:0;color:#393939;font-family:Helvetica;font-size:20px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:normal">
-                                                  <u>Benoit Duval</u>
+                                                  <u><?= $user->getFullname() ?></u>
                                                 </h3>
                                                 <div style="text-align:center">
                                                   <br>
                                                   <span style="color:#696969">
-                                                    <em>Input caption text here. Use the block's Settings tab to change the caption position and set other styles.</em>
+                                                    <em><?= nl2br($comment->comment) ?></em>
                                                   </span>
                                                 </div>
                                               </td>
@@ -148,48 +148,48 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
                           <tbody>
                             <tr>
-                              <td valign="top" style="padding-top:9px">
-                                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:390px;border-collapse:collapse" width="100%">
+                              <td valign="center" style="padding-top:9px">
+                                <table align="left" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse" width="50%">
                                   <tbody>
                                     <tr>
-                                      <td valign="top" style="padding:0px 18px 9px;color:#323232;word-break:break-word;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
+                                      <td valign="top" style="padding:0px 18px 9px;color:#323232;word-break:break-word;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center;border:solid 1px #cccccc">
                                         <h2 style="display:block;margin:0;padding:0;color:#ffffff;font-family:Helvetica;font-size:30px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:normal;text-align:center">
-                                          <a href="http://volley-ball.eu" style="color:#68b3c8;font-size:24px;text-decoration:none;font-family:arial,helvetica neue,helvetica,sans-serif;font-weight:normal" target="_blank">MATCH DUNOIS / LOGNES 2 </a>
+                                          <a href="http://volley-ball.eu" style="color:#68b3c8;font-size:24px;text-decoration:none;font-family:arial,helvetica neue,helvetica,sans-serif;font-weight:normal" target="_blank"><?= $event->name ?></a>
                                         </h2>
                                         <p style="color:#323232;margin:10px 0;padding:0;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
                                           <br>
                                           <strong style="color:#808080;font-weight:900">
-                                            Gymnase Dunois
+                                            <?= $event->place ?>
                                           </strong>
                                           <br>
-                                          <a href="http://google.com" style="color:#000000;font-weight:normal;text-decoration:underline" target="_blank">70 rue de Dunois<br>
-                                          75013 Paris </a>
+                                          <a href="https://maps.google.com/?q=<?= $event->address . '+' . $event->city . '+' . $event->zipCode ?>" style="color:#000000;font-weight:normal;text-decoration:underline" target="_blank"><?= $event->address ?><br>
+                                          <?= $event->zipCode ?> <?= $event->city ?></a>
                                         </p>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
-                                <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:210px;border-collapse:collapse" width="100%">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse" width="50%">
                                   <tbody>
                                     <tr>
-                                      <td valign="top" style="padding:0px 18px 9px;color:#323232;word-break:break-word;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
-                                        <table border="0" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border:1px solid #cccccc;border-collapse:collapse" width="160">
+                                      <td valign="top" style="padding:0px 18px 9px;color:#323232;wdord-break:break-word;font-family:Helvetica;font-size:18px;line-height:150%;text-align:center">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border:1px solid #cccccc;border-collapse:collapse;float:right;">
                                           <tbody>
                                             <tr>
-                                              <td align="left" style="padding:5px" valign="top">
+                                              <td align="center" style="padding:5px" valign="top" width="160">
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
                                                   <tbody>
                                                     <tr>
-                                                      <td align="center" style="background-color:#fd9f1b;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;padding-top:10px;padding-bottom:10px;text-align:center" valign="top">September</td>
+                                                      <td align="center" style="background-color:#fd9f1b;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;padding-top:10px;padding-bottom:10px;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('F')) ?></td>
                                                     </tr>
                                                     <tr>
-                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top">Lundi</td>
+                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('l')) ?></td>
                                                     </tr>
                                                     <tr>
-                                                      <td align="center" style="color:#fd9f1b;font-family:Helvetica,Arial,sans-serif;font-size:60px;font-weight:bold;line-height:100%;text-align:center" valign="top">16</td>
+                                                      <td align="center" style="color:#fd9f1b;font-family:Helvetica,Arial,sans-serif;font-size:60px;font-weight:bold;line-height:100%;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('d')) ?></td>
                                                     </tr>
                                                     <tr>
-                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top">20:00</td>
+                                                      <td align="center" style="color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:100%;padding-top:5px;padding-bottom:5px;text-align:center" valign="top"><?= \Application\Service\Date::toFr($date->format('H\:i')) ?></td>
                                                     </tr>
                                                   </tbody>
                                                 </table>
@@ -264,7 +264,7 @@
                                           <tbody>
                                             <tr>
                                               <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:15px">
-                                                <a title="Présent" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Présent</a>
+                                                <a title="Présent" href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_OK ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Présent</a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -289,7 +289,7 @@
                                           <tbody>
                                             <tr>
                                               <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:15px">
-                                                <a title="Absent" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Absent</a>
+                                                <a title="Absent" href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_NO ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Absent</a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -314,7 +314,7 @@
                                           <tbody>
                                             <tr>
                                               <td align="center" valign="middle" style="font-family:Arial;font-size:16px;padding:15px">
-                                                <a title="Incertain" href="http://volley-ball.eu" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Incertain</a>
+                                                <a title="Incertain" href="<?= $baseUrl . '/disponibility/response/' . $event->id . '/' . \Application\Model\Disponibility::RESP_INCERTAIN ?>" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;display:block" target="_blank">Incertain</a>
                                               </td>
                                             </tr>
                                           </tbody>
@@ -334,7 +334,22 @@
               </td>
             </tr>
             <tr>
-              <td align="center" valign="top" style="background:#ffffff none no-repeat center/cover;background-color:#ffffff;background-image:none;background-repeat:no-repeat;background-position:center;background-size:cover;border-top:0;border-bottom:0;padding-top:80px;padding-bottom:80px">
+              <td align="center" valign="top" style="background:#ffffff none no-repeat center/cover;background-color:#ffffff;background-image:none;background-repeat:no-repeat;background-position:center;background-size:cover;border-top:0;border-bottom:0;padding-top:0;padding-bottom:40px">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;max-width:600px!important">
+                  <tbody>
+                    <tr>
+                      <td valign="top">
+                        <a href="https://maps.google.com/?q=https://maps.google.com/?q=<?= $event->address . '+' . $event->city . '+' . $event->zipCode ?>">
+                          <img src="https://maps.googleapis.com/maps/api/staticmap?center=<?= $event->address . '+' . $event->city . '+' . $event->zipCode ?>&zoom=13&size=600x300&maptype=roadmap&markers=color:red%7C<?= $event->address . '+' . $event->city . '+' . $event->zipCode ?>&key=AIzaSyDq7_lf88qeeR3EaqtxvX07e7WgdvjUvr4">
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" style="background:#ffffff none no-repeat center/cover;background-color:#ffffff;background-image:none;background-repeat:no-repeat;background-position:center;background-size:cover;border-top:0;border-bottom:0;">
                 <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;max-width:600px!important">
                   <tbody>
                     <tr>
@@ -404,7 +419,7 @@
                                                                           <tbody>
                                                                             <tr>
                                                                               <td align="center" valign="middle" width="24">
-                                                                                <a href="http://www.yourwebsite.com" target="_blank">
+                                                                                <a href="http://volley-ball.eu/welcome" target="_blank">
                                                                                   <img src="https://cdn-images.mailchimp.com/icons/social-block-v2/color-link-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24">
                                                                                 </a>
                                                                               </td>
@@ -431,7 +446,7 @@
                                                                           <tbody>
                                                                             <tr>
                                                                               <td align="center" valign="middle" width="24">
-                                                                                <a href="http://www.twitter.com/" target="_blank">
+                                                                                <a href="http://www.twitter.com/yucky_" target="_blank">
                                                                                   <img src="https://cdn-images.mailchimp.com/icons/social-block-v2/color-twitter-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24">
                                                                                 </a>
                                                                               </td>
@@ -445,8 +460,7 @@
                                                               </td>
                                                             </tr>
                                                           </tbody>
-                                                        </table>
-                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
+                                                        </table><table align="left" border="0" cellpadding="0" cellspacing="0" style="display:inline;border-collapse:collapse">
                                                           <tbody>
                                                             <tr>
                                                               <td valign="top" style="padding-right:0;padding-bottom:9px">
@@ -459,7 +473,7 @@
                                                                             <tr>
 
                                                                               <td align="center" valign="middle" width="24">
-                                                                                <a href="mailto:your@email.com" target="_blank">
+                                                                                <a href="mailto:volleyball.eu@gmail.com" target="_blank">
                                                                                   <img src="https://cdn-images.mailchimp.com/icons/social-block-v2/color-forwardtofriend-48.png" style="display:block;border:0;height:auto;outline:none;text-decoration:none" height="24" width="24">
                                                                                 </a>
                                                                               </td>
