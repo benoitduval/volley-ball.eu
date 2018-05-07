@@ -1263,13 +1263,14 @@ demo = {
                 onNext: function(tab, navigation, index) {
                     var $valid = $('#wizardForm').valid();
 
-                    if(!$valid) {
-                        return false;
-                    }
-                    if (index == 1) {
-                        var groupName = $('.groupName');
-                        var flag = 0;
-                        if (groupName.length > 0) {
+                    var groupName = $('.groupName');
+                    if (groupName.length > 0) {
+                        if(!$valid) {
+                            return false;
+                        }
+                        if (index == 1) {
+                            var groupName = $('.groupName');
+                            var flag = 0;
                             var url  = '/api/group/name/' + groupName.val();
                             var request = $.ajax({
                                 type: "GET",
@@ -1279,18 +1280,19 @@ demo = {
                                 response = JSON.parse(resp);
                                 if (response.success) { flag = 1; }
                             });
-                        }
-                        if (flag == 0) {
-                            swal({
-                                title: 'Nom existant',
-                                text: "Ce nom existe déjà, merci d'en choisir un nouveau.",
-                                type: 'warning',
-                                showCancelButton: false,
-                                confirmButtonClass: 'btn btn-success btn-fill',
-                                confirmButtonText: 'Ok !',
-                                buttonsStyling: false
-                            });
-                            return false;
+
+                            if (flag == 0) {
+                                swal({
+                                    title: 'Nom existant',
+                                    text: "Ce nom existe déjà, merci d'en choisir un nouveau.",
+                                    type: 'warning',
+                                    showCancelButton: false,
+                                    confirmButtonClass: 'btn btn-success btn-fill',
+                                    confirmButtonText: 'Ok !',
+                                    buttonsStyling: false
+                                });
+                                return false;
+                            }
                         }
                     }
                 }

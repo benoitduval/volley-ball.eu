@@ -163,7 +163,7 @@ CREATE TABLE `stats` (
   `scoreUs` tinyint(2) DEFAULT NULL,
   `scoreThem` tinyint(2) DEFAULT NULL,
   `set` tinyint(1) DEFAULT NULL,
-  `reason` tinyint(1) DEFAULT NULL,
+  `reason` int(4) DEFAULT NULL,
   `blockUs` tinyint(2) DEFAULT NULL,
   `blockThem` tinyint(2) DEFAULT NULL,
   `defenceUs` tinyint(2) DEFAULT NULL,
